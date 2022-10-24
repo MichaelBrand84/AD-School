@@ -1,0 +1,46 @@
+project:
+  type: book
+
+jupyter: python3
+
+book:
+#  navbar:
+#    search: true 
+  title: "AutoDiff"
+  subtitle: "Eine Einführung in algorithmisches Ableiten"
+  author: "Michael Brand"
+  date: "19/10/2022"
+#  cover-image: cover.png  # needs to be replaced
+  favicon: cover.png      # needs to be replaced
+  sidebar: 
+    logo: cover.png
+  page-navigation: true
+  search: true
+  downloads: [pdf]
+#  sharing: [twitter, facebook, instagram]
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - notAD.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    code-copy: hover
+    code-fold: true
+    html-math-method: mathjax
+    lang: de
+    number-depth: 3
+    toc: true
+    toc-depth: 3
+  pdf:
+    documentclass: scrreprt
+    lang: de
+    number-depth: 3
+    
+
+
+

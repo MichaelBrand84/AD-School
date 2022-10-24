@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "index.html#danksagung",
+    "href": "index.html#danksagung",
+    "title": "AutoDiff",
+    "section": "Danksagung",
+    "text": "Danksagung"
+  },
+  {
+    "objectID": "notAD.html",
+    "href": "notAD.html",
+    "title": "2  AD ist nicht …",
+    "section": "",
+    "text": "Bevor wir uns mit den konkreten Implementationen von algorithmischer Differentiation beschäftigen, wollen wir herausstellen, was AD nicht ist."
+  },
+  {
+    "objectID": "notAD.html#ad-ist-nicht-numerisches-ableiten",
+    "href": "notAD.html#ad-ist-nicht-numerisches-ableiten",
+    "title": "2  AD ist nicht …",
+    "section": "2.1 AD ist nicht numerisches Ableiten",
+    "text": "2.1 AD ist nicht numerisches Ableiten\nEine Funktion \\(y = f(x)\\) ist bekanntlich differenzierbar an der Stelle \\(x_0 \\in \\mathbb{D}\\), wenn der Grenzwert \\[ \\lim_{h\\rightarrow 0} \\frac{f(x_0 + h) - f(x_0)}{h} \\] existiert. In dem Fall ist \\(f'(x_0)\\) einfach der Wert dieses Grenzwerts.\nEin erster Ansatz zur numerischen Berechnung könnte also sein, den Differenzenquotienten für kleine \\(h\\) auszuwerten1.\n\nBeispiel 2.1 (Numerische Ableitung) Leite die Funktion \\(f(x) = x^2\\) an der Stelle \\(x_0 = 2\\) ab.\n\n\nCode\ndef f(x):\n    y = x ** 2\n    return y\n\ndef fdot(f, x0, h):\n    df = (f(x0 + h) - f(x0)) / h\n    return df\n\nx0 = 0.2\nH = [0.1, 0.01, 0.001, 0.0001]\nfor h in H:\n    ydot = fdot(f, x0, h)\n    print(\"h = \" + str(h) + \" \\t=> f'(x0) = \" + str(ydot))\n\n\nh = 0.1     => f'(x0) = 0.5000000000000001\nh = 0.01    => f'(x0) = 0.4099999999999999\nh = 0.001   => f'(x0) = 0.4009999999999986\nh = 0.0001  => f'(x0) = 0.40009999999993107\n\n\nEs scheint zunächst, als ob die Werte für kleiner werdende \\(h\\) zum korrekten Wert \\(f'(0.2)=0.4\\) konvergieren. Wenn wir aber an sehr genauen Werten interessiert sind und entsprechen \\(h\\) sehr klein wählen, beobachten wir folgendes:\n\n\nCode\ndef f(x):\n    y = x ** 2\n    return y\n\ndef fdot(f, x0, h):\n    df = (f(x0 + h) - f(x0)) / h\n    return df\n\nx0 = 0.2\nH = [10 ** -8, 10 ** -9, 10 ** -10, 10 ** -11]\nfor h in H:\n    ydot = fdot(f, x0, h)\n    print(\"h = \" + str(h) + \"\\t=> f'(x0) = \" + str(ydot))\n\n\nh = 1e-08   => f'(x0) = 0.4000000095039091\nh = 1e-09   => f'(x0) = 0.3999999984016789\nh = 1e-10   => f'(x0) = 0.4000000330961484\nh = 1e-11   => f'(x0) = 0.3999994779846361\n\n\nDas Phänomen wird noch deutlicher, wenn wir den Fehler \\(E(h) = \\lvert\\frac{f(x_0+h)-f(x_0)}{h} - f'(x_0)\\rvert\\) als Funktion von \\(h\\) plotten. Beachte die doppelt logarithmische Skala.\n\n\nCode\nimport matplotlib.pyplot as plt\nimport math\n\ndef f(x):\n    y = x ** 2\n    return y\n\ndef fdot(f, x0, h):\n    df = (f(x0 + h) - f(x0)) / h\n    return df\n\nx0 = 0.2\nH = [10**(k/100) for k in range(-1800, -300)]\nE = [math.fabs(fdot(f, x0, h) - 2*x0) for h in H]\n\n# Plot\nfig = plt.figure()\nax = fig.add_axes([0.1, 0.1, 0.8, 0.8])\nax.set(xlim=(10**-18, 10**-3), ylim=(10**-12, 10**0))\nax.set_xscale('log')\nax.set_xlabel('h')\nax.set_yscale('log')\nax.set_ylabel('Fehler E(h)')\nplt.plot(H,E)\nplt.show()\n\n\n\n\n\nAbbildung 2.1: Grösse des Fehlers \\(E(h)\\) als Funktion der Schrittweite \\(h\\). Ist \\(h\\) zu gross, dann ist der Näherungswert für \\(f'(x_0)\\) ungenau. Bei kleiner werdendem \\(h\\) nimmt der Fehler zunächst ab, aber ab einem gewissen Wert dominiert die Auslöschung und der Fehler nimmt wieder zu.\n\n\n\n\n\n\n\n2.1.1 Auslöschung\nIm vorherigen Beispiel haben wir das Phänomen der Auslöschung beobachtet. Zunächst ist dir sicher aufgefallen, dass der Näherungswert für \\(f'(x_0)\\) mit \\(h=0.01\\) nicht \\[ \\frac{f(x_0 + h) - f(x_0)}{h} = \\frac{0.21^2 - 0.2^2}{0.01}=0.41\\] ergab, sondern \\(f'(x_0)\\approx 0.40999...\\). Das liegt daran, dass Dezimalzahlen nicht exakt als Binärzahl dargestellt werden können. Da nun die Werte von \\(f(x_0) + h\\) und \\(f(x_0)\\) für kleine \\(h\\) fast gleich sind, setzt sich ihre Differenzu nur noch aus ihren Rundungsfehlern zusammen. Diese (sinnlose) Differenz ist zwar sehr klein, wird aber im nächsten Schritt mit der sehr grossen Zahl \\(\\frac{1}{h}\\) multipliziert, wodurch die Rundungsfehler die gleiche Grössenordnung annehmen, wie die ursprünglichen Funktionswerte. Mehr über Rundungsfehler und Auslöschung kann in Weitz (2021) ab S. 117 nachgelesen werden."
+  },
+  {
+    "objectID": "notAD.html#ad-ist-nicht-symbolisches-ableiten",
+    "href": "notAD.html#ad-ist-nicht-symbolisches-ableiten",
+    "title": "2  AD ist nicht …",
+    "section": "2.2 AD ist nicht symbolisches Ableiten",
+    "text": "2.2 AD ist nicht symbolisches Ableiten\nComputer Algebra Systeme (CAS) sind Programme zur Bearbeitung algebraischer Ausdrücke.\n\n\n\n\nWeitz, Edmund. 2021. Konkrete Mathematik (nicht nur) für Informatiker. 2. Aufl. Wiesbaden, Germany: Springer Spektrum."
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Weitz, Edmund. 2021. Konkrete Mathematik (Nicht Nur)\nfür Informatiker. 2nd ed. Wiesbaden, Germany: Springer\nSpektrum."
+  },
+  {
+    "objectID": "Test.html",
+    "href": "Test.html",
+    "title": "3  My New Title",
+    "section": "",
+    "text": "bla bla"
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Ableitungen und ihre Anwendungen",
+    "section": "",
+    "text": "Wir kennen Ableitungen von Funktionen \\(f: \\mathbb{R}\\rightarrow\\mathbb{R}\\) aus dem Mathematikunterricht. Sie geben uns darüber Auskunft, wie gross die Steigung der Tangente in einem bestimmten Punkt des Funktionsgraphen ist. Die Tangente stellt dabei die beste lineare Annäherung an den Funktionsgraph dar. Ableitungen beschreiben auch die lokale Änderungsrate der Funktion. Ableitungen erlauben es uns ausserdem, die Extrema und Wendepunkte einer Funktion zu bestimmen.\nDie folgende Tabelle fasst die bekannten Ableitungen der Grundfunktionen zusammen.\n\n\nTabelle 1.1: Ableitungen der Grundfunktionen\n\n\n\n\n\n\n\n\n\n\\(f(x)\\)\n\\(f'(x)\\)\n\n\\(f(x)\\)\n\\(f'(x)\\)\n\n\n\n\n\\(x^n\\)\n\\(n \\cdot x^n \\quad (n\\in\\mathbb{R})\\)\n\n\\(\\sqrt{x}\\)\n\\(\\frac{1}{2\\cdot\\sqrt{x}}\\)\n\n\n\\(e^x\\)\n\\(e^x\\)\n\n\\(a^x\\)\n\\(a^x \\cdot \\ln(a) \\quad (a>0, a\\ne 1)\\)\n\n\n\\(\\ln(x)\\)\n\\(\\frac{1}{x}\\)\n\n\\(\\log_a(x)\\)\n\\(\\frac{1}{x\\cdot\\ln(a)}\\)\n\n\n\\(\\sin(x)\\)\n\\(\\cos(x)\\)\n\n\\(\\arcsin(x)\\)\n\\(\\frac{1}{\\sqrt{1-x^2}}\\)\n\n\n\\(\\cos(x)\\)\n\\(-\\sin(x)\\)\n\n\\(\\arccos(x)\\)\n\\(-\\frac{1}{sqrt{1-x^2}}\\)\n\n\n\\(\\tan(x)\\)\n\\(\\frac{1}{\\cos^2(x)} = 1 + \\tan^2(x)\\)\n\n\\(\\arctan(x)\\)\n\\(\\frac{1}{x^2+1}\\)\n\n\n\\(\\sinh(x)\\)\n\\(\\cosh(x)\\)\n\n\\(\\textrm{arsinh}(x)\\)\n\\(\\frac{1}{\\sqrt{x^2+1}}\\)\n\n\n\\(\\cosh(x)\\)\n\\(\\sinh(x)\\)\n\n\\(\\textrm{arcosh(x)}\\)\n\\(\\frac{1}{\\sqrt{x^2-1}}\\)\n\n\n\\(\\tanh(x)\\)\n\\(\\frac{1}{\\cosh^2(x)} = 1 - \\tanh^2(x)\\)\n\n\\(\\textrm{artanh(x)}\\)\n\\(-\\frac{1}{x^2-1}\\)\n\n\n\n\nNeue Funktionen erhält man, indem man die Grundfunktionen aus Tabelle 1.1 addiert, subtrahiert, multipliziert, dividiert und komponiert, d.h. Verkettungen der Form \\((f\\circ g)(x) = f(g(x))\\) bildet. Um solche Funktionen abzuleiten brauchen wir die Regeln aus Tabelle 1.2 unten. Mit diesen Regeln sind wir dann schon in der Lage, alle differenzierbaren Funktionen abzuleiten.\n\n\nTabelle 1.2: Ableitungsregeln\n\n\n\n\n\n\nSummenregel\n\\(\\frac{d}{dx}(f(x)\\pm g(x)) = f'(x) \\pm g'(x)\\)\n\n\nProduktregel  Spezialfall: Faktorregel\n\\(\\frac{d}{dx}(f(x)\\cdot g(x)) = f'(x)\\cdot g(x) + f(x) \\cdot g'(x)\\)  \\(\\frac{d}{dx}(a\\cdot f(x)) = a\\cdot f'(x)\\)\n\n\nQuotientenregel\n\\(\\frac{d}{dx}\\frac{f(x)}{g(x)} = \\frac{f'(x)\\cdot g(x) - f(x) \\cdot g'(x)}{g(x)^2}\\)\n\n\nKettenregel\n\\(\\frac{d}{dx} f(g(x)) = f'(g(x))\\cdot g'(x)\\)\n\n\n\n\nAn dieser Stelle sei noch angemerkt, dass sich der Begriff der Ableitung sinngemäss auf Funktionen \\(f: \\mathbb{R}^n \\rightarrow\\mathbb{R}^m\\) verallgemeinern lässt. Eine kurze Beschreibung der Grundidee findet sich in Slater (2022). Weitergehende Informationen findet man z.B. in Arens u. a. (2022) oder jedem Lehrbuch zur Analysis 2."
+  },
+  {
+    "objectID": "intro.html#section",
+    "href": "intro.html#section",
+    "title": "1  Ableitungen und ihre Anwendungen",
+    "section": "1.2 ",
+    "text": "1.2 \n\n\n\n\nArens, Tilo, Frank Hettlich, Christian Karpfinger, Ulrich Kockelkorn, Klaus Lichtenegger, und Hellmuth Stachel. 2022. Mathematik. Berlin, Heidelberg: Springer Berlin Heidelberg.\n\n\nSlater, Max. 2022. „Differentiable programming from scratch“. Juli 2022. https://thenumb.at/Autodiff/."
+  },
+  {
+    "objectID": "intro.html#programme-als-funktionen",
+    "href": "intro.html#programme-als-funktionen",
+    "title": "1  Ableitungen und ihre Anwendungen",
+    "section": "1.2 Programme als Funktionen",
+    "text": "1.2 Programme als Funktionen\nProgramme, die numerische Werte einlesen und numerische Werte ausgeben, können als mathematische Funktionen betrachtet werden. Wir beschränken uns zunächst auf Programme, die nur ein Argument erhalten und nur einen Rückgabewert liefern, z.B.\n\ndef f(x):\n    y = (2 + x) * (x - 3)\n    return y\n\nx0 = 2\nprint( f(x0) )\n\nDiese Python-Funktion entspricht einer Funktion \\(f:\\mathbb{R}\\rightarrow\\mathbb{R}\\) im Sinne der Mathematik. Natürlich kann der Funktionskörper viel komplizierter aufgebaut sein und z.B. Schleifen und Bedingungen enthalten.\nUm zu verstehen, wie der Computer einen Ausdruck wie y = (2 + x) * (x - 3) auswertet, ist es hilfreich, ihn als Baum (im Sinne der Graphentheorie) darzustellen. Ausdrucksbäume werden z.B. in Hromkovic u. a. (2021) erklärt.\n\n\n\n\n\n\n   \n\nnx\n\nx   \n\nnPlus\n\n +   \n\nnx->nPlus\n\n    \n\nnMinus\n\n -   \n\nnx->nMinus\n\n    \n\nn2\n\n2   \n\nn2->nPlus\n\n    \n\nn3\n\n3   \n\nn3->nMinus\n\n    \n\nnMult\n\n *   \n\nnPlus->nMult\n\n    \n\nnMinus->nMult\n\n    \n\nny\n\ny   \n\nnMult->ny\n\n   \n\n\nAbbildung 1.1: Ausdrucksbaum zum Ausdruck y = (2 + x) * (x - 3).\n\n\n\n\nWir wollen nun unsere Python-Funktion so umschreiben, dass diese Struktur auch im Funktionskörper sichtbar wird. Dazu führen wir drei Hilfsvariablen v0, v1, v2 ein.\n\ndef f(x):\n    v0 = x\n    v1 = 2 + v0\n    v2 = v0 - 3\n    y = v1 * v2\n    return y\n\n\n\n\n\n\n\nKonvention\n\n\n\nEine Funktion berechnet aus einem Argument x einen Rückgabewert y über eine Reihe von Hilfsvariablen v, die mit verschiedenen Indizes versehen sind. Dabei setzen wir am Anfang immer v0 = x.\n\n\n\nÜbungsaufgabe 1.1 (Programm in Funktion übersetzen) Schreibe die mathematische Funktion auf, die durch das folgende Programm berechnet wird.\n\nimport math\n\ndef f(x):\n    v0 = x\n    v1 = v0 ** 2\n    v2 = v1 + 2\n    v3 = -v1 / 2\n    v4 = math.cos(v2)\n    v5 = math.exp(v3)\n    v6 = v4 * v5\n    y = v6 + 1 / v0\n    return y \n\n\n\n\n\n\n\n\nLösung\n\n\n\n\n\n\\[\n\\begin{flalign}\nv_1 & = x^2 \\\\\nv_2 & = x^2 + 2 \\\\\nv_3 & = - \\frac{x^2}{2} \\\\\nv_4 & = \\cos(x^2 + 2) \\\\\nv_5 & = e^{- \\frac{x^2}{2}} \\\\\nv_6 & = \\cos(x^2 + 2) \\cdot e^{- \\frac{x^2}{2}} \\\\\ny & = f(x) = \\cos(x^2 + 2) \\cdot e^{- \\frac{x^2}{2}} + \\frac{1}{x} \\\\\n\\end{flalign}\n\\]\n\n\n\n\nÜbungsaufgabe 1.2 (Funktion in Graph und Programm übersetzen) Schreibe zur mathematischen Funktion \\(y = f(x) = \\frac{\\ln(x^2 + 1)}{\\sqrt{x^2 + 1 + x}}\\) den Ausdrucksbaum auf. Übersetze den Ausdruck anschliessend in eine Python-Funktion gemäss der Konvention.\n\n\n\n\n\n\n\nLösung\n\n\n\n\n\n\n\n\n\n\n\n   \n\nnx\n\nx   \n\nnPlus2\n\n +   \n\nnx->nPlus2\n\n    \n\nnPow\n\n ^   \n\nnx->nPow\n\n    \n\nn2\n\n2   \n\nn2->nPow\n\n    \n\nn1\n\n1   \n\nnPlus1\n\n +   \n\nn1->nPlus1\n\n    \n\nnPlus1->nPlus2\n\n    \n\nnLog\n\n ln( )   \n\nnPlus1->nLog\n\n    \n\nnSqrt\n\n sqrt( )   \n\nnPlus2->nSqrt\n\n    \n\nnPow->nPlus1\n\n    \n\nnFrac\n\n /   \n\nny\n\ny   \n\nnFrac->ny\n\n    \n\nnLog->nFrac\n\n    \n\nnSqrt->nFrac\n\n   \n\n\nAbbildung 1.2: Ausdrucksbaum zum Ausdruck y = ln(x^2 + 1) / sqrt(x^2 + 1 + x).\n\n\n\n\n\n\nCode\nimport math\n\ndef f(x):\n    v0 = x\n    v1 = v0 ** 2\n    v2 = v1 + 1\n    v3 = v2 + v0\n    v4 = math.log(v2)\n    v5 = math.sqrt(v3)\n    y = v4 / v5\n    return y\n\n\n\n\n\n\nÜbungsaufgabe 1.3 (Ein Programm mit Schleifen) Ersetze im Funktionskörper die Schleife durch mehrere Befehle, so dass immer noch der gleiche mathematische Ausdruck berechnet wird und unsere Konvention eingehalten wird. Welche mathematische Funktion wird durch die Python-Funktion berechnet? Was ändert sich, wenn stattdessen for i in range(3) oder for i in range(4) stehen würde?\n\ndef f(x):\n    v0 = x\n    for i in range(2):\n        v0 = v0 ** 2 + 1\n    y = v0\n    return y\n\n\n\n\n\n\n\n\nLösung\n\n\n\n\n\nFür jeden Schleifendurchgang benötigen wir eine neue Hilfsvariable.\n\nrange(2)range(3)range(4)\n\n\n\ndef f(x):\n    v0 = x\n    v1 = v0 ** 2 + 1\n    v2 = v1 ** 2 + 1\n    y = v2\n    return y\n\n\\(f(x) = (x^2 + 1)^2 + 1 = x^4 + 2x^2 + 2\\)\n\n\n\ndef f(x):\n    v0 = x\n    v1 = v0 ** 2 + 1\n    v2 = v1 ** 2 + 1\n    v3 = v2 ** 2 + 1\n    y = v3\n    return y\n\n\\(f(x) = ((x^2 + 1)^2 + 1)^2 + 1 = x^8 + 4x^6 + 8x^4 + 8x^2 + 5\\)\n\n\n\ndef f(x):\n    v0 = x\n    v1 = v0 ** 2 + 1\n    v2 = v1 ** 2 + 1\n    v3 = v2 ** 2 + 1\n    v4 = v3 ** 2 + 1\n    y = v4\n    return y\n\n\\[\n\\begin{flalign}\n    f(x) &= (((x^2 + 1)^2 + 1)^2 + 1)^2 + 1 \\\\\n         &= x^{16} + 8x^{14} + 32x^{12} + 80x^{10} + 138x^8 + 168x^6 + 144x^4 + 80x^2 + 26\n\\end{flalign}\n\\]\n\n\n\n\n\n\n\n\n\n\nArens, Tilo, Frank Hettlich, Christian Karpfinger, Ulrich Kockelkorn, Klaus Lichtenegger, und Hellmuth Stachel. 2022. Mathematik. Berlin, Heidelberg: Springer Berlin Heidelberg.\n\n\nHromkovic, Juraj, Jarka Arnold, Cédric Donner, Urs Hauser, Matthias Hauswirth, Tobias Kohn, Dennis Komm, David Maletinsky, und Nicole Roth. 2021. INFORMATIK, Programmieren und Robotik: Grundlagen der Informatik für Schweizer Maturitätsschulen.\n\n\nSlater, Max. 2022. „Differentiable programming from scratch“. Juli 2022. https://thenumb.at/Autodiff/."
+  },
+  {
+    "objectID": "intro.html#programm-in-funktion-übersetzen",
+    "href": "intro.html#programm-in-funktion-übersetzen",
+    "title": "1  Ableitungen und ihre Anwendungen",
+    "section": "1.3 Programm in Funktion übersetzen",
+    "text": "1.3 Programm in Funktion übersetzen\nSchreibe die mathematische Funktion auf, die durch das folgende Programm berechnet wird.\n\nimport math\n\ndef f(x):\n    v0 = x\n    v1 = v0 ** 2\n    v2 = v1 + 2\n    v3 = -v1 / 2\n    v4 = math.cos(v2)\n    v5 = math.exp(v3)\n    v6 = v4 * v5\n    y = v6 + 1 / v0\n    return y"
+  },
+  {
+    "objectID": "intro.html#funktion-in-graph-und-programm-übersetzen",
+    "href": "intro.html#funktion-in-graph-und-programm-übersetzen",
+    "title": "1  Ableitungen und ihre Anwendungen",
+    "section": "1.4 Funktion in Graph und Programm übersetzen",
+    "text": "1.4 Funktion in Graph und Programm übersetzen\nSchreibe zur mathematischen Funktion \\(y = f(x) = \\frac{\\ln(x^2 + 1)}{\\sqrt{x^2 + 1 + x}}\\) den Ausdrucksbaum auf. Übersetze den Ausdruck anschliessend in eine Python-Funktion gemäss der Konvention."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "AutoDiff",
+    "section": "",
+    "text": "Code\nviewof minimum = Inputs.range([0, 20], { \n  value: 1, step: 1, \n  label: \"Step\"\n})\n\nviewof func = Inputs.radio(functions, {\n  value: functions[0],\n  format: d => tex`\\displaystyle \\large ${d.label()}`,\n  label: 'Select function to analyze',\n})"
+  }
+]
