@@ -36,6 +36,7 @@ format:
     number-depth: 3
     toc: true
     toc-depth: 3
+    reference-location: margin
   pdf:
     documentclass: scrreprt
     lang: de

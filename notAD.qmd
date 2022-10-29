@@ -2,7 +2,7 @@
 Bevor wir uns mit den konkreten Implementationen von algorithmischer Differentiation beschäftigen, wollen wir herausstellen, was AD *nicht* ist.
 
 
-## AD ist nicht numerisches Ableiten
+## AD ist nicht numerisches Ableiten {#sec-ADnotNumDiff}
 Eine Funktion $y = f(x)$ ist bekanntlich differenzierbar an der Stelle $x_0 \in \mathbb{D}$, wenn der Grenzwert
 $$ \lim_{h\rightarrow 0} \frac{f(x_0 + h) - f(x_0)}{h} $$
 existiert. In dem Fall ist $f'(x_0)$ einfach der Wert dieses Grenzwerts.

@@ -148,7 +148,7 @@ div.csl-indent {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -212,7 +212,7 @@ div.csl-indent {
     <h2 id="toc-title">Inhaltsverzeichnis</h2>
    
   <ul>
-  <li><a href="#ad-ist-nicht-numerisches-ableiten" id="toc-ad-ist-nicht-numerisches-ableiten" class="nav-link active" data-scroll-target="#ad-ist-nicht-numerisches-ableiten"><span class="toc-section-number">2.1</span>  AD ist nicht numerisches Ableiten</a>
+  <li><a href="#sec-ADnotNumDiff" id="toc-sec-ADnotNumDiff" class="nav-link active" data-scroll-target="#sec-ADnotNumDiff"><span class="toc-section-number">2.1</span>  AD ist nicht numerisches Ableiten</a>
   <ul class="collapse">
   <li><a href="#auslöschung" id="toc-auslöschung" class="nav-link" data-scroll-target="#auslöschung"><span class="toc-section-number">2.1.1</span>  Auslöschung</a></li>
   </ul></li>
@@ -221,7 +221,7 @@ div.csl-indent {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -240,10 +240,10 @@ div.csl-indent {
 </header>
 
 <p>Bevor wir uns mit den konkreten Implementationen von algorithmischer Differentiation beschäftigen, wollen wir herausstellen, was AD <em>nicht</em> ist.</p>
-<section id="ad-ist-nicht-numerisches-ableiten" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="ad-ist-nicht-numerisches-ableiten"><span class="header-section-number">2.1</span> AD ist nicht numerisches Ableiten</h2>
+<section id="sec-ADnotNumDiff" class="level2 page-columns page-full" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-ADnotNumDiff"><span class="header-section-number">2.1</span> AD ist nicht numerisches Ableiten</h2>
 <p>Eine Funktion <span class="math inline">\(y = f(x)\)</span> ist bekanntlich differenzierbar an der Stelle <span class="math inline">\(x_0 \in \mathbb{D}\)</span>, wenn der Grenzwert <span class="math display">\[ \lim_{h\rightarrow 0} \frac{f(x_0 + h) - f(x_0)}{h} \]</span> existiert. In dem Fall ist <span class="math inline">\(f'(x_0)\)</span> einfach der Wert dieses Grenzwerts.</p>
-<p>Ein erster Ansatz zur numerischen Berechnung könnte also sein, den Differenzenquotienten für kleine <span class="math inline">\(h\)</span> auszuwerten<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="page-columns page-full"><p>Ein erster Ansatz zur numerischen Berechnung könnte also sein, den Differenzenquotienten für kleine <span class="math inline">\(h\)</span> auszuwerten<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Dieser Ansatz kann verbessert werden indem man z.B. <span class="math inline">\(f'(x_0) \approx \frac{f(x_0 + h) - f(x_0 - h)}{2h}\)</span> verwendet. Die im Beispiel beschriebenen Probleme bleiben aber auch dann bestehen.</p></li></div></div>
 <div id="exm-numDiff" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 2.1 (Numerische Ableitung) </strong></span>Leite die Funktion <span class="math inline">\(f(x) = x^2\)</span> an der Stelle <span class="math inline">\(x_0 = 2\)</span> ab.</p>
 <div class="cell" data-execution_count="1">
@@ -352,12 +352,7 @@ Weitz, Edmund. 2021. <em>Konkrete Mathematik (nicht nur) f<span>ü</span>r Infor
 </div>
 </div>
 </section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Dieser Ansatz kann verbessert werden indem man z.B. <span class="math inline">\(f'(x_0) \approx \frac{f(x_0 + h) - f(x_0 - h)}{2h}\)</span> verwendet. Die im Beispiel beschriebenen Probleme bleiben aber auch dann bestehen.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

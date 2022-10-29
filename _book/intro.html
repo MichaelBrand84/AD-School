@@ -148,7 +148,7 @@ div.csl-indent {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -214,11 +214,16 @@ div.csl-indent {
   <ul>
   <li><a href="#ableitungen-von-funktionen" id="toc-ableitungen-von-funktionen" class="nav-link active" data-scroll-target="#ableitungen-von-funktionen"><span class="toc-section-number">1.1</span>  Ableitungen von Funktionen</a></li>
   <li><a href="#programme-als-funktionen" id="toc-programme-als-funktionen" class="nav-link" data-scroll-target="#programme-als-funktionen"><span class="toc-section-number">1.2</span>  Programme als Funktionen</a></li>
+  <li><a href="#unser-ziel-programme-ableiten" id="toc-unser-ziel-programme-ableiten" class="nav-link" data-scroll-target="#unser-ziel-programme-ableiten"><span class="toc-section-number">1.3</span>  Unser Ziel: Programme ableiten</a>
+  <ul class="collapse">
+  <li><a href="#das-newtonverfahren-zur-berechnung-von-nullstellen" id="toc-das-newtonverfahren-zur-berechnung-von-nullstellen" class="nav-link" data-scroll-target="#das-newtonverfahren-zur-berechnung-von-nullstellen"><span class="toc-section-number">1.3.1</span>  Das Newtonverfahren zur Berechnung von Nullstellen</a></li>
+  <li><a href="#gradient-descent-zum-auffinden-lokaler-minima" id="toc-gradient-descent-zum-auffinden-lokaler-minima" class="nav-link" data-scroll-target="#gradient-descent-zum-auffinden-lokaler-minima"><span class="toc-section-number">1.3.2</span>  Gradient Descent zum Auffinden lokaler Minima</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -293,7 +298,7 @@ div.csl-indent {
 <td><span class="math inline">\(-\sin(x)\)</span></td>
 <td></td>
 <td><span class="math inline">\(\arccos(x)\)</span></td>
-<td><span class="math inline">\(-\frac{1}{sqrt{1-x^2}}\)</span></td>
+<td><span class="math inline">\(-\frac{1}{\sqrt{1-x^2}}\)</span></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\tan(x)\)</span></td>
@@ -326,7 +331,7 @@ div.csl-indent {
 </tbody>
 </table>
 </div>
-<p>Neue Funktionen erhält man, indem man die Grundfunktionen aus <a href="#tbl-DiffGrundfunktionen">Tabelle&nbsp;<span>1.1</span></a> addiert, subtrahiert, multipliziert, dividiert und komponiert, d.h. Verkettungen der Form <span class="math inline">\((f\circ g)(x) = f(g(x))\)</span> bildet. Um solche Funktionen abzuleiten brauchen wir die Regeln aus <a href="#tbl-DiffRegeln">Tabelle&nbsp;<span>1.2</span></a> unten. Mit diesen Regeln sind wir dann schon in der Lage, alle differenzierbaren Funktionen abzuleiten.</p>
+<p>Neue Funktionen erhält man, indem man die Grundfunktionen aus <a href="#tbl-DiffGrundfunktionen">Tabelle&nbsp;<span>1.1</span></a> addiert, subtrahiert, multipliziert, dividiert und komponiert, d.h. Verkettungen der Form <span class="math inline">\((f\circ g)(x) = f(g(x))\)</span> bildet. Um solche Funktionen abzuleiten brauchen wir die Regeln aus <a href="#tbl-DiffRegeln">Tabelle&nbsp;<span>1.2</span></a>. Mit diesen Regeln sind wir dann schon in der Lage, alle differenzierbaren Funktionen abzuleiten.</p>
 <div id="tbl-DiffRegeln" class="anchored">
 <table class="table">
 <caption>Tabelle&nbsp;1.2: Ableitungsregeln</caption>
@@ -354,7 +359,7 @@ div.csl-indent {
 </tbody>
 </table>
 </div>
-<p>An dieser Stelle sei noch angemerkt, dass sich der Begriff der Ableitung sinngemäss auf Funktionen <span class="math inline">\(f: \mathbb{R}^n \rightarrow\mathbb{R}^m\)</span> verallgemeinern lässt. Eine kurze Beschreibung der Grundidee findet sich in <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>. Weitergehende Informationen findet man z.B. in <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span> oder jedem Lehrbuch zur Analysis 2.</p>
+<p>An dieser Stelle sei noch angemerkt, dass sich der Begriff der Ableitung sinngemäss auf Funktionen <span class="math inline">\(f: \mathbb{R}^n \rightarrow\mathbb{R}^m\)</span> verallgemeinern lässt. Eine kurze Beschreibung der Grundidee findet sich in <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>. Weitergehende Informationen findet man z.B. in <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span> oder in jedem Lehrbuch zur Analysis 2.</p>
 </section>
 <section id="programme-als-funktionen" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="programme-als-funktionen"><span class="header-section-number">1.2</span> Programme als Funktionen</h2>
@@ -367,8 +372,8 @@ div.csl-indent {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( f(x0) )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Diese Python-Funktion entspricht einer Funktion <span class="math inline">\(f:\mathbb{R}\rightarrow\mathbb{R}\)</span> im Sinne der Mathematik. Natürlich kann der Funktionskörper viel komplizierter aufgebaut sein und z.B. Schleifen und Bedingungen enthalten.</p>
-<p>Um zu verstehen, wie der Computer einen Ausdruck wie <code>y = (2 + x) * (x - 3)</code> auswertet, ist es hilfreich, ihn als Baum (im Sinne der Graphentheorie) darzustellen. Ausdrucksbäume werden z.B. in <span class="citation" data-cites="Hromkovic2021">Hromkovic u.&nbsp;a. (<a href="references.html#ref-Hromkovic2021" role="doc-biblioref">2021</a>)</span> erklärt.</p>
+<p>Diese Python-Funktion entspricht der Funktion <span class="math inline">\(f:\mathbb{R}\rightarrow\mathbb{R} , x \mapsto y=(2+x)(x-3)\)</span> im Sinne der Mathematik. Natürlich kann der Funktionskörper viel komplizierter aufgebaut sein und z.B. Schleifen und Bedingungen enthalten.</p>
+<p>Um zu verstehen, wie der Computer einen Ausdruck wie <code>y = (2 + x) * (x - 3)</code> auswertet, ist es hilfreich, ihn als Baum (im Sinne der Graphentheorie) darzustellen. Ausdrucksbäume (<em>computational graphs</em>) werden z.B. in <span class="citation" data-cites="Hromkovic2021">Hromkovic u.&nbsp;a. (<a href="references.html#ref-Hromkovic2021" role="doc-biblioref">2021</a>)</span> erklärt.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-compTreeSimple" class="quarto-figure quarto-figure-center anchored">
@@ -462,7 +467,8 @@ Konvention
 </div>
 </div>
 <div id="exr-ProgToFun" class="theorem exercise">
-<p><span class="theorem-title"><strong>Übungsaufgabe 1.1 (Programm in Funktion übersetzen) </strong></span>Schreibe die mathematische Funktion auf, die durch das folgende Programm berechnet wird.</p>
+<p><span class="theorem-title"><strong>Übungsaufgabe 1.1 (Programm in Funktion übersetzen) </strong></span><br></p>
+<p>Schreibe die mathematische Funktion auf, die durch das folgende Programm berechnet wird.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -505,7 +511,8 @@ y &amp; = f(x) = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} + \frac{1}{x} \\
 </div>
 </div>
 <div id="exr-FunToGraphProg" class="theorem exercise">
-<p><span class="theorem-title"><strong>Übungsaufgabe 1.2 (Funktion in Graph und Programm übersetzen) </strong></span>Schreibe zur mathematischen Funktion <span class="math inline">\(y = f(x) = \frac{\ln(x^2 + 1)}{\sqrt{x^2 + 1 + x}}\)</span> den Ausdrucksbaum auf. Übersetze den Ausdruck anschliessend in eine Python-Funktion gemäss der Konvention.</p>
+<p><span class="theorem-title"><strong>Übungsaufgabe 1.2 (Funktion in Graph und Programm übersetzen) </strong></span><br></p>
+<p>Schreibe zur mathematischen Funktion <span class="math inline">\(y = f(x) = \frac{\ln(x^2 + 1)}{\sqrt{x^2 + 1 + x}}\)</span> den Ausdrucksbaum auf. Übersetze den Ausdruck anschliessend in eine Python-Funktion gemäss der Konvention.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -612,7 +619,7 @@ nSqrt-&gt;nFrac
 <path fill="none" stroke="black" d="M252.09,-69.82C263.08,-64.95 276.16,-59.15 285.33,-55.08"></path> <polygon fill="black" stroke="black" points="286.11,-56.65 289.98,-53.02 284.7,-53.45 286.11,-56.65"></polygon> </g> </g>
 </svg>
 </p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;1.2: Ausdrucksbaum zum Ausdruck <code>y = ln(x^2 + 1) / sqrt(x^2 + 1 + x)</code>.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;1.2: Computational Graph zum Ausdruck <code>y = ln(x^2 + 1) / sqrt(x^2 + 1 + x)</code>.</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -637,7 +644,8 @@ nSqrt-&gt;nFrac
 </div>
 </div>
 <div id="exr-LoopProgToFun" class="theorem exercise">
-<p><span class="theorem-title"><strong>Übungsaufgabe 1.3 (Ein Programm mit Schleifen) </strong></span>Ersetze im Funktionskörper die Schleife durch mehrere Befehle, so dass immer noch der gleiche mathematische Ausdruck berechnet wird und unsere Konvention eingehalten wird. Welche mathematische Funktion wird durch die Python-Funktion berechnet? Was ändert sich, wenn stattdessen <code>for i in range(3)</code> oder <code>for i in range(4)</code> stehen würde?</p>
+<p><span class="theorem-title"><strong>Übungsaufgabe 1.3 (Ein Programm mit einer Schleife) </strong></span><br></p>
+<p>Ersetze im Funktionskörper die Schleife durch mehrere Befehle, so dass immer noch der gleiche mathematische Ausdruck berechnet wird und unsere Konvention eingehalten wird. Welche mathematische Funktion wird durch die Python-Funktion berechnet? Was ändert sich, wenn stattdessen <code>for i in range(3)</code> oder <code>for i in range(4)</code> stehen würde?</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x</span>
@@ -709,6 +717,159 @@ Lösung
 </div>
 </div>
 </div>
+</section>
+<section id="unser-ziel-programme-ableiten" class="level2 page-columns page-full" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="unser-ziel-programme-ableiten"><span class="header-section-number">1.3</span> Unser Ziel: Programme ableiten</h2>
+<p>Wie eingangs erwähnt wurde, haben Ableitungen viele nützliche Anwendungen.</p>
+<p>COMING SOON: Idee Programm als Funktion ableiten, Namensgebung AD, möglichst exakte Werte gesucht.</p>
+<section id="das-newtonverfahren-zur-berechnung-von-nullstellen" class="level3 page-columns page-full" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="das-newtonverfahren-zur-berechnung-von-nullstellen"><span class="header-section-number">1.3.1</span> Das Newtonverfahren zur Berechnung von Nullstellen</h3>
+<p>In vielen Anwendungen steht man vor der Aufgabe, die Gleichung <span class="math inline">\(f(x) = 0\)</span> nach <span class="math inline">\(x\)</span> aufzulösen, d.h. eine Nullstelle der Funktion zu finden. Oft ist es aber nicht möglich, die Lösung einer solchen Gleichung in geschlossener Form darzustellen. Um dennoch eine Lösung zumindest näherungsweise berechnen zu können, kann man folgendermassen vorgehen:</p>
+<ol type="1">
+<li>Wähle einen Startwert <span class="math inline">\(x_0\)</span>, der in der Nähe einer Nullstelle <span class="math inline">\(\bar{x}\)</span> von <span class="math inline">\(f\)</span> liegt.</li>
+<li>Im Kurvenpunkt <span class="math inline">\((x_0 | y_0)\)</span> wird die Tangente an die Kurve <span class="math inline">\(f\)</span> gelegt. Deren Schnittpunkt <span class="math inline">\(x_1\)</span> mit der <span class="math inline">\(x\)</span>-Achse liegt in der Regel näher bei <span class="math inline">\(\bar{x}\)</span> als <span class="math inline">\(x_0\)</span>.</li>
+<li>Nun wiederholt man das Verfahren, indem man bei <span class="math inline">\(x_1\)</span> die Tangente an die Kurve legt, usw. Auf diese Weise erhält man eine Folge von Näherungen <span class="math inline">\(x_0, x_1, x_2, \ldots\)</span>, deren Grenzwert die Nullstelle <span class="math inline">\(\bar{x}\)</span> ist.</li>
+</ol>
+<div class="fig-NewtonGeoGebra">
+<iframe scrolling="no" title="Newtonverfahren" src="https://www.geogebra.org/material/iframe/id/baja85gv/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
+</iframe>
+</div>
+<p>Die Gleichung der Tangente im Punkt <span class="math inline">\((x_n | y_n) = (x_n | f(x_n))\)</span> ist bekanntlich <span class="math inline">\(t(x) = f(x_n) + f'(x_n) \cdot (x - x_n)\)</span>. Die Nullstelle der Tangente ist der Näherungswert <span class="math inline">\(x_{n+1}\)</span>. Aus <span class="math inline">\(t(x_{n+1}) = 0\)</span> ergibt sich nun <span class="math display">\[
+x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
+\]</span></p>
+<div id="exr-NewtonFirstTry" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 1.4 (Das Newtonverfahren programmieren) </strong></span><br></p>
+<p>Schreibe ein Programm, das mit Hilfe des Newtonverfahrens eine Nullstelle der Funktion <span class="math inline">\(f(x) = \frac{1}{31} x^3 -\frac{1}{20} x^2 -x + 1\)</span> berechnet. Verwende den Startwert <span class="math inline">\(x_0 = -2\)</span>. Du kannst abbrechen, wenn die Differenz <span class="math inline">\(|x_{n+1} - x_n|\)</span> kleiner als eine bestimmte Toleranz wird, u.B. kleiner als <code>tol = 1e-6</code>. Wie flexibel ist dein Programm einsetzbar? Überlege dir z.B., wie viele Änderungen du vornehmen müsstest, wenn du die Nullstelle einer anderen Funktion berechnen müsstest.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Welche der folgenden Lösungsvorschläge kommt deinem Programm am nächsten?</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Newton als main-Programm (1)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Newton als main-Programm (2)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Newton als Funktion (1)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-4" role="tab" aria-controls="tabset-2-4" aria-selected="false">Newton als Funktion (2)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> fabs</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> x0 <span class="op">-</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x0<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">20</span> <span class="op">*</span> x0<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> x0 <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> (<span class="dv">3</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x0<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span> <span class="op">*</span> x0 <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x1</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x0<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">20</span> <span class="op">*</span> x0<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> x0 <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> (<span class="dv">3</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x0<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span> <span class="op">*</span> x0 <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x1)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>5.908619865450271</code></pre>
+</div>
+</div>
+<p>Das Newtonverfahren wird als main-Funktion (d.h. im Hauptprogramm) ausgeführt. Braucht man jedoch die Nullstelle einer anderen Funktion, dann muss ein neues Programm geschrieben werden. Die Ableitung wurde von Hand berechnet.</p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> fabs</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">20</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> x <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fdot(x):</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">3</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span> <span class="op">*</span> x <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> x0 <span class="op">-</span> f(x0) <span class="op">/</span> fdot(x0)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x1</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> f(x0) <span class="op">/</span> fdot(x0)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x1)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>5.908619865450271</code></pre>
+</div>
+</div>
+<p>Das Newtonverfahren wird als main-Funktion (d.h. im Hauptprogramm) ausgeführt, aber die Berechnung von <span class="math inline">\(f\)</span> und ihrer Ableitung <span class="math inline">\(f'\)</span> wurde in zwei Funktionen <code>f</code> und <code>fdot</code> ausgelagert. Das macht das Programm übersichtlicher und flexibler. Die Ableitung wurde wieder von Hand berechnet.</p>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> fabs</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> newton(f, fdot, x0):</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> f(x0) <span class="op">/</span> fdot(x0)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> f(x0) <span class="op">/</span> fdot(x0)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(x1)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">20</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> x <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fdot(x):</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">3</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span> <span class="op">*</span> x <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>xbar <span class="op">=</span> newton(f, fdot, x0)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xbar)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>5.908619865450271</code></pre>
+</div>
+</div>
+<p>Das Newtonverfahren wird als eigene Funktion implementiert, der die Funktion <span class="math inline">\(f\)</span> und ihre Ableitung <span class="math inline">\(f'\)</span>, sowie der Startwert <span class="math inline">\(x_0\)</span> als Argumente übergeben werden. Diese Funktion kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.</p>
+</div>
+<div id="tabset-2-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-4-tab">
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> fabs</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> newton(f, x0):</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ableitung von f an der Stelle x0 annähern</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> ( f(x0 <span class="op">+</span> h) <span class="op">-</span> f(x0) ) <span class="op">/</span> h</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> f(x0) <span class="op">/</span> ydot</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        ydot <span class="op">=</span> ( f(x0 <span class="op">+</span> h) <span class="op">-</span> f(x0) ) <span class="op">/</span> h</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> f(x0) <span class="op">/</span> ydot</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(x1)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">20</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> x <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>xbar <span class="op">=</span> newton(f, x0)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xbar)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>5.90861986545027</code></pre>
+</div>
+</div>
+<p>Hier wird das Newtonverfahren in einer Funktion implementiert. Die Ableitung wird nicht mehr von Hand berechnet, sondern innerhalb der Funktion mit <span class="math inline">\(f'(x_0)\approx \frac{f(x_0 + h) - f(x_0)}{h}\)</span> angenähert. Dabei wird einfach <code>h = 1e-6</code> gesetzt und gehofft, dass der entstehende Rundungsfehler klein genug ist.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="page-columns page-full"><p>Auch die letzte vorgestellte Lösung ist noch nicht befriedigend. Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion <code>fdot</code> and der Stelle <code>x0</code> ausgewertet werden, um den (bis auf Maschinengenauigkeit) <em>exakten</em> Wert von <span class="math inline">\(f'(x_0)\)</span> zu erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut genug war<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, so haben wir doch keine Garantie, dass wir für alle Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung von <span class="math inline">\(f'(x_0)\)</span> auftreten, wird in <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a> näher eingegangen.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Das Newton-Verfahren hat die angenehme Eigenschaft, dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere numerische Verfahren, die die Ableitung verwenden, trifft dies aber nicht zu.</p></li></div></div>
+</section>
+<section id="gradient-descent-zum-auffinden-lokaler-minima" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="gradient-descent-zum-auffinden-lokaler-minima"><span class="header-section-number">1.3.2</span> Gradient Descent zum Auffinden lokaler Minima</h3>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -723,6 +884,8 @@ Slater, Max. 2022. <span>„Differentiable programming from scratch“</span>. J
 </div>
 </div>
 </section>
+</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
