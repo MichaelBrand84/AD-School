@@ -249,11 +249,11 @@ div.csl-indent {
 <table class="table">
 <caption>Tabelle&nbsp;1.1: Ableitungen der Grundfunktionen</caption>
 <colgroup>
-<col style="width: 19%">
-<col style="width: 29%">
+<col style="width: 18%">
+<col style="width: 28%">
 <col style="width: 3%">
-<col style="width: 17%">
-<col style="width: 29%">
+<col style="width: 16%">
+<col style="width: 32%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -284,7 +284,7 @@ div.csl-indent {
 <td><span class="math inline">\(\frac{1}{x}\)</span></td>
 <td></td>
 <td><span class="math inline">\(\log_a(x)\)</span></td>
-<td><span class="math inline">\(\frac{1}{x\cdot\ln(a)}\)</span></td>
+<td><span class="math inline">\(\frac{1}{x\cdot\ln(a)} \quad (a&gt;0, a\ne 1)\)</span></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\sin(x)\)</span></td>
@@ -331,7 +331,7 @@ div.csl-indent {
 </tbody>
 </table>
 </div>
-<p>Neue Funktionen erhält man, indem man die Grundfunktionen aus <a href="#tbl-DiffGrundfunktionen">Tabelle&nbsp;<span>1.1</span></a> addiert, subtrahiert, multipliziert, dividiert und komponiert, d.h. Verkettungen der Form <span class="math inline">\((f\circ g)(x) = f(g(x))\)</span> bildet. Um solche Funktionen abzuleiten brauchen wir die Regeln aus <a href="#tbl-DiffRegeln">Tabelle&nbsp;<span>1.2</span></a>. Mit diesen Regeln sind wir dann schon in der Lage, alle differenzierbaren Funktionen abzuleiten.</p>
+<p>Neue Funktionen erhält man, indem man die Grundfunktionen aus <a href="#tbl-DiffGrundfunktionen">Tabelle&nbsp;<span>1.1</span></a> addiert, subtrahiert, multipliziert, dividiert und komponiert, d.h. Verkettungen der Form <span class="math inline">\((f\circ g)(x) = f(g(x))\)</span> bildet. Um solche Funktionen abzuleiten, brauchen wir die Regeln aus <a href="#tbl-DiffRegeln">Tabelle&nbsp;<span>1.2</span></a>. Mit diesen Regeln sind wir dann schon in der Lage, alle differenzierbaren Funktionen abzuleiten.</p>
 <div id="tbl-DiffRegeln" class="anchored">
 <table class="table">
 <caption>Tabelle&nbsp;1.2: Ableitungsregeln</caption>
@@ -373,7 +373,7 @@ div.csl-indent {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( f(x0) )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Diese Python-Funktion entspricht der Funktion <span class="math inline">\(f:\mathbb{R}\rightarrow\mathbb{R} , x \mapsto y=(2+x)(x-3)\)</span> im Sinne der Mathematik. Natürlich kann der Funktionskörper viel komplizierter aufgebaut sein und z.B. Schleifen und Bedingungen enthalten.</p>
-<p>Um zu verstehen, wie der Computer einen Ausdruck wie <code>y = (2 + x) * (x - 3)</code> auswertet, ist es hilfreich, ihn als Baum (im Sinne der Graphentheorie) darzustellen. Ausdrucksbäume (<em>computational graphs</em>) werden z.B. in <span class="citation" data-cites="Hromkovic2021">Hromkovic u.&nbsp;a. (<a href="references.html#ref-Hromkovic2021" role="doc-biblioref">2021</a>)</span> erklärt.</p>
+<p>Um zu verstehen, wie der Computer einen Ausdruck wie <code>y = (2 + x) * (x - 3)</code> auswertet, ist es hilfreich, ihn als Baum (im Sinne der Graphentheorie) darzustellen. Ausdrucksbäume sind ein Spezialfall von so genannten <em>computational graphs</em> und werden z.B. in <span class="citation" data-cites="Hromkovic2021">Hromkovic u.&nbsp;a. (<a href="references.html#ref-Hromkovic2021" role="doc-biblioref">2021</a>)</span> erklärt.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-compTreeSimple" class="quarto-figure quarto-figure-center anchored">
@@ -640,6 +640,7 @@ nSqrt-&gt;nFrac
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>Natürlich hätte man z.B. <code>v3</code> und <code>v4</code> auch vertauschen können.</p>
 </div>
 </div>
 </div>
@@ -667,7 +668,7 @@ Lösung
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Für jeden Schleifendurchgang benötigen wir eine neue Hilfsvariable.</p>
+<p>Für jeden Schleifendurchgang benötigen wir eine neue Hilfsvariable. Die Funktion, die dabei entsteht, kann geschrieben werden als <span class="math inline">\(f(x) = (\ell \circ \ell \circ \ldots \circ \ell)(x)\)</span>, wobei <span class="math inline">\(\ell(x) = x^2 + 1\)</span> ist.</p>
 <div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true"><code>range(2)</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false"><code>range(3)</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false"><code>range(4)</code></a></li></ul>
 <div class="tab-content">
@@ -680,7 +681,12 @@ Lösung
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v2</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="math inline">\(f(x) = (x^2 + 1)^2 + 1 = x^4 + 2x^2 + 2\)</span></p>
+<p><span class="math display">\[
+\begin{flalign}
+    f(x) &amp;= \ell(\ell(x)) \\
+         &amp;= (x^2 + 1)^2 + 1 = x^4 + 2x^2 + 2
+\end{flalign}
+\]</span></p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell" data-execution_count="7">
@@ -692,7 +698,12 @@ Lösung
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v3</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="math inline">\(f(x) = ((x^2 + 1)^2 + 1)^2 + 1 = x^8 + 4x^6 + 8x^4 + 8x^2 + 5\)</span></p>
+<p><span class="math display">\[
+\begin{flalign}
+    f(x) &amp;= \ell(\ell(\ell(x))) \\
+         &amp;= ((x^2 + 1)^2 + 1)^2 + 1 = x^8 + 4x^6 + 8x^4 + 8x^2 + 5
+\end{flalign}
+\]</span></p>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="cell" data-execution_count="8">
@@ -707,7 +718,8 @@ Lösung
 </div>
 <p><span class="math display">\[
 \begin{flalign}
-    f(x) &amp;= (((x^2 + 1)^2 + 1)^2 + 1)^2 + 1 \\
+    f(x) &amp;= \ell(\ell(\ell(\ell(x)))) \\
+         &amp;= (((x^2 + 1)^2 + 1)^2 + 1)^2 + 1 \\
          &amp;= x^{16} + 8x^{14} + 32x^{12} + 80x^{10} + 138x^8 + 168x^6 + 144x^4 + 80x^2 + 26
 \end{flalign}
 \]</span></p>
@@ -721,25 +733,26 @@ Lösung
 <section id="unser-ziel-programme-ableiten" class="level2 page-columns page-full" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="unser-ziel-programme-ableiten"><span class="header-section-number">1.3</span> Unser Ziel: Programme ableiten</h2>
 <p>Wie eingangs erwähnt wurde, haben Ableitungen viele nützliche Anwendungen.</p>
-<p>COMING SOON: Idee Programm als Funktion ableiten, Namensgebung AD, möglichst exakte Werte gesucht.</p>
+<p>COMING SOON: Idee Programm als Funktion ableiten, Namensgebung AD, möglichst exakte Werte gesucht, nicht von Hand ableiten weil letztes Bsp zeigt, dass Funktionsausdrücke schnell sehr gross werden können.</p>
 <section id="das-newtonverfahren-zur-berechnung-von-nullstellen" class="level3 page-columns page-full" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="das-newtonverfahren-zur-berechnung-von-nullstellen"><span class="header-section-number">1.3.1</span> Das Newtonverfahren zur Berechnung von Nullstellen</h3>
-<p>In vielen Anwendungen steht man vor der Aufgabe, die Gleichung <span class="math inline">\(f(x) = 0\)</span> nach <span class="math inline">\(x\)</span> aufzulösen, d.h. eine Nullstelle der Funktion zu finden. Oft ist es aber nicht möglich, die Lösung einer solchen Gleichung in geschlossener Form darzustellen. Um dennoch eine Lösung zumindest näherungsweise berechnen zu können, kann man folgendermassen vorgehen:</p>
+<p>In vielen Anwendungen steht man vor der Aufgabe, die Gleichung <span class="math inline">\(f(x) = 0\)</span> nach <span class="math inline">\(x\)</span> aufzulösen, d.h. eine Nullstelle <span class="math inline">\(\bar{x}\)</span> der Funktion zu finden. Oft ist es aber nicht möglich, die Lösung einer solchen Gleichung in geschlossener Form darzustellen. Um dennoch eine Lösung zumindest näherungsweise berechnen zu können, kann man folgendermassen vorgehen:</p>
 <ol type="1">
 <li>Wähle einen Startwert <span class="math inline">\(x_0\)</span>, der in der Nähe einer Nullstelle <span class="math inline">\(\bar{x}\)</span> von <span class="math inline">\(f\)</span> liegt.</li>
 <li>Im Kurvenpunkt <span class="math inline">\((x_0 | y_0)\)</span> wird die Tangente an die Kurve <span class="math inline">\(f\)</span> gelegt. Deren Schnittpunkt <span class="math inline">\(x_1\)</span> mit der <span class="math inline">\(x\)</span>-Achse liegt in der Regel näher bei <span class="math inline">\(\bar{x}\)</span> als <span class="math inline">\(x_0\)</span>.</li>
 <li>Nun wiederholt man das Verfahren, indem man bei <span class="math inline">\(x_1\)</span> die Tangente an die Kurve legt, usw. Auf diese Weise erhält man eine Folge von Näherungen <span class="math inline">\(x_0, x_1, x_2, \ldots\)</span>, deren Grenzwert die Nullstelle <span class="math inline">\(\bar{x}\)</span> ist.</li>
 </ol>
+<p>Dieser Algorithmus ist als Newtonverfahren bekannt.</p>
 <div class="fig-NewtonGeoGebra">
 <iframe scrolling="no" title="Newtonverfahren" src="https://www.geogebra.org/material/iframe/id/baja85gv/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
 </div>
-<p>Die Gleichung der Tangente im Punkt <span class="math inline">\((x_n | y_n) = (x_n | f(x_n))\)</span> ist bekanntlich <span class="math inline">\(t(x) = f(x_n) + f'(x_n) \cdot (x - x_n)\)</span>. Die Nullstelle der Tangente ist der Näherungswert <span class="math inline">\(x_{n+1}\)</span>. Aus <span class="math inline">\(t(x_{n+1}) = 0\)</span> ergibt sich nun <span class="math display">\[
+<p>Die Gleichung der Tangente im Punkt <span class="math inline">\((x_n | y_n) = (x_n | f(x_n))\)</span> ist bekanntlich <span class="math inline">\(t(x) = f(x_n) + f'(x_n) \cdot (x - x_n)\)</span>. Die Nullstelle der Tangente ist der Näherungswert <span class="math inline">\(x_{n+1}\)</span>. Aus <span class="math inline">\(t(x_{n+1}) = 0\)</span> ergibt sich nun die Iterationsvorschrift des Newtonverfahrens: <span class="math display">\[
 x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
 \]</span></p>
 <div id="exr-NewtonFirstTry" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 1.4 (Das Newtonverfahren programmieren) </strong></span><br></p>
-<p>Schreibe ein Programm, das mit Hilfe des Newtonverfahrens eine Nullstelle der Funktion <span class="math inline">\(f(x) = \frac{1}{31} x^3 -\frac{1}{20} x^2 -x + 1\)</span> berechnet. Verwende den Startwert <span class="math inline">\(x_0 = -2\)</span>. Du kannst abbrechen, wenn die Differenz <span class="math inline">\(|x_{n+1} - x_n|\)</span> kleiner als eine bestimmte Toleranz wird, u.B. kleiner als <code>tol = 1e-6</code>. Wie flexibel ist dein Programm einsetzbar? Überlege dir z.B., wie viele Änderungen du vornehmen müsstest, wenn du die Nullstelle einer anderen Funktion berechnen müsstest.</p>
+<p>Schreibe ein Programm, das mit Hilfe des Newtonverfahrens eine Nullstelle der Funktion <span class="math inline">\(f(x) = \frac{1}{31} x^3 -\frac{1}{20} x^2 -x + 1\)</span> berechnet. Verwende den Startwert <span class="math inline">\(x_0 = -2\)</span>. Du kannst abbrechen, wenn die Differenz <span class="math inline">\(|x_{n+1} - x_n|\)</span> kleiner als eine bestimmte Toleranz wird, z.B. kleiner als <code>tol = 1e-6</code>. Wie flexibel ist dein Programm einsetzbar? Überlege dir z.B., wie viele Änderungen du vornehmen müsstest, wenn du die Nullstelle einer anderen Funktion berechnen müsstest.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -755,7 +768,7 @@ Lösung
 <div class="callout-body-container callout-body">
 <p>Welche der folgenden Lösungsvorschläge kommt deinem Programm am nächsten?</p>
 <div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Newton als main-Programm (1)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Newton als main-Programm (2)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Newton als Funktion (1)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-4" role="tab" aria-controls="tabset-2-4" aria-selected="false">Newton als Funktion (2)</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Version 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Version 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Version 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-4" role="tab" aria-controls="tabset-2-4" aria-selected="false">Version 4</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell" data-execution_count="9">
@@ -784,8 +797,8 @@ Lösung
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fdot(x):</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">3</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span> <span class="op">*</span> x <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> <span class="dv">3</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span> <span class="op">*</span> x <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ydot</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span></span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-6</span></span>
@@ -819,8 +832,8 @@ Lösung
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fdot(x):</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">3</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span> <span class="op">*</span> x <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> <span class="dv">3</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span> <span class="op">*</span> x <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ydot</span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span></span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>xbar <span class="op">=</span> newton(f, fdot, x0)</span>
@@ -829,7 +842,7 @@ Lösung
 <pre><code>5.908619865450271</code></pre>
 </div>
 </div>
-<p>Das Newtonverfahren wird als eigene Funktion implementiert, der die Funktion <span class="math inline">\(f\)</span> und ihre Ableitung <span class="math inline">\(f'\)</span>, sowie der Startwert <span class="math inline">\(x_0\)</span> als Argumente übergeben werden. Diese Funktion kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.</p>
+<p>Das Newtonverfahren wird als eigene Funktion <code>newton(f, fdot, x0)</code> implementiert. Dieser werden die Funktion <span class="math inline">\(f\)</span> und ihre Ableitung <span class="math inline">\(f'\)</span>, sowie der Startwert <span class="math inline">\(x_0\)</span> als Argumente übergeben werden. Sie kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.</p>
 </div>
 <div id="tabset-2-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-4-tab">
 <div class="cell" data-execution_count="12">
@@ -859,22 +872,124 @@ Lösung
 <pre><code>5.90861986545027</code></pre>
 </div>
 </div>
-<p>Hier wird das Newtonverfahren in einer Funktion implementiert. Die Ableitung wird nicht mehr von Hand berechnet, sondern innerhalb der Funktion mit <span class="math inline">\(f'(x_0)\approx \frac{f(x_0 + h) - f(x_0)}{h}\)</span> angenähert. Dabei wird einfach <code>h = 1e-6</code> gesetzt und gehofft, dass der entstehende Rundungsfehler klein genug ist.</p>
+<p>Hier wird das Newtonverfahren in einer Funktion implementiert. Die Ableitung wird nicht mehr von Hand berechnet, sondern innerhalb der Funktion mit <span class="math inline">\(f'(x_0)\approx \frac{f(x_0 + h) - f(x_0)}{h}\)</span> angenähert. Dabei wird einfach <code>h = 1e-6</code> gesetzt und gehofft, dass der entstehende Rundungsfehler klein genug ist. Beachte aber, dass sich der berechnete Wert von der Ausgabe in den anderen Versionen leicht unterscheidet.</p>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="page-columns page-full"><p>Auch die letzte vorgestellte Lösung ist noch nicht befriedigend. Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion <code>fdot</code> and der Stelle <code>x0</code> ausgewertet werden, um den (bis auf Maschinengenauigkeit) <em>exakten</em> Wert von <span class="math inline">\(f'(x_0)\)</span> zu erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut genug war<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, so haben wir doch keine Garantie, dass wir für alle Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung von <span class="math inline">\(f'(x_0)\)</span> auftreten, wird in <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a> näher eingegangen.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Das Newton-Verfahren hat die angenehme Eigenschaft, dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere numerische Verfahren, die die Ableitung verwenden, trifft dies aber nicht zu.</p></li></div></div>
+<div class="page-columns page-full"><p>Auch die Version 4 der vorgestellten Lösung ist noch nicht befriedigend. Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion <code>fdot</code> and der Stelle <code>x0</code> ausgewertet werden, um den (bis auf Maschinengenauigkeit) <em>exakten</em> Wert von <span class="math inline">\(f'(x_0)\)</span> zu erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut genug war<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, so haben wir doch keine Garantie, dass wir für alle Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung von <span class="math inline">\(f'(x_0)\)</span> auftreten, wird in <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a> näher eingegangen.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Das Newton-Verfahren hat die angenehme Eigenschaft, dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere numerische Verfahren, die die Ableitung verwenden, trifft dies aber nicht zu.</p></li></div></div>
+<div id="exm-Billard" class="theorem example page-columns page-full">
+<p><span class="theorem-title"><strong>Beispiel 1.1 (Billard auf einem runden Tisch) </strong></span><br></p>
+<p>Wir betrachten ein Beispiel aus <span class="citation" data-cites="Gander2015">Gander (<a href="references.html#ref-Gander2015" role="doc-biblioref">2015</a>)</span>. Platziere die weisse und die blaue Billardkugel auf dem runden Tisch. Das Ziel ist es, die weisse Kugel so anzustossen, dass sie die blaue Kugel trifft, nachdem sie vorher genau einmal an die Bande gespielt wurde.</p>
+<div class="fig-CircularBillardBasic">
+<iframe scrolling="no" title="Billard" src="https://www.geogebra.org/material/iframe/id/zz2y2use/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/false/ctl/false" width="700px" height="500px" style="border:0px;">
+</iframe>
+</div>
+<p>Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der <span class="math inline">\(x\)</span>-Achse liegt. Die blaue Kugel habe die Koordinaten <span class="math inline">\((x_P|y_P)\)</span>. Weiter sei <span class="math inline">\(X\)</span> der auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten <span class="math inline">\(X=(\cos(x)|\sin(x))\)</span>. Unser Ziel ist es, <span class="math inline">\(x\)</span> so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei <span class="math inline">\(X\)</span> an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in <span class="math inline">\(X\)</span> reflektiert wird. Der Tangentenvektor im Punkt <span class="math inline">\(X\)</span> lautet <span class="math inline">\(\vec{r} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}\)</span>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="CircularBillard_sketch.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Billard auf einem runden Tisch</figcaption><p></p>
+</figure>
+</div>
+</div></div><p>Wir betrachten nun die Einheitsvektoren <span class="math inline">\(\vec{e}_Q\)</span> in Richtung <span class="math inline">\(\overrightarrow{XQ}\)</span> und <span class="math inline">\(\vec{e}_P\)</span> in Richtung <span class="math inline">\(\overrightarrow{XP}\)</span>. Wenn die weisse Kugel die blaue treffen soll, dann müssen die Winkel zwischen der Tangente und diesen Vektoren gleich sein. Das ist genau dann der Fall, wenn <span class="math inline">\(\vec{r}\)</span> senkrecht steht auf <span class="math inline">\(\vec{e}_Q + \vec{e}_P\)</span>. Wir müssen also <span class="math inline">\(x\)</span> so bestimmen, dass <span class="math inline">\(\vec{r} \cdot (\vec{e}_Q + \vec{e}_P) = 0\)</span> ist.</p>
+<p>Das folgende Programm berechnet das Skalarprodukt dieser beiden Vektoren.</p>
+<div class="cell" data-execution_count="13">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameter</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> <span class="op">-</span><span class="fl">0.8</span>           <span class="co"># Position von Q = (a|0)</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    px, py <span class="op">=</span> <span class="fl">0.6</span>, <span class="fl">0.7</span>  <span class="co"># Position von P = (px|py)</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Berechnung des Skalarprodukts</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> math.cos(v0)  <span class="co"># x-Koordinate von X</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> math.sin(v0)  <span class="co"># y-Koordinate von X</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> px <span class="op">-</span> v1       <span class="co"># x-Komponente des Vektors XP</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    v4 <span class="op">=</span> py <span class="op">-</span> v2       <span class="co"># y-Komponente des Vektors XP</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    v5 <span class="op">=</span> math.sqrt(v3<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> v4<span class="op">**</span><span class="dv">2</span>)  <span class="co"># Länge des Vektors XP</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    v6 <span class="op">=</span> v3 <span class="op">/</span> v5       <span class="co"># x-Komponente des Einheitsvektors eP</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    v7 <span class="op">=</span> v4 <span class="op">/</span> v5       <span class="co"># y-Komponente des Einheitsvektors eP</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    v8 <span class="op">=</span> a <span class="op">-</span> v1        <span class="co"># x-Komponente des Vektors XQ</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    v9 <span class="op">=</span> <span class="op">-</span>v2           <span class="co"># y-Komponente des Vektors XQ</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    v10 <span class="op">=</span> math.sqrt(v8<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> v9<span class="op">**</span><span class="dv">2</span>)  <span class="co"># Länge des Vektors XQ</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    v11 <span class="op">=</span> v8 <span class="op">/</span> v10     <span class="co"># x-Komponente des Vektors eQ    </span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    v12 <span class="op">=</span> v9 <span class="op">/</span> v10     <span class="co"># y-Komponente des Vektors eQ   </span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> (v6 <span class="op">+</span> v11) <span class="op">*</span> v2 <span class="op">-</span> (v7 <span class="op">+</span> v12) <span class="op">*</span> v1</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y   </span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Graph der Funktion f(x) plotten</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>ax.set_xlim((<span class="dv">0</span>,<span class="dv">2</span><span class="op">*</span>math.pi))</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>ax.set_ylim((<span class="op">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>))</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>math.pi <span class="op">*</span> k <span class="op">/</span> <span class="dv">1000</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1001</span>)]</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> [f(x) <span class="cf">for</span> x <span class="kw">in</span> X]</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>math.pi], [<span class="dv">0</span>, <span class="dv">0</span>], <span class="st">'k--'</span>) <span class="co"># x-Achse</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>plt.plot(X,Y)</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, math.pi<span class="op">/</span><span class="dv">2</span>, math.pi, <span class="dv">3</span><span class="op">*</span>math.pi<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span><span class="op">*</span>math.pi],</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'0'</span>, <span class="st">'π/2'</span>, <span class="st">'π'</span>, <span class="st">'3π/2'</span>, <span class="st">'2π'</span>])</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>plt.show()  </span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-graphofbillard" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="intro_files/figure-html/fig-graphofbillard-output-1.png" width="590" height="409" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;1.3: Graph des Skalarprodukts als Funktion des Polarwinkels <span class="math inline">\(x\)</span>.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
 </section>
 <section id="gradient-descent-zum-auffinden-lokaler-minima" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="gradient-descent-zum-auffinden-lokaler-minima"><span class="header-section-number">1.3.2</span> Gradient Descent zum Auffinden lokaler Minima</h3>
+<p>Eine weitere wichtige Aufgabe besteht darin, ein Minimum einer Funktion zu finden. Auch hier wollen wir mit Hilfe der Ableitung eine Folge von Näherungswerten <span class="math inline">\(x_0, x_1, x_2, \ldots\)</span> finden, deren Grenzwert die <span class="math inline">\(x\)</span>-Koordinate eines (lokalen) Minimums von <span class="math inline">\(f\)</span> ist.</p>
+<p>Wenn <span class="math inline">\(f'(x_n)&gt;0\)</span> ist, dann wissen wir, dass die Funktion <span class="math inline">\(f\)</span> an der Stelle <span class="math inline">\(x_0\)</span> streng monoton wachsend ist. D.h., dass die Funktionswerte links von <span class="math inline">\(x_n\)</span> kleiner sind, als an der Stelle <span class="math inline">\(x_n\)</span>. Analog gilt, dass wenn <span class="math inline">\(f'(x_n)&lt;0\)</span> ist, die Funktion monoton fallend ist und wir uns nach rechts bewegen sollten, um ein Minimum zu finden. In der Nähe eines Minimums ist ausserdem <span class="math inline">\(|f'(x)|\)</span> sehr klein und wir können entsprechend kleinere Schritte machen, um uns diesem anzunähern. Um also von <span class="math inline">\(x_n\)</span> zu <span class="math inline">\(x_{n+1}\)</span> zu kommen, machen wir einen Schritt, der proportional zu <span class="math inline">\(-f'(x_n)\)</span> ist. Mit dem Proporionalitätsfaktor <span class="math inline">\(\lambda\in\mathbb{R}\)</span> und einem geeignet gewählten Startwert <span class="math inline">\(x_0\)</span> erhalten wir die Iterationsvorschrift <span class="math display">\[
+x_{n+1} = x_n - \lambda\cdot f'(x_n)
+\]</span></p>
+<div class="fig-GradientDescentGeoGebra1D">
+<iframe scrolling="no" title="Gradient Descent Verfahren" src="https://www.geogebra.org/material/iframe/id/xnjdmuqr/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
+</iframe>
+</div>
+<div id="exr-GradientDescentBasicProperties" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 1.5 (Eigenschaften der Gradient Descent Methode) </strong></span><br> Experimentiere mit verschiedenen Funktionen und verschiedenen Schrittweiten <span class="math inline">\(\lambda\)</span>. Was passiert, wenn die Schrittweite zu klein bzw. zu gross gewählt wird? Was passiert, wenn <span class="math inline">\(f\)</span> an der Stelle <span class="math inline">\(x_0\)</span> ein lokales Maximum aufweist? Was passiert in der Nähe eines Sattelpunktes?</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ist <span class="math inline">\(\lambda\)</span> zu klein, dann konvergiert das Verfahren nur sehr langsam. Ist <span class="math inline">\(\lambda\)</span> dagegen zu gross, dann kann es passieren, dass die Iteration zwischen zwei oder mehr Werten hin- und herspringt oder sogar nach <span class="math inline">\(\pm\infty\)</span> divergiert.</p>
+<p>Falls <span class="math inline">\(x_0\)</span> gerade mit der Stelle eines lokalen Maximums oder eines Sattelpunktes zusammenfällt, gilt auch <span class="math inline">\(f'(x_0)=0\)</span> und damit auch <span class="math inline">\(x_n = x_0\)</span> für alle <span class="math inline">\(n\in\mathbb{N}\)</span>. Maxima sind aber labile Gleichgewichtspunkte in dem Sinn, dass sich <span class="math inline">\(x_n\)</span> von ihnen wegbewegt, wenn <span class="math inline">\(x_0\)</span> auch nur ein bisschen links oder rechts davon liegt. Ähnlich verhält es sich bei Sattelpunkten. Die Folge konvergiert gegen die Stelle des Sattelpunktes, wenn <span class="math inline">\(f(x_0)\)</span> grösser als der <span class="math inline">\(y\)</span>-Wert des Sattelpunktes ist und <span class="math inline">\(\lambda\)</span> nicht zu gross ist.</p>
+</div>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
 <div id="ref-Arens2022" class="csl-entry" role="doc-biblioentry">
 Arens, Tilo, Frank Hettlich, Christian Karpfinger, Ulrich Kockelkorn, Klaus Lichtenegger, und Hellmuth Stachel. 2022. <em>Mathematik</em>. Berlin, Heidelberg: Springer Berlin Heidelberg.
+</div>
+<div id="ref-Gander2015" class="csl-entry" role="doc-biblioentry">
+Gander, Walter. 2015. <em>Learning <span>MATLAB</span>: A Problem Solving Approach</em>. 1. Aufl. UNITEXT. Cham, Switzerland: Springer International Publishing.
 </div>
 <div id="ref-Hromkovic2021" class="csl-entry" role="doc-biblioentry">
 Hromkovic, Juraj, Jarka Arnold, Cédric Donner, Urs Hauser, Matthias Hauswirth, Tobias Kohn, Dennis Komm, David Maletinsky, und Nicole Roth. 2021. <em><span>INFORMATIK</span>, Programmieren und Robotik: Grundlagen der Informatik f<span>ü</span>r Schweizer Maturit<span>ä</span>tsschulen</em>.
