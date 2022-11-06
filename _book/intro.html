@@ -747,12 +747,12 @@ Lösung
 <iframe scrolling="no" title="Newtonverfahren" src="https://www.geogebra.org/material/iframe/id/baja85gv/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
 </div>
-<p>Die Gleichung der Tangente im Punkt <span class="math inline">\((x_n | y_n) = (x_n | f(x_n))\)</span> ist bekanntlich <span class="math inline">\(t(x) = f(x_n) + f'(x_n) \cdot (x - x_n)\)</span>. Die Nullstelle der Tangente ist der Näherungswert <span class="math inline">\(x_{n+1}\)</span>. Aus <span class="math inline">\(t(x_{n+1}) = 0\)</span> ergibt sich nun die Iterationsvorschrift des Newtonverfahrens: <span class="math display">\[
+<p>Die Gleichung der Tangente im Punkt <span class="math inline">\((x_n | y_n) = (x_n | f(x_n))\)</span> ist bekanntlich <span class="math inline">\(t(x) = f(x_n) + f'(x_n) \cdot (x - x_n)\)</span>. Die Nullstelle der Tangente ist der Näherungswert <span class="math inline">\(x_{n+1}\)</span>. Aus <span class="math inline">\(t(x_{n+1}) = 0\)</span> ergibt sich nun die Iterationsvorschrift des Newtonverfahrens: <span id="eq-newton"><span class="math display">\[
 x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
-\]</span></p>
+\tag{1.1}\]</span></span></p>
 <div id="exr-NewtonFirstTry" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 1.4 (Das Newtonverfahren programmieren) </strong></span><br></p>
-<p>Schreibe ein Programm, das mit Hilfe des Newtonverfahrens eine Nullstelle der Funktion <span class="math inline">\(f(x) = \frac{1}{31} x^3 -\frac{1}{20} x^2 -x + 1\)</span> berechnet. Verwende den Startwert <span class="math inline">\(x_0 = -2\)</span>. Du kannst abbrechen, wenn die Differenz <span class="math inline">\(|x_{n+1} - x_n|\)</span> kleiner als eine bestimmte Toleranz wird, z.B. kleiner als <code>tol = 1e-6</code>. Wie flexibel ist dein Programm einsetzbar? Überlege dir z.B., wie viele Änderungen du vornehmen müsstest, wenn du die Nullstelle einer anderen Funktion berechnen müsstest.</p>
+<p>Schreibe ein Programm, das mit Hilfe des Newtonverfahrens (<a href="#eq-newton">Gleichung&nbsp;<span>1.1</span></a>) eine Nullstelle der Funktion <span class="math inline">\(f(x) = \frac{1}{31} x^3 -\frac{1}{20} x^2 -x + 1\)</span> berechnet. Verwende den Startwert <span class="math inline">\(x_0 = -2\)</span>. Du kannst abbrechen, wenn die Differenz <span class="math inline">\(|x_{n+1} - x_n|\)</span> kleiner als eine bestimmte Toleranz wird, z.B. kleiner als <code>tol = 1e-6</code>. Wie flexibel ist dein Programm einsetzbar? Überlege dir z.B., wie viele Änderungen du vornehmen müsstest, wenn du die Nullstelle einer anderen Funktion berechnen müsstest.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -842,7 +842,7 @@ Lösung
 <pre><code>5.908619865450271</code></pre>
 </div>
 </div>
-<p>Das Newtonverfahren wird als eigene Funktion <code>newton(f, fdot, x0)</code> implementiert. Dieser werden die Funktion <span class="math inline">\(f\)</span> und ihre Ableitung <span class="math inline">\(f'\)</span>, sowie der Startwert <span class="math inline">\(x_0\)</span> als Argumente übergeben werden. Sie kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.</p>
+<p>Das Newtonverfahren wird als eigene Funktion <code>newton(f, fdot, x0)</code> implementiert. Dieser werden die Funktion <span class="math inline">\(f\)</span> und ihre Ableitung <span class="math inline">\(f'\)</span>, sowie der Startwert <span class="math inline">\(x_0\)</span> als Argumente übergeben. Sie kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.</p>
 </div>
 <div id="tabset-2-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-4-tab">
 <div class="cell" data-execution_count="12">
@@ -897,7 +897,7 @@ Lösung
 </figure>
 </div>
 </div></div><p>Wir betrachten nun die Einheitsvektoren <span class="math inline">\(\vec{e}_Q\)</span> in Richtung <span class="math inline">\(\overrightarrow{XQ}\)</span> und <span class="math inline">\(\vec{e}_P\)</span> in Richtung <span class="math inline">\(\overrightarrow{XP}\)</span>. Wenn die weisse Kugel die blaue treffen soll, dann müssen die Winkel zwischen der Tangente und diesen Vektoren gleich sein. Das ist genau dann der Fall, wenn <span class="math inline">\(\vec{r}\)</span> senkrecht steht auf <span class="math inline">\(\vec{e}_Q + \vec{e}_P\)</span>. Wir müssen also <span class="math inline">\(x\)</span> so bestimmen, dass <span class="math inline">\(\vec{r} \cdot (\vec{e}_Q + \vec{e}_P) = 0\)</span> ist.</p>
-<p>Das folgende Programm berechnet das Skalarprodukt dieser beiden Vektoren.</p>
+<p>Das folgende Programm berechnet das Skalarprodukt der linken Seite dieser Gleichung.</p>
 <div class="cell" data-execution_count="13">
 <details open="">
 <summary>Code</summary>
@@ -907,7 +907,7 @@ Lösung
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameter</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> <span class="op">-</span><span class="fl">0.8</span>           <span class="co"># Position von Q = (a|0)</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    px, py <span class="op">=</span> <span class="fl">0.6</span>, <span class="fl">0.7</span>  <span class="co"># Position von P = (px|py)</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    px, py <span class="op">=</span> <span class="fl">0.5</span>, <span class="fl">0.5</span>  <span class="co"># Position von P = (px|py)</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Berechnung des Skalarprodukts</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x</span>
@@ -944,20 +944,21 @@ Lösung
 <div id="fig-graphofbillard" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="intro_files/figure-html/fig-graphofbillard-output-1.png" width="590" height="409" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;1.3: Graph des Skalarprodukts als Funktion des Polarwinkels <span class="math inline">\(x\)</span>.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;1.3: Graph des Skalarprodukts als Funktion des Polarwinkels <span class="math inline">\(x\)</span> des Punktes <span class="math inline">\(X = (cos(x) | sin(x))\)</span>. Die Nullstellen entsprechen den Winkeln, bei denen die weisse Kugel die blaue Kugel trifft, nachdem sie genau einmal an die Bande gespielt wurde.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
+<p>Wir möchten die Nullstellen der Funktion <code>f(x)</code> mit unserer Funtion <code>newton</code> bestimmmen. Dazu müssen wir jedoch die Ableitung von <code>f</code> berechnen.</p>
 </div>
 <hr>
 </section>
 <section id="gradient-descent-zum-auffinden-lokaler-minima" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="gradient-descent-zum-auffinden-lokaler-minima"><span class="header-section-number">1.3.2</span> Gradient Descent zum Auffinden lokaler Minima</h3>
 <p>Eine weitere wichtige Aufgabe besteht darin, ein Minimum einer Funktion zu finden. Auch hier wollen wir mit Hilfe der Ableitung eine Folge von Näherungswerten <span class="math inline">\(x_0, x_1, x_2, \ldots\)</span> finden, deren Grenzwert die <span class="math inline">\(x\)</span>-Koordinate eines (lokalen) Minimums von <span class="math inline">\(f\)</span> ist.</p>
-<p>Wenn <span class="math inline">\(f'(x_n)&gt;0\)</span> ist, dann wissen wir, dass die Funktion <span class="math inline">\(f\)</span> an der Stelle <span class="math inline">\(x_0\)</span> streng monoton wachsend ist. D.h., dass die Funktionswerte links von <span class="math inline">\(x_n\)</span> kleiner sind, als an der Stelle <span class="math inline">\(x_n\)</span>. Analog gilt, dass wenn <span class="math inline">\(f'(x_n)&lt;0\)</span> ist, die Funktion monoton fallend ist und wir uns nach rechts bewegen sollten, um ein Minimum zu finden. In der Nähe eines Minimums ist ausserdem <span class="math inline">\(|f'(x)|\)</span> sehr klein und wir können entsprechend kleinere Schritte machen, um uns diesem anzunähern. Um also von <span class="math inline">\(x_n\)</span> zu <span class="math inline">\(x_{n+1}\)</span> zu kommen, machen wir einen Schritt, der proportional zu <span class="math inline">\(-f'(x_n)\)</span> ist. Mit dem Proporionalitätsfaktor <span class="math inline">\(\lambda\in\mathbb{R}\)</span> und einem geeignet gewählten Startwert <span class="math inline">\(x_0\)</span> erhalten wir die Iterationsvorschrift <span class="math display">\[
+<p>Wenn <span class="math inline">\(f'(x_n)&gt;0\)</span> ist, dann wissen wir, dass die Funktion <span class="math inline">\(f\)</span> an der Stelle <span class="math inline">\(x_0\)</span> streng monoton wachsend ist. D.h., dass die Funktionswerte links von <span class="math inline">\(x_n\)</span> kleiner sind, als an der Stelle <span class="math inline">\(x_n\)</span>. Analog gilt, dass wenn <span class="math inline">\(f'(x_n)&lt;0\)</span> ist, die Funktion monoton fallend ist und wir uns nach rechts bewegen sollten, um ein Minimum zu finden. In der Nähe eines Minimums ist ausserdem <span class="math inline">\(|f'(x)|\)</span> sehr klein und wir können entsprechend kleinere Schritte machen, um uns diesem anzunähern. Um also von <span class="math inline">\(x_n\)</span> zu <span class="math inline">\(x_{n+1}\)</span> zu kommen, machen wir einen Schritt, der proportional zu <span class="math inline">\(-f'(x_n)\)</span> ist. Mit dem Proporionalitätsfaktor <span class="math inline">\(\lambda\in\mathbb{R}\)</span> und einem geeignet gewählten Startwert <span class="math inline">\(x_0\)</span> erhalten wir die Iterationsvorschrift <span id="eq-gradientDescent"><span class="math display">\[
 x_{n+1} = x_n - \lambda\cdot f'(x_n)
-\]</span></p>
+\tag{1.2}\]</span></span></p>
 <div class="fig-GradientDescentGeoGebra1D">
 <iframe scrolling="no" title="Gradient Descent Verfahren" src="https://www.geogebra.org/material/iframe/id/xnjdmuqr/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
@@ -981,6 +982,138 @@ Lösung
 <p>Falls <span class="math inline">\(x_0\)</span> gerade mit der Stelle eines lokalen Maximums oder eines Sattelpunktes zusammenfällt, gilt auch <span class="math inline">\(f'(x_0)=0\)</span> und damit auch <span class="math inline">\(x_n = x_0\)</span> für alle <span class="math inline">\(n\in\mathbb{N}\)</span>. Maxima sind aber labile Gleichgewichtspunkte in dem Sinn, dass sich <span class="math inline">\(x_n\)</span> von ihnen wegbewegt, wenn <span class="math inline">\(x_0\)</span> auch nur ein bisschen links oder rechts davon liegt. Ähnlich verhält es sich bei Sattelpunkten. Die Folge konvergiert gegen die Stelle des Sattelpunktes, wenn <span class="math inline">\(f(x_0)\)</span> grösser als der <span class="math inline">\(y\)</span>-Wert des Sattelpunktes ist und <span class="math inline">\(\lambda\)</span> nicht zu gross ist.</p>
 </div>
 </div>
+</div>
+<div id="exr-GradientDescentFirstTry" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 1.6 (Gradient Descent programmieren) </strong></span><br></p>
+<p>Schreibe ein Programm, das mit Hilfe des Gradient Descent Verfahrens (<a href="#eq-gradientDescent">Gleichung&nbsp;<span>1.2</span></a>) ein lokales Minimums der Funktion <span class="math inline">\(f(x) = \frac{1}{16}x^4 - \frac{1}{3}x^3 + \frac{1}{8}x^2 + x + 2\)</span> berechnet. Verwende den Startwert <span class="math inline">\(x_0 = 1.5\)</span> und die Schrittweite <span class="math inline">\(\lambda = 0.5\)</span>. Du kannst abbrechen, wenn die Differenz <span class="math inline">\(|x_{n+1} - x_n|\)</span> kleiner als eine bestimmte Toleranz wird, z.B. kleiner als <code>tol = 1e-6</code>. Wie flexibel ist dein Programm einsetzbar? Überlege dir z.B., wie viele Änderungen du vornehmen müsstest, wenn du ein lokales Minimum einer anderen Funktion berechnen müsstest.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Welche der folgenden Lösungsvorschläge kommt deinem Programm am nächsten?</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Version 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Version 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">Version 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-4" role="tab" aria-controls="tabset-3-4" aria-selected="false">Version 4</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> fabs</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">1.5</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">4</span> <span class="op">*</span> x0<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> x0<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">4</span> <span class="op">*</span> x0 <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> fabs(x1<span class="op">-</span>x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x1</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">4</span> <span class="op">*</span> x0<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> x0<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">4</span> <span class="op">*</span> x0 <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x1)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3.3429230748530196</code></pre>
+</div>
+</div>
+<p>Das Gradient Descent Verfahren wird als main-Funktion (d.h. im Hauptprogramm) ausgeführt. Um das Minimum einer anderen Funktion zu bestimmen, muss ein neues Programm geschrieben werden. Die Ableitung wurde von Hand berechnet</p>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> fabs</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fdot(x):</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">4</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">4</span> <span class="op">*</span> x <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ydot</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">1.5</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> fdot(x0)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> fabs(x1<span class="op">-</span>x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x1</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> fdot(x0)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x1)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3.3429230748530196</code></pre>
+</div>
+</div>
+<p>Das Gradient Descent Verfahren wird als main-Funktion (d.h. im Hauptprogramm) ausgeführt, aber die Berechnung von <span class="math inline">\(f'\)</span> wurde in die Funktion <code>fdot(x)</code> ausgelagert. Das macht das Programm etwas flexibler. Die Ableitung wurde wieder von Hand berechnet.</p>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> fabs</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(fdot, x0, lam):</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> fdot(x0)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> fabs(x1<span class="op">-</span>x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> fdot(x0)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fdot(x):</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">4</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">4</span> <span class="op">*</span> x <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ydot</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">1.5</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>xmin <span class="op">=</span> gradient_descent(fdot, x0, lam)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xmin)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3.3429230748530196</code></pre>
+</div>
+</div>
+<p>Das Gradient Descent Verfahren wird als eigene Funktion <code>gradient_descent(fdot, x0, lam)</code> implementiert. Dieser Funktion werden die Ableitung <span class="math inline">\(f'\)</span>, der Startwert <span class="math inline">\(x_0\)</span>, sowie die Schrittweite <span class="math inline">\(\lambda\)</span> als Argumente übergeben. Sie kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.</p>
+</div>
+<div id="tabset-3-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-4-tab">
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> fabs</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(f, x0, lam):</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ableitung an der Stelle x0 annähern</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> ( f(x0 <span class="op">+</span> h) <span class="op">-</span> f(x0) ) <span class="op">/</span> h</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> ydot</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> fabs(x1<span class="op">-</span>x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        ydot <span class="op">=</span> ( f(x0 <span class="op">+</span> h) <span class="op">-</span> f(x0) ) <span class="op">/</span> h</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> ydot</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">16</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">4</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">8</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> x <span class="op">+</span> <span class="dv">2</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">1.5</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>xmin <span class="op">=</span> gradient_descent(fdot, x0, lam)</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xmin)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2.535183236464121</code></pre>
+</div>
+</div>
+<p>Das Gradient Descent Verfahren wird als eigene Funktion <code>gradient_descent(f, x0, lam)</code> implementiert. Dieser Funktion werden die ursprüngliche Funktion <span class="math inline">\(f\)</span>, der Startwert <span class="math inline">\(x_0\)</span>, sowie die Schrittweite <span class="math inline">\(\lambda\)</span> als Argumente übergeben. Die Ableitung wird nicht mehr von Hand berechnet, sondern durch den Differenzenquotienten <span class="math inline">\(f'(x_0) \approx \frac{f(x_0 + h) - f(x_0)}{h}\)</span> angenähert. Dabei wird einfach <code>h = 1e-6</code> gesetzt und gehofft, dass der entstehende Rundungsfehler klein genug ist. Offensichtlich ist diese Annahme jedoch nicht gerechtfertigt.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Die <a href="#exr-GradientDescentFirstTry">Übungsaufgabe&nbsp;<span>1.6</span></a> verdeutlicht nochmals das Problem, welches wir bereits in <a href="#exr-NewtonFirstTry">Übungsaufgabe&nbsp;<span>1.4</span></a> gesehen haben. Wir müssen für den Algorithmus die Ableitung <span class="math inline">\(f'\)</span> an mehreren Stellen auswerten. Wir möchten aber die Ableitung einerseits nicht von Hand berechnen und andererseits können wir uns auch nicht mit einer Approximation zufrieden geben.</p>
+<p>Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Descent Methode.</p>
+<div id="exm-GDApplication" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 1.2 (Titel) </strong></span><br></p>
+<p>COMING SOON: Anwendungsbeispiel für Gradient Descent</p>
+<hr>
 </div>
 
 

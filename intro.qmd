@@ -340,14 +340,14 @@ Dieser Algorithmus ist als Newtonverfahren bekannt.
 Die Gleichung der Tangente im Punkt $(x_n | y_n) = (x_n | f(x_n))$ ist bekanntlich $t(x) = f(x_n) + f'(x_n) \cdot (x - x_n)$. Die Nullstelle der Tangente ist der Näherungswert $x_{n+1}$. Aus $t(x_{n+1}) = 0$ ergibt sich nun die Iterationsvorschrift des Newtonverfahrens:
 $$
 x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
-$$
+$$ {#eq-newton}
 
 :::{#exr-NewtonFirstTry}
 
 ## Das Newtonverfahren programmieren
 <br>
 
-Schreibe ein Programm, das mit Hilfe des Newtonverfahrens eine Nullstelle der Funktion $f(x) = \frac{1}{31} x^3 -\frac{1}{20} x^2 -x + 1$ berechnet. Verwende den Startwert $x_0 = -2$. Du kannst abbrechen, wenn die Differenz $|x_{n+1} - x_n|$ kleiner als eine bestimmte Toleranz wird, z.B. kleiner als `tol = 1e-6`.
+Schreibe ein Programm, das mit Hilfe des Newtonverfahrens (@eq-newton) eine Nullstelle der Funktion $f(x) = \frac{1}{31} x^3 -\frac{1}{20} x^2 -x + 1$ berechnet. Verwende den Startwert $x_0 = -2$. Du kannst abbrechen, wenn die Differenz $|x_{n+1} - x_n|$ kleiner als eine bestimmte Toleranz wird, z.B. kleiner als `tol = 1e-6`.
 Wie flexibel ist dein Programm einsetzbar? Überlege dir z.B., wie viele Änderungen du vornehmen müsstest, wenn du die Nullstelle einer anderen Funktion berechnen müsstest. 
 
 :::
@@ -430,7 +430,7 @@ x0 = -2
 xbar = newton(f, fdot, x0)
 print(xbar)
 ```
-Das Newtonverfahren wird als eigene Funktion `newton(f, fdot, x0)` implementiert. Dieser werden die Funktion $f$ und ihre Ableitung $f'$, sowie der Startwert $x_0$ als Argumente übergeben werden. Sie kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.
+Das Newtonverfahren wird als eigene Funktion `newton(f, fdot, x0)` implementiert. Dieser werden die Funktion $f$ und ihre Ableitung $f'$, sowie der Startwert $x_0$ als Argumente übergeben. Sie kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.
 
 ## Version 4
 ```{python}
@@ -491,12 +491,12 @@ Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der
 
 Wir betrachten nun die Einheitsvektoren $\vec{e}_Q$ in Richtung $\overrightarrow{XQ}$ und $\vec{e}_P$ in Richtung $\overrightarrow{XP}$. Wenn die weisse Kugel die blaue treffen soll, dann müssen die Winkel zwischen der Tangente und diesen Vektoren gleich sein. Das ist genau dann der Fall, wenn $\vec{r}$ senkrecht steht auf $\vec{e}_Q + \vec{e}_P$. Wir müssen also $x$ so bestimmen, dass $\vec{r} \cdot (\vec{e}_Q + \vec{e}_P) = 0$ ist.
 
-Das folgende Programm berechnet das Skalarprodukt dieser beiden Vektoren.
+Das folgende Programm berechnet das Skalarprodukt der linken Seite dieser Gleichung.
 
 ```{python}
 #| code-fold: show
 #| label: fig-GraphOfBillard
-#| fig-cap: "Graph des Skalarprodukts als Funktion des Polarwinkels $x$."
+#| fig-cap: "Graph des Skalarprodukts als Funktion des Polarwinkels $x$ des Punktes $X = (cos(x) | sin(x))$. Die Nullstellen entsprechen den Winkeln, bei denen die weisse Kugel die blaue Kugel trifft, nachdem sie genau einmal an die Bande gespielt wurde."
 
 import math
 import matplotlib.pyplot as plt
@@ -504,7 +504,7 @@ import matplotlib.pyplot as plt
 def f(x):
     # Parameter
     a = -0.8           # Position von Q = (a|0)
-    px, py = 0.6, 0.7  # Position von P = (px|py)
+    px, py = 0.5, 0.5  # Position von P = (px|py)
 
     # Berechnung des Skalarprodukts
     v0 = x
@@ -538,6 +538,8 @@ plt.xticks([0, math.pi/2, math.pi, 3*math.pi/2, 2*math.pi],
 plt.show()  
 ```
 
+Wir möchten die Nullstellen der Funktion `f(x)` mit unserer Funtion `newton` bestimmmen. Dazu müssen wir jedoch die Ableitung von `f` berechnen.
+
 :::
 ---
 
@@ -550,7 +552,7 @@ Eine weitere wichtige Aufgabe besteht darin, ein Minimum einer Funktion zu finde
 Wenn $f'(x_n)>0$ ist, dann wissen wir, dass die Funktion $f$ an der Stelle $x_0$ streng monoton wachsend ist. D.h., dass die Funktionswerte links von $x_n$ kleiner sind, als an der Stelle $x_n$. Analog gilt, dass wenn $f'(x_n)<0$ ist, die Funktion monoton fallend ist und wir uns nach rechts bewegen sollten, um ein Minimum zu finden. In der Nähe eines Minimums ist ausserdem $|f'(x)|$ sehr klein und wir können entsprechend kleinere Schritte machen, um uns diesem anzunähern. Um also von $x_n$ zu $x_{n+1}$ zu kommen, machen wir einen Schritt, der proportional zu $-f'(x_n)$ ist. Mit dem Proporionalitätsfaktor $\lambda\in\mathbb{R}$ und einem geeignet gewählten Startwert $x_0$ erhalten wir die Iterationsvorschrift
 $$
 x_{n+1} = x_n - \lambda\cdot f'(x_n)
-$$
+$$ {#eq-gradientDescent}
 
 :::{.fig-GradientDescentGeoGebra1D}
 
@@ -577,4 +579,136 @@ Falls $x_0$ gerade mit der Stelle eines lokalen Maximums oder eines Sattelpunkte
 
 :::
 
+:::{#exr-GradientDescentFirstTry}
 
+## Gradient Descent programmieren
+<br>
+
+Schreibe ein Programm, das mit Hilfe des Gradient Descent Verfahrens (@eq-gradientDescent) ein lokales Minimums der Funktion $f(x) = \frac{1}{16}x^4 - \frac{1}{3}x^3 + \frac{1}{8}x^2 + x + 2$ berechnet. Verwende den Startwert $x_0 = 1.5$ und die Schrittweite $\lambda = 0.5$. Du kannst abbrechen, wenn die Differenz $|x_{n+1} - x_n|$ kleiner als eine bestimmte Toleranz wird, z.B. kleiner als `tol = 1e-6`. Wie flexibel ist dein Programm einsetzbar? Überlege dir z.B., wie viele Änderungen du vornehmen müsstest, wenn du ein lokales Minimum einer anderen Funktion berechnen müsstest. 
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+Welche der folgenden Lösungsvorschläge kommt deinem Programm am nächsten?
+
+::::{.panel-tabset}
+
+## Version 1
+```{python}
+#| eval: true
+#| code-fold: false
+
+from math import fabs
+
+x0 = 1.5
+lam = 0.5
+tol = 1e-6
+# Erster Schritt berechnen
+x1 = x0 - lam * (1/4 * x0**3 - x0**2 + 1/4 * x0 + 1)
+while fabs(x1-x0) > tol:
+    x0 = x1
+    x1 = x0 - lam * (1/4 * x0**3 - x0**2 + 1/4 * x0 + 1)
+print(x1)
+```
+Das Gradient Descent Verfahren wird als main-Funktion (d.h. im Hauptprogramm) ausgeführt. Um das Minimum einer anderen Funktion zu bestimmen, muss ein neues Programm geschrieben werden. Die Ableitung wurde von Hand berechnet
+
+## Version 2
+```{python}
+#| eval: true
+#| code-fold: false
+
+from math import fabs
+
+def fdot(x):
+    ydot = 1/4 * x**3 - x**2 + 1/4 * x + 1
+    return ydot
+
+x0 = 1.5
+lam = 0.5
+tol = 1e-6
+# Erster Schritt berechnen
+x1 = x0 - lam * fdot(x0)
+while fabs(x1-x0) > tol:
+    x0 = x1
+    x1 = x0 - lam * fdot(x0)
+print(x1)
+```
+Das Gradient Descent Verfahren wird als main-Funktion (d.h. im Hauptprogramm) ausgeführt, aber die Berechnung von $f'$ wurde in die Funktion `fdot(x)` ausgelagert. Das macht das Programm etwas flexibler. Die Ableitung wurde wieder von Hand berechnet.
+
+## Version 3
+```{python}
+#| eval: true
+#| code-fold: false
+
+from math import fabs
+
+def gradient_descent(fdot, x0, lam):
+    tol = 1e-6
+    # Erster Schritt berechnen
+    x1 = x0 - lam * fdot(x0)
+    while fabs(x1-x0) > tol:
+        x0 = x1
+        x1 = x0 - lam * fdot(x0)
+    return x1
+
+def fdot(x):
+    ydot = 1/4 * x**3 - x**2 + 1/4 * x + 1
+    return ydot
+
+x0 = 1.5
+lam = 0.5
+xmin = gradient_descent(fdot, x0, lam)
+print(xmin)
+```
+Das Gradient Descent Verfahren wird als eigene Funktion `gradient_descent(fdot, x0, lam)` implementiert. Dieser Funktion werden die Ableitung $f'$, der Startwert $x_0$, sowie die Schrittweite $\lambda$ als Argumente übergeben. Sie kann dann im Hauptprogramm aufgerufen werden. Die Ableitung wurde aber immer noch von Hand berechnet.
+
+## Version 4
+```{python}
+#| eval: true
+#| code-fold: false
+
+from math import fabs
+
+def gradient_descent(f, x0, lam):
+    tol = 1e-6
+    # Erster Schritt berechnen
+    # Ableitung an der Stelle x0 annähern
+    h = 1e-6
+    ydot = ( f(x0 + h) - f(x0) ) / h
+    x1 = x0 - lam * ydot
+    while fabs(x1-x0) > tol:
+        x0 = x1
+        ydot = ( f(x0 + h) - f(x0) ) / h
+        x1 = x0 - lam * ydot
+    return x1
+
+def f(x):
+    y = 1/16 * x**4 - 1/3 * x**3 + 1/8 * x**2 + x + 2
+    return y
+
+x0 = 1.5
+lam = 0.5
+xmin = gradient_descent(fdot, x0, lam)
+print(xmin)
+```
+Das Gradient Descent Verfahren wird als eigene Funktion `gradient_descent(f, x0, lam)` implementiert. Dieser Funktion werden die ursprüngliche Funktion $f$, der Startwert $x_0$, sowie die Schrittweite $\lambda$ als Argumente übergeben. Die Ableitung wird nicht mehr von Hand berechnet, sondern durch den Differenzenquotienten $f'(x_0) \approx \frac{f(x_0 + h) - f(x_0)}{h}$ angenähert. Dabei wird einfach `h = 1e-6` gesetzt und gehofft, dass der entstehende Rundungsfehler klein genug ist. Offensichtlich ist diese Annahme jedoch nicht gerechtfertigt.
+
+::::
+
+:::
+
+Die @exr-GradientDescentFirstTry verdeutlicht nochmals das Problem, welches wir bereits in @exr-NewtonFirstTry gesehen haben. Wir müssen für den Algorithmus die Ableitung $f'$ an mehreren Stellen auswerten. Wir möchten aber die Ableitung einerseits nicht von Hand berechnen und andererseits können wir uns auch nicht mit einer Approximation zufrieden geben.
+
+Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Descent Methode.
+
+:::{#exm-GDApplication}
+
+## Titel
+<br>
+
+COMING SOON: Anwendungsbeispiel für Gradient Descent
+---
+:::

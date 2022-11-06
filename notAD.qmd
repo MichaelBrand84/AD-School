@@ -94,4 +94,51 @@ ergab, sondern $f'(x_0)\approx 0.40999...$. Das liegt daran, dass Dezimalzahlen 
 
 
 ## AD ist nicht symbolisches Ableiten
-Computer Algebra Systeme (CAS) sind Programme zur Bearbeitung algebraischer Ausdrücke. 
+Computer Algebra Systeme (CAS) sind Programme zur Bearbeitung algebraischer Ausdrücke. Mit solchen Programmen lassen sich auch Ableitungen symbolisch bestimmen. Wie das funktioniert, wird in @Slater2022 kurz angedeutet. 
+Bekannte Beispiele für CAS sind etwa [Wolfram Alpha](https://www.wolframalpha.com/), [Maxima](https://maxima.sourceforge.io/download.html) oder [Sage](https://www.sagemath.org/). Letzteres kann man [hier](https://sagecell.sagemath.org/) auch online ausprobieren. Gib z.B. den folgenden Code ein, welcher die Ableitung der Funktion aus @exr-LoopProgToFun ableitet:
+```{}
+l(x) = x^2 + 1
+f(x) = l(l(l(x)))
+fdot = diff(f,x)
+expand(fdot)
+```
+
+:::{.callout-tip}
+
+Auf der Website kannst du rechts unter `Language` auch `Maxima` auswählen und Maxima-Code ausführen. Maxima ist in Sage integriert.
+
+:::
+
+Für Python gibt es die Bibliothek `sympy`, die ein CAS für Python zur Verfügung stellt. Damit können wir die Funktion aus @exr-LoopProgToFun direkt in Python ableiten:
+
+:::{#exm-symbDiff}
+
+## Symbolische Ableitung
+<br>
+Leite die Funktion $f(x) = l(l(l(x)))$, wobei $l(x) = x^2 + 1$ ist, an der Stelle $x_0 = 2$ ab.
+
+```{python}
+#| code-fold: show
+
+from sympy  import symbols, diff
+
+def f(x):
+    v0 = x
+    v1 = v0 ** 2 + 1
+    v2 = v1 ** 2 + 1
+    v3 = v2 ** 2 + 1
+    y = v3
+    return y
+
+x = symbols('x')
+print("f(x) =", f(x))
+
+df = diff(f(x),x)
+print("f'(x) =", df)
+
+x0 = 2
+print("f'(" + str(x0) + ") =", df.evalf(subs={x:2}))
+```
+:::
+
+Damit erhält man die (bis auf Maschinengenauigkeit) exakten Werte der Ableitungen. Der Grund, warum wir nicht auf symbolische Ausdrücke für Ableitungen zurückgreifen wollen, liegt darin, dass diese Methode bei komplizierten Funktionsausdrücken sehr ineffizient ist, insbesondere dann, wenn wir auch Ableitungen von Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ berechnen wollen.

@@ -114,7 +114,7 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
 <link href="./intro.html" rel="prev">
-<link href="./cover.png" rel="icon" type="image/png">
+<link href="./mycover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -167,7 +167,7 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./" class="sidebar-logo-link">
-      <img src="./cover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./mycover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">AutoDiff</a> 
@@ -344,10 +344,63 @@ h = 1e-11   =&gt; f'(x0) = 0.3999994779846361</code></pre>
 </section>
 <section id="ad-ist-nicht-symbolisches-ableiten" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="ad-ist-nicht-symbolisches-ableiten"><span class="header-section-number">2.2</span> AD ist nicht symbolisches Ableiten</h2>
-<p>Computer Algebra Systeme (CAS) sind Programme zur Bearbeitung algebraischer Ausdrücke.</p>
+<p>Computer Algebra Systeme (CAS) sind Programme zur Bearbeitung algebraischer Ausdrücke. Mit solchen Programmen lassen sich auch Ableitungen symbolisch bestimmen. Wie das funktioniert, wird in <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span> kurz angedeutet. Bekannte Beispiele für CAS sind etwa <a href="https://www.wolframalpha.com/">Wolfram Alpha</a>, <a href="https://maxima.sourceforge.io/download.html">Maxima</a> oder <a href="https://www.sagemath.org/">Sage</a>. Letzteres kann man <a href="https://sagecell.sagemath.org/">hier</a> auch online ausprobieren. Gib z.B. den folgenden Code ein, welcher die Ableitung der Funktion aus <a href="intro.html#exr-LoopProgToFun">Übungsaufgabe&nbsp;<span>1.3</span></a> ableitet:</p>
+<pre><code>l(x) = x^2 + 1
+f(x) = l(l(l(x)))
+fdot = diff(f,x)
+expand(fdot)</code></pre>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Auf der Website kannst du rechts unter <code>Language</code> auch <code>Maxima</code> auswählen und Maxima-Code ausführen. Maxima ist in Sage integriert.</p>
+</div>
+</div>
+<p>Für Python gibt es die Bibliothek <code>sympy</code>, die ein CAS für Python zur Verfügung stellt. Damit können wir die Funktion aus <a href="intro.html#exr-LoopProgToFun">Übungsaufgabe&nbsp;<span>1.3</span></a> direkt in Python ableiten:</p>
+<div id="exm-symbDiff" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 2.2 (Symbolische Ableitung) </strong></span><br> Leite die Funktion <span class="math inline">\(f(x) = l(l(l(x)))\)</span>, wobei <span class="math inline">\(l(x) = x^2 + 1\)</span> ist, an der Stelle <span class="math inline">\(x_0 = 2\)</span> ab.</p>
+<div class="cell" data-execution_count="4">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy  <span class="im">import</span> symbols, diff</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> v0 <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> v1 <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> v2 <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v3</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> symbols(<span class="st">'x'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"f(x) ="</span>, f(x))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> diff(f(x),x)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"f'(x) ="</span>, df)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"f'("</span> <span class="op">+</span> <span class="bu">str</span>(x0) <span class="op">+</span> <span class="st">") ="</span>, df.evalf(subs<span class="op">=</span>{x:<span class="dv">2</span>}))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>f(x) = ((x**2 + 1)**2 + 1)**2 + 1
+f'(x) = 8*x*(x**2 + 1)*((x**2 + 1)**2 + 1)
+f'(2) = 2080.00000000000</code></pre>
+</div>
+</div>
+</div>
+<p>Damit erhält man die (bis auf Maschinengenauigkeit) exakten Werte der Ableitungen. Der Grund, warum wir nicht auf symbolische Ausdrücke für Ableitungen zurückgreifen wollen, liegt darin, dass diese Methode bei komplizierten Funktionsausdrücken sehr ineffizient ist, insbesondere dann, wenn wir auch Ableitungen von Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> berechnen wollen.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-Slater2022" class="csl-entry" role="doc-biblioentry">
+Slater, Max. 2022. <span>„Differentiable programming from scratch“</span>. Juli 2022. <a href="https://thenumb.at/Autodiff/">https://thenumb.at/Autodiff/</a>.
+</div>
 <div id="ref-Weitz2021" class="csl-entry" role="doc-biblioentry">
 Weitz, Edmund. 2021. <em>Konkrete Mathematik (nicht nur) f<span>ü</span>r Informatiker</em>. 2. Aufl. Wiesbaden, Germany: Springer Spektrum.
 </div>

@@ -10,10 +10,9 @@ book:
   subtitle: "Eine Einführung in algorithmisches Ableiten"
   author: "Michael Brand"
   date: "19/10/2022"
-#  cover-image: cover.png  # needs to be replaced
-  favicon: cover.png      # needs to be replaced
+  favicon: mycover.png      
   sidebar: 
-    logo: cover.png
+    logo: mycover.png
   page-navigation: true
   search: true
   downloads: [pdf]
@@ -41,7 +40,3 @@ format:
     documentclass: scrreprt
     lang: de
     number-depth: 3
-    
-
-
-
