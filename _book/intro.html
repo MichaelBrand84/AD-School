@@ -200,7 +200,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmischen Differentiation</span></a>
+  <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -221,7 +221,7 @@ div.csl-indent {
   <li><a href="#sec-ProgFunc" id="toc-sec-ProgFunc" class="nav-link" data-scroll-target="#sec-ProgFunc"><span class="toc-section-number">1.2</span>  Programme als Funktionen</a></li>
   <li><a href="#unser-ziel-programme-ableiten" id="toc-unser-ziel-programme-ableiten" class="nav-link" data-scroll-target="#unser-ziel-programme-ableiten"><span class="toc-section-number">1.3</span>  Unser Ziel: Programme ableiten</a>
   <ul class="collapse">
-  <li><a href="#das-newtonverfahren-zur-berechnung-von-nullstellen" id="toc-das-newtonverfahren-zur-berechnung-von-nullstellen" class="nav-link" data-scroll-target="#das-newtonverfahren-zur-berechnung-von-nullstellen"><span class="toc-section-number">1.3.1</span>  Das Newtonverfahren zur Berechnung von Nullstellen</a></li>
+  <li><a href="#sec-Newtonverfahren1D" id="toc-sec-Newtonverfahren1D" class="nav-link" data-scroll-target="#sec-Newtonverfahren1D"><span class="toc-section-number">1.3.1</span>  Das Newtonverfahren zur Berechnung von Nullstellen</a></li>
   <li><a href="#gradient-descent-zum-auffinden-lokaler-minima" id="toc-gradient-descent-zum-auffinden-lokaler-minima" class="nav-link" data-scroll-target="#gradient-descent-zum-auffinden-lokaler-minima"><span class="toc-section-number">1.3.2</span>  Gradient Descent zum Auffinden lokaler Minima</a></li>
   </ul></li>
   </ul>
@@ -739,8 +739,8 @@ Lösung
 <h2 data-number="1.3" class="anchored" data-anchor-id="unser-ziel-programme-ableiten"><span class="header-section-number">1.3</span> Unser Ziel: Programme ableiten</h2>
 <p>Wie eingangs erwähnt wurde, haben Ableitungen viele nützliche Anwendungen.</p>
 <p>COMING SOON: Idee Programm als Funktion ableiten, Namensgebung AD, möglichst exakte Werte gesucht, nicht von Hand ableiten weil letztes Bsp zeigt, dass Funktionsausdrücke schnell sehr gross werden können.</p>
-<section id="das-newtonverfahren-zur-berechnung-von-nullstellen" class="level3 page-columns page-full" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="das-newtonverfahren-zur-berechnung-von-nullstellen"><span class="header-section-number">1.3.1</span> Das Newtonverfahren zur Berechnung von Nullstellen</h3>
+<section id="sec-Newtonverfahren1D" class="level3 page-columns page-full" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="sec-Newtonverfahren1D"><span class="header-section-number">1.3.1</span> Das Newtonverfahren zur Berechnung von Nullstellen</h3>
 <p>In vielen Anwendungen steht man vor der Aufgabe, die Gleichung <span class="math inline">\(f(x) = 0\)</span> nach <span class="math inline">\(x\)</span> aufzulösen, d.h. eine Nullstelle <span class="math inline">\(\bar{x}\)</span> der Funktion zu finden. Oft ist es aber nicht möglich, die Lösung einer solchen Gleichung in geschlossener Form darzustellen. Um dennoch eine Lösung zumindest näherungsweise berechnen zu können, kann man folgendermassen vorgehen:</p>
 <ol type="1">
 <li>Wähle einen Startwert <span class="math inline">\(x_0\)</span>, der in der Nähe einer Nullstelle <span class="math inline">\(\bar{x}\)</span> von <span class="math inline">\(f\)</span> liegt.</li>
@@ -830,7 +830,7 @@ Lösung
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> f(x0) <span class="op">/</span> fdot(x0)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(x1)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">20</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> x <span class="op">+</span> <span class="dv">1</span></span>
@@ -864,7 +864,7 @@ Lösung
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        ydot <span class="op">=</span> ( f(x0 <span class="op">+</span> h) <span class="op">-</span> f(x0) ) <span class="op">/</span> h</span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> f(x0) <span class="op">/</span> ydot</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(x1)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">31</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span><span class="dv">20</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> x <span class="op">+</span> <span class="dv">1</span></span>

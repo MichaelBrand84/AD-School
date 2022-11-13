@@ -321,7 +321,7 @@ Wie eingangs erwähnt wurde, haben Ableitungen viele nützliche Anwendungen.
 COMING SOON: Idee Programm als Funktion ableiten, Namensgebung AD, möglichst exakte Werte gesucht, nicht von Hand ableiten weil letztes Bsp zeigt, dass Funktionsausdrücke schnell sehr gross werden können.
 
 
-### Das Newtonverfahren zur Berechnung von Nullstellen
+### Das Newtonverfahren zur Berechnung von Nullstellen  {#sec-Newtonverfahren1D}
 
 In vielen Anwendungen steht man vor der Aufgabe, die Gleichung $f(x) = 0$ nach $x$ aufzulösen, d.h. eine Nullstelle $\bar{x}$ der Funktion zu finden. Oft ist es aber nicht möglich, die Lösung einer solchen Gleichung in geschlossener Form darzustellen. Um dennoch eine Lösung zumindest näherungsweise berechnen zu können, kann man folgendermassen vorgehen:
 
@@ -416,7 +416,7 @@ def newton(f, fdot, x0):
     while fabs(x1 - x0) > tol:
         x0 = x1
         x1 = x0 - f(x0) / fdot(x0)
-    return(x1)
+    return x1
 
 def f(x):
     y = 1/31 * x**3 - 1/20 * x**2 - x + 1
@@ -449,7 +449,7 @@ def newton(f, x0):
         x0 = x1
         ydot = ( f(x0 + h) - f(x0) ) / h
         x1 = x0 - f(x0) / ydot
-    return(x1)
+    return x1
 
 def f(x):
     y = 1/31 * x**3 - 1/20 * x**2 - x + 1
