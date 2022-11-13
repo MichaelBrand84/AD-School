@@ -21,7 +21,9 @@ book:
     - index.qmd
     - intro.qmd
     - notAD.qmd
+    - ADOneDimManually.qmd
     - references.qmd
+    
 
 bibliography: references.bib
 

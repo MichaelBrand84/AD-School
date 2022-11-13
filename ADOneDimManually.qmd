@@ -1,0 +1,300 @@
+# Standard Algorithmischen Differentiation
+
+In @sec-ADisnot haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwachstellen haben. Während die nuemrische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:
+
+> "AD as a technical term refers to a specific family of techniques that compute derivatives trhough accumulation of values during code execution to generate numerical derivative evaluations rather than derivative expressions. This allows accurate evaluation of derivatives at machine precision with only a small constant factor of overhead and ideal asymptotic efficiency." (@Baydin18, S. 2)
+
+In diesem Kapitel lernen wir die *Standard Algorithmische Differentiation* (SAD, auch Vvorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten "family of techniques" ist. Wir beschränken uns zunächst wieder auf Funktionen $f : \mathbb{R} \rightarrow \mathbb{R}$ und werden dies später auf Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ erweitern. Neben der Standard-AD gibt es noch die *Adjungierte Algorithmische Differentiation* (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für solche Funktionen in höherdimensionalen Räumen. 
+
+Gemäss unserer Konvention in @sec-ProgFunc berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, die wir jeweils einer Variablen `v` zuordnen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen `vdot` einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein `v` berechnet, um die Berechnung des zugehörigen `vdot` erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Kapitel werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:
+
+> "There are as many shades of AD as there are AD users. [This chapter] provides to the user the black and the white; it is up to him to get the correct shade of grey that fits his taste and his requirements." (@Henrard2017ADi, S. 18)
+
+## Manuelle Implementation der SAD
+
+Beginnen wir mit einem Beispiel:
+
+Wir möchten den Funktionswert und die Ableitung der Funktion $y=f(x)=\sin(x^2)$ an der Stelle $x_0=\frac{\pi}{2}$ bestimmen. Das folgende Programm berechnet den Funktionswert.
+```{python}
+#| code-fold: show
+import math
+
+def f(x):
+    v0 = x
+    v1 = v0**2
+    v2 = math.sin(v1)
+    y = v2
+    return y
+
+x0 = math.pi / 2
+print(f(x0))
+```
+
+$f$ ist eine zusammengesetzte Funktion, die wir mit den Funktionen
+$$
+\begin{flalign}
+    v_0(x)   &= x \\
+    v_1(v_0) &= v_0 ^2 \\
+    v_2(v_1) &= \sin(v_1)
+\end{flalign}
+$$
+schreiben können als $y=f(x)=v_2(v_1(v_0(x)))$. Die Ableitung berechnet sich dann mit der Kettenregel zu
+$$
+f'(x) = \frac{dv_2}{dv_1} \cdot \frac{dv_1}{dv_0} \cdot \frac{dv_0}{dx} = \cos(v_1)\cdot 2v_0 \cdot 1 = \cos(x^2) \cdot 2x \cdot 1
+$$
+Wir können also die Ableitung von `f(x)` berechnen, indem wir jede Zeile des Programms gemäss den bekannten Regeln ableiten:
+```
+v0dot = 1
+v1dot = 2 * v0 * v0dot
+v2dot = math.cos(v1) * v1dot
+```
+Man beachte, dass durch die Konvention, dass immer `v0 = x` gesetzt wird, auch immer `v0dot = 1` ist. Nun können wir unsere Funktion so ergänzen, dass nicht nur der Funktionswert, sondern auch die Ableitung an der Stelle $x_0$ berechnet wird:
+```{python}
+#| code-fold: show
+import math
+
+def f(x):
+    v0dot = 1
+    v0 = x
+    v1dot = 2 * v0 * v0dot
+    v1 = v0**2
+    v2dot = math.cos(v1) * v1dot
+    v2 = math.sin(v1)
+    ydot = v2dot
+    y = v2
+    return [y, ydot]
+
+x0 = math.pi / 2
+print(f(x0))
+```
+Die Korrektheit des Programms können wir mit GeoGebra überprüfen, welches Ableitungen symbolisch berechnet.
+
+:::{.fig-AbleitungenTesten}
+
+<iframe scrolling="no" title="Ableitungen berechnen" src="https://www.geogebra.org/material/iframe/id/nghnrzye/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;"> </iframe>
+
+:::
+
+Beachte, dass wir konsequent die Kettenregel verwendet haben. So wird aus `v1 = v0**2` etwa `v1dot = 2 * v0 * v0dot` oder aus `v2 = sin(v1)` wird `v2dot = cos(v1) * v1dot`. 
+
+:::{#exr-ErstesADBspErweitern}
+
+## Programm ableiten
+<br>
+
+Ändere das vorherige Programm so ab, dass der Funktionswert und die Ableitung der Funktion $y = f(x) = \ln(\sin(x^2))$ berechnet wird. Überprüfe deine Lösung mit GeoGebra.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+Es müssen lediglich zwei weitere Zeilen eingefügt werden und zwar für die Berechnung von `v3` und `v3dot`. Vergiss nicht, die richtigen Werte zurückzugeben.
+
+```{python}
+import math
+
+def f(x):
+    v0dot = 1
+    v0 = x
+    v1dot = 2 * v0 * v0dot
+    v1 = v0**2
+    v2dot = math.cos(v1) * v1dot
+    v2 = math.sin(v1)
+    v3dot = 1 / v2 * v2dot
+    v3 = math.log(v2)
+    ydot = v3dot
+    y = v3
+    return [y, ydot]
+
+x0 = math.pi / 2
+print(f(x0))
+```
+
+:::
+
+:::{.callout-important}
+
+## Konvention
+
+Ein Programm, welches gemäss der Konvention in @sec-ProgFunc geschrieben ist, wird folgendermassen abgeleitet:
+
+1. Für jede Variable `v` wird eine neue Variable `vdot` für den Wert der Ableitung definiert, angefangen bei `v0dot = 1`. 
+2. Jede Programmzeile wird gemäss den bekannten Regeln aus @tbl-DiffGrundfunktionen und @tbl-DiffRegeln abgeleitet. Dabei wird insbesondere in *jeder* Zeile die Kettenregel verwendet.
+3. Die abgeleitete Anweisung wird jeweils *vor* (!) die zu ableitende Anweisung eingeschoben.
+
+:::
+
+:::{#exr-SADProduktregel}
+
+## Produktregel
+<br>
+
+Das folgende Programm berechnet die Funktion $y = f(x) = (2+x)(x-3)$:
+```{python}
+#| eval: false
+#| code-fold: false
+def f(x):
+    v0 = x
+    v1 = 2 + v0
+    v2 = v0 - 3
+    y = v1 * v2
+    return y
+```
+Leite dieses Programm ab. Dein Programm soll die Gleichung der Tangente $t(x) = f(x_0) + f'(x_0)\cdot (x-x_0)$ an der Stelle $x_0 = 2$ ausgeben.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+```{python}
+import math
+
+def f(x):
+    v0dot = 1
+    v0 = x
+    v1dot = v0dot
+    v1 = 2 + v0
+    v2dot = v0dot
+    v2 = v0 - 3
+    ydot = v1dot * v2 + v1 * v2dot # Produktregel
+    y = v1 * v2
+    return [y, ydot]
+
+x0 = 2
+[y0, y0dot] = f(x0)
+print("t(x) =", y0, "+", y0dot, "* ( x -", x0, ")")
+```
+
+:::
+
+:::{#exr-SAD1}
+
+## Programm ableiten
+<br>
+
+Leite die Funktion aus @exr-ProgToFun ab.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+```{python}
+import math
+
+def f(x):
+    v0dot = 1
+    v0 = x
+    v1dot = 2 * v0 * v0dot
+    v1 = v0 ** 2
+    v2dot = v1dot
+    v2 = v1 + 2
+    v3dot = -1/2 * v1dot
+    v3 = -v1 / 2
+    v4dot = -math.sin(v2) * v2dot
+    v4 = math.cos(v2)
+    v5 = math.exp(v3) * v3dot
+    v5 = math.exp(v3)
+    v6 = v4dot * v5 + v4 * v5dot
+    v6 = v4 * v5
+    ydot = v6dot - 1 / v0**2 * v0dot
+    y = v6 + 1 / v0
+    return [y, ydot]
+```
+
+:::
+
+:::{#exr-SAD2}
+
+## Programm ableiten
+<br>
+
+Leite die Funktion aus @exr-FunToGraphProg ab.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+```{python}
+import math
+
+def f(x):
+    v0dot = 1
+    v0 = x
+    v1dot = 2 * v0 * v0dot
+    v1 = v0 ** 2
+    v2dot = v1dot
+    v2 = v1 + 1
+    v3dot = v2dot + v0dot
+    v3 = v2 + v0
+    v4dot = 1 / v2 * v2dot
+    v4 = math.log(v2)
+    v5dot = 1 / (2 * math.sqrt(v3)) * v3dot
+    v5 = math.sqrt(v3)
+    ydot = (v4dot * v5 - v4 * v5dot) / v5**2
+    y = v4 / v5
+    return [y, ydot]
+```
+
+:::
+
+Bei all diesen Beispielen könnten wir auch die Reihenfolge der Anweisungen für `vdot` und `v` vertauschen, d.h. zuerst die Variable `v` berechnen und erst danach das zugehörige `vdot`. Die folgende Übung zeigt aber, warum der 3. Punkt unserer Konvention wichtig ist.
+
+:::{#exr-SADmitSchleife}
+
+## Ein Programm mit einer Schleife
+<br>
+
+Betrachte die Funktion aus @exr-LoopProgToFun, welche $\ell(x) = x^2 + 1$ die Funktion $y = f(x) = \ell(\ell(\ell(x)))$ berechnet. Aus @exm-symbDiff wissen wir, dass $f'(1) = 80$ ist. Vergleiche nun die beiden Varianten für die Ableitung des Programms:
+
+::::{.panel-tabset}
+
+## `vdot` vor `v`
+```{python}
+#| code-fold: false
+def f(x):
+    v0dot = 1
+    v0 = x
+    for i in range(3):
+        v0dot = 2 * v0 * v0dot
+        v0 = v0 ** 2 + 1
+    ydot = v0dot
+    y = v0
+    return [y, ydot]
+
+print(f(1))
+```
+
+## `v` vor `vdot`
+```{python}
+#| code-fold: false
+def f(x):
+    v0 = x
+    v0dot = 1
+    for i in range(3):
+        v0 = v0 ** 2 + 1
+        v0dot = 2 * v0 * v0dot
+    y = v0
+    ydot = v0dot
+    return [y, ydot]
+
+print(f(1))
+```
+
+::::
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+Das Problem tritt in der Schleife auf. In der 2. Variante überschreiben wir den Wert von `v0` bereits mit dem neuen Wert der Iteration. Bei der Berechnung von `v0dot` hätten wir aber noch den alten Wert gebraucht. Die Reihenfolge ist also nur in der 1. Version korrekt. Würden wir die Schleife eliminieren und dafür wie in der Lösung zu @exr-LoopProgToFun für jeden Schleifendurchgang fortlaufend numerierte Variablen für die `v` und `vdot` verwenden, dann wäre die Reihenfolge wieder egal. 
+
+:::

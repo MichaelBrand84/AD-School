@@ -1,4 +1,4 @@
-# AD ist nicht ... 
+# AD ist nicht ... {#sec-ADisnot}
 Bevor wir uns mit den konkreten Implementationen von algorithmischer Differentiation beschäftigen, wollen wir herausstellen, was AD *nicht* ist.
 
 
@@ -115,7 +115,7 @@ Für Python gibt es die Bibliothek `sympy`, die ein CAS für Python zur Verfügu
 
 ## Symbolische Ableitung
 <br>
-Leite die Funktion $f(x) = l(l(l(x)))$, wobei $l(x) = x^2 + 1$ ist, an der Stelle $x_0 = 2$ ab.
+Leite die Funktion $f(x) = l(l(l(x)))$, wobei $l(x) = x^2 + 1$ ist, an der Stelle $x_0 = 1$ ab.
 
 ```{python}
 #| code-fold: show
@@ -136,8 +136,8 @@ print("f(x) =", f(x))
 df = diff(f(x),x)
 print("f'(x) =", df)
 
-x0 = 2
-print("f'(" + str(x0) + ") =", df.evalf(subs={x:2}))
+x0 = 1
+print("f'(" + str(x0) + ") =", df.evalf(subs={x:x0}))
 ```
 :::
 

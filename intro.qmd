@@ -39,7 +39,7 @@ Neue Funktionen erhält man, indem man die Grundfunktionen aus @tbl-DiffGrundfun
 An dieser Stelle sei noch angemerkt, dass sich der Begriff der Ableitung sinngemäss auf Funktionen $f: \mathbb{R}^n \rightarrow\mathbb{R}^m$ verallgemeinern lässt. Eine kurze Beschreibung der Grundidee findet sich in @Slater2022. Weitergehende Informationen findet man z.B. in @Arens2022 oder in jedem Lehrbuch zur Analysis 2.
 
 
-## Programme als Funktionen
+## Programme als Funktionen {#sec-ProgFunc}
 
 Programme, die numerische Werte einlesen und numerische Werte ausgeben, können als mathematische Funktionen betrachtet werden. Wir beschränken uns zunächst auf Programme, die nur ein Argument erhalten und nur einen Rückgabewert liefern, z.B.
 ```{python}
