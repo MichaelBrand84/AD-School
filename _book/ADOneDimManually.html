@@ -218,7 +218,14 @@ div.csl-indent {
    
   <ul>
   <li><a href="#manuelle-implementation-der-sad" id="toc-manuelle-implementation-der-sad" class="nav-link active" data-scroll-target="#manuelle-implementation-der-sad"><span class="toc-section-number">3.1</span>  Manuelle Implementation der SAD</a></li>
-  <li><a href="#implementation-der-sad-mit-operator-overloading" id="toc-implementation-der-sad-mit-operator-overloading" class="nav-link" data-scroll-target="#implementation-der-sad-mit-operator-overloading"><span class="toc-section-number">3.2</span>  Implementation der SAD mit Operator Overloading</a></li>
+  <li><a href="#implementation-der-sad-mit-operator-overloading" id="toc-implementation-der-sad-mit-operator-overloading" class="nav-link" data-scroll-target="#implementation-der-sad-mit-operator-overloading"><span class="toc-section-number">3.2</span>  Implementation der SAD mit Operator Overloading</a>
+  <ul class="collapse">
+  <li><a href="#die-klasse-floatsad" id="toc-die-klasse-floatsad" class="nav-link" data-scroll-target="#die-klasse-floatsad"><span class="toc-section-number">3.2.1</span>  Die Klasse <code>FloatSad</code></a></li>
+  </ul></li>
+  <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="toc-section-number">3.3</span>  Vorzeichen</a>
+  <ul class="collapse">
+  <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="toc-section-number">3.3.1</span>  Die Operatoren <code>+</code> und <code>-</code></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -241,12 +248,12 @@ div.csl-indent {
 
 </header>
 
-<p>In <a href="notAD.html"><span>Kapitel&nbsp;2</span></a> haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwachstellen haben. Während die nuemrische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:</p>
+<p>In <a href="notAD.html"><span>Kapitel&nbsp;2</span></a> haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwächen haben. Während die nuemrische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:</p>
 <blockquote class="blockquote">
 <p>“AD as a technical term refers to a specific family of techniques that compute derivatives trhough accumulation of values during code execution to generate numerical derivative evaluations rather than derivative expressions. This allows accurate evaluation of derivatives at machine precision with only a small constant factor of overhead and ideal asymptotic efficiency.” (<span class="citation" data-cites="Baydin18">Baydin u.&nbsp;a. (<a href="references.html#ref-Baydin18" role="doc-biblioref">2018</a>)</span>, S. 2)</p>
 </blockquote>
-<p>In diesem Kapitel lernen wir die <em>Standard Algorithmische Differentiation</em> (SAD, auch Vvorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten “family of techniques” ist. Wir beschränken uns zunächst wieder auf Funktionen <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}\)</span> und werden dies später auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> erweitern. Neben der Standard-AD gibt es noch die <em>Adjungierte Algorithmische Differentiation</em> (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für solche Funktionen in höherdimensionalen Räumen.</p>
-<p>Gemäss unserer Konvention in <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, die wir jeweils einer Variablen <code>v</code> zuordnen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen <code>vdot</code> einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein <code>v</code> berechnet, um die Berechnung des zugehörigen <code>vdot</code> erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Kapitel werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:</p>
+<p>In diesem Kapitel lernen wir die <em>Standard Algorithmische Differentiation</em> (SAD, auch Vorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten “family of techniques” ist. Wir beschränken uns zunächst wieder auf Funktionen <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}\)</span> und werden dies später auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> erweitern. Neben der Standard-AD gibt es noch die <em>Adjungierte Algorithmische Differentiation</em> (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für Funktionen in höherdimensionalen Räumen.</p>
+<p>Gemäss unserer Konvention in <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, und die Zwischenergebnisse einer Variablen <code>v</code> zuweisen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen <code>vdot</code> einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein <code>v</code> berechnet, um die Berechnung des zugehörigen <code>vdot</code> erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Abschnitt werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:</p>
 <blockquote class="blockquote">
 <p>“There are as many shades of AD as there are AD users. [This chapter] provides to the user the black and the white; it is up to him to get the correct shade of grey that fits his taste and his requirements.” (<span class="citation" data-cites="Henrard2017ADi">Henrard (<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">2017</a>)</span>, S. 18)</p>
 </blockquote>
@@ -579,9 +586,9 @@ Lösung
 </div>
 </div>
 </div>
-<p>In der nächsten Übungsaufgabe verwenden wir die Technik der AD, um das Billardproblem aus <a href="intro.html#sec-Newtonverfahren1D"><span>Kapitel&nbsp;1.3.1</span></a> zu lösen. Da uns die Funktion <code>f(x)</code> nun nicht mehr nur der Funktionswert, sondern auch die Ableitung berechnet, können wir das Newtonverfahren ohne die Probleme aus <a href="intro.html#exr-NewtonFirstTry">Übungsaufgabe&nbsp;<span>1.4</span></a> implementieren.</p>
-<div id="exr-SADmitSchleife" class="theorem exercise">
-<p><span class="theorem-title"><strong>Übungsaufgabe 3.6 (Ein Programm mit einer Schleife) </strong></span><br></p>
+<p>In der nächsten Übungsaufgabe verwenden wir die Technik der AD, um das Billardproblem aus <a href="intro.html#sec-Newtonverfahren1D"><span>Kapitel&nbsp;1.3.1</span></a> mit dem Newtonverfahren zu lösen. Da uns die Funktion <code>f(x)</code> nun nicht mehr nur der Funktionswert, sondern auch die Ableitung berechnet, können wir das Newtonverfahren ohne die Probleme aus <a href="intro.html#exr-NewtonFirstTry">Übungsaufgabe&nbsp;<span>1.4</span></a> implementieren.</p>
+<div id="exr-BillardSADmanualSOlution" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.6 (Das Billard-Problem) </strong></span><br></p>
 <p>Leite das Programm aus <a href="intro.html#exm-Billard">Beispiel&nbsp;<span>1.1</span></a> ab. Schreibe danach eine Funktion <code>newton(f, x0)</code>, welche ausnutzt, dass der Funktionsaufruf <code>f(x0)</code> auch den exakten Wert der Ableitung zurückgibt. Stelle alle gefundenen Lösungen grafisch dar.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
@@ -696,6 +703,281 @@ Lösung
 </section>
 <section id="implementation-der-sad-mit-operator-overloading" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="implementation-der-sad-mit-operator-overloading"><span class="header-section-number">3.2</span> Implementation der SAD mit Operator Overloading</h2>
+<p>Nach dem letzten Abschnitt könnte man einwenden, dass wir die Ableitungen der Funktionen ja doch von Hand berechnet haben, denn wir haben jede Programmzeile, in der eine Variable <code>v</code> berechnet wird, um eine weitere Zeile ergänzt, in der wir <code>vdot</code> nach den bekannten Ableitungsregeln berechnet haben. Dieser Einwand ist auch berechtigt - oder wie es Henrard ausdrückt:</p>
+<blockquote class="blockquote">
+<p>“The bad news is that it [calculating the derivatives] has to be done; it will not appear magically. It is not only a figure of speech that ‘something has to be done’ but that to have it working everything has to be done”. <span class="citation" data-cites="Henrard2017ADi">(<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">Henrard 2017, 17</a>)</span></p>
+</blockquote>
+<p>Die gute Nachricht ist, dass wir diesen Prozess weiter automatisieren können. Wir kennen die Ableitungsregeln für die elementaren Operationen (<code>+,-,*,/</code>), sowie für die Grundfunktionen. In diesem Abschnitt werden wir eine Klasse <code>FloatSad</code> schreiben, deren Instanzen Funktionswerte und Werte der Ableitung speichern. Da solche Werte in der Regel vom Typ <code>float</code> sind und wir die Standard-AD implementieren, nennen wir die Klasse <code>FloatSad</code>. Die Arbeit besteht dann darin, die Ableitungsregeln richtig in den Operatoren dieser Klasse zu kodieren. Da Python <em>Operator Overloading</em> kennt, werden wir dann nach getaner Arbeit die Ableitungen wirklich ohne zusätzlichen Programmieraufwand erhalten.</p>
+<p>Der Grundstein für unsere Klasse wurde bereits im 19. Jahrhundert gelegt, wie die folgende Infobox zeigt:</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Hintergrund: Duale Zahlen
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Duale Zahlen wurden 1873 durch William Clifford eingeführt und sind ähnlich definiert, wie komplexe Zahlen. Zur Erinnerung: Eine komplexe Zahl ist eine Zahl der Form <span class="math inline">\(a + bi\)</span>,wobei <span class="math inline">\(a,b \in \mathbb{R}\)</span> sind und <span class="math inline">\(i\)</span> die Eigenschaft <span class="math inline">\(i^2 = -1\)</span> hat. Eine duale Zahl ist eine Zahl der Form <span class="math inline">\(a + a'\epsilon\)</span>, wobei wieder <span class="math inline">\(a,a' \in \mathbb{R}\)</span> gilt, aber <span class="math inline">\(\epsilon\)</span> die Eigenschaft <span class="math inline">\(\epsilon^2 = 0\)</span> hat. Nun kann man nach dem Permanenzprinzip die folgenden Operationen für duale Zahlen definieren: <span class="math display">\[
+\begin{alignat}{3}
+    &amp;\textrm{Addition:} &amp;&amp; (a+a'\epsilon) + (b+b'\epsilon) &amp;&amp;= (a+b) + (a'+b')\epsilon \\ \\
+    &amp;\textrm{Subtraktion:} &amp;&amp; (a+a'\epsilon) - (b+b'\epsilon) &amp;&amp;= (a-b) + (a'-b')\epsilon \\ \\
+    &amp;\textrm{Multiplikation:}\quad &amp;&amp; (a+a'\epsilon) \cdot (b+b'\epsilon) &amp;&amp;= ab + ab'\epsilon + a'b\epsilon + a'b'\epsilon^2 \\
+    &amp; &amp;&amp; &amp;&amp;= ab + (a'b + ab')\epsilon \\ \\
+    &amp;\textrm{Division:} &amp;&amp; (\textrm{für }b\ne 0) \quad \frac{a+a'\epsilon}{b+b'\epsilon} &amp;&amp;= \frac{(a+a'\epsilon)(b-b'\epsilon)}{(b+b'\epsilon)(b-b'\epsilon)} \\
+    &amp; &amp;&amp; &amp;&amp;= \frac{ab+a'b\epsilon-ab'\epsilon-a'b'\epsilon^2}{b^2 - (b')^2\epsilon^2} \\
+    &amp; &amp;&amp; &amp;&amp;= \frac{ab + (a'b-ab')\epsilon}{b^2} \\
+    &amp; &amp;&amp; &amp;&amp;= \frac{a}{b} + \frac{a'b - ab'}{b^2} \epsilon
+\end{alignat}
+\]</span> Wir sehen, dass der reelle Teil den Wert der Operation und der duale Teil den Wert der zugehörigen Ableitung enthält. Dies gilt auch für Potenzen, wie man unter Anwendung des binomischen Satzes sieht: <span class="math display">\[
+\begin{align}
+    (a+a'\epsilon)^n &amp;= \sum_{k=0}^n \binom n k a^{n-k} (a'\epsilon)^k  \\
+    &amp;= a^n + n \cdot a^{n-1} \cdot a'\epsilon + (\textrm{Terme mit }\epsilon^2) \\
+    &amp;= a^n + n \cdot a^{n-1} \cdot a' \epsilon
+\end{align}
+\]</span> Im dualen Teil erkennen wir die Kettenregel <span class="math inline">\((a^n)' = n\cdot a^{n-1}\cdot a'\)</span>. Damit können wir duale Zahlen auch in Polynome <span class="math inline">\(p(x) = p_0 + p_1 x + p_2 x^2 + \ldots + p_n x^n\)</span> einsetzen. Wir erhalten dann <span class="math display">\[
+\begin{align}
+    p(a+a'\epsilon) &amp;= p_0 + p_1 (a+a'\epsilon) + p_2 (a+a'\epsilon)^2 + \ldots + p_n (a+a'\epsilon)^n \\
+    &amp;= p_0 + p_1 a + p_1 a'\epsilon + p_2 a^2 + p_2 \cdot 2a a' \epsilon + ... + p_n a^n + p_n \cdot n a^{n-1} a' \epsilon \\
+    &amp;= p_0 + p_1 a + p_2 a^2 + \ldots p_n a^n + (p_1 + p_2 \cdot 2a + \ldots + p_n \cdot n a^{n-1}) \cdot a' \epsilon \\
+    &amp;= p(a) + p'(a) \cdot a'\epsilon
+\end{align}
+\]</span> Dieses Resultat lässt sich auf allgemeine Funktionen <span class="math inline">\(f\)</span> verallgemeinern (für den Beweis entwickelt man <span class="math inline">\(f\)</span> in eine Taylorreihe und macht die gleichen Überlegungen wie für ein Polynom): <span class="math display">\[
+f(a+a'\epsilon) = f(a) + f'(a)\cdot a'\epsilon
+\]</span> [<a href="https://en.wikipedia.org/wiki/Dual_number">Wikipedia: Dual number</a>]</p>
+</div>
+</div>
+</div>
+<section id="die-klasse-floatsad" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="die-klasse-floatsad"><span class="header-section-number">3.2.1</span> Die Klasse <code>FloatSad</code></h3>
+<p>Beginnen wir nun mit der Implementation unserer Klasse <code>FloatSad</code>. Analog zu den dualen Zahlen enthält jedes <code>FloatSad</code>-Objekt zwei Attribute. Das Attribut <code>value</code> speichert den Funktionswert und das Attribut <code>derivative</code> speichert den Wert der Ableitung. Im Konstruktor der Klasse setzen wir für <code>derivative</code> den Standardwert <code>1</code>. Damit können wir eine gewöhnliche <code>Float</code>-Zahl korrekt in ein <code>FloatSad</code> umwandeln. Dies wird im <code>main</code> Programm demonstriert.</p>
+<div class="cell" data-execution_count="11">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FloatSad:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, derivative <span class="op">=</span> <span class="fl">1.0</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> <span class="bu">float</span>(value)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.derivative <span class="op">=</span> derivative</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> f(x):</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        v0 <span class="op">=</span> FloatSad(x)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> v0</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    resultat <span class="op">=</span> f(x0)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Funktionswert:"</span>, resultat.value)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Ableitung:"</span>, resultat.derivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Funktionswert: 2.0
+Ableitung: 1.0</code></pre>
+</div>
+</div>
+<p>In der Funktion <code>f</code> haben wir nun unsere Konvention, dass <code>v0 = x</code> sein soll, dazu verwendet, den Zahlenwert <code>x</code> in ein <code>FloatSad</code>-Objekt umzuwandeln. Die Konvention <code>v0dot = 1</code> ist im Konstruktor kodiert. Von nun an machen wir also die folgende Konvention:</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Konvention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Eine Funktion berechnet aus einem Argument <code>x</code> vom Typ <code>float</code> oder <code>int</code> einen Rückgabewert <code>y</code> vom Typ <code>FloatSad</code> über eine Reihe von Hilfsvariablen <code>v</code>, die alle vom Typ <code>FloatSad</code> sind. Insbesondere setzen wir am Anfang immer <code>v0 = FloatSad(x)</code>.</p>
+</div>
+</div>
+<p>Das obige Programm berechnet also den Funktionswert und den Wert der Ableitung von <span class="math inline">\(f(x) = x\)</span> an der Stelle <span class="math inline">\(x_0 = 2\)</span>.</p>
+<p>Um die Ausgabe etwas einfacher zu gestalten implementieren wir als nächstes die <code>print</code> Methode für unsere Klasse. Wir geben ein <code>FloatSad</code>-Objekt einfach in der Form <code>&lt; value ; derivative &gt;</code> aus.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"&lt; "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="va">self</span>.value) <span class="op">+</span> <span class="st">" ; "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="va">self</span>.derivative) <span class="op">+</span> <span class="st">" &gt;"</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Da wir nun die Funktion <span class="math inline">\(f(x) = x\)</span> programmieren können, wollen wir als nächstes auch die Funktion <span class="math inline">\(f(x) = -x\)</span> programmieren können. Wir müssen unsere <code>FloatSad</code>-Objekte also mit Vorzeichen versehen.</p>
+</section>
+</section>
+<section id="vorzeichen" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="vorzeichen"><span class="header-section-number">3.3</span> Vorzeichen</h2>
+<p>Natürlich wollen wir nicht nur das negative Vorzeichen, sondern auch das positive Vorzeichen implementieren, damit wir in unseren Programmen z.B. <code>v1 = +v0</code> oder <code>v2 = -v0</code> schreiben können. Beim positiven Vorzeichen müssen wir nichts machen, wir geben also ein <code>FloatSad</code>-Objekt mit den gleichen Attributen zurück. Beim negativen Vorzeichen ändern beide Attribute ihr Vorzeichen.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__pos__</span>(<span class="va">self</span>):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatSad(<span class="va">self</span>.value, <span class="va">self</span>.derivative)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__neg__</span>(<span class="va">self</span>):</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> <span class="op">-</span><span class="va">self</span>.value</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="op">-</span><span class="va">self</span>.derivative</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nun gehen wir daran, die Grundoperationen für <code>FloatSad</code>-Objekte zu implementieren.</p>
+<section id="die-operatoren-und--" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="die-operatoren-und--"><span class="header-section-number">3.3.1</span> Die Operatoren <code>+</code> und <code>-</code></h3>
+<p>Wir möchten in unseren Programmen Anweisungen wie <code>v2 = v0 + v1</code> verwenden können. Gemäss der Summenregel können wir dazu einfach die Funktionswerte und auch die Werte der Ableitungen addieren.</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, other):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other.value</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> other.derivative</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nun können wir zwei <code>FloatSad</code>-Objekte miteinander addieren. Manchmal möchten wir aber auch ein <code>float</code>- oder <code>int</code>-Wert zu einem <code>FloatSad</code>-Objekt addieren, z.B. <code>v1 = v0 + 2</code>. Dazu machen wir eine Typabfrage und passen den Wert der Ableitung entsprechend der Konstanteregel an:</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, other):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> <span class="dv">0</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other.value</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> other.derivative</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Jetzt funktioniert zwar die Anweisung <code>v1 = v0 + 2</code>, aber die Anweisung <code>v1 = 2 + v0</code> erzeugt immer noch eine Fehlermeldung. Um dieses Problem zu beheben, müssen wir als nächstes den <em>reverse-add</em>-Operator implementieren.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__radd__</span>(<span class="va">self</span>, other):</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">+</span> <span class="va">self</span>.value</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="dv">0</span> <span class="op">+</span> <span class="va">self</span>.derivative</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other.value <span class="op">+</span> <span class="va">self</span>.value</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> other.derivative <span class="op">+</span> <span class="va">self</span>.derivative</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hier ist die bisher implementierte Klasse zusammen mit einem kleinen Testprogramm.</p>
+<div class="cell" data-execution_count="17">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FloatSad:</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, derivative <span class="op">=</span> <span class="fl">1.0</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> <span class="bu">float</span>(value)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.derivative <span class="op">=</span> derivative</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>):</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"&lt; "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="va">self</span>.value) <span class="op">+</span> <span class="st">" ; "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="va">self</span>.derivative) <span class="op">+</span> <span class="st">" &gt;"</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># unäre Operatoren</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__pos__</span>(<span class="va">self</span>):</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatSad(<span class="va">self</span>.value, <span class="va">self</span>.derivative)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__neg__</span>(<span class="va">self</span>):</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="op">-</span><span class="va">self</span>.value</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="op">-</span><span class="va">self</span>.derivative</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># binäre Operatoren</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, other):</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> <span class="dv">0</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other.value</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> other.derivative</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__radd__</span>(<span class="va">self</span>, other):</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> other <span class="op">+</span> <span class="va">self</span>.value</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="dv">0</span> <span class="op">+</span> <span class="va">self</span>.derivative</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> other.value <span class="op">+</span> <span class="va">self</span>.value</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> other.derivative <span class="op">+</span> <span class="va">self</span>.derivative</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> f(x):</span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>        v0 <span class="op">=</span> FloatSad(x)</span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>        v1 <span class="op">=</span> <span class="op">-</span>v0 </span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>        v2 <span class="op">=</span> <span class="dv">3</span> <span class="op">+</span> v1</span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>        v3 <span class="op">=</span> v2 <span class="op">+</span> v1</span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>        y  <span class="op">=</span> <span class="op">+</span>v3</span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>    resultat <span class="op">=</span> f(<span class="dv">2</span>)</span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(resultat)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt; -1.0 ; -2.0 &gt;</code></pre>
+</div>
+</div>
+<div id="exr-verifyFirstSADderivative" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.7 (Korrektheit überprüfen) </strong></span><br></p>
+<p>Welche Funktion berechnet <code>f</code> im <code>main</code> Programm? Stimmt die Ausgabe?</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Es handelt sich um die Funktion <span class="math inline">\(f(x) = 3 - 2x\)</span>. Die Ausgabe <span class="math inline">\(f(2) = -1, f'(2) = -2\)</span> ist also korrekt.</p>
+</div>
+</div>
+</div>
+<p>Für die nächste Übung musst du das obige Programm kopieren und in einer Datei mit dem Namen <code>floatsad.py</code> abspeichern. Speichere die Datei im gleichen Ordner wie die anderen Dateien.</p>
+<div id="exr-ImplementSub" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.8 (Den Operator <code>-</code> implementieren) </strong></span><br></p>
+<p>Implementiere auf die gleiche Weise den <code>-</code>-Operator. Die Methoden lauten <code>__sub__</code> bzw. <code>__rsub__</code>. Schreibe auch eine neue Testfunktion <code>f</code>, welche die neuen Operatoren verwenden.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-execution_count="18">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__sub__</span>(<span class="va">self</span>, other):</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">-</span> other</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">-</span> <span class="dv">0</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">-</span> other.value</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">-</span> other.derivative</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rsub__</span>(<span class="va">self</span>, other):</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">-</span> <span class="va">self</span>.value</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="dv">0</span> <span class="op">-</span> <span class="va">self</span>.derivative</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other.value <span class="op">-</span> <span class="va">self</span>.value</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> other.derivative <span class="op">-</span> <span class="va">self</span>.derivative</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -706,6 +988,7 @@ Baydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, und Jeffre
 Henrard, Marc. 2017. <em>Algorithmic Differentiation in Finance Explained</em>. Financial Engineering Explained. Cham: Palgrave Macmillan. <a href="https://doi.org/10.1007/978-3-319-53979-9">https://doi.org/10.1007/978-3-319-53979-9</a>.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->

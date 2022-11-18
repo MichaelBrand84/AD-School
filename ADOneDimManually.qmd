@@ -1,12 +1,12 @@
 # Standard Algorithmische Differentiation für eindimensionale Funktionen
 
-In @sec-ADisnot haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwachstellen haben. Während die nuemrische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:
+In @sec-ADisnot haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwächen  haben. Während die nuemrische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:
 
 > "AD as a technical term refers to a specific family of techniques that compute derivatives trhough accumulation of values during code execution to generate numerical derivative evaluations rather than derivative expressions. This allows accurate evaluation of derivatives at machine precision with only a small constant factor of overhead and ideal asymptotic efficiency." (@Baydin18, S. 2)
 
-In diesem Kapitel lernen wir die *Standard Algorithmische Differentiation* (SAD, auch Vvorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten "family of techniques" ist. Wir beschränken uns zunächst wieder auf Funktionen $f : \mathbb{R} \rightarrow \mathbb{R}$ und werden dies später auf Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ erweitern. Neben der Standard-AD gibt es noch die *Adjungierte Algorithmische Differentiation* (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für solche Funktionen in höherdimensionalen Räumen. 
+In diesem Kapitel lernen wir die *Standard Algorithmische Differentiation* (SAD, auch Vorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten "family of techniques" ist. Wir beschränken uns zunächst wieder auf Funktionen $f : \mathbb{R} \rightarrow \mathbb{R}$ und werden dies später auf Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ erweitern. Neben der Standard-AD gibt es noch die *Adjungierte Algorithmische Differentiation* (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für Funktionen in höherdimensionalen Räumen. 
 
-Gemäss unserer Konvention in @sec-ProgFunc berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, die wir jeweils einer Variablen `v` zuordnen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen `vdot` einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein `v` berechnet, um die Berechnung des zugehörigen `vdot` erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Kapitel werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:
+Gemäss unserer Konvention in @sec-ProgFunc berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, und die Zwischenergebnisse einer Variablen `v` zuweisen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen `vdot` einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein `v` berechnet, um die Berechnung des zugehörigen `vdot` erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Abschnitt werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:
 
 > "There are as many shades of AD as there are AD users. [This chapter] provides to the user the black and the white; it is up to him to get the correct shade of grey that fits his taste and his requirements." (@Henrard2017ADi, S. 18)
 
@@ -301,7 +301,7 @@ Das Problem tritt in der Schleife auf. In der 2. Variante überschreiben wir den
 
 :::
 
-In der nächsten Übungsaufgabe verwenden wir die Technik der AD, um das Billardproblem aus @sec-Newtonverfahren1D zu lösen. Da uns die Funktion `f(x)` nun nicht mehr nur der Funktionswert, sondern auch die Ableitung berechnet, können wir das Newtonverfahren ohne die Probleme aus @exr-NewtonFirstTry implementieren.
+In der nächsten Übungsaufgabe verwenden wir die Technik der AD, um das Billardproblem aus @sec-Newtonverfahren1D mit dem Newtonverfahren zu lösen. Da uns die Funktion `f(x)` nun nicht mehr nur der Funktionswert, sondern auch die Ableitung berechnet, können wir das Newtonverfahren ohne die Probleme aus @exr-NewtonFirstTry implementieren.
 
 :::{#exr-BillardSADmanualSOlution}
 
@@ -412,3 +412,322 @@ if __name__ == "__main__":
 
 
 ## Implementation der SAD mit Operator Overloading
+
+Nach dem letzten Abschnitt könnte man einwenden, dass wir die Ableitungen der Funktionen ja doch von Hand berechnet haben, denn wir haben jede Programmzeile, in der eine Variable `v` berechnet wird, um eine weitere Zeile ergänzt, in der wir `vdot` nach den bekannten Ableitungsregeln berechnet haben. Dieser Einwand ist auch berechtigt - oder wie es Henrard ausdrückt:
+
+> "The bad news is that it [calculating the derivatives] has to be done; it will not appear magically. It is not only a figure of speech that 'something has to be done' but that to have it working everything has to be done". [@Henrard2017ADi, S. 17]
+
+Die gute Nachricht ist, dass wir diesen Prozess weiter automatisieren können. Wir kennen die Ableitungsregeln für die elementaren Operationen (`+,-,*,/`), sowie für die Grundfunktionen. In diesem Abschnitt werden wir eine Klasse `FloatSad` schreiben, deren Instanzen Funktionswerte und Werte der Ableitung speichern. Da solche Werte in der Regel vom Typ `float` sind und wir die Standard-AD implementieren, nennen wir die Klasse `FloatSad`. Die Arbeit besteht dann darin, die Ableitungsregeln richtig in den Operatoren dieser Klasse zu kodieren. Da Python *Operator Overloading* kennt, werden wir dann nach getaner Arbeit die Ableitungen wirklich ohne zusätzlichen Programmieraufwand erhalten. 
+
+Der Grundstein für unsere Klasse wurde bereits im 19. Jahrhundert gelegt, wie die folgende Infobox zeigt:
+
+:::{.callout-note collapse="true"}
+
+## Hintergrund: Duale Zahlen
+
+Duale Zahlen wurden 1873 durch William Clifford eingeführt und sind ähnlich definiert, wie komplexe Zahlen. Zur Erinnerung: Eine komplexe Zahl ist eine Zahl der Form $a + bi$,wobei $a,b \in \mathbb{R}$ sind und $i$ die Eigenschaft $i^2 = -1$ hat. Eine duale Zahl ist eine Zahl der Form $a + a'\epsilon$, wobei wieder $a,a' \in \mathbb{R}$ gilt, aber $\epsilon$ die Eigenschaft $\epsilon^2 = 0$ hat. Nun kann man nach dem Permanenzprinzip die folgenden Operationen für duale Zahlen definieren:
+$$
+\begin{alignat}{3}
+    &\textrm{Addition:} && (a+a'\epsilon) + (b+b'\epsilon) &&= (a+b) + (a'+b')\epsilon \\ \\
+    &\textrm{Subtraktion:} && (a+a'\epsilon) - (b+b'\epsilon) &&= (a-b) + (a'-b')\epsilon \\ \\
+    &\textrm{Multiplikation:}\quad && (a+a'\epsilon) \cdot (b+b'\epsilon) &&= ab + ab'\epsilon + a'b\epsilon + a'b'\epsilon^2 \\
+    & && &&= ab + (a'b + ab')\epsilon \\ \\
+    &\textrm{Division:} && (\textrm{für }b\ne 0) \quad \frac{a+a'\epsilon}{b+b'\epsilon} &&= \frac{(a+a'\epsilon)(b-b'\epsilon)}{(b+b'\epsilon)(b-b'\epsilon)} \\
+    & && &&= \frac{ab+a'b\epsilon-ab'\epsilon-a'b'\epsilon^2}{b^2 - (b')^2\epsilon^2} \\ 
+    & && &&= \frac{ab + (a'b-ab')\epsilon}{b^2} \\ 
+    & && &&= \frac{a}{b} + \frac{a'b - ab'}{b^2} \epsilon
+\end{alignat}
+$$
+Wir sehen, dass der reelle Teil den Wert der Operation und der duale Teil den Wert der zugehörigen Ableitung enthält. Dies gilt auch für Potenzen, wie man unter Anwendung des binomischen Satzes sieht:
+$$
+\begin{align}
+    (a+a'\epsilon)^n &= \sum_{k=0}^n \binom n k a^{n-k} (a'\epsilon)^k  \\
+    &= a^n + n \cdot a^{n-1} \cdot a'\epsilon + (\textrm{Terme mit }\epsilon^2) \\ 
+    &= a^n + n \cdot a^{n-1} \cdot a' \epsilon
+\end{align}
+$$
+Im dualen Teil erkennen wir die Kettenregel $(a^n)' = n\cdot a^{n-1}\cdot a'$. Damit können wir duale Zahlen auch in Polynome $p(x) = p_0 + p_1 x + p_2 x^2 + \ldots + p_n x^n$ einsetzen. Wir erhalten dann
+$$
+\begin{align}
+    p(a+a'\epsilon) &= p_0 + p_1 (a+a'\epsilon) + p_2 (a+a'\epsilon)^2 + \ldots + p_n (a+a'\epsilon)^n \\ 
+    &= p_0 + p_1 a + p_1 a'\epsilon + p_2 a^2 + p_2 \cdot 2a a' \epsilon + ... + p_n a^n + p_n \cdot n a^{n-1} a' \epsilon \\ 
+    &= p_0 + p_1 a + p_2 a^2 + \ldots p_n a^n + (p_1 + p_2 \cdot 2a + \ldots + p_n \cdot n a^{n-1}) \cdot a' \epsilon \\
+    &= p(a) + p'(a) \cdot a'\epsilon
+\end{align}
+$$
+Dieses Resultat lässt sich auf allgemeine Funktionen $f$ verallgemeinern (für den Beweis entwickelt man $f$ in eine Taylorreihe und macht die gleichen Überlegungen wie für ein Polynom):
+$$
+f(a+a'\epsilon) = f(a) + f'(a)\cdot a'\epsilon
+$$
+[[Wikipedia: Dual number](https://en.wikipedia.org/wiki/Dual_number)]
+
+:::
+
+### Die Klasse `FloatSad`
+Beginnen wir nun mit der Implementation unserer Klasse `FloatSad`. Analog zu den dualen Zahlen enthält jedes `FloatSad`-Objekt zwei Attribute. Das Attribut `value` speichert den Funktionswert und das Attribut `derivative` speichert den Wert der Ableitung. Im Konstruktor der Klasse setzen wir für `derivative` den Standardwert `1`. Damit können wir eine gewöhnliche `Float`-Zahl korrekt in ein `FloatSad` umwandeln. Dies wird im `main` Programm demonstriert.
+```{python}
+#| code-fold: show
+import math
+
+class FloatSad:
+
+    def __init__(self, value, derivative = 1.0) -> None:
+        self.value = float(value)
+        self.derivative = derivative
+
+
+if __name__ == '__main__':
+
+    def f(x):
+        v0 = FloatSad(x)
+        y = v0
+        return y
+
+    x0 = 2
+    resultat = f(x0)
+    print("Funktionswert:", resultat.value)
+    print("Ableitung:", resultat.derivative)
+```
+
+In der Funktion `f` haben wir nun unsere Konvention, dass `v0 = x` sein soll, dazu verwendet, den Zahlenwert `x` in ein `FloatSad`-Objekt umzuwandeln. Die Konvention `v0dot = 1` ist im Konstruktor kodiert. Von nun an machen wir also die folgende Konvention:
+
+:::{.callout-important}
+
+## Konvention
+
+Eine Funktion berechnet aus einem Argument `x` vom Typ `float` oder `int` einen Rückgabewert `y` vom Typ `FloatSad` über eine Reihe von Hilfsvariablen `v`, die alle vom Typ `FloatSad` sind. Insbesondere setzen wir am Anfang immer `v0 = FloatSad(x)`.
+
+:::
+
+Das obige Programm berechnet also den Funktionswert und den Wert der Ableitung von $f(x) = x$ an der Stelle $x_0 = 2$.
+
+Um die Ausgabe etwas einfacher zu gestalten implementieren wir als nächstes die `print` Methode für unsere Klasse. Wir geben ein `FloatSad`-Objekt einfach in der Form `< value ; derivative >` aus.
+```{python}
+#| code-fold: false
+#| eval: false
+def __repr__(self):
+        return "< " + str(self.value) + " ; " + str(self.derivative) + " >"
+```
+
+Da wir nun die Funktion $f(x) = x$ programmieren können, wollen wir als nächstes auch die Funktion $f(x) = -x$ programmieren können. Wir müssen unsere `FloatSad`-Objekte also mit Vorzeichen versehen.
+
+## Vorzeichen
+
+Natürlich wollen wir nicht nur das negative Vorzeichen, sondern auch das positive Vorzeichen implementieren, damit wir in unseren Programmen z.B. `v1 = +v0` oder `v2 = -v0` schreiben können.
+Beim positiven Vorzeichen müssen wir nichts machen, wir geben also ein `FloatSad`-Objekt mit den gleichen Attributen zurück. Beim negativen Vorzeichen ändern beide Attribute ihr Vorzeichen.
+```{python}
+#| code-fold: false
+#| eval: false
+def __pos__(self):
+        return FloatSad(self.value, self.derivative)
+    
+def __neg__(self):
+    newValue = -self.value
+    newDerivative = -self.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+Nun gehen wir daran, die Grundoperationen für `FloatSad`-Objekte zu implementieren.
+
+### Die Operatoren `+` und `-`
+
+Wir möchten in unseren Programmen Anweisungen wie `v2 = v0 + v1` verwenden können. Gemäss der Summenregel können wir dazu einfach die Funktionswerte und auch die Werte der Ableitungen addieren. 
+```{python}
+#| code-fold: false
+#| eval: false
+def __add__(self, other):
+        newValue = self.value + other.value
+        newDerivative = self.derivative + other.derivative
+        return FloatSad(newValue, newDerivative)
+```
+
+Nun können wir zwei `FloatSad`-Objekte miteinander addieren. Manchmal möchten wir aber auch ein `float`- oder `int`-Wert zu einem `FloatSad`-Objekt addieren, z.B. `v1 = v0 + 2`. Dazu machen wir eine Typabfrage und passen den Wert der Ableitung entsprechend der Konstanteregel an:
+```{python}
+#| code-fold: false
+#| eval: false
+def __add__(self, other):
+    if type(other) in (float, int):
+        newValue = self.value + other
+        newDerivative = self.derivative + 0
+    else:
+        newValue = self.value + other.value
+        newDerivative = self.derivative + other.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+Jetzt funktioniert zwar die Anweisung `v1 = v0 + 2`, aber die Anweisung `v1 = 2 + v0` erzeugt immer noch eine Fehlermeldung. Um dieses Problem zu beheben, müssen wir als nächstes den *reverse-add*-Operator implementieren.
+```{python}
+#| code-fold: false
+#| eval: false
+def __radd__(self, other):
+    if type(other) in (float, int):
+        newValue = other + self.value
+        newDerivative = 0 + self.derivative
+    else:
+        newValue = other.value + self.value
+        newDerivative = other.derivative + self.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+Hier ist die bisher implementierte Klasse zusammen mit einem kleinen Testprogramm.
+
+```{python}
+#| code-fold: show
+import math
+
+class FloatSad:
+
+    def __init__(self, value, derivative = 1.0) -> None:
+        self.value = float(value)
+        self.derivative = derivative
+
+    def __repr__(self):
+        return "< " + str(self.value) + " ; " + str(self.derivative) + " >"
+
+
+    # unäre Operatoren
+
+    def __pos__(self):
+        return FloatSad(self.value, self.derivative)
+    
+    def __neg__(self):
+        newValue = -self.value
+        newDerivative = -self.derivative
+        return FloatSad(newValue, newDerivative)
+    
+
+    # binäre Operatoren
+
+    def __add__(self, other):
+        if type(other) in (float, int):
+            newValue = self.value + other
+            newDerivative = self.derivative + 0
+        else:
+            newValue = self.value + other.value
+            newDerivative = self.derivative + other.derivative
+        return FloatSad(newValue, newDerivative)
+
+    def __radd__(self, other):
+        if type(other) in (float, int):
+            newValue = other + self.value
+            newDerivative = 0 + self.derivative
+        else:
+            newValue = other.value + self.value
+            newDerivative = other.derivative + self.derivative
+        return FloatSad(newValue, newDerivative)
+    
+
+
+if __name__ == '__main__':
+
+    def f(x):
+        v0 = FloatSad(x)
+        v1 = -v0 
+        v2 = 3 + v1
+        v3 = v2 + v1
+        y  = +v3
+        return y
+
+    resultat = f(2)
+    print(resultat)
+```
+
+:::{#exr-verifyFirstSADderivative}
+
+## Korrektheit überprüfen
+<br>
+
+Welche Funktion berechnet `f` im `main` Programm? Stimmt die Ausgabe?
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+Es handelt sich um die Funktion $f(x) = 3 - 2x$. 
+Die Ausgabe $f(2) = -1, f'(2) = -2$ ist also korrekt.
+
+:::
+
+Für die nächste Übung musst du das obige Programm kopieren und in einer Datei mit dem Namen `floatsad.py` abspeichern. Speichere die Datei im gleichen Ordner wie die anderen Dateien.
+
+:::{#exr-ImplementSub}
+
+## Den Operator `-` implementieren
+<br>
+
+Implementiere auf die gleiche Weise den `-`-Operator. Die Methoden lauten `__sub__` bzw. `__rsub__`.
+Schreibe auch eine Testfunktion `f`, welche die neuen Operatoren verwenden.
+
+:::
+
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+```{python}
+#| eval: false
+def __sub__(self, other):
+    if type(other) in (float, int):
+        newValue = self.value - other
+        newDerivative = self.derivative - 0
+    else:
+        newValue = self.value - other.value
+        newDerivative = self.derivative - other.derivative
+    return FloatSad(newValue, newDerivative)
+
+def __rsub__(self, other):
+    if type(other) in (float, int):
+        newValue = other - self.value
+        newDerivative = 0 - self.derivative
+    else:
+        newValue = other.value - self.value
+        newDerivative = other.derivative - self.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+:::
+
+### Die Operatoren `*` und `/`
+
+Als nächstes wollen wir die Multiplikation implementieren, um Anweisungen der Form `v2 = v0 * v1` ausführen zu können. Dazu müssen wir die Produktregel verwenden. Wie bei der Addition und der Subtraktion soll unser `*`-Operator aber auch Anweisungen der Form `v1 = v0 * 2` oder `v1 = -3 * v0` richtig auswerten, bei denen die Faktorregel angewendet wird. Dazu ist wieder eine Typabfrage nötig.
+
+:::{#exr-ImplementMul}
+
+## Den Operator `*-*` implementieren
+<br>
+
+Ergänze die Datei `floatsad.py` mit den Methoden `__mul__` und `__rmul__`. 
+Überlege dir verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.
+
+:::
+
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+```{python}
+#| eval: false
+def __mul__(self, other):
+    if type(other) in (float, int):
+        newValue = self.value * other
+        newDerivative = self.derivative * other
+    else:
+        newValue = self.value * other.value
+        newDerivative = self.derivative * other.value + self.value * other.derivative
+    return FloatSad(newValue, newDerivative)
+
+def __rmul__(self, other):
+    if type(other) in (float, int):
+        newValue = other * self.value
+        newDerivative = other * self.derivative
+    else:
+        newValue = other.value * self.value
+        newDerivative =  other.derivative * self.value + other.value * self.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+:::
