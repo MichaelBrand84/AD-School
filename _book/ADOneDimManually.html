@@ -221,11 +221,13 @@ div.csl-indent {
   <li><a href="#implementation-der-sad-mit-operator-overloading" id="toc-implementation-der-sad-mit-operator-overloading" class="nav-link" data-scroll-target="#implementation-der-sad-mit-operator-overloading"><span class="toc-section-number">3.2</span>  Implementation der SAD mit Operator Overloading</a>
   <ul class="collapse">
   <li><a href="#die-klasse-floatsad" id="toc-die-klasse-floatsad" class="nav-link" data-scroll-target="#die-klasse-floatsad"><span class="toc-section-number">3.2.1</span>  Die Klasse <code>FloatSad</code></a></li>
+  <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="toc-section-number">3.2.2</span>  Vorzeichen</a></li>
+  <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="toc-section-number">3.2.3</span>  Die Operatoren <code>+</code> und <code>-</code></a></li>
+  <li><a href="#die-operatoren-und" id="toc-die-operatoren-und" class="nav-link" data-scroll-target="#die-operatoren-und"><span class="toc-section-number">3.2.4</span>  Die Operatoren <code>*</code> und <code>/</code></a></li>
+  <li><a href="#der-operator" id="toc-der-operator" class="nav-link" data-scroll-target="#der-operator"><span class="toc-section-number">3.2.5</span>  Der Operator <code>**</code></a></li>
+  <li><a href="#vergleichsopertoren" id="toc-vergleichsopertoren" class="nav-link" data-scroll-target="#vergleichsopertoren"><span class="toc-section-number">3.2.6</span>  Vergleichsopertoren</a></li>
   </ul></li>
-  <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="toc-section-number">3.3</span>  Vorzeichen</a>
-  <ul class="collapse">
-  <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="toc-section-number">3.3.1</span>  Die Operatoren <code>+</code> und <code>-</code></a></li>
-  </ul></li>
+  <li><a href="#die-klasse-floatsad-im-einsatz" id="toc-die-klasse-floatsad-im-einsatz" class="nav-link" data-scroll-target="#die-klasse-floatsad-im-einsatz"><span class="toc-section-number">3.3</span>  Die Klasse <code>FloatSad</code> im Einsatz</a></li>
   </ul>
 </nav>
     </div>
@@ -805,9 +807,8 @@ Konvention
 </div>
 <p>Da wir nun die Funktion <span class="math inline">\(f(x) = x\)</span> programmieren können, wollen wir als nächstes auch die Funktion <span class="math inline">\(f(x) = -x\)</span> programmieren können. Wir müssen unsere <code>FloatSad</code>-Objekte also mit Vorzeichen versehen.</p>
 </section>
-</section>
-<section id="vorzeichen" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="vorzeichen"><span class="header-section-number">3.3</span> Vorzeichen</h2>
+<section id="vorzeichen" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="vorzeichen"><span class="header-section-number">3.2.2</span> Vorzeichen</h3>
 <p>Natürlich wollen wir nicht nur das negative Vorzeichen, sondern auch das positive Vorzeichen implementieren, damit wir in unseren Programmen z.B. <code>v1 = +v0</code> oder <code>v2 = -v0</code> schreiben können. Beim positiven Vorzeichen müssen wir nichts machen, wir geben also ein <code>FloatSad</code>-Objekt mit den gleichen Attributen zurück. Beim negativen Vorzeichen ändern beide Attribute ihr Vorzeichen.</p>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__pos__</span>(<span class="va">self</span>):</span>
@@ -819,8 +820,9 @@ Konvention
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nun gehen wir daran, die Grundoperationen für <code>FloatSad</code>-Objekte zu implementieren.</p>
-<section id="die-operatoren-und--" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="die-operatoren-und--"><span class="header-section-number">3.3.1</span> Die Operatoren <code>+</code> und <code>-</code></h3>
+</section>
+<section id="die-operatoren-und--" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="die-operatoren-und--"><span class="header-section-number">3.2.3</span> Die Operatoren <code>+</code> und <code>-</code></h3>
 <p>Wir möchten in unseren Programmen Anweisungen wie <code>v2 = v0 + v1</code> verwenden können. Gemäss der Summenregel können wir dazu einfach die Funktionswerte und auch die Werte der Ableitungen addieren.</p>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, other):</span>
@@ -939,7 +941,7 @@ Lösung
 <p>Für die nächste Übung musst du das obige Programm kopieren und in einer Datei mit dem Namen <code>floatsad.py</code> abspeichern. Speichere die Datei im gleichen Ordner wie die anderen Dateien.</p>
 <div id="exr-ImplementSub" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 3.8 (Den Operator <code>-</code> implementieren) </strong></span><br></p>
-<p>Implementiere auf die gleiche Weise den <code>-</code>-Operator. Die Methoden lauten <code>__sub__</code> bzw. <code>__rsub__</code>. Schreibe auch eine neue Testfunktion <code>f</code>, welche die neuen Operatoren verwenden.</p>
+<p>Implementiere auf die gleiche Weise den <code>-</code>-Operator. Die Methoden lauten <code>__sub__(self, other)</code> bzw. <code>__rsub__(self, other)</code>. Schreibe auch eine Testfunktion <code>f</code>, welche die neuen Operatoren verwendet.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
@@ -978,6 +980,358 @@ Lösung
 </div>
 </div>
 </div>
+</section>
+<section id="die-operatoren-und" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="die-operatoren-und"><span class="header-section-number">3.2.4</span> Die Operatoren <code>*</code> und <code>/</code></h3>
+<p>Als nächstes wollen wir die Multiplikation implementieren, um Anweisungen der Form <code>v2 = v0 * v1</code> ausführen zu können. Dazu müssen wir die Produktregel verwenden. Wie bei der Addition und der Subtraktion soll unser <code>*</code>-Operator aber auch Anweisungen der Form <code>v1 = v0 * 2</code> oder <code>v1 = -3 * v0</code> richtig auswerten, bei denen die Faktorregel angewendet wird. Dazu ist wieder eine Typabfrage nötig.</p>
+<div id="exr-ImplementMul" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.9 (Den Operator <code>*</code> implementieren) </strong></span><br></p>
+<p>Ergänze die Datei <code>floatsad.py</code> mit den Methoden <code>__mul__(self, other)</code> und <code>__rmul__(self, other)</code>. Überlege dir verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-execution_count="19">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__mul__</span>(<span class="va">self</span>, other):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">*</span> other</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">*</span> other</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">*</span> other.value</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">*</span> other.value <span class="op">+</span> <span class="va">self</span>.value <span class="op">*</span> other.derivative</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rmul__</span>(<span class="va">self</span>, other):</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">*</span> <span class="va">self</span>.value</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> other <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other.value <span class="op">*</span> <span class="va">self</span>.value</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span>  other.derivative <span class="op">*</span> <span class="va">self</span>.value <span class="op">+</span> other.value <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie <code>v2 = v1 / v0</code> verwenden können. Da wir es bei differenzierbaren Funktionen immer mit <code>float</code>- bzw. <code>FloatSad</code>-Objekten zu tun haben, implementieren wir nur den <code>/</code>-Operator, also die Funktion <code>__truediv__(self, other)</code> und nicht den <code>//</code>-Operator. Wir wollen aber wieder die Fallunterscheidung nach den Typen machen, so dass auch Anweisungen wie <code>v1 = v0 / 4</code> verwendet werden können. Dabei benötigen wir nur die Faktorregel und nicht die Quotientenregel. Um schliesslich auch noch <code>v1 = -4 / v0</code> zu ermöglichen, muss noch <code>__rtruediv__(self, other)</code> implementiert werden. Bei letzterem darf nicht vergessen werden, dass auch die Kettenregel benutzt werden muss, denn <span class="math inline">\(\frac{dv_1}{dx} = \frac{dv_1}{dv_0}\cdot \frac{dv_0}{dx} = \frac{-4}{v_0^2}\cdot v_0'\)</span>. Quadrate kann man mit <code>math.pow(value, 2)</code> berechnen.</p>
+<div id="exr-ImplementTrueDiv" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.10 (Den Operator <code>/</code> implementieren) </strong></span><br></p>
+<p>Ergänze die Datei <code>floatsad.py</code> mit den Methoden <code>__truediv__(self, other)</code> und <code>__rtruediv__(self, other)</code>. Falls du dich mit Fehlerbehandlung (<em>Exceptions</em>) auskennst, dann soll deine Funktion einen <code>ZeroDivisionError</code> werfen, wenn durch Null geteilt wird. Überlege dir auch wieder verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Ohne Fehlerbehandlung</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Mit Fehlerbehandlung</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell" data-execution_count="20">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__truediv__</span>(<span class="va">self</span>, other):</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">/</span> other</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">/</span> other</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">/</span> other.value</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (<span class="va">self</span>.derivative <span class="op">*</span> other.value <span class="op">-</span> <span class="va">self</span>.value <span class="op">*</span> other.derivative) <span class="op">/</span> math.<span class="bu">pow</span>(other.value, <span class="dv">2</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rtruediv__</span>(<span class="va">self</span>, other):</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">/</span> <span class="va">self</span>.value</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="op">-</span> other <span class="op">/</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, <span class="dv">2</span>) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other.value <span class="op">/</span> <span class="va">self</span>.value</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (other.derivative <span class="op">*</span> <span class="va">self</span>.value <span class="op">-</span> other.value <span class="op">*</span> <span class="va">self</span>.derivative) <span class="op">/</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, <span class="dv">2</span>) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell" data-execution_count="21">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__truediv__</span>(<span class="va">self</span>, other):</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> other <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ZeroDivisionError</span>(<span class="st">"'other' must be different from zero."</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">/</span> other</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">/</span> other</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> other.value <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ZeroDivisionError</span>(<span class="st">"'other.value' must be different from zero."</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">/</span> other.value</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> (<span class="va">self</span>.derivative <span class="op">*</span> other.value <span class="op">-</span> <span class="va">self</span>.value <span class="op">*</span> other.derivative) <span class="op">/</span> math.<span class="bu">pow</span>(other.value, <span class="dv">2</span>)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rtruediv__</span>(<span class="va">self</span>, other):</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.value <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ZeroDivisionError</span>(<span class="st">"'self.value' must be different from zero."</span>)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> other <span class="op">/</span> <span class="va">self</span>.value</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="op">-</span> other <span class="op">/</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, <span class="dv">2</span>) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> other.value <span class="op">/</span> <span class="va">self</span>.value</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> (other.derivative <span class="op">*</span> <span class="va">self</span>.value <span class="op">-</span> other.value <span class="op">*</span> <span class="va">self</span>.derivative) <span class="op">/</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, <span class="dv">2</span>) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="der-operator" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="der-operator"><span class="header-section-number">3.2.5</span> Der Operator <code>**</code></h3>
+<p>Interessant ist nun die Implementation des Potenzoperators. Hier sind mehrere Fallunterscheidungen nötig.</p>
+<p>Betrachten wir zuerst den Fall, <code>type(other) in (float, int)</code>, d.h. wir haben einen Ausdruck der Form <code>v1 = v0 ** 3</code>. In diesem Fall wenden wir die Potenzregel zusammen mit der Kettenregel an.</p>
+<p>Im zweiten Fall haben wir einen Ausdruck wie <code>v3 = v1 ** v2</code>. Wir müssen uns also zuerst überlegen, wie wir einen Ausdruck der Form <span class="math inline">\(v_3 (x) = v_1(x) ^{v_2 (x)}\)</span> überhaupt ableiten. Offenbar muss dazu <span class="math inline">\(v_1(x) &gt; 0\)</span> gelten. Um die Ableitung zu finden wenden wir den Trick an, dass wir die Funktion zuerst logarithmieren, <span class="math display">\[
+\ln(v_3(x)) = \ln(v_1(x) ^{v_2 (x)}) = v_2(x) \cdot \ln(v_1(x))
+\]</span> und danach beide Seiten ableiten, wobei wir auf der rechten Seite die Produktregel anwenden: <span class="math display">\[
+\frac{d}{dx}(\ln(v_3(x))) = v_2'(x) \cdot \ln(v_1(x)) + v_2(x) \cdot \frac{1}{v_1(x)} \cdot v_1'(x)
+\]</span> Die linke Seite ergibt andererseits <span class="math inline">\(\frac{d}{dx}(\ln(v_3(x))) = \frac{1}{v_3(x)}\cdot v_3'(x)\)</span>, so dass wir nun nach <span class="math inline">\(v_3'(x)\)</span> auflösen können: <span class="math display">\[
+\begin{flalign}
+    v_3'(x) &amp;= v_3(x) \cdot \left( v_2'(x) \cdot \ln(v_1(x)) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right) \\
+    &amp;= v_1(x) ^{v_2 (x)} \cdot \left( \ln(v_1(x)) \cdot v_2'(x) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right)
+\end{flalign}
+\]</span></p>
+<div id="exr-ImplementPow" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.11 (Den Operator <code>**</code> implementieren - Teil 1) </strong></span><br></p>
+<p>Ergänze die Datei <code>floatsad.py</code> mit der Methoden <code>__pow__(self, other)</code>. Dabei übernimmt <code>self</code> die Rolle von <span class="math inline">\(v_1\)</span> in der obigen Herleitung und <code>other</code> entspricht <span class="math inline">\(v_2\)</span>. Die Funktion <span class="math inline">\(\ln(\ldots)\)</span> heisst in Python <code>math.log()</code>. Falls du dich mit <em>Exceptions</em> auskennst, dann soll deine Funktion einen <code>ValueError</code> werfen, wenn durch <span class="math inline">\(v_1 \le 0\)</span> ist. Teste dein Programm an verschiedenen Funktionen.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Ohne Fehlerbehandlung</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Mit Fehlerbehandlung</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell" data-execution_count="22">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__pow__</span>(<span class="va">self</span>, other):</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> other <span class="op">*</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other.value)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other.value) <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>            (other.derivative <span class="op">*</span> math.log(<span class="va">self</span>.value) <span class="op">+</span> other.value <span class="op">*</span> <span class="va">self</span>.derivative <span class="op">/</span> <span class="va">self</span>.value)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell" data-execution_count="23">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__pow__</span>(<span class="va">self</span>, other):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.value <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"'self.value' must be positive."</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> other <span class="op">*</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other.value)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other.value) <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>                (other.derivative <span class="op">*</span> math.log(<span class="va">self</span>.value) <span class="op">+</span> other.value <span class="op">*</span> <span class="va">self</span>.derivative <span class="op">/</span> <span class="va">self</span>.value)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Nun implementieren wir auch noch die Methode <code>__rpow__(self, other)</code>. Im Fall, dass <code>type(other) in (float, int)</code> ist, handelt es sich hierbei um eine Exponentialfunktion. Wir müssen dann sicherstellen, dass die Basis, also <code>other</code>, eine positive Zahl ist. Falls <code>other</code> ebenfalls ein <code>FloatSad</code> ist, dann kann die Ableitung gleich wie oben implementiert werden, ausser, dass jetzt <code>self</code> und <code>other</code> ihre Rollen tauschen.</p>
+<div id="exr-ImplementRpow" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.12 (Den Operator <code>**</code> implementieren - Teil 2) </strong></span><br></p>
+<p>Ergänze die Datei <code>floatsad.py</code> mit der Methoden <code>__rpow__(self, other)</code>. Implementiere wenn möglich auch die Fehlerbehandlung. Teste dein Programm an verschiedenen Funktionen.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Ohne Fehlerbehandlung</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Mit Fehlerbehandlung</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell" data-execution_count="24">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rpow__</span>(<span class="va">self</span>, other):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(other, <span class="va">self</span>.value)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> math.<span class="bu">pow</span>(other, <span class="va">self</span>.value) <span class="op">*</span> math.log(other) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(other.value, <span class="va">self</span>.value)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> math.<span class="bu">pow</span>(other.value, <span class="va">self</span>.value) <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>.derivative <span class="op">*</span> math.log(other.value) <span class="op">+</span> <span class="va">self</span>.value <span class="op">*</span> other.derivative <span class="op">/</span> other.value)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell" data-execution_count="25">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rpow__</span>(<span class="va">self</span>, other):</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> other <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"'other' must be positive."</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> math.<span class="bu">pow</span>(other, <span class="va">self</span>.value)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> math.<span class="bu">pow</span>(other, <span class="va">self</span>.value) <span class="op">*</span> math.log(other) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> other.value <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"'other.value' must be positive."</span>)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> math.<span class="bu">pow</span>(other.value, <span class="va">self</span>.value)</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> math.<span class="bu">pow</span>(other.value, <span class="va">self</span>.value) <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>                (<span class="va">self</span>.derivative <span class="op">*</span> math.log(other.value) <span class="op">+</span> <span class="va">self</span>.value <span class="op">*</span> other.derivative <span class="op">/</span> other.value)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="vergleichsopertoren" class="level3" data-number="3.2.6">
+<h3 data-number="3.2.6" class="anchored" data-anchor-id="vergleichsopertoren"><span class="header-section-number">3.2.6</span> Vergleichsopertoren</h3>
+<p>Es könnte sein, dass wir <code>FloatSad</code>-Objekte auch miteinander vergleichen wollen, also eine der Abfragen aus <a href="#tbl-Vergleichsmethoden">Tabelle&nbsp;<span>3.1</span></a> machen wollen.</p>
+<div id="tbl-Vergleichsmethoden" class="anchored">
+<table class="table">
+<caption>Tabelle&nbsp;3.1: Vergleichsoperatoren</caption>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Methode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;</code></td>
+<td><code>__lt__(self, other)</code></td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td><code>__le__(self, other)</code></td>
+</tr>
+<tr class="odd">
+<td><code>==</code></td>
+<td><code>__eq__(self, other)</code></td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td><code>__ne__(self, other)</code></td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td><code>__gt__(self, other)</code></td>
+</tr>
+<tr class="even">
+<td><code>&gt;=</code></td>
+<td><code>__ge__(self, other)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Dazu vergleichen wir jeweils nur die Funktionswerte. Die Implementation sieht dann folgendermassen aus:</p>
+<div class="cell" data-execution_count="26">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vergleichsoperatoren </span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__lt__</span>(<span class="va">self</span>, other):</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">&lt;</span> other</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">&lt;</span> other.value</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__le__</span>(<span class="va">self</span>, other):</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">&lt;=</span> other</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">&lt;=</span> other.value</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__eq__</span>(<span class="va">self</span>, other):</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">==</span> other</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">==</span> other.value</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__ne__</span>(<span class="va">self</span>, other):</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">!=</span> other</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">!=</span> other.value</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__gt__</span>(<span class="va">self</span>, other):</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">&gt;</span> other</span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">&gt;</span> other.value</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__ge__</span>(<span class="va">self</span>, other):</span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">&gt;=</span> other</span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.value <span class="op">&gt;=</span> other.value</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="die-klasse-floatsad-im-einsatz" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="die-klasse-floatsad-im-einsatz"><span class="header-section-number">3.3</span> Die Klasse <code>FloatSad</code> im Einsatz</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -988,7 +1342,6 @@ Baydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, und Jeffre
 Henrard, Marc. 2017. <em>Algorithmic Differentiation in Finance Explained</em>. Financial Engineering Explained. Cham: Palgrave Macmillan. <a href="https://doi.org/10.1007/978-3-319-53979-9">https://doi.org/10.1007/978-3-319-53979-9</a>.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->

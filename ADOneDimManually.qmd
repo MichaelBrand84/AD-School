@@ -1,3 +1,7 @@
+---
+tbl-cap-location: bottom
+---
+
 # Standard Algorithmische Differentiation für eindimensionale Funktionen
 
 In @sec-ADisnot haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwächen  haben. Während die nuemrische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:
@@ -511,7 +515,7 @@ def __repr__(self):
 
 Da wir nun die Funktion $f(x) = x$ programmieren können, wollen wir als nächstes auch die Funktion $f(x) = -x$ programmieren können. Wir müssen unsere `FloatSad`-Objekte also mit Vorzeichen versehen.
 
-## Vorzeichen
+### Vorzeichen
 
 Natürlich wollen wir nicht nur das negative Vorzeichen, sondern auch das positive Vorzeichen implementieren, damit wir in unseren Programmen z.B. `v1 = +v0` oder `v2 = -v0` schreiben können.
 Beim positiven Vorzeichen müssen wir nichts machen, wir geben also ein `FloatSad`-Objekt mit den gleichen Attributen zurück. Beim negativen Vorzeichen ändern beide Attribute ihr Vorzeichen.
@@ -657,8 +661,8 @@ Für die nächste Übung musst du das obige Programm kopieren und in einer Datei
 ## Den Operator `-` implementieren
 <br>
 
-Implementiere auf die gleiche Weise den `-`-Operator. Die Methoden lauten `__sub__` bzw. `__rsub__`.
-Schreibe auch eine Testfunktion `f`, welche die neuen Operatoren verwenden.
+Implementiere auf die gleiche Weise den `-`-Operator. Die Methoden lauten `__sub__(self, other)` bzw. `__rsub__(self, other)`.
+Schreibe auch eine Testfunktion `f`, welche die neuen Operatoren verwendet.
 
 :::
 
@@ -696,11 +700,11 @@ Als nächstes wollen wir die Multiplikation implementieren, um Anweisungen der F
 
 :::{#exr-ImplementMul}
 
-## Den Operator `*-*` implementieren
+## Den Operator `*` implementieren
 <br>
 
-Ergänze die Datei `floatsad.py` mit den Methoden `__mul__` und `__rmul__`. 
-Überlege dir verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.
+Ergänze die Datei `floatsad.py` mit den Methoden `__mul__(self, other)` und `__rmul__(self, other)`. 
+Überlege dir verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms. 
 
 :::
 
@@ -731,3 +735,281 @@ def __rmul__(self, other):
 ```
 
 :::
+
+Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie `v2 = v1 / v0` verwenden können. Da wir es bei differenzierbaren Funktionen immer mit `float`- bzw. `FloatSad`-Objekten zu tun haben, implementieren wir nur den `/`-Operator, also die Funktion `__truediv__(self, other)` und nicht den `//`-Operator. Wir wollen aber wieder die Fallunterscheidung nach den Typen machen, so dass auch Anweisungen wie `v1 = v0 / 4` verwendet werden können. Dabei benötigen wir nur die Faktorregel und nicht die Quotientenregel. Um schliesslich auch noch `v1 = -4 / v0` zu ermöglichen, muss noch `__rtruediv__(self, other)` implementiert werden. Bei letzterem darf nicht vergessen werden, dass auch die Kettenregel benutzt werden muss, denn $\frac{dv_1}{dx} = \frac{dv_1}{dv_0}\cdot \frac{dv_0}{dx} = \frac{-4}{v_0^2}\cdot v_0'$. Quadrate kann man mit `math.pow(value, 2)` berechnen.
+
+:::{#exr-ImplementTrueDiv}
+
+## Den Operator `/` implementieren
+<br>
+
+Ergänze die Datei `floatsad.py` mit den Methoden `__truediv__(self, other)` und `__rtruediv__(self, other)`. 
+Falls du dich mit Fehlerbehandlung (*Exceptions*) auskennst, dann soll deine Funktion einen `ZeroDivisionError` werfen, wenn durch Null geteilt wird.
+Überlege dir auch wieder verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.
+
+:::
+
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+::::{.panel-tabset}
+
+## Ohne Fehlerbehandlung
+
+```{python}
+#| eval: false
+def __truediv__(self, other):
+    if type(other) in (float, int):
+        newValue = self.value / other
+        newDerivative = self.derivative / other
+    else:
+        newValue = self.value / other.value
+        newDerivative = (self.derivative * other.value - self.value * other.derivative) / math.pow(other.value, 2)
+    return FloatSad(newValue, newDerivative)
+
+def __rtruediv__(self, other):
+    if type(other) in (float, int):
+        newValue = other / self.value
+        newDerivative = - other / math.pow(self.value, 2) * self.derivative
+    else:
+        newValue = other.value / self.value
+        newDerivative = (other.derivative * self.value - other.value * self.derivative) / math.pow(self.value, 2) * self.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+## Mit Fehlerbehandlung
+
+```{python}
+#| eval: false
+def __truediv__(self, other):
+    if type(other) in (float, int):
+        if other == 0:
+            raise ZeroDivisionError("'other' must be different from zero.")
+        else:
+            newValue = self.value / other
+            newDerivative = self.derivative / other
+    else:
+        if other.value == 0:
+            raise ZeroDivisionError("'other.value' must be different from zero.")
+        else:
+            newValue = self.value / other.value
+            newDerivative = (self.derivative * other.value - self.value * other.derivative) / math.pow(other.value, 2)
+    return FloatSad(newValue, newDerivative)
+
+def __rtruediv__(self, other):
+    if self.value == 0:
+        raise ZeroDivisionError("'self.value' must be different from zero.")
+    else:
+        if type(other) in (float, int):
+            newValue = other / self.value
+            newDerivative = - other / math.pow(self.value, 2) * self.derivative
+        else:
+            newValue = other.value / self.value
+            newDerivative = (other.derivative * self.value - other.value * self.derivative) / math.pow(self.value, 2) * self.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+::::
+
+:::
+
+### Der Operator `**`
+
+Interessant ist nun die Implementation des Potenzoperators. Hier sind mehrere Fallunterscheidungen nötig.
+
+Betrachten wir zuerst den Fall, `type(other) in (float, int)`, d.h. wir haben einen Ausdruck der Form `v1 = v0 ** 3`. In diesem Fall wenden wir die Potenzregel zusammen mit der Kettenregel an.
+
+Im zweiten Fall haben wir einen Ausdruck wie `v3 = v1 ** v2`. Wir müssen uns also zuerst überlegen, wie wir einen Ausdruck der Form $v_3 (x) = v_1(x) ^{v_2 (x)}$ überhaupt ableiten. Offenbar muss dazu $v_1(x) > 0$ gelten. Um die Ableitung zu finden wenden wir den Trick an, dass wir die Funktion zuerst logarithmieren,
+$$
+\ln(v_3(x)) = \ln(v_1(x) ^{v_2 (x)}) = v_2(x) \cdot \ln(v_1(x))
+$$
+und danach beide Seiten ableiten, wobei wir auf der rechten Seite die Produktregel anwenden:
+$$
+\frac{d}{dx}(\ln(v_3(x))) = v_2'(x) \cdot \ln(v_1(x)) + v_2(x) \cdot \frac{1}{v_1(x)} \cdot v_1'(x)
+$$
+Die linke Seite ergibt andererseits $\frac{d}{dx}(\ln(v_3(x))) = \frac{1}{v_3(x)}\cdot v_3'(x)$, so dass wir nun nach $v_3'(x)$ auflösen können:
+$$
+\begin{flalign}
+    v_3'(x) &= v_3(x) \cdot \left( v_2'(x) \cdot \ln(v_1(x)) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right) \\ 
+    &= v_1(x) ^{v_2 (x)} \cdot \left( \ln(v_1(x)) \cdot v_2'(x) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right)
+\end{flalign}
+$$
+
+:::{#exr-ImplementPow}
+
+## Den Operator `**` implementieren - Teil 1
+<br>
+
+Ergänze die Datei `floatsad.py` mit der Methoden `__pow__(self, other)`. Dabei übernimmt `self` die Rolle von $v_1$ in der obigen Herleitung und `other` entspricht $v_2$. Die Funktion $\ln(\ldots)$ heisst in Python `math.log()`.
+Falls du dich mit *Exceptions* auskennst, dann soll deine Funktion einen `ValueError` werfen, wenn durch $v_1 \le 0$ ist.
+Teste dein Programm an verschiedenen Funktionen.
+
+:::
+
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+::::{.panel-tabset}
+
+## Ohne Fehlerbehandlung
+
+```{python}
+#| eval: false
+def __pow__(self, other):
+    if type(other) in (float, int):
+        newValue = math.pow(self.value, other)
+        newDerivative = other * math.pow(self.value, other - 1) * self.derivative
+    else:
+        newValue = math.pow(self.value, other.value)
+        newDerivative = math.pow(self.value, other.value) * \
+            (other.derivative * math.log(self.value) + other.value * self.derivative / self.value)
+    return FloatSad(newValue, newDerivative)
+```
+
+## Mit Fehlerbehandlung
+
+```{python}
+#| eval: false
+def __pow__(self, other):
+    if self.value <= 0:
+        raise ValueError("'self.value' must be positive.")
+    else:
+        if type(other) in (float, int):
+            newValue = math.pow(self.value, other)
+            newDerivative = other * math.pow(self.value, other - 1) * self.derivative
+        else:
+            newValue = math.pow(self.value, other.value)
+            newDerivative = math.pow(self.value, other.value) * \
+                (other.derivative * math.log(self.value) + other.value * self.derivative / self.value)
+    return FloatSad(newValue, newDerivative)
+```
+
+::::
+
+:::
+
+Nun implementieren wir auch noch die Methode `__rpow__(self, other)`. Im Fall, dass `type(other) in (float, int)` ist, handelt es sich hierbei um eine Exponentialfunktion. Wir müssen dann sicherstellen, dass die Basis, also `other`, eine positive Zahl ist.
+Falls `other` ebenfalls ein `FloatSad` ist, dann kann die Ableitung gleich wie oben implementiert werden, ausser, dass jetzt `self` und `other` ihre Rollen tauschen.
+
+:::{#exr-ImplementRpow}
+
+## Den Operator `**` implementieren - Teil 2
+<br>
+
+Ergänze die Datei `floatsad.py` mit der Methoden `__rpow__(self, other)`. Implementiere wenn möglich auch die Fehlerbehandlung.
+Teste dein Programm an verschiedenen Funktionen.
+
+:::
+
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+::::{.panel-tabset}
+
+## Ohne Fehlerbehandlung
+
+```{python}
+#| eval: false
+def __rpow__(self, other):
+    if type(other) in (float, int):
+        newValue = math.pow(other, self.value)
+        newDerivative = math.pow(other, self.value) * math.log(other) * self.derivative
+    else:
+        newValue = math.pow(other.value, self.value)
+        newDerivative = math.pow(other.value, self.value) * \
+            (self.derivative * math.log(other.value) + self.value * other.derivative / other.value)
+    return FloatSad(newValue, newDerivative)
+```
+
+## Mit Fehlerbehandlung
+
+```{python}
+#| eval: false
+def __rpow__(self, other):
+    if type(other) in (float, int):
+        if other <= 0:
+            raise ValueError("'other' must be positive.")
+        else:
+            newValue = math.pow(other, self.value)
+            newDerivative = math.pow(other, self.value) * math.log(other) * self.derivative
+    else:
+        if other.value <= 0:
+            raise ValueError("'other.value' must be positive.")
+        else:
+            newValue = math.pow(other.value, self.value)
+            newDerivative = math.pow(other.value, self.value) * \
+                (self.derivative * math.log(other.value) + self.value * other.derivative / other.value)
+    return FloatSad(newValue, newDerivative)
+```
+
+::::
+
+:::
+
+
+### Vergleichsopertoren
+
+Es könnte sein, dass wir `FloatSad`-Objekte auch miteinander vergleichen wollen, also eine der Abfragen aus @tbl-Vergleichsmethoden machen wollen.
+
+| Operator | Methode                 |
+|----------|-------------------------|
+| `<`        | `__lt__(self, other)` |
+| `<=`       | `__le__(self, other)` |
+| `==`       | `__eq__(self, other)` |
+| `!=`       | `__ne__(self, other)` |
+| `>`        | `__gt__(self, other)` |
+| `>=`       | `__ge__(self, other)` |
+
+: Vergleichsoperatoren {#tbl-Vergleichsmethoden}
+
+Dazu vergleichen wir jeweils nur die Funktionswerte. Die Implementation sieht dann folgendermassen aus:
+```{python}
+#| eval: false
+# Vergleichsoperatoren 
+
+def __lt__(self, other):
+    if type(other) in (float, int):
+        return self.value < other
+    else:
+        return self.value < other.value
+
+def __le__(self, other):
+    if type(other) in (float, int):
+        return self.value <= other
+    else:
+        return self.value <= other.value
+
+def __eq__(self, other):
+    if type(other) in (float, int):
+        return self.value == other
+    else:
+        return self.value == other.value
+
+def __ne__(self, other):
+    if type(other) in (float, int):
+        return self.value != other
+    else:
+        return self.value != other.value
+
+def __gt__(self, other):
+    if type(other) in (float, int):
+        return self.value > other
+    else:
+        return self.value > other.value
+
+def __ge__(self, other):
+    if type(other) in (float, int):
+        return self.value >= other
+    else:
+        return self.value >= other.value
+```
+
+
+## Die Klasse `FloatSad` im Einsatz
+
