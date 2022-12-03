@@ -368,7 +368,9 @@ div.csl-indent {
 </section>
 <section id="sec-ProgFunc" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="sec-ProgFunc"><span class="header-section-number">1.2</span> Programme als Funktionen</h2>
-<p>Programme, die numerische Werte einlesen und numerische Werte ausgeben, können als mathematische Funktionen betrachtet werden. Wir beschränken uns zunächst auf Programme, die nur ein Argument erhalten und nur einen Rückgabewert liefern, z.B.</p>
+<p>Programme, die numerische Werte einlesen und numerische Werte ausgeben, können als mathematische Funktionen betrachtet werden. Wir beschränken uns zunächst auf Programme, die nur ein Argument erhalten und nur einen Rückgabewert liefern.</p>
+<div id="exm-FirstFunctionAsProgram" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 1.1 (Eine Funktion als Programm) </strong></span><br></p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> (<span class="dv">2</span> <span class="op">+</span> x) <span class="op">*</span> (x <span class="op">-</span> <span class="dv">3</span>)</span>
@@ -458,6 +460,8 @@ nMult-&gt;ny
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v1 <span class="op">*</span> v2</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+<hr>
 <div class="callout-important callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -886,7 +890,7 @@ Lösung
 </div>
 <div class="page-columns page-full"><p>Auch die Version 4 der vorgestellten Lösung ist noch nicht befriedigend. Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion <code>fdot</code> and der Stelle <code>x0</code> ausgewertet werden, um den (bis auf Maschinengenauigkeit) <em>exakten</em> Wert von <span class="math inline">\(f'(x_0)\)</span> zu erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut genug war<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, so haben wir doch keine Garantie, dass wir für alle Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung von <span class="math inline">\(f'(x_0)\)</span> auftreten, wird in <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a> näher eingegangen.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Das Newton-Verfahren hat die angenehme Eigenschaft, dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere numerische Verfahren, die die Ableitung verwenden, trifft dies aber nicht zu.</p></li></div></div>
 <div id="exm-Billard" class="theorem example page-columns page-full">
-<p><span class="theorem-title"><strong>Beispiel 1.1 (Billard auf einem runden Tisch) </strong></span><br></p>
+<p><span class="theorem-title"><strong>Beispiel 1.2 (Billard auf einem runden Tisch) </strong></span><br></p>
 <p>Wir betrachten ein Beispiel aus <span class="citation" data-cites="Gander2015">Gander (<a href="references.html#ref-Gander2015" role="doc-biblioref">2015</a>)</span>. Platziere die weisse und die blaue Billardkugel auf dem runden Tisch. Das Ziel ist es, die weisse Kugel so anzustossen, dass sie die blaue Kugel trifft, nachdem sie vorher genau einmal an die Bande gespielt wurde.</p>
 <div class="fig-CircularBillardBasic">
 <iframe scrolling="no" title="Billard" src="https://www.geogebra.org/material/iframe/id/zz2y2use/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/false/ctl/false" width="700px" height="500px" style="border:0px;">
@@ -1116,10 +1120,10 @@ Lösung
 <p>Die <a href="#exr-GradientDescentFirstTry">Übungsaufgabe&nbsp;<span>1.6</span></a> verdeutlicht nochmals das Problem, welches wir bereits in <a href="#exr-NewtonFirstTry">Übungsaufgabe&nbsp;<span>1.4</span></a> gesehen haben. Wir müssen für den Algorithmus die Ableitung <span class="math inline">\(f'\)</span> an mehreren Stellen auswerten. Wir möchten aber die Ableitung einerseits nicht von Hand berechnen und andererseits können wir uns auch nicht mit einer Approximation zufrieden geben.</p>
 <p>Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Descent Methode.</p>
 <div id="exm-GDApplication" class="theorem example">
-<p><span class="theorem-title"><strong>Beispiel 1.2 (Titel) </strong></span><br></p>
+<p><span class="theorem-title"><strong>Beispiel 1.3 (Titel) </strong></span><br></p>
 <p>COMING SOON: Anwendungsbeispiel für Gradient Descent</p>
-<hr>
 </div>
+<hr>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

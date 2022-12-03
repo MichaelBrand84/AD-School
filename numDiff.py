@@ -1,3 +1,4 @@
+'''
 def f(x):
     y = x ** 2
     return y
@@ -11,3 +12,9 @@ H = [10 ** -9, 10 ** -10, 10 ** -11, 10 ** -12]
 for h in H:
     ydot = fdot(f, x0, h)
     print("h = " + str(h) + "\t=> f'(x0) = " + str(ydot))
+'''
+
+x = -2
+y = 1 if x>0 else -1
+
+print(y)

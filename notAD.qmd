@@ -84,8 +84,9 @@ ax.set_ylabel('Fehler E(h)')
 plt.plot(H,E)
 plt.show()
 ```
----
+
 :::
+---
 
 ### Auslöschung
 Im vorherigen Beispiel haben wir das Phänomen der [Auslöschung](https://de.wikipedia.org/wiki/Ausl%C3%B6schung_(numerische_Mathematik)) beobachtet. Zunächst ist dir sicher aufgefallen, dass der Näherungswert für $f'(x_0)$ mit $h=0.01$ nicht 
@@ -140,5 +141,6 @@ x0 = 1
 print("f'(" + str(x0) + ") =", df.evalf(subs={x:x0}))
 ```
 :::
+---
 
 Damit erhält man die (bis auf Maschinengenauigkeit) exakten Werte der Ableitungen. Der Grund, warum wir nicht auf symbolische Ausdrücke für Ableitungen zurückgreifen wollen, liegt darin, dass diese Methode bei komplizierten Funktionsausdrücken sehr ineffizient ist, insbesondere dann, wenn wir auch Ableitungen von Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ berechnen wollen.

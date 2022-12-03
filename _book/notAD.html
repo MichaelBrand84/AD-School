@@ -340,8 +340,8 @@ h = 1e-11   =&gt; f'(x0) = 0.3999994779846361</code></pre>
 </div>
 </div>
 </div>
-<hr>
 </div>
+<hr>
 <section id="auslöschung" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="auslöschung"><span class="header-section-number">2.1.1</span> Auslöschung</h3>
 <p>Im vorherigen Beispiel haben wir das Phänomen der <a href="https://de.wikipedia.org/wiki/Ausl%C3%B6schung_(numerische_Mathematik)">Auslöschung</a> beobachtet. Zunächst ist dir sicher aufgefallen, dass der Näherungswert für <span class="math inline">\(f'(x_0)\)</span> mit <span class="math inline">\(h=0.01\)</span> nicht <span class="math display">\[ \frac{f(x_0 + h) - f(x_0)}{h} = \frac{0.21^2 - 0.2^2}{0.01}=0.41\]</span> ergab, sondern <span class="math inline">\(f'(x_0)\approx 0.40999...\)</span>. Das liegt daran, dass Dezimalzahlen nicht exakt als Binärzahl dargestellt werden können. Da nun die Werte von <span class="math inline">\(f(x_0 + h)\)</span> und <span class="math inline">\(f(x_0)\)</span> für kleine <span class="math inline">\(h\)</span> fast gleich sind, besteht ihre Differenz <span class="math inline">\(f(x_0 + h) - f(x_0)\)</span> nur noch aus diesen Rundungsfehlern. Diese (sinnlose) Differenz ist zwar sehr klein, wird aber im nächsten Schritt mit der sehr grossen Zahl <span class="math inline">\(\frac{1}{h}\)</span> multipliziert, wodurch die Rundungsfehler die gleiche Grössenordnung annehmen, wie die ursprünglichen Funktionswerte. Mehr über Rundungsfehler und Auslöschung kann in <span class="citation" data-cites="Weitz2021">Weitz (<a href="references.html#ref-Weitz2021" role="doc-biblioref">2021</a>)</span> ab S. 117 nachgelesen werden.</p>
@@ -399,6 +399,7 @@ f'(1) = 80.0000000000000</code></pre>
 </div>
 </div>
 </div>
+<hr>
 <p>Damit erhält man die (bis auf Maschinengenauigkeit) exakten Werte der Ableitungen. Der Grund, warum wir nicht auf symbolische Ausdrücke für Ableitungen zurückgreifen wollen, liegt darin, dass diese Methode bei komplizierten Funktionsausdrücken sehr ineffizient ist, insbesondere dann, wenn wir auch Ableitungen von Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> berechnen wollen.</p>
 
 

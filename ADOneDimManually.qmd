@@ -14,7 +14,7 @@ Gemäss unserer Konvention in @sec-ProgFunc berechnen wir eine mathematische Fun
 
 > "There are as many shades of AD as there are AD users. [This chapter] provides to the user the black and the white; it is up to him to get the correct shade of grey that fits his taste and his requirements." (@Henrard2017ADi, S. 18)
 
-## Manuelle Implementation der SAD
+## Manuelle Implementation der SAD {#sec-SadManualImplementation}
 
 Beginnen wir mit einem Beispiel:
 
@@ -154,8 +154,6 @@ Leite dieses Programm ab. Dein Programm soll die Gleichung der Tangente $t(x) = 
 ## Lösung
 
 ```{python}
-import math
-
 def f(x):
     v0dot = 1
     v0 = x
@@ -415,7 +413,7 @@ if __name__ == "__main__":
 
 
 
-## Implementation der SAD mit Operator Overloading
+## Implementation der SAD mit Operator Overloading {#sec-SadImplementationOperatorOverloading}
 
 Nach dem letzten Abschnitt könnte man einwenden, dass wir die Ableitungen der Funktionen ja doch von Hand berechnet haben, denn wir haben jede Programmzeile, in der eine Variable `v` berechnet wird, um eine weitere Zeile ergänzt, in der wir `vdot` nach den bekannten Ableitungsregeln berechnet haben. Dieser Einwand ist auch berechtigt - oder wie es Henrard ausdrückt:
 
@@ -463,11 +461,12 @@ Dieses Resultat lässt sich auf allgemeine Funktionen $f$ verallgemeinern (für 
 $$
 f(a+a'\epsilon) = f(a) + f'(a)\cdot a'\epsilon
 $$
-[[Wikipedia: Dual number](https://en.wikipedia.org/wiki/Dual_number)]
+
+([Wikipedia: Dual number](https://en.wikipedia.org/wiki/Dual_number) und @Slater2022)
 
 :::
 
-### Die Klasse `FloatSad`
+### Die Klasse `FloatSad`  {#sec-FoatSadClassDescription}
 Beginnen wir nun mit der Implementation unserer Klasse `FloatSad`. Analog zu den dualen Zahlen enthält jedes `FloatSad`-Objekt zwei Attribute. Das Attribut `value` speichert den Funktionswert und das Attribut `derivative` speichert den Wert der Ableitung. Im Konstruktor der Klasse setzen wir für `derivative` den Standardwert `1`. Damit können wir eine gewöhnliche `Float`-Zahl korrekt in ein `FloatSad` umwandeln. Dies wird im `main` Programm demonstriert.
 ```{python}
 #| code-fold: show
@@ -475,7 +474,7 @@ import math
 
 class FloatSad:
 
-    def __init__(self, value, derivative = 1.0) -> None:
+    def __init__(self, value, derivative = 1.0):
         self.value = float(value)
         self.derivative = derivative
 
@@ -552,7 +551,7 @@ Nun können wir zwei `FloatSad`-Objekte miteinander addieren. Manchmal möchten 
 def __add__(self, other):
     if type(other) in (float, int):
         newValue = self.value + other
-        newDerivative = self.derivative + 0
+        newDerivative = self.derivative + 0.0
     else:
         newValue = self.value + other.value
         newDerivative = self.derivative + other.derivative
@@ -566,7 +565,7 @@ Jetzt funktioniert zwar die Anweisung `v1 = v0 + 2`, aber die Anweisung `v1 = 2 
 def __radd__(self, other):
     if type(other) in (float, int):
         newValue = other + self.value
-        newDerivative = 0 + self.derivative
+        newDerivative = 0.0 + self.derivative
     else:
         newValue = other.value + self.value
         newDerivative = other.derivative + self.derivative
@@ -581,7 +580,7 @@ import math
 
 class FloatSad:
 
-    def __init__(self, value, derivative = 1.0) -> None:
+    def __init__(self, value, derivative = 1.0):
         self.value = float(value)
         self.derivative = derivative
 
@@ -605,7 +604,7 @@ class FloatSad:
     def __add__(self, other):
         if type(other) in (float, int):
             newValue = self.value + other
-            newDerivative = self.derivative + 0
+            newDerivative = self.derivative + 0.0
         else:
             newValue = self.value + other.value
             newDerivative = self.derivative + other.derivative
@@ -614,7 +613,7 @@ class FloatSad:
     def __radd__(self, other):
         if type(other) in (float, int):
             newValue = other + self.value
-            newDerivative = 0 + self.derivative
+            newDerivative = 0.0 + self.derivative
         else:
             newValue = other.value + self.value
             newDerivative = other.derivative + self.derivative
@@ -676,7 +675,7 @@ Schreibe auch eine Testfunktion `f`, welche die neuen Operatoren verwendet.
 def __sub__(self, other):
     if type(other) in (float, int):
         newValue = self.value - other
-        newDerivative = self.derivative - 0
+        newDerivative = self.derivative - 0.0
     else:
         newValue = self.value - other.value
         newDerivative = self.derivative - other.derivative
@@ -685,7 +684,7 @@ def __sub__(self, other):
 def __rsub__(self, other):
     if type(other) in (float, int):
         newValue = other - self.value
-        newDerivative = 0 - self.derivative
+        newDerivative = 0.0 - self.derivative
     else:
         newValue = other.value - self.value
         newDerivative = other.derivative - self.derivative
@@ -736,7 +735,7 @@ def __rmul__(self, other):
 
 :::
 
-Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie `v2 = v1 / v0` verwenden können. Da wir es bei differenzierbaren Funktionen immer mit `float`- bzw. `FloatSad`-Objekten zu tun haben, implementieren wir nur den `/`-Operator, also die Funktion `__truediv__(self, other)` und nicht den `//`-Operator. Wir wollen aber wieder die Fallunterscheidung nach den Typen machen, so dass auch Anweisungen wie `v1 = v0 / 4` verwendet werden können. Dabei benötigen wir nur die Faktorregel und nicht die Quotientenregel. Um schliesslich auch noch `v1 = -4 / v0` zu ermöglichen, muss noch `__rtruediv__(self, other)` implementiert werden. Bei letzterem darf nicht vergessen werden, dass auch die Kettenregel benutzt werden muss, denn $\frac{dv_1}{dx} = \frac{dv_1}{dv_0}\cdot \frac{dv_0}{dx} = \frac{-4}{v_0^2}\cdot v_0'$. Quadrate kann man mit `math.pow(value, 2)` berechnen.
+Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie `v2 = v1 / v0` verwenden können. Da wir es bei differenzierbaren Funktionen immer mit `float`- bzw. `FloatSad`-Objekten zu tun haben, implementieren wir nur den `/`-Operator, also die Funktion `__truediv__(self, other)` und nicht den `//`-Operator. Wir wollen aber wieder die Fallunterscheidung nach den Typen machen, so dass auch Anweisungen wie `v1 = v0 / 4` verwendet werden können. Dabei benötigen wir nur die Faktorregel und nicht die Quotientenregel. Um schliesslich auch noch `v1 = -4 / v0` zu ermöglichen, muss noch `__rtruediv__(self, other)` implementiert werden. Bei letzterem darf nicht vergessen werden, dass auch die Kettenregel benutzt werden muss, denn $\frac{dv_1}{dx} = \frac{dv_1}{dv_0}\cdot \frac{dv_0}{dx} = \frac{4}{v_0^2}\cdot v_0'$. Quadrate kann man mit `math.pow(value, 2)` berechnen.
 
 :::{#exr-ImplementTrueDiv}
 
@@ -744,7 +743,7 @@ Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie `v2 = v1 / v0` ve
 <br>
 
 Ergänze die Datei `floatsad.py` mit den Methoden `__truediv__(self, other)` und `__rtruediv__(self, other)`. 
-Falls du dich mit Fehlerbehandlung (*Exceptions*) auskennst, dann soll deine Funktion einen `ZeroDivisionError` werfen, wenn durch Null geteilt wird.
+Falls du dich mit Fehlerbehandlung (*Exceptions*) auskennst, dann soll deine Funktion einen `ZeroDivisionError` werfen, wenn durch Null geteilt wird (im Falle von `FloatSad`-Objekten heisst das, dass `value` Null ist).
 Überlege dir auch wieder verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.
 
 :::
@@ -842,8 +841,8 @@ $$
 ## Den Operator `**` implementieren - Teil 1
 <br>
 
-Ergänze die Datei `floatsad.py` mit der Methoden `__pow__(self, other)`. Dabei übernimmt `self` die Rolle von $v_1$ in der obigen Herleitung und `other` entspricht $v_2$. Die Funktion $\ln(\ldots)$ heisst in Python `math.log()`.
-Falls du dich mit *Exceptions* auskennst, dann soll deine Funktion einen `ValueError` werfen, wenn durch $v_1 \le 0$ ist.
+Ergänze die Datei `floatsad.py` mit der Methode `__pow__(self, other)`. Dabei übernimmt `self` die Rolle von $v_1$ in der obigen Herleitung und `other` entspricht $v_2$. Die Funktion $\ln(\ldots)$ heisst in Python `math.log()`.
+Falls du dich mit *Exceptions* auskennst, dann soll deine Funktion einen `ValueError` werfen, wenn $v_1 \le 0$ ist.
 Teste dein Programm an verschiedenen Funktionen.
 
 :::
@@ -875,12 +874,12 @@ def __pow__(self, other):
 ```{python}
 #| eval: false
 def __pow__(self, other):
-    if self.value <= 0:
-        raise ValueError("'self.value' must be positive.")
+    if type(other) in (float, int):
+        newValue = math.pow(self.value, other)
+        newDerivative = other * math.pow(self.value, other - 1) * self.derivative
     else:
-        if type(other) in (float, int):
-            newValue = math.pow(self.value, other)
-            newDerivative = other * math.pow(self.value, other - 1) * self.derivative
+        if self.value < 0:
+            raise ValueError("'self.value' must be positive.")
         else:
             newValue = math.pow(self.value, other.value)
             newDerivative = math.pow(self.value, other.value) * \
@@ -900,7 +899,7 @@ Falls `other` ebenfalls ein `FloatSad` ist, dann kann die Ableitung gleich wie o
 ## Den Operator `**` implementieren - Teil 2
 <br>
 
-Ergänze die Datei `floatsad.py` mit der Methoden `__rpow__(self, other)`. Implementiere wenn möglich auch die Fehlerbehandlung.
+Ergänze die Datei `floatsad.py` mit der Methode `__rpow__(self, other)`. Implementiere wenn möglich auch die Fehlerbehandlung.
 Teste dein Programm an verschiedenen Funktionen.
 
 :::
@@ -1013,3 +1012,304 @@ def __ge__(self, other):
 
 ## Die Klasse `FloatSad` im Einsatz
 
+{{< include _floatsadForExecution.qmd >}}
+
+Falls im letzten Abschnitt etwas nicht geklappt haben sollte, kann die fertige Klasse `FloatSad` von [hier](floatsad.py) kopiert werden.
+
+Um unsere Klasse zu verwenden müssen wir sie jeweils am Anfang mit 
+```{python}
+#| eval: false
+#| code-fold: false
+#| echo: true
+from floatsad import FloatSad
+```
+einbinden.
+
+:::{#exm-FloatSadUsage1}
+
+## Ein Programm mit FloatSad
+<br>
+
+Betrachte die Funktion aus @exm-FirstFunctionAsProgram. Wir übernehmen das Programm und passen lediglich die erste Zeile der Funktion gemäss der Konvention aus @sec-FoatSadClassDescription an.
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+
+def f(x):
+    v0 = FloatSad(x)
+    v1 = 2 + v0
+    v2 = v0 - 3
+    y = v1 * v2
+    return y
+
+x0 = 2
+print(f(x0))
+```
+Da aber alle Ableitungsregeln in den verwendeten Operatoren integriert sind, können wir nun sogar auf die Zwischenschritte mit den `v` verzichten:
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+
+def f(x):
+    x = FloatSad(x)
+    y = (2+x) * (x-3)
+    return y
+
+x0 = 2
+print(f(x0))
+```
+:::
+---
+
+Wir sehen, dass wir also alle unsere Konventionen, die dazu dienten, komplizierte Funktionsausdrücke in ihre Bestandteile zu zerlegen und diese mit den elementaren Ableitungsregeln zu differenzieren, wieder aufgeben können! Der einzige Zusatzaufwand, den wir bei der Programmierung haben, ist das Umwandeln des Arguments `x` in ein `FloatSad`-Objekt.
+
+:::{#exr-FloatSadAnwenden1}
+
+## `FloatSad` anwenden
+<br>
+
+Vereinfache die Lösung von @exr-SADmitSchleife mit Hilfe der Klasse `FloatSad`. Überzeuge dich davon, dass die Ableitungen auch von Programmen mit Schleifen korrekt berechnet werden.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+```{python}
+from floatsad import FloatSad
+
+def l(x):
+    y = x**2 + 1
+    return y
+
+def f(x):
+    x = FloatSad(x)
+    for i in range(3):
+        x = l(x)
+    return x
+
+print(f(1))
+```
+
+:::
+
+
+## Das Modul `mathsad`
+
+Mit der Klasse `FloatSad` können wir Funktionswerte und Ableitungen von algebraischen Funktionen bilden. Wir können aber unsere `FloatSad`-Objekte noch nicht mit den Funktionen aus dem Python-Modul `math` verwenden, z.B. mit `exp` oder `sin`. In diesem Abschnitt wollen wir ein eigenes Modul `mathsad` schreiben, in dem wir die Funktionen aus @tbl-mathFunctions so implementieren, dass wir sie auf `FloatSad`-Objekte anwenden können.
+
+|         |         |         |
+|:-------:|:-------:|:-------:|
+| `sqrt`  | `exp`   | `log`   |
+| `sin`   | `cos`   | `tan`   |
+| `asin`  | `acos`  | `atan`  |
+| `sinh`  | `cosh`  | `tanh`  |
+| `asinh` | `acosh` | `atanh` |
+| `fabs`  |         |         |
+
+: Funktionen des Moduls `math` (Auswahl) {#tbl-mathFunctions}
+
+Gemäss der [Python-Dokumentation](https://docs.python.org/3.8/library/math.html) liefert die Funktion `math.exp(x)` präzisere Werte als `math.e ** x` oder `math.pow(math.e, x)`. Die Funktion `math.log(x)` berechnet den Logarithmus zur Basis $e$, man kann ihr aber als zweites Argument auch eine andere Basis übergeben, z.B. `math.log(x,b)`, was dann mit `math.log(x)/math.log(b)` berechnet wird. Die Funktion `math.fabs(x)` schliesslich berechnet den Absolutbetrag $|x|$. Ihre Ableitung ist
+```{python}
+#| eval: false
+#| code-fold: false 
+(math.fabs(v)).derivative = v.derivative if v>=0 else -v.derivative
+```
+
+### Die Funktion `sqrt`
+
+Beginnen wir mit der Implementierung der Wurzelfunktion.
+```{python}
+#| code-fold: show
+import math
+from floatsad import FloatSad
+
+def sqrt(x):
+    newValue = math.sqrt(x.value)
+    newDerivative = 1/(2*math.sqrt(x.value)) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+if __name__ == '__main__':
+
+    def f(x):
+        x = FloatSad(x)
+        y = 1 / sqrt(x**2 + 1)
+        return y
+
+    x0 = -1
+    print(f(x0))
+```
+Wir gehen davon aus, dass `x` ein `FloatSad`-Objekt ist. Für den Wert von `sqrt(x)` verwenden wir einfach die Funktion `math.sqrt`. Zusätzlich berechnen wir aber noch den Wert der Ableitung mit Hilfe der bekannten Ableitungsregel und wie zuvor wenden wir immer die Kettenregel an. Das Programm enthält auch ein Testprogramm, welches die Ableitung der Funktion $f(x) = \frac{1}{\sqrt{x^2+1}}$ an der Stelle $x_0 = -1$ berechnet. Zur Kontrolle kann die GeoGebra-Vorlage zu Beginn von @sec-SadManualImplementation verwendet werden. 
+
+### Die Funktionen `exp` und `log`
+
+:::{#exr-implementExp}
+
+## Exponentialfunktion
+<br>
+
+Kopiere den obigen Code und speichere ihn in einer Datei mit dem Namen `mathsad.py`. Speichere die Datei im gleichen Ordner wie die anderen Dateien. Ergänze die Datei danach mit der Funktion `exp`. Ändere die Testfunktion im `main` entsprechend ab und überzeuge dich von der Richtigkeit deiner Lösung. 
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+Hier gibt es keine Überraschungen:
+```{python}
+def exp(x):
+    newValue = math.exp(x.value)
+    newDerivative = math.exp(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+:::
+
+Für die Logarithmusfunktion müssen wir uns wieder etwas mehr Gedanken machen. Mit `def log(x, b = math.e)` kann man der Basis $b$ wie oben beschrieben den Standardwert $b=e$ geben. Solange `b` vom Typ `int` oder `float` ist, kann man einfach die bekannte Ableitungsregel anwenden.
+Wenn aber `b` ein `FloatSad`-Objekt ist, wie z.B. in `v3 = math.log(v1, v2)`, dann müssen wir den Basiswechselsatz
+$$
+v_3(x) = \frac{\ln(v_1(x))}{\ln(v_2(x))}
+$$
+verwenden und mit der Quotientenregel ableiten.
+
+:::{#exr-implementLog}
+
+## Logarithmusfunktion
+<br>
+
+Überlege dir, wie die Ableitung von $v_3(x)$ aussieht. Ergänze danach die Datei `mathsad.py` mit der Implementation der Logarithmusfunktion. Überzeuge dich mit einer Testfunktion von der Richtigkeit deines Programms.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+Die Ableitung lautet
+$$
+\frac{d}{dx}v_3(x) = \frac{\frac{v_1'(x)}{v_1(x)}\cdot \ln(v_2(x))-\ln(v_1(x))\cdot\frac{v_2'(x)}{v_2(x)}}{\ln^2(v_2(x))}
+$$
+```{python}
+def log(x, b = math.e):
+    if type(b) in (float, int):
+        newValue = math.log(x.value, b)
+        newDerivative = 1 / (x.value * math.log(b)) * x.derivative
+    else:
+        newValue = math.log(x.value, b.value)
+        newDerivative = (x.derivative/x.value * math.log(b.value) - math.log(x.value) * b.derivative / b.value) \
+            / math.pow(math.log(b.value), 2)
+    return FloatSad(newValue, newDerivative)
+```
+
+:::
+
+### Die trigonometrischen Funktionen und ihre Umkehrfunktionen
+
+Bei den trigonometrischen Funktionen und den Arcus Funktionen können wir einfach die bekannten Ableitungsregeln verwenden.
+
+:::{#exr-implementTrig}
+
+## Trigonometrische Funktionen
+<br>
+
+Ergänze die Datei `mathsad.py` mit den Funktionen `sin`, `cos` und `tan`, sowie den Funktionen `asin`, `acos` und `atan`.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+Beachte, dass man für `tan` einfach $\tan(x)=\frac{\sin(x)}{\cos(x)}$ verwenden kann, wenn `sin` und `cos` bereits implementiert sind.
+```{python}
+def sin(x):
+    newValue = math.sin(x.value)
+    newDerivative = math.cos(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def cos(x):
+    newValue = math.cos(x.value)
+    newDerivative = -math.sin(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def tan(x):
+    return sin(x) / cos(x)
+
+def asin(x):
+    newValue = math.asin(x.value)
+    newDerivative = 1/math.sqrt( 1 - math.pow(x.value, 2)) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def acos(x):
+    newValue = math.acos(x.value)
+    newDerivative = -1/math.sqrt( 1 - math.pow(x.value, 2)) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def atan(x):
+    newValue = math.atan(x.value)
+    newDerivative = 1/(math.pow(x.value, 2) + 1) * x.derivative
+    return FloatSad(newValue, newDerivative) 
+```
+
+:::
+
+
+### Die hyperbolischen Funktionen und ihre Umkehrfunktionen
+
+Auch bei den hyperbolischen Funktionen und den Area Funktionen verwenden wir die bekannten Ableitungsregeln.
+
+:::{#exr-implementHyp}
+
+## Hyperbolische Funktionen
+<br>
+
+Ergänze die Datei `mathsad.py` mit den Funktionen `sinh`, `cosh` und `tanh`, sowie den Funktionen `asinh`, `acosh` und `atanh`.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+Wie bei den trigonometrischen Funktionen gilt auch hier $\tanh(x)=\frac{\sinh(x)}{\cosh(x)}$.
+```{python}
+def sinh(x):
+    newValue = math.sinh(x.value)
+    newDerivative = math.cosh(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def cosh(x):
+    newValue = math.cosh(x.value)
+    newDerivative = math.sinh(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def tanh(x):
+    return sinh(x) / cosh(x)
+
+def asinh(x):
+    newValue = math.asinh(x.value)
+    newDerivative = 1/math.sqrt(math.pow(x.value, 2) + 1) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def acosh(x):
+    newValue = math.acosh(x.value)
+    newDerivative = 1/math.sqrt(math.pow(x.value, 2) - 1) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def atanh(x):
+    newValue = math.atanh(x.value)
+    newDerivative = -1/(math.pow(x.value, 2) - 1) * x.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+:::
+
+### Die Betragsfunktion
+
+Schliesslich ergänzen wir die Datei `mathsad.py` noch mit der Funktion `fabs` wie oben beschrieben:
+```{python}
+#| code-fold: show
+def fabs(x):
+    newValue = math.fabs(x.value)
+    newDerivative = x.derivative if x>=0 else -x.derivative
+    return FloatSad(newValue, newDerivative)
+```
+
+Das fertige Modul kann auch von [hier](mathsad.py) kopiert werden.

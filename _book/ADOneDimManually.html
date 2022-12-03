@@ -217,10 +217,10 @@ div.csl-indent {
     <h2 id="toc-title">Inhaltsverzeichnis</h2>
    
   <ul>
-  <li><a href="#manuelle-implementation-der-sad" id="toc-manuelle-implementation-der-sad" class="nav-link active" data-scroll-target="#manuelle-implementation-der-sad"><span class="toc-section-number">3.1</span>  Manuelle Implementation der SAD</a></li>
-  <li><a href="#implementation-der-sad-mit-operator-overloading" id="toc-implementation-der-sad-mit-operator-overloading" class="nav-link" data-scroll-target="#implementation-der-sad-mit-operator-overloading"><span class="toc-section-number">3.2</span>  Implementation der SAD mit Operator Overloading</a>
+  <li><a href="#sec-SadManualImplementation" id="toc-sec-SadManualImplementation" class="nav-link active" data-scroll-target="#sec-SadManualImplementation"><span class="toc-section-number">3.1</span>  Manuelle Implementation der SAD</a></li>
+  <li><a href="#sec-SadImplementationOperatorOverloading" id="toc-sec-SadImplementationOperatorOverloading" class="nav-link" data-scroll-target="#sec-SadImplementationOperatorOverloading"><span class="toc-section-number">3.2</span>  Implementation der SAD mit Operator Overloading</a>
   <ul class="collapse">
-  <li><a href="#die-klasse-floatsad" id="toc-die-klasse-floatsad" class="nav-link" data-scroll-target="#die-klasse-floatsad"><span class="toc-section-number">3.2.1</span>  Die Klasse <code>FloatSad</code></a></li>
+  <li><a href="#sec-FoatSadClassDescription" id="toc-sec-FoatSadClassDescription" class="nav-link" data-scroll-target="#sec-FoatSadClassDescription"><span class="toc-section-number">3.2.1</span>  Die Klasse <code>FloatSad</code></a></li>
   <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="toc-section-number">3.2.2</span>  Vorzeichen</a></li>
   <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="toc-section-number">3.2.3</span>  Die Operatoren <code>+</code> und <code>-</code></a></li>
   <li><a href="#die-operatoren-und" id="toc-die-operatoren-und" class="nav-link" data-scroll-target="#die-operatoren-und"><span class="toc-section-number">3.2.4</span>  Die Operatoren <code>*</code> und <code>/</code></a></li>
@@ -228,6 +228,14 @@ div.csl-indent {
   <li><a href="#vergleichsopertoren" id="toc-vergleichsopertoren" class="nav-link" data-scroll-target="#vergleichsopertoren"><span class="toc-section-number">3.2.6</span>  Vergleichsopertoren</a></li>
   </ul></li>
   <li><a href="#die-klasse-floatsad-im-einsatz" id="toc-die-klasse-floatsad-im-einsatz" class="nav-link" data-scroll-target="#die-klasse-floatsad-im-einsatz"><span class="toc-section-number">3.3</span>  Die Klasse <code>FloatSad</code> im Einsatz</a></li>
+  <li><a href="#das-modul-mathsad" id="toc-das-modul-mathsad" class="nav-link" data-scroll-target="#das-modul-mathsad"><span class="toc-section-number">3.4</span>  Das Modul <code>mathsad</code></a>
+  <ul class="collapse">
+  <li><a href="#die-funktion-sqrt" id="toc-die-funktion-sqrt" class="nav-link" data-scroll-target="#die-funktion-sqrt"><span class="toc-section-number">3.4.1</span>  Die Funktion <code>sqrt</code></a></li>
+  <li><a href="#die-funktionen-exp-und-log" id="toc-die-funktionen-exp-und-log" class="nav-link" data-scroll-target="#die-funktionen-exp-und-log"><span class="toc-section-number">3.4.2</span>  Die Funktionen <code>exp</code> und <code>log</code></a></li>
+  <li><a href="#die-trigonometrischen-funktionen-und-ihre-umkehrfunktionen" id="toc-die-trigonometrischen-funktionen-und-ihre-umkehrfunktionen" class="nav-link" data-scroll-target="#die-trigonometrischen-funktionen-und-ihre-umkehrfunktionen"><span class="toc-section-number">3.4.3</span>  Die trigonometrischen Funktionen und ihre Umkehrfunktionen</a></li>
+  <li><a href="#die-hyperbolischen-funktionen-und-ihre-umkehrfunktionen" id="toc-die-hyperbolischen-funktionen-und-ihre-umkehrfunktionen" class="nav-link" data-scroll-target="#die-hyperbolischen-funktionen-und-ihre-umkehrfunktionen"><span class="toc-section-number">3.4.4</span>  Die hyperbolischen Funktionen und ihre Umkehrfunktionen</a></li>
+  <li><a href="#die-betragsfunktion" id="toc-die-betragsfunktion" class="nav-link" data-scroll-target="#die-betragsfunktion"><span class="toc-section-number">3.4.5</span>  Die Betragsfunktion</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -259,8 +267,8 @@ div.csl-indent {
 <blockquote class="blockquote">
 <p>“There are as many shades of AD as there are AD users. [This chapter] provides to the user the black and the white; it is up to him to get the correct shade of grey that fits his taste and his requirements.” (<span class="citation" data-cites="Henrard2017ADi">Henrard (<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">2017</a>)</span>, S. 18)</p>
 </blockquote>
-<section id="manuelle-implementation-der-sad" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="manuelle-implementation-der-sad"><span class="header-section-number">3.1</span> Manuelle Implementation der SAD</h2>
+<section id="sec-SadManualImplementation" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-SadManualImplementation"><span class="header-section-number">3.1</span> Manuelle Implementation der SAD</h2>
 <p>Beginnen wir mit einem Beispiel:</p>
 <p>Wir möchten den Funktionswert und die Ableitung der Funktion <span class="math inline">\(y=f(x)=\sin(x^2)\)</span> an der Stelle <span class="math inline">\(x_0=\frac{\pi}{2}\)</span> bestimmen. Das folgende Programm berechnet den Funktionswert.</p>
 <div class="cell" data-execution_count="1">
@@ -415,22 +423,20 @@ Lösung
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    v0dot <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    v1dot <span class="op">=</span> v0dot</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> v0</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    v2dot <span class="op">=</span> v0dot</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> v0 <span class="op">-</span> <span class="dv">3</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> v1dot <span class="op">*</span> v2 <span class="op">+</span> v1 <span class="op">*</span> v2dot <span class="co"># Produktregel</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v1 <span class="op">*</span> v2</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y, ydot]</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>[y0, y0dot] <span class="op">=</span> f(x0)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"t(x) ="</span>, y0, <span class="st">"+"</span>, y0dot, <span class="st">"* ( x -"</span>, x0, <span class="st">")"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    v0dot <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    v1dot <span class="op">=</span> v0dot</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> v0</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    v2dot <span class="op">=</span> v0dot</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> v0 <span class="op">-</span> <span class="dv">3</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> v1dot <span class="op">*</span> v2 <span class="op">+</span> v1 <span class="op">*</span> v2dot <span class="co"># Produktregel</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v1 <span class="op">*</span> v2</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y, ydot]</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>[y0, y0dot] <span class="op">=</span> f(x0)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"t(x) ="</span>, y0, <span class="st">"+"</span>, y0dot, <span class="st">"* ( x -"</span>, x0, <span class="st">")"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>t(x) = -4 + 3 * ( x - 2 )</code></pre>
@@ -591,7 +597,7 @@ Lösung
 <p>In der nächsten Übungsaufgabe verwenden wir die Technik der AD, um das Billardproblem aus <a href="intro.html#sec-Newtonverfahren1D"><span>Kapitel&nbsp;1.3.1</span></a> mit dem Newtonverfahren zu lösen. Da uns die Funktion <code>f(x)</code> nun nicht mehr nur der Funktionswert, sondern auch die Ableitung berechnet, können wir das Newtonverfahren ohne die Probleme aus <a href="intro.html#exr-NewtonFirstTry">Übungsaufgabe&nbsp;<span>1.4</span></a> implementieren.</p>
 <div id="exr-BillardSADmanualSOlution" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 3.6 (Das Billard-Problem) </strong></span><br></p>
-<p>Leite das Programm aus <a href="intro.html#exm-Billard">Beispiel&nbsp;<span>1.1</span></a> ab. Schreibe danach eine Funktion <code>newton(f, x0)</code>, welche ausnutzt, dass der Funktionsaufruf <code>f(x0)</code> auch den exakten Wert der Ableitung zurückgibt. Stelle alle gefundenen Lösungen grafisch dar.</p>
+<p>Leite das Programm aus <a href="intro.html#exm-Billard">Beispiel&nbsp;<span>1.2</span></a> ab. Schreibe danach eine Funktion <code>newton(f, x0)</code>, welche ausnutzt, dass der Funktionsaufruf <code>f(x0)</code> auch den exakten Wert der Ableitung zurückgibt. Stelle alle gefundenen Lösungen grafisch dar.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
@@ -703,8 +709,8 @@ Lösung
 </div>
 </div>
 </section>
-<section id="implementation-der-sad-mit-operator-overloading" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="implementation-der-sad-mit-operator-overloading"><span class="header-section-number">3.2</span> Implementation der SAD mit Operator Overloading</h2>
+<section id="sec-SadImplementationOperatorOverloading" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-SadImplementationOperatorOverloading"><span class="header-section-number">3.2</span> Implementation der SAD mit Operator Overloading</h2>
 <p>Nach dem letzten Abschnitt könnte man einwenden, dass wir die Ableitungen der Funktionen ja doch von Hand berechnet haben, denn wir haben jede Programmzeile, in der eine Variable <code>v</code> berechnet wird, um eine weitere Zeile ergänzt, in der wir <code>vdot</code> nach den bekannten Ableitungsregeln berechnet haben. Dieser Einwand ist auch berechtigt - oder wie es Henrard ausdrückt:</p>
 <blockquote class="blockquote">
 <p>“The bad news is that it [calculating the derivatives] has to be done; it will not appear magically. It is not only a figure of speech that ‘something has to be done’ but that to have it working everything has to be done”. <span class="citation" data-cites="Henrard2017ADi">(<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">Henrard 2017, 17</a>)</span></p>
@@ -749,12 +755,13 @@ Hintergrund: Duale Zahlen
 \end{align}
 \]</span> Dieses Resultat lässt sich auf allgemeine Funktionen <span class="math inline">\(f\)</span> verallgemeinern (für den Beweis entwickelt man <span class="math inline">\(f\)</span> in eine Taylorreihe und macht die gleichen Überlegungen wie für ein Polynom): <span class="math display">\[
 f(a+a'\epsilon) = f(a) + f'(a)\cdot a'\epsilon
-\]</span> [<a href="https://en.wikipedia.org/wiki/Dual_number">Wikipedia: Dual number</a>]</p>
+\]</span></p>
+<p>(<a href="https://en.wikipedia.org/wiki/Dual_number">Wikipedia: Dual number</a> und <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>)</p>
 </div>
 </div>
 </div>
-<section id="die-klasse-floatsad" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="die-klasse-floatsad"><span class="header-section-number">3.2.1</span> Die Klasse <code>FloatSad</code></h3>
+<section id="sec-FoatSadClassDescription" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-FoatSadClassDescription"><span class="header-section-number">3.2.1</span> Die Klasse <code>FloatSad</code></h3>
 <p>Beginnen wir nun mit der Implementation unserer Klasse <code>FloatSad</code>. Analog zu den dualen Zahlen enthält jedes <code>FloatSad</code>-Objekt zwei Attribute. Das Attribut <code>value</code> speichert den Funktionswert und das Attribut <code>derivative</code> speichert den Wert der Ableitung. Im Konstruktor der Klasse setzen wir für <code>derivative</code> den Standardwert <code>1</code>. Damit können wir eine gewöhnliche <code>Float</code>-Zahl korrekt in ein <code>FloatSad</code> umwandeln. Dies wird im <code>main</code> Programm demonstriert.</p>
 <div class="cell" data-execution_count="11">
 <details open="">
@@ -763,7 +770,7 @@ f(a+a'\epsilon) = f(a) + f'(a)\cdot a'\epsilon
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FloatSad:</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, derivative <span class="op">=</span> <span class="fl">1.0</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, derivative <span class="op">=</span> <span class="fl">1.0</span>):</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> <span class="bu">float</span>(value)</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.derivative <span class="op">=</span> derivative</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -835,7 +842,7 @@ Konvention
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, other):</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> <span class="dv">0</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> <span class="fl">0.0</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other.value</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> other.derivative</span>
@@ -846,7 +853,7 @@ Konvention
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__radd__</span>(<span class="va">self</span>, other):</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">+</span> <span class="va">self</span>.value</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="dv">0</span> <span class="op">+</span> <span class="va">self</span>.derivative</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="fl">0.0</span> <span class="op">+</span> <span class="va">self</span>.derivative</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other.value <span class="op">+</span> <span class="va">self</span>.value</span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> other.derivative <span class="op">+</span> <span class="va">self</span>.derivative</span>
@@ -860,7 +867,7 @@ Konvention
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FloatSad:</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, derivative <span class="op">=</span> <span class="fl">1.0</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, derivative <span class="op">=</span> <span class="fl">1.0</span>):</span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> <span class="bu">float</span>(value)</span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.derivative <span class="op">=</span> derivative</span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -884,7 +891,7 @@ Konvention
 <span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, other):</span>
 <span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
 <span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other</span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> <span class="dv">0</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> <span class="fl">0.0</span></span>
 <span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
 <span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">+</span> other.value</span>
 <span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">+</span> other.derivative</span>
@@ -893,7 +900,7 @@ Konvention
 <span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__radd__</span>(<span class="va">self</span>, other):</span>
 <span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
 <span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> other <span class="op">+</span> <span class="va">self</span>.value</span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="dv">0</span> <span class="op">+</span> <span class="va">self</span>.derivative</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> <span class="fl">0.0</span> <span class="op">+</span> <span class="va">self</span>.derivative</span>
 <span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
 <span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> other.value <span class="op">+</span> <span class="va">self</span>.value</span>
 <span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> other.derivative <span class="op">+</span> <span class="va">self</span>.derivative</span>
@@ -961,7 +968,7 @@ Lösung
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__sub__</span>(<span class="va">self</span>, other):</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">-</span> other</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">-</span> <span class="dv">0</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">-</span> <span class="fl">0.0</span></span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">-</span> other.value</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="va">self</span>.derivative <span class="op">-</span> other.derivative</span>
@@ -970,7 +977,7 @@ Lösung
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rsub__</span>(<span class="va">self</span>, other):</span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">-</span> <span class="va">self</span>.value</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="dv">0</span> <span class="op">-</span> <span class="va">self</span>.derivative</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="fl">0.0</span> <span class="op">-</span> <span class="va">self</span>.derivative</span>
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other.value <span class="op">-</span> <span class="va">self</span>.value</span>
 <span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> other.derivative <span class="op">-</span> <span class="va">self</span>.derivative</span>
@@ -1025,10 +1032,10 @@ Lösung
 </div>
 </div>
 </div>
-<p>Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie <code>v2 = v1 / v0</code> verwenden können. Da wir es bei differenzierbaren Funktionen immer mit <code>float</code>- bzw. <code>FloatSad</code>-Objekten zu tun haben, implementieren wir nur den <code>/</code>-Operator, also die Funktion <code>__truediv__(self, other)</code> und nicht den <code>//</code>-Operator. Wir wollen aber wieder die Fallunterscheidung nach den Typen machen, so dass auch Anweisungen wie <code>v1 = v0 / 4</code> verwendet werden können. Dabei benötigen wir nur die Faktorregel und nicht die Quotientenregel. Um schliesslich auch noch <code>v1 = -4 / v0</code> zu ermöglichen, muss noch <code>__rtruediv__(self, other)</code> implementiert werden. Bei letzterem darf nicht vergessen werden, dass auch die Kettenregel benutzt werden muss, denn <span class="math inline">\(\frac{dv_1}{dx} = \frac{dv_1}{dv_0}\cdot \frac{dv_0}{dx} = \frac{-4}{v_0^2}\cdot v_0'\)</span>. Quadrate kann man mit <code>math.pow(value, 2)</code> berechnen.</p>
+<p>Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie <code>v2 = v1 / v0</code> verwenden können. Da wir es bei differenzierbaren Funktionen immer mit <code>float</code>- bzw. <code>FloatSad</code>-Objekten zu tun haben, implementieren wir nur den <code>/</code>-Operator, also die Funktion <code>__truediv__(self, other)</code> und nicht den <code>//</code>-Operator. Wir wollen aber wieder die Fallunterscheidung nach den Typen machen, so dass auch Anweisungen wie <code>v1 = v0 / 4</code> verwendet werden können. Dabei benötigen wir nur die Faktorregel und nicht die Quotientenregel. Um schliesslich auch noch <code>v1 = -4 / v0</code> zu ermöglichen, muss noch <code>__rtruediv__(self, other)</code> implementiert werden. Bei letzterem darf nicht vergessen werden, dass auch die Kettenregel benutzt werden muss, denn <span class="math inline">\(\frac{dv_1}{dx} = \frac{dv_1}{dv_0}\cdot \frac{dv_0}{dx} = \frac{4}{v_0^2}\cdot v_0'\)</span>. Quadrate kann man mit <code>math.pow(value, 2)</code> berechnen.</p>
 <div id="exr-ImplementTrueDiv" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 3.10 (Den Operator <code>/</code> implementieren) </strong></span><br></p>
-<p>Ergänze die Datei <code>floatsad.py</code> mit den Methoden <code>__truediv__(self, other)</code> und <code>__rtruediv__(self, other)</code>. Falls du dich mit Fehlerbehandlung (<em>Exceptions</em>) auskennst, dann soll deine Funktion einen <code>ZeroDivisionError</code> werfen, wenn durch Null geteilt wird. Überlege dir auch wieder verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.</p>
+<p>Ergänze die Datei <code>floatsad.py</code> mit den Methoden <code>__truediv__(self, other)</code> und <code>__rtruediv__(self, other)</code>. Falls du dich mit Fehlerbehandlung (<em>Exceptions</em>) auskennst, dann soll deine Funktion einen <code>ZeroDivisionError</code> werfen, wenn durch Null geteilt wird (im Falle von <code>FloatSad</code>-Objekten heisst das, dass <code>value</code> Null ist). Überlege dir auch wieder verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
@@ -1124,7 +1131,7 @@ Lösung
 \]</span></p>
 <div id="exr-ImplementPow" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 3.11 (Den Operator <code>**</code> implementieren - Teil 1) </strong></span><br></p>
-<p>Ergänze die Datei <code>floatsad.py</code> mit der Methoden <code>__pow__(self, other)</code>. Dabei übernimmt <code>self</code> die Rolle von <span class="math inline">\(v_1\)</span> in der obigen Herleitung und <code>other</code> entspricht <span class="math inline">\(v_2\)</span>. Die Funktion <span class="math inline">\(\ln(\ldots)\)</span> heisst in Python <code>math.log()</code>. Falls du dich mit <em>Exceptions</em> auskennst, dann soll deine Funktion einen <code>ValueError</code> werfen, wenn durch <span class="math inline">\(v_1 \le 0\)</span> ist. Teste dein Programm an verschiedenen Funktionen.</p>
+<p>Ergänze die Datei <code>floatsad.py</code> mit der Methode <code>__pow__(self, other)</code>. Dabei übernimmt <code>self</code> die Rolle von <span class="math inline">\(v_1\)</span> in der obigen Herleitung und <code>other</code> entspricht <span class="math inline">\(v_2\)</span>. Die Funktion <span class="math inline">\(\ln(\ldots)\)</span> heisst in Python <code>math.log()</code>. Falls du dich mit <em>Exceptions</em> auskennst, dann soll deine Funktion einen <code>ValueError</code> werfen, wenn <span class="math inline">\(v_1 \le 0\)</span> ist. Teste dein Programm an verschiedenen Funktionen.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
@@ -1162,12 +1169,12 @@ Lösung
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__pow__</span>(<span class="va">self</span>, other):</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.value <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"'self.value' must be positive."</span>)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> other <span class="op">*</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> other <span class="op">*</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="va">self</span>.derivative</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.value <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"'self.value' must be positive."</span>)</span>
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>            newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other.value)</span>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>            newDerivative <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other.value) <span class="op">*</span> <span class="op">\</span></span>
@@ -1184,7 +1191,7 @@ Lösung
 <p>Nun implementieren wir auch noch die Methode <code>__rpow__(self, other)</code>. Im Fall, dass <code>type(other) in (float, int)</code> ist, handelt es sich hierbei um eine Exponentialfunktion. Wir müssen dann sicherstellen, dass die Basis, also <code>other</code>, eine positive Zahl ist. Falls <code>other</code> ebenfalls ein <code>FloatSad</code> ist, dann kann die Ableitung gleich wie oben implementiert werden, ausser, dass jetzt <code>self</code> und <code>other</code> ihre Rollen tauschen.</p>
 <div id="exr-ImplementRpow" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 3.12 (Den Operator <code>**</code> implementieren - Teil 2) </strong></span><br></p>
-<p>Ergänze die Datei <code>floatsad.py</code> mit der Methoden <code>__rpow__(self, other)</code>. Implementiere wenn möglich auch die Fehlerbehandlung. Teste dein Programm an verschiedenen Funktionen.</p>
+<p>Ergänze die Datei <code>floatsad.py</code> mit der Methode <code>__rpow__(self, other)</code>. Implementiere wenn möglich auch die Fehlerbehandlung. Teste dein Programm an verschiedenen Funktionen.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
@@ -1332,6 +1339,369 @@ Lösung
 </section>
 <section id="die-klasse-floatsad-im-einsatz" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="die-klasse-floatsad-im-einsatz"><span class="header-section-number">3.3</span> Die Klasse <code>FloatSad</code> im Einsatz</h2>
+<p>Falls im letzten Abschnitt etwas nicht geklappt haben sollte, kann die fertige Klasse <code>FloatSad</code> von <a href="floatsad.py">hier</a> kopiert werden.</p>
+<p>Um unsere Klasse zu verwenden müssen wir sie jeweils am Anfang mit</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>einbinden.</p>
+<div id="exm-FloatSadUsage1" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 3.1 (Ein Programm mit FloatSad) </strong></span><br></p>
+<p>Betrachte die Funktion aus <a href="intro.html#exm-FirstFunctionAsProgram">Beispiel&nbsp;<span>1.1</span></a>. Wir übernehmen das Programm und passen lediglich die erste Zeile der Funktion gemäss der Konvention aus <a href="#sec-FoatSadClassDescription"><span>Kapitel&nbsp;3.2.1</span></a> an.</p>
+<div class="cell" data-execution_count="29">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> FloatSad(x)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> v0</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> v0 <span class="op">-</span> <span class="dv">3</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v1 <span class="op">*</span> v2</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f(x0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt; -4.0 ; 3.0 &gt;</code></pre>
+</div>
+</div>
+<p>Da aber alle Ableitungsregeln in den verwendeten Operatoren integriert sind, können wir nun sogar auf die Zwischenschritte mit den <code>v</code> verzichten:</p>
+<div class="cell" data-execution_count="30">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatSad(x)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> (<span class="dv">2</span><span class="op">+</span>x) <span class="op">*</span> (x<span class="op">-</span><span class="dv">3</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f(x0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt; -4.0 ; 3.0 &gt;</code></pre>
+</div>
+</div>
+</div>
+<hr>
+<p>Wir sehen, dass wir also alle unsere Konventionen, die dazu dienten, komplizierte Funktionsausdrücke in ihre Bestandteile zu zerlegen und diese mit den elementaren Ableitungsregeln zu differenzieren, wieder aufgeben können! Der einzige Zusatzaufwand, den wir bei der Programmierung haben, ist das Umwandeln des Arguments <code>x</code> in ein <code>FloatSad</code>-Objekt.</p>
+<div id="exr-FloatSadAnwenden1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.13 (<code>FloatSad</code> anwenden) </strong></span><br></p>
+<p>Vereinfache die Lösung von <a href="#exr-SADmitSchleife">Übungsaufgabe&nbsp;<span>3.5</span></a> mit Hilfe der Klasse <code>FloatSad</code>. Überzeuge dich davon, dass die Ableitungen auch von Programmen mit Schleifen korrekt berechnet werden.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-execution_count="31">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> l(x):</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatSad(x)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> l(x)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f(<span class="dv">1</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt; 26.0 ; 80.0 &gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="das-modul-mathsad" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="das-modul-mathsad"><span class="header-section-number">3.4</span> Das Modul <code>mathsad</code></h2>
+<p>Mit der Klasse <code>FloatSad</code> können wir Funktionswerte und Ableitungen von algebraischen Funktionen bilden. Wir können aber unsere <code>FloatSad</code>-Objekte noch nicht mit den Funktionen aus dem Python-Modul <code>math</code> verwenden, z.B. mit <code>exp</code> oder <code>sin</code>. In diesem Abschnitt wollen wir ein eigenes Modul <code>mathsad</code> schreiben, in dem wir die Funktionen aus <a href="#tbl-mathFunctions">Tabelle&nbsp;<span>3.2</span></a> so implementieren, dass wir sie auf <code>FloatSad</code>-Objekte anwenden können.</p>
+<div id="tbl-mathFunctions" class="anchored">
+<table class="table">
+<caption>Tabelle&nbsp;3.2: Funktionen des Moduls <code>math</code> (Auswahl)</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>sqrt</code></td>
+<td style="text-align: center;"><code>exp</code></td>
+<td style="text-align: center;"><code>log</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>sin</code></td>
+<td style="text-align: center;"><code>cos</code></td>
+<td style="text-align: center;"><code>tan</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>asin</code></td>
+<td style="text-align: center;"><code>acos</code></td>
+<td style="text-align: center;"><code>atan</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>sinh</code></td>
+<td style="text-align: center;"><code>cosh</code></td>
+<td style="text-align: center;"><code>tanh</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>asinh</code></td>
+<td style="text-align: center;"><code>acosh</code></td>
+<td style="text-align: center;"><code>atanh</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>fabs</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Gemäss der <a href="https://docs.python.org/3.8/library/math.html">Python-Dokumentation</a> liefert die Funktion <code>math.exp(x)</code> präzisere Werte als <code>math.e ** x</code> oder <code>math.pow(math.e, x)</code>. Die Funktion <code>math.log(x)</code> berechnet den Logarithmus zur Basis <span class="math inline">\(e\)</span>, man kann ihr aber als zweites Argument auch eine andere Basis übergeben, z.B. <code>math.log(x,b)</code>, was dann mit <code>math.log(x)/math.log(b)</code> berechnet wird. Die Funktion <code>math.fabs(x)</code> schliesslich berechnet den Absolutbetrag <span class="math inline">\(|x|\)</span>. Ihre Ableitung ist</p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(math.fabs(v)).derivative <span class="op">=</span> v.derivative <span class="cf">if</span> v<span class="op">&gt;=</span><span class="dv">0</span> <span class="cf">else</span> <span class="op">-</span>v.derivative</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="die-funktion-sqrt" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="die-funktion-sqrt"><span class="header-section-number">3.4.1</span> Die Funktion <code>sqrt</code></h3>
+<p>Beginnen wir mit der Implementierung der Wurzelfunktion.</p>
+<div class="cell" data-execution_count="33">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sqrt(x):</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.sqrt(x.value)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>math.sqrt(x.value)) <span class="op">*</span> x.derivative</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> f(x):</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> FloatSad(x)</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> sqrt(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(f(x0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt; 0.7071067811865475 ; 0.3535533905932737 &gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
+</div>
+<p>Wir gehen davon aus, dass <code>x</code> ein <code>FloatSad</code>-Objekt ist. Für den Wert von <code>sqrt(x)</code> verwenden wir einfach die Funktion <code>math.sqrt</code>. Zusätzlich berechnen wir aber noch den Wert der Ableitung mit Hilfe der bekannten Ableitungsregel und wie zuvor wenden wir immer die Kettenregel an. Das Programm enthält auch ein Testprogramm, welches die Ableitung der Funktion <span class="math inline">\(f(x) = \frac{1}{\sqrt{x^2+1}}\)</span> an der Stelle <span class="math inline">\(x_0 = -1\)</span> berechnet. Zur Kontrolle kann die GeoGebra-Vorlage zu Beginn von <a href="#sec-SadManualImplementation"><span>Kapitel&nbsp;3.1</span></a> verwendet werden.</p>
+</section>
+<section id="die-funktionen-exp-und-log" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="die-funktionen-exp-und-log"><span class="header-section-number">3.4.2</span> Die Funktionen <code>exp</code> und <code>log</code></h3>
+<div id="exr-implementExp" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.14 (Exponentialfunktion) </strong></span><br></p>
+<p>Kopiere den obigen Code und speichere ihn in einer Datei mit dem Namen <code>mathsad.py</code>. Speichere die Datei im gleichen Ordner wie die anderen Dateien. Ergänze die Datei danach mit der Funktion <code>exp</code>. Ändere die Testfunktion im <code>main</code> entsprechend ab und überzeuge dich von der Richtigkeit deiner Lösung.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Hier gibt es keine Überraschungen:</p>
+<div class="cell" data-execution_count="34">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exp(x):</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.exp(x.value)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> math.exp(x.value) <span class="op">*</span> x.derivative</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Für die Logarithmusfunktion müssen wir uns wieder etwas mehr Gedanken machen. Mit <code>def log(x, b = math.e)</code> kann man der Basis <span class="math inline">\(b\)</span> wie oben beschrieben den Standardwert <span class="math inline">\(b=e\)</span> geben. Solange <code>b</code> vom Typ <code>int</code> oder <code>float</code> ist, kann man einfach die bekannte Ableitungsregel anwenden. Wenn aber <code>b</code> ein <code>FloatSad</code>-Objekt ist, wie z.B. in <code>v3 = math.log(v1, v2)</code>, dann müssen wir den Basiswechselsatz <span class="math display">\[
+v_3(x) = \frac{\ln(v_1(x))}{\ln(v_2(x))}
+\]</span> verwenden und mit der Quotientenregel ableiten.</p>
+<div id="exr-implementLog" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.15 (Logarithmusfunktion) </strong></span><br></p>
+<p>Überlege dir, wie die Ableitung von <span class="math inline">\(v_3(x)\)</span> aussieht. Ergänze danach die Datei <code>mathsad.py</code> mit der Implementation der Logarithmusfunktion. Überzeuge dich mit einer Testfunktion von der Richtigkeit deines Programms.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Die Ableitung lautet <span class="math display">\[
+\frac{d}{dx}v_3(x) = \frac{\frac{v_1'(x)}{v_1(x)}\cdot \ln(v_2(x))-\ln(v_1(x))\cdot\frac{v_2'(x)}{v_2(x)}}{\ln^2(v_2(x))}
+\]</span></p>
+<div class="cell" data-execution_count="35">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log(x, b <span class="op">=</span> math.e):</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(b) <span class="kw">in</span> (<span class="bu">float</span>, <span class="bu">int</span>):</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.log(x.value, b)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (x.value <span class="op">*</span> math.log(b)) <span class="op">*</span> x.derivative</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.log(x.value, b.value)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (x.derivative<span class="op">/</span>x.value <span class="op">*</span> math.log(b.value) <span class="op">-</span> math.log(x.value) <span class="op">*</span> b.derivative <span class="op">/</span> b.value) <span class="op">\</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>            <span class="op">/</span> math.<span class="bu">pow</span>(math.log(b.value), <span class="dv">2</span>)</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="die-trigonometrischen-funktionen-und-ihre-umkehrfunktionen" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="die-trigonometrischen-funktionen-und-ihre-umkehrfunktionen"><span class="header-section-number">3.4.3</span> Die trigonometrischen Funktionen und ihre Umkehrfunktionen</h3>
+<p>Bei den trigonometrischen Funktionen und den Arcus Funktionen können wir einfach die bekannten Ableitungsregeln verwenden.</p>
+<div id="exr-implementTrig" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.16 (Trigonometrische Funktionen) </strong></span><br></p>
+<p>Ergänze die Datei <code>mathsad.py</code> mit den Funktionen <code>sin</code>, <code>cos</code> und <code>tan</code>, sowie den Funktionen <code>asin</code>, <code>acos</code> und <code>atan</code>.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Beachte, dass man für <code>tan</code> einfach <span class="math inline">\(\tan(x)=\frac{\sin(x)}{\cos(x)}\)</span> verwenden kann, wenn <code>sin</code> und <code>cos</code> bereits implementiert sind.</p>
+<div class="cell" data-execution_count="36">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sin(x):</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.sin(x.value)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> math.cos(x.value) <span class="op">*</span> x.derivative</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cos(x):</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.cos(x.value)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="op">-</span>math.sin(x.value) <span class="op">*</span> x.derivative</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tan(x):</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sin(x) <span class="op">/</span> cos(x)</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> asin(x):</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.asin(x.value)</span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>math.sqrt( <span class="dv">1</span> <span class="op">-</span> math.<span class="bu">pow</span>(x.value, <span class="dv">2</span>)) <span class="op">*</span> x.derivative</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> acos(x):</span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.acos(x.value)</span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">/</span>math.sqrt( <span class="dv">1</span> <span class="op">-</span> math.<span class="bu">pow</span>(x.value, <span class="dv">2</span>)) <span class="op">*</span> x.derivative</span>
+<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> atan(x):</span>
+<span id="cb49-25"><a href="#cb49-25" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.atan(x.value)</span>
+<span id="cb49-26"><a href="#cb49-26" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(math.<span class="bu">pow</span>(x.value, <span class="dv">2</span>) <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> x.derivative</span>
+<span id="cb49-27"><a href="#cb49-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative) </span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="die-hyperbolischen-funktionen-und-ihre-umkehrfunktionen" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="die-hyperbolischen-funktionen-und-ihre-umkehrfunktionen"><span class="header-section-number">3.4.4</span> Die hyperbolischen Funktionen und ihre Umkehrfunktionen</h3>
+<p>Auch bei den hyperbolischen Funktionen und den Area Funktionen verwenden wir die bekannten Ableitungsregeln.</p>
+<div id="exr-implementHyp" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 3.17 (Hyperbolische Funktionen) </strong></span><br></p>
+<p>Ergänze die Datei <code>mathsad.py</code> mit den Funktionen <code>sinh</code>, <code>cosh</code> und <code>tanh</code>, sowie den Funktionen <code>asinh</code>, <code>acosh</code> und <code>atanh</code>.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Wie bei den trigonometrischen Funktionen gilt auch hier <span class="math inline">\(\tanh(x)=\frac{\sinh(x)}{\cosh(x)}\)</span>.</p>
+<div class="cell" data-execution_count="37">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sinh(x):</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.sinh(x.value)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> math.cosh(x.value) <span class="op">*</span> x.derivative</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cosh(x):</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.cosh(x.value)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> math.sinh(x.value) <span class="op">*</span> x.derivative</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tanh(x):</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sinh(x) <span class="op">/</span> cosh(x)</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> asinh(x):</span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.asinh(x.value)</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>math.sqrt(math.<span class="bu">pow</span>(x.value, <span class="dv">2</span>) <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> x.derivative</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> acosh(x):</span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.acosh(x.value)</span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>math.sqrt(math.<span class="bu">pow</span>(x.value, <span class="dv">2</span>) <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> x.derivative</span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> atanh(x):</span>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.atanh(x.value)</span>
+<span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">/</span>(math.<span class="bu">pow</span>(x.value, <span class="dv">2</span>) <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> x.derivative</span>
+<span id="cb50-27"><a href="#cb50-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="die-betragsfunktion" class="level3" data-number="3.4.5">
+<h3 data-number="3.4.5" class="anchored" data-anchor-id="die-betragsfunktion"><span class="header-section-number">3.4.5</span> Die Betragsfunktion</h3>
+<p>Schliesslich ergänzen wir die Datei <code>mathsad.py</code> noch mit der Funktion <code>fabs</code> wie oben beschrieben:</p>
+<div class="cell" data-execution_count="38">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fabs(x):</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.fabs(x.value)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> x.derivative <span class="cf">if</span> x<span class="op">&gt;=</span><span class="dv">0</span> <span class="cf">else</span> <span class="op">-</span>x.derivative</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatSad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Das fertige Modul kann auch von <a href="mathsad.py">hier</a> kopiert werden.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -1341,7 +1711,11 @@ Baydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, und Jeffre
 <div id="ref-Henrard2017ADi" class="csl-entry" role="doc-biblioentry">
 Henrard, Marc. 2017. <em>Algorithmic Differentiation in Finance Explained</em>. Financial Engineering Explained. Cham: Palgrave Macmillan. <a href="https://doi.org/10.1007/978-3-319-53979-9">https://doi.org/10.1007/978-3-319-53979-9</a>.
 </div>
+<div id="ref-Slater2022" class="csl-entry" role="doc-biblioentry">
+Slater, Max. 2022. <span>„Differentiable programming from scratch“</span>. Juli 2022. <a href="https://thenumb.at/Autodiff/">https://thenumb.at/Autodiff/</a>.
 </div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->

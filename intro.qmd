@@ -41,7 +41,13 @@ An dieser Stelle sei noch angemerkt, dass sich der Begriff der Ableitung sinngem
 
 ## Programme als Funktionen {#sec-ProgFunc}
 
-Programme, die numerische Werte einlesen und numerische Werte ausgeben, können als mathematische Funktionen betrachtet werden. Wir beschränken uns zunächst auf Programme, die nur ein Argument erhalten und nur einen Rückgabewert liefern, z.B.
+Programme, die numerische Werte einlesen und numerische Werte ausgeben, können als mathematische Funktionen betrachtet werden. Wir beschränken uns zunächst auf Programme, die nur ein Argument erhalten und nur einen Rückgabewert liefern.
+
+:::{#exm-FirstFunctionAsProgram}
+
+## Eine Funktion als Programm
+<br>
+
 ```{python}
 #| eval: false
 #| code-fold: false
@@ -99,6 +105,9 @@ def f(x):
     y = v1 * v2
     return y
 ```
+
+:::
+---
 
 :::{.callout-important}
 
@@ -710,5 +719,6 @@ Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Des
 <br>
 
 COMING SOON: Anwendungsbeispiel für Gradient Descent
----
+
 :::
+---

@@ -1,3 +1,8 @@
+```{python}
+#| eval: true
+#| echo: false
+#| output: false
+
 ################################################################################
 #                                                                              #
 #	Michael Brand                                                              #    
@@ -180,4 +185,4 @@ class FloatSad:
                 newDerivative = math.pow(other.value, self.value) * \
                     (self.derivative * math.log(other.value) + self.value * other.derivative / other.value)
         return FloatSad(newValue, newDerivative)
-    
+```
