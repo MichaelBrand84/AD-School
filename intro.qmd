@@ -490,7 +490,7 @@ Wir betrachten ein Beispiel aus @Gander2015. Platziere die weisse und die blaue 
 
 ::::
 
-Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der $x$-Achse liegt. Die blaue Kugel habe die Koordinaten $(x_P|y_P)$. Weiter sei $X$ der auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten $X=(\cos(x)|\sin(x))$. Unser Ziel ist es, $x$ so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei $X$ an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in $X$ reflektiert wird. Der Tangentenvektor im Punkt $X$ lautet $\vec{r} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}$. 
+Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der $x$-Achse liegt. Die blaue Kugel habe die Koordinaten $(x_P|y_P)$. Weiter sei $X$ der auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten $X=(\cos(x)|\sin(x))$. Unser Ziel ist es, $x$ so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei $X$ an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in $X$ reflektiert wird. Der Tangentenvektor im Punkt $X$ lautet $\vec{t} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}$. 
 
 ::::{.column-margin}
 
@@ -498,7 +498,7 @@ Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der
 
 ::::
 
-Wir betrachten nun die Einheitsvektoren $\vec{e}_Q$ in Richtung $\overrightarrow{XQ}$ und $\vec{e}_P$ in Richtung $\overrightarrow{XP}$. Wenn die weisse Kugel die blaue treffen soll, dann müssen die Winkel zwischen der Tangente und diesen Vektoren gleich sein. Das ist genau dann der Fall, wenn $\vec{r}$ senkrecht steht auf $\vec{e}_Q + \vec{e}_P$. Wir müssen also $x$ so bestimmen, dass $\vec{r} \cdot (\vec{e}_Q + \vec{e}_P) = 0$ ist.
+Wir betrachten nun die Einheitsvektoren $\vec{e}_Q$ in Richtung $\overrightarrow{XQ}$ und $\vec{e}_P$ in Richtung $\overrightarrow{XP}$. Wenn die weisse Kugel die blaue treffen soll, dann müssen die Winkel zwischen der Tangente und diesen Vektoren gleich sein. Das ist genau dann der Fall, wenn $\vec{t}$ senkrecht steht auf $\vec{e}_Q + \vec{e}_P$. Wir müssen also $x$ so bestimmen, dass $\vec{t} \cdot (\vec{e}_Q + \vec{e}_P) = 0$ ist.
 
 Das folgende Programm berechnet das Skalarprodukt der linken Seite dieser Gleichung.
 
@@ -530,7 +530,7 @@ def f(x):
     v10 = math.sqrt(v8**2 + v9**2)  # Länge des Vektors XQ
     v11 = v8 / v10     # x-Komponente des Vektors eQ    
     v12 = v9 / v10     # y-Komponente des Vektors eQ   
-    y = (v6 + v11) * v2 - (v7 + v12) * v1
+    y = (v6 + v11) * v2 - (v7 + v12) * v1  # Skalarprodukt
     return y   
 
 # Graph der Funktion f(x) plotten

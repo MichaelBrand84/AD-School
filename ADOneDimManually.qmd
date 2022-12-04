@@ -71,7 +71,7 @@ def f(x):
 x0 = math.pi / 2
 print(f(x0))
 ```
-Die Korrektheit des Programms können wir mit GeoGebra überprüfen, welches Ableitungen symbolisch berechnet.
+Die Korrektheit des Programms können wir mit [GeoGebra](https://www.geogebra.org/m/u4rkpzsr) überprüfen, welches Ableitungen symbolisch berechnet.
 
 :::{.fig-AbleitungenTesten}
 
@@ -177,7 +177,7 @@ print("t(x) =", y0, "+", y0dot, "* ( x -", x0, ")")
 ## Programm ableiten
 <br>
 
-Leite die Funktion aus @exr-ProgToFun ab.
+Leite die Funktion aus @exr-ProgToFun ab. Gib den Funktionswert und den Wert der Ableitung an der Stelle $x_0=-2$ aus.
 
 :::
 
@@ -206,6 +206,9 @@ def f(x):
     ydot = v6dot - 1 / v0**2 * v0dot
     y = v6 + 1 / v0
     return [y, ydot]
+
+x0 = -2
+print(f(x0))
 ```
 
 :::
@@ -1228,3 +1231,136 @@ Das fertige Modul kann auch von [hier](mathsad.py) kopiert werden.
 
 {{< include _mathsadForExecution.qmd >}}
 
+Nun können wir unser Modul mit 
+```{python}
+#| eval: false
+#| code-fold: false
+#| echo: true
+import mathsad
+```
+einbinden und verwenden. Die Funktion aus @exr-SAD1 beispielsweise können wir nun direkt hinschreiben:
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+import mathsad
+
+def f(x):
+    x = FloatSad(x)
+    y = mathsad.cos(x**2 + 2) * mathsad.exp(-1/2 * x**2) + 1/x
+    return y
+
+x0 = -2
+print(f(x0))
+```
+
+:::{#exr-mathsadAnwenden}
+
+## Verwendung von `mathsad`
+<br>
+
+Verwende das Modul `mathsad`, um die Lösung von @exr-SAD2 zu vereinfachen. Bestimme die Ableitung von $f$ an der Stelle $x_0=\sqrt{2}$.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+```{python}
+from floatsad import FloatSad
+import math
+import mathsad
+
+def f(x):
+    x = FloatSad(x)
+    u = x**2 + 1
+    y = mathsad.log(u) / mathsad.sqrt(u + x)
+    return y
+
+x0 = math.sqrt(2)
+f0 = f(x0)
+print(f0.derivative)
+```
+
+:::
+
+
+:::{#exr-billardMathsadSolutions}
+
+## Billard-Problem mit `mathsad`
+<br>
+
+Verwende das Modul `mathsad`, um die Lösung des Billard-Problems aus @exr-BillardSADmanualSOlution zu vereinfachen. Programmiere dazu nochmals die Funktion `f(x)`, aber verwende aussagekräfigere Variablen. Weil `f` nun `FloatSad`-Objekte zurückgibt, muss auch die Funktion `newton(f, x0)` angepasst werden. Die Funktion `main` kann aus der obigen Lösung kopiert werden.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+In der Funktion `newton(f, x0)` muss lediglich die Berechnung des neuen Näherungswertes angepasst werden durch `x1 = x0 - y0.value / y0.derivative`.
+```{python}
+#| label: fig-BillardproblemSolutionWithMathsad
+#| fig-cap: "Lösung des Billardproblems mit anderen Startwerten."
+from floatsad import FloatSad
+import math
+import mathsad
+import matplotlib.pyplot as plt
+
+def f(x):
+    # Parameter a, px, py werden im global space gefunden
+    x = FloatSad(x)
+    Xx, Xy = mathsad.cos(x), mathsad.sin(x) # Koordinaten von X
+    tx, ty = -Xy, Xx                        # Komponenten des Tangentialvektors
+    XPx, XPy = px - Xx, py - Xy             # Komponenten des Vektors XP
+    lXP = mathsad.sqrt(XPx**2 + XPy**2)     # Länge des Vektors XP
+    ePx, ePy = XPx / lXP, XPy / lXP         # Komponenten des Einheitsvektors in Richtung XP
+    XQx, XQy = a - Xx, -Xy                  # Komponenten des Vektors XQ
+    lXQ = mathsad.sqrt(XQx**2 + XQy**2)     # Länge des Vektors XQ
+    eQx, eQy = XQx / lXQ, XQy / lXQ         # Komponenten des Einheitsvektors in Richtung XQ
+    y = (ePx + eQx) * tx + (ePy + eQy) * ty # Skalarprodukt
+    return y
+
+def newton(f, x0):
+    tol = 1e-8
+    y0 = f(x0)
+    x1 = x0 - y0.value / y0.derivative
+    while math.fabs(x1 - x0) > tol:
+        x0 = x1
+        y0 = f(x0)
+        x1 = x0 - y0.value / y0.derivative
+    return x1
+
+if __name__ == "__main__":
+
+    # Parameter definieren
+    a = -0.5          # Position von Q = (a|0)
+    px, py = 0.2, 0.6 # Position von P = (px|py)
+
+    # Lösung des Billardproblems berechnen
+    sol = set({}) # leere Menge, in der die gefundenen Lösungen gespeichert werden
+    X = [2*math.pi * k / 10 for k in range(10)]  # Liste der Startwerte für Newton
+    for x0 in X:
+        x = newton(f, x0)
+        sol.add(x)
+
+    # Lösungen grafisch darstellen
+    fig = plt.figure()
+    ax = plt.gca()
+    ax.set_xlim((-1.2, 1.2))
+    ax.set_ylim((-1.2, 1.2))
+    ax.set_aspect('equal')
+    circle = plt.Circle((0,0), 1, color='b', fill=False)
+    qBall = plt.Circle((a,0), 0.02, color='k')
+    pBall = plt.Circle([px, py], 0.02, color='k')
+    ax.add_patch(circle)
+    ax.add_patch(qBall)
+    ax.add_patch(pBall)
+    for x in sol:
+        xcoords = [a, math.cos(x), px]
+        ycoords = [0, math.sin(x), py]
+        plt.plot(xcoords, ycoords, linewidth=1, linestyle='--')
+    plt.show()
+```
+
+:::
