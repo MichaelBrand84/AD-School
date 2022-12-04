@@ -127,29 +127,20 @@ class FloatSad:
 
     def __truediv__(self, other):
         if type(other) in (float, int):
-            if other == 0:
-                raise ZeroDivisionError("'other' must be different from zero.")
-            else:
-                newValue = self.value / other
-                newDerivative = self.derivative / other
+            newValue = self.value / other
+            newDerivative = self.derivative / other
         else:
-            if other.value == 0:
-                raise ZeroDivisionError("'other.value' must be different from zero.")
-            else:
-                newValue = self.value / other.value
-                newDerivative = (self.derivative * other.value - self.value * other.derivative) / math.pow(other.value, 2)
+            newValue = self.value / other.value
+            newDerivative = (self.derivative * other.value - self.value * other.derivative) / math.pow(other.value, 2)
         return FloatSad(newValue, newDerivative)
 
     def __rtruediv__(self, other):
-        if self.value == 0:
-            raise ZeroDivisionError("'self.value' must be different from zero.")
+        if type(other) in (float, int):
+            newValue = other / self.value
+            newDerivative = - other / math.pow(self.value, 2) * self.derivative
         else:
-            if type(other) in (float, int):
-                newValue = other / self.value
-                newDerivative = - other / math.pow(self.value, 2) * self.derivative
-            else:
-                newValue = other.value / self.value
-                newDerivative = (other.derivative * self.value - other.value * self.derivative) / math.pow(self.value, 2) * self.derivative
+            newValue = other.value / self.value
+            newDerivative = (other.derivative * self.value - other.value * self.derivative) / math.pow(self.value, 2) * self.derivative
         return FloatSad(newValue, newDerivative)
 
     def __pow__(self, other):
@@ -157,27 +148,18 @@ class FloatSad:
             newValue = math.pow(self.value, other)
             newDerivative = other * math.pow(self.value, other - 1) * self.derivative
         else:
-            if self.value < 0:
-                raise ValueError("'self.value' must be positive.")
-            else:
-                newValue = math.pow(self.value, other.value)
-                newDerivative = math.pow(self.value, other.value) * \
-                    (other.derivative * math.log(self.value) + other.value * self.derivative / self.value)
+            newValue = math.pow(self.value, other.value)
+            newDerivative = math.pow(self.value, other.value) * \
+                (other.derivative * math.log(self.value) + other.value * self.derivative / self.value)
         return FloatSad(newValue, newDerivative)
 
     def __rpow__(self, other):
         if type(other) in (float, int):
-            if other <= 0:
-                raise ValueError("'other' must be positive.")
-            else:
-                newValue = math.pow(other, self.value)
-                newDerivative = math.pow(other, self.value) * math.log(other) * self.derivative
+            newValue = math.pow(other, self.value)
+            newDerivative = math.pow(other, self.value) * math.log(other) * self.derivative
         else:
-            if other.value <= 0:
-                raise ValueError("'other.value' must be positive.")
-            else:
-                newValue = math.pow(other.value, self.value)
-                newDerivative = math.pow(other.value, self.value) * \
-                    (self.derivative * math.log(other.value) + self.value * other.derivative / other.value)
+            newValue = math.pow(other.value, self.value)
+            newDerivative = math.pow(other.value, self.value) * \
+                (self.derivative * math.log(other.value) + self.value * other.derivative / other.value)
         return FloatSad(newValue, newDerivative)
     

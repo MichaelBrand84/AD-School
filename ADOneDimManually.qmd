@@ -544,7 +544,7 @@ def __add__(self, other):
         return FloatSad(newValue, newDerivative)
 ```
 
-Nun können wir zwei `FloatSad`-Objekte miteinander addieren. Manchmal möchten wir aber auch ein `float`- oder `int`-Wert zu einem `FloatSad`-Objekt addieren, z.B. `v1 = v0 + 2`. Dazu machen wir eine Typabfrage und passen den Wert der Ableitung entsprechend der Konstanteregel an:
+Nun können wir zwei `FloatSad`-Objekte miteinander addieren. Manchmal möchten wir aber auch ein `float`- oder `int`-Wert zu einem `FloatSad`-Objekt addieren, z.B. `v1 = v0 + 2`. Dazu machen wir eine Typabfrage und passen den Wert der Ableitung entsprechend der Konstantenregel an:
 ```{python}
 #| code-fold: false
 #| eval: false
@@ -735,16 +735,14 @@ def __rmul__(self, other):
 
 :::
 
-Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie `v2 = v1 / v0` verwenden können. Da wir es bei differenzierbaren Funktionen immer mit `float`- bzw. `FloatSad`-Objekten zu tun haben, implementieren wir nur den `/`-Operator, also die Funktion `__truediv__(self, other)` und nicht den `//`-Operator. Wir wollen aber wieder die Fallunterscheidung nach den Typen machen, so dass auch Anweisungen wie `v1 = v0 / 4` verwendet werden können. Dabei benötigen wir nur die Faktorregel und nicht die Quotientenregel. Um schliesslich auch noch `v1 = -4 / v0` zu ermöglichen, muss noch `__rtruediv__(self, other)` implementiert werden. Bei letzterem darf nicht vergessen werden, dass auch die Kettenregel benutzt werden muss, denn $\frac{dv_1}{dx} = \frac{dv_1}{dv_0}\cdot \frac{dv_0}{dx} = \frac{4}{v_0^2}\cdot v_0'$. Quadrate kann man mit `math.pow(value, 2)` berechnen.
+Es fehlt noch der Divisionsoperator, damit wir Anweisungen wie `v2 = v1 / v0` verwenden können. Da wir es bei differenzierbaren Funktionen immer mit `float`- bzw. `FloatSad`-Objekten zu tun haben, implementieren wir nur den `/`-Operator, also die Funktion `__truediv__(self, other)` und nicht den `//`-Operator. Wir wollen aber wieder die Fallunterscheidung nach den Typen machen, so dass auch Anweisungen wie `v1 = v0 / 4` verwendet werden können. Dabei benötigen wir nur die Faktorregel und nicht die Quotientenregel. Um schliesslich auch noch `v1 = -4 / v0` zu ermöglichen, muss noch `__rtruediv__(self, other)` implementiert werden. Bei letzterem darf nicht vergessen werden, dass auch die Kettenregel benutzt werden muss, denn $\frac{dv_1}{dx} = \frac{dv_1}{dv_0}\cdot \frac{dv_0}{dx} = \frac{4}{v_0^2}\cdot v_0'$. Quadrate kann man mit `math.pow(value, 2)` berechnen. Bei der Implementierung müssen wir uns übrigens nicht um Fehlerbehandlungen, wie das Abfangen einer Division durch Null, kümmern, weil diese bereits im `/`-Operator, den wir verwenden, implementiert sind.
 
 :::{#exr-ImplementTrueDiv}
 
 ## Den Operator `/` implementieren
 <br>
 
-Ergänze die Datei `floatsad.py` mit den Methoden `__truediv__(self, other)` und `__rtruediv__(self, other)`. 
-Falls du dich mit Fehlerbehandlung (*Exceptions*) auskennst, dann soll deine Funktion einen `ZeroDivisionError` werfen, wenn durch Null geteilt wird (im Falle von `FloatSad`-Objekten heisst das, dass `value` Null ist).
-Überlege dir auch wieder verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.
+Ergänze die Datei `floatsad.py` mit den Methoden `__truediv__(self, other)` und `__rtruediv__(self, other)`. Überlege dir auch wieder verschiedene Testfälle und überzeuge dich von der Korrektheit deines Programms.
 
 :::
 
@@ -752,10 +750,6 @@ Falls du dich mit Fehlerbehandlung (*Exceptions*) auskennst, dann soll deine Fun
 :::{.callout-tip collapse="true"}
 
 ## Lösung
-
-::::{.panel-tabset}
-
-## Ohne Fehlerbehandlung
 
 ```{python}
 #| eval: false
@@ -777,40 +771,6 @@ def __rtruediv__(self, other):
         newDerivative = (other.derivative * self.value - other.value * self.derivative) / math.pow(self.value, 2) * self.derivative
     return FloatSad(newValue, newDerivative)
 ```
-
-## Mit Fehlerbehandlung
-
-```{python}
-#| eval: false
-def __truediv__(self, other):
-    if type(other) in (float, int):
-        if other == 0:
-            raise ZeroDivisionError("'other' must be different from zero.")
-        else:
-            newValue = self.value / other
-            newDerivative = self.derivative / other
-    else:
-        if other.value == 0:
-            raise ZeroDivisionError("'other.value' must be different from zero.")
-        else:
-            newValue = self.value / other.value
-            newDerivative = (self.derivative * other.value - self.value * other.derivative) / math.pow(other.value, 2)
-    return FloatSad(newValue, newDerivative)
-
-def __rtruediv__(self, other):
-    if self.value == 0:
-        raise ZeroDivisionError("'self.value' must be different from zero.")
-    else:
-        if type(other) in (float, int):
-            newValue = other / self.value
-            newDerivative = - other / math.pow(self.value, 2) * self.derivative
-        else:
-            newValue = other.value / self.value
-            newDerivative = (other.derivative * self.value - other.value * self.derivative) / math.pow(self.value, 2) * self.derivative
-    return FloatSad(newValue, newDerivative)
-```
-
-::::
 
 :::
 
@@ -835,6 +795,7 @@ $$
     &= v_1(x) ^{v_2 (x)} \cdot \left( \ln(v_1(x)) \cdot v_2'(x) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right)
 \end{flalign}
 $$
+Auch hier sind alle nötigen Fehlerbehandlungen bereits in `math.pow` implementiert.
 
 :::{#exr-ImplementPow}
 
@@ -842,7 +803,6 @@ $$
 <br>
 
 Ergänze die Datei `floatsad.py` mit der Methode `__pow__(self, other)`. Dabei übernimmt `self` die Rolle von $v_1$ in der obigen Herleitung und `other` entspricht $v_2$. Die Funktion $\ln(\ldots)$ heisst in Python `math.log()`.
-Falls du dich mit *Exceptions* auskennst, dann soll deine Funktion einen `ValueError` werfen, wenn $v_1 \le 0$ ist.
 Teste dein Programm an verschiedenen Funktionen.
 
 :::
@@ -851,10 +811,6 @@ Teste dein Programm an verschiedenen Funktionen.
 :::{.callout-tip collapse="true"}
 
 ## Lösung
-
-::::{.panel-tabset}
-
-## Ohne Fehlerbehandlung
 
 ```{python}
 #| eval: false
@@ -869,37 +825,17 @@ def __pow__(self, other):
     return FloatSad(newValue, newDerivative)
 ```
 
-## Mit Fehlerbehandlung
-
-```{python}
-#| eval: false
-def __pow__(self, other):
-    if type(other) in (float, int):
-        newValue = math.pow(self.value, other)
-        newDerivative = other * math.pow(self.value, other - 1) * self.derivative
-    else:
-        if self.value < 0:
-            raise ValueError("'self.value' must be positive.")
-        else:
-            newValue = math.pow(self.value, other.value)
-            newDerivative = math.pow(self.value, other.value) * \
-                (other.derivative * math.log(self.value) + other.value * self.derivative / self.value)
-    return FloatSad(newValue, newDerivative)
-```
-
-::::
-
 :::
 
-Nun implementieren wir auch noch die Methode `__rpow__(self, other)`. Im Fall, dass `type(other) in (float, int)` ist, handelt es sich hierbei um eine Exponentialfunktion. Wir müssen dann sicherstellen, dass die Basis, also `other`, eine positive Zahl ist.
-Falls `other` ebenfalls ein `FloatSad` ist, dann kann die Ableitung gleich wie oben implementiert werden, ausser, dass jetzt `self` und `other` ihre Rollen tauschen.
+Nun implementieren wir auch noch die Methode `__rpow__(self, other)`. Im Fall, dass `type(other) in (float, int)` ist, handelt es sich hierbei um eine Exponentialfunktion. `math.pow` stellt dann sicher, dass die Basis, also `other`, eine positive Zahl ist.
+Falls `other` ebenfalls ein `FloatSad` ist, dann kann die Ableitung gleich wie oben berechnet werden, ausser, dass jetzt `self` und `other` ihre Rollen tauschen.
 
 :::{#exr-ImplementRpow}
 
 ## Den Operator `**` implementieren - Teil 2
 <br>
 
-Ergänze die Datei `floatsad.py` mit der Methode `__rpow__(self, other)`. Implementiere wenn möglich auch die Fehlerbehandlung.
+Ergänze die Datei `floatsad.py` mit der Methode `__rpow__(self, other)`.
 Teste dein Programm an verschiedenen Funktionen.
 
 :::
@@ -908,10 +844,6 @@ Teste dein Programm an verschiedenen Funktionen.
 :::{.callout-tip collapse="true"}
 
 ## Lösung
-
-::::{.panel-tabset}
-
-## Ohne Fehlerbehandlung
 
 ```{python}
 #| eval: false
@@ -925,29 +857,6 @@ def __rpow__(self, other):
             (self.derivative * math.log(other.value) + self.value * other.derivative / other.value)
     return FloatSad(newValue, newDerivative)
 ```
-
-## Mit Fehlerbehandlung
-
-```{python}
-#| eval: false
-def __rpow__(self, other):
-    if type(other) in (float, int):
-        if other <= 0:
-            raise ValueError("'other' must be positive.")
-        else:
-            newValue = math.pow(other, self.value)
-            newDerivative = math.pow(other, self.value) * math.log(other) * self.derivative
-    else:
-        if other.value <= 0:
-            raise ValueError("'other.value' must be positive.")
-        else:
-            newValue = math.pow(other.value, self.value)
-            newDerivative = math.pow(other.value, self.value) * \
-                (self.derivative * math.log(other.value) + self.value * other.derivative / other.value)
-    return FloatSad(newValue, newDerivative)
-```
-
-::::
 
 :::
 
@@ -1045,7 +954,7 @@ def f(x):
 x0 = 2
 print(f(x0))
 ```
-Da aber alle Ableitungsregeln in den verwendeten Operatoren integriert sind, können wir nun sogar auf die Zwischenschritte mit den `v` verzichten:
+Da nun alle Ableitungsregeln in den verwendeten Operatoren integriert sind, können wir nun sogar auf die Zwischenschritte mit den `v` verzichten:
 ```{python}
 #| code-fold: show
 from floatsad import FloatSad
@@ -1068,7 +977,7 @@ Wir sehen, dass wir also alle unsere Konventionen, die dazu dienten, kompliziert
 ## `FloatSad` anwenden
 <br>
 
-Vereinfache die Lösung von @exr-SADmitSchleife mit Hilfe der Klasse `FloatSad`. Überzeuge dich davon, dass die Ableitungen auch von Programmen mit Schleifen korrekt berechnet werden.
+Vereinfache die Lösung von @exr-SADmitSchleife mit Hilfe der Klasse `FloatSad`. Überzeuge dich davon, dass die Ableitungen auch für Programme mit Schleifen korrekt berechnet werden.
 
 :::
 
@@ -1115,6 +1024,7 @@ Gemäss der [Python-Dokumentation](https://docs.python.org/3.8/library/math.html
 #| code-fold: false 
 (math.fabs(v)).derivative = v.derivative if v>=0 else -v.derivative
 ```
+Die Funktion $y=|x|$ ist an der Stelle $x=0$ eigentlich nicht differenzierbar. Da wir aber nicht Ableitungsfunktionen, sondern nur Werte von Ableitungen an einer bestimmten Stelle berechnen, den rechts- oder linksseitigen Grenzwert zurückzugeben, siehe @Gander1992. Wir müssen es dem Benutzer überlassen, das Ergebnis im jeweiligen Kontext korrekt zu interpretieren.
 
 ### Die Funktion `sqrt`
 
@@ -1139,7 +1049,7 @@ if __name__ == '__main__':
     x0 = -1
     print(f(x0))
 ```
-Wir gehen davon aus, dass `x` ein `FloatSad`-Objekt ist. Für den Wert von `sqrt(x)` verwenden wir einfach die Funktion `math.sqrt`. Zusätzlich berechnen wir aber noch den Wert der Ableitung mit Hilfe der bekannten Ableitungsregel und wie zuvor wenden wir immer die Kettenregel an. Das Programm enthält auch ein Testprogramm, welches die Ableitung der Funktion $f(x) = \frac{1}{\sqrt{x^2+1}}$ an der Stelle $x_0 = -1$ berechnet. Zur Kontrolle kann die GeoGebra-Vorlage zu Beginn von @sec-SadManualImplementation verwendet werden. 
+Wir gehen davon aus, dass `x` ein `FloatSad`-Objekt ist. Für den Wert von `sqrt(x)` verwenden wir einfach die Funktion `math.sqrt`. Diese enthält auch die nötige Fehlerbehandlung. Zusätzlich berechnen wir aber noch den Wert der Ableitung mit Hilfe der bekannten Ableitungsregel und wie zuvor wenden wir immer die Kettenregel an. Das Programm enthält auch ein Testprogramm, welches die Ableitung der Funktion $f(x) = \frac{1}{\sqrt{x^2+1}}$ an der Stelle $x_0 = -1$ berechnet. Zur Kontrolle kann die GeoGebra-Vorlage zu Beginn von @sec-SadManualImplementation verwendet werden. 
 
 ### Die Funktionen `exp` und `log`
 
@@ -1148,14 +1058,13 @@ Wir gehen davon aus, dass `x` ein `FloatSad`-Objekt ist. Für den Wert von `sqrt
 ## Exponentialfunktion
 <br>
 
-Kopiere den obigen Code und speichere ihn in einer Datei mit dem Namen `mathsad.py`. Speichere die Datei im gleichen Ordner wie die anderen Dateien. Ergänze die Datei danach mit der Funktion `exp`. Ändere die Testfunktion im `main` entsprechend ab und überzeuge dich von der Richtigkeit deiner Lösung. 
+Kopiere den obigen Code und speichere ihn in einer Datei mit dem Namen `mathsad.py`. Speichere die Datei im gleichen Ordner wie die anderen Dateien. Ergänze die Datei danach mit der Funktion `exp`. Wähle eine neue Testfunktion im `main`, um dich von der Richtigkeit deiner Lösung zu überzeugen. 
 
 :::
 
 :::{.callout-tip collapse="true"}
 
 ## Lösung
-Hier gibt es keine Überraschungen:
 ```{python}
 def exp(x):
     newValue = math.exp(x.value)
@@ -1168,7 +1077,7 @@ def exp(x):
 Für die Logarithmusfunktion müssen wir uns wieder etwas mehr Gedanken machen. Mit `def log(x, b = math.e)` kann man der Basis $b$ wie oben beschrieben den Standardwert $b=e$ geben. Solange `b` vom Typ `int` oder `float` ist, kann man einfach die bekannte Ableitungsregel anwenden.
 Wenn aber `b` ein `FloatSad`-Objekt ist, wie z.B. in `v3 = math.log(v1, v2)`, dann müssen wir den Basiswechselsatz
 $$
-v_3(x) = \frac{\ln(v_1(x))}{\ln(v_2(x))}
+v_3(x) = \log_{v_2(x)}(v_1(x)) = \frac{\ln(v_1(x))}{\ln(v_2(x))}
 $$
 verwenden und mit der Quotientenregel ableiten.
 
@@ -1313,3 +1222,9 @@ def fabs(x):
 ```
 
 Das fertige Modul kann auch von [hier](mathsad.py) kopiert werden.
+
+
+## Das Modul `mathsad` im Einsatz
+
+{{< include _mathsadForExecution.qmd >}}
+
