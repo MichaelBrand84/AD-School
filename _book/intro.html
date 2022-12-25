@@ -472,7 +472,7 @@ Konvention
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Eine Funktion berechnet aus einem Argument <code>x</code> einen Rückgabewert <code>y</code> über eine Reihe von Hilfsvariablen <code>v</code>, die mit verschiedenen Indizes versehen sind. Dabei setzen wir am Anfang immer <code>v0 = x</code>.</p>
+<p>Eine Funktion berechnet aus einem Argument <code>x</code> einen Rückgabewert <code>y</code> über eine Reihe von Hilfsvariablen <code>v</code>, die mit aufsteigenden Indizes versehen sind. Dabei setzen wir am Anfang immer <code>v0 = x</code>.</p>
 </div>
 </div>
 <div id="exr-ProgToFun" class="theorem exercise">
@@ -655,7 +655,7 @@ nSqrt-&gt;nFrac
 </div>
 <div id="exr-LoopProgToFun" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 1.3 (Ein Programm mit einer Schleife) </strong></span><br></p>
-<p>Ersetze im Funktionskörper die Schleife durch mehrere Befehle, so dass immer noch der gleiche mathematische Ausdruck berechnet wird und unsere Konvention eingehalten wird. Welche mathematische Funktion wird durch die Python-Funktion berechnet? Was ändert sich, wenn stattdessen <code>for i in range(3)</code> oder <code>for i in range(4)</code> stehen würde?</p>
+<p>Betrachte das folgende Programm:</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x</span>
@@ -664,6 +664,7 @@ nSqrt-&gt;nFrac
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v0</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Ersetze im Funktionskörper die Schleife durch mehrere Befehle, so dass immer noch der gleiche mathematische Ausdruck berechnet wird und unsere Konvention eingehalten wird. Welche mathematische Funktion wird durch die Python-Funktion berechnet? Was ändert sich, wenn stattdessen <code>for i in range(3)</code> oder <code>for i in range(4)</code> stehen würde?</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
@@ -742,7 +743,11 @@ Lösung
 <section id="unser-ziel-programme-ableiten" class="level2 page-columns page-full" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="unser-ziel-programme-ableiten"><span class="header-section-number">1.3</span> Unser Ziel: Programme ableiten</h2>
 <p>Wie eingangs erwähnt wurde, haben Ableitungen viele nützliche Anwendungen.</p>
-<p>COMING SOON: Idee Programm als Funktion ableiten, Namensgebung AD, möglichst exakte Werte gesucht, nicht von Hand ableiten weil letztes Bsp zeigt, dass Funktionsausdrücke schnell sehr gross werden können.</p>
+<p>Wir möchten nun Ableitungen von Funktionen berechnen, die durch Programme beschrieben werden, die wie oben einen numerischen Parameter <code>x</code> als Input erhalten und einen numerischen Wert <code>y</code> zurückliefern. Unser Ziel wird es sein, die Programme so zu modifizieren, dass der Funktionsaufruf <code>f(x0)</code> nicht nur den Funktionswert <span class="math inline">\(f(x_0)\)</span> zurückgibt, sondern auch den Wert der Ableitung <span class="math inline">\(f'(x_0)\)</span>. Wir sind dabei nicht an einer symbolischen Ableitung interessiert, wie das z.B. GeoGebra oder Mathematica machen (s. <a href="notAD.html#sec-ADnotSymbDiff"><span>Kapitel&nbsp;2.2</span></a>), sondern nur an einer punktweisen Auswertung. Natürlich wollen wir die Ableitungsfunktion auch nicht von Hand bestimmen. Wir wollen uns aber auch nicht bloss mit einer Annhäerung des Wertes der Ableitung zufrieden geben (s. <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a>), sondern den Wert von <span class="math inline">\(f'(x_0)\)</span> bis auf Maschinengenauigkeit exakt berechnen. In <a href="ADOneDimManually.html"><span>Kapitel&nbsp;3</span></a> werden wir eine Methode kennen lernen, die all dies leistet und dabei die Laufzeit eines Programms nicht wesentlich erhöht. Der Name dieser Methode: Algorithmische Differentiation (AD), obwohl die Namensgebung hier nicht eindeutig ist:</p>
+<blockquote class="blockquote">
+<p>One of the obstacles in this area [of computing derivatives], which involves “symbolic” and “numerical” methods, has been a confusion in terminology […]. There is not even general agreement on the best name for the field, which is frequently referred to as <em>automatic</em> or <em>computational differentiation</em> in the literature. For this book the adjective <em>algorithmic</em> seemed preferable, because much of the material emphasizes algorithmic structure, sometimes glossing over the details and pitfalls of actual implementations. (Aus dem Vorwort zu <span class="citation" data-cites="Griewank2008EDP">Griewank und Walther (<a href="references.html#ref-Griewank2008EDP" role="doc-biblioref">2008</a>)</span>)</p>
+</blockquote>
+<p>Bevor wir uns aber der Methode der algorithmischen Differentiation zuwenden, wollen wir sie durch einige Beispiele motivieren, bei denen die Berechnung von Ableitung von Funktionen und Programmen eine zentrale Rolle spielt: Das Newtonverfahren und das Gradient Descent Verfahren.</p>
 <section id="sec-Newtonverfahren1D" class="level3 page-columns page-full" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="sec-Newtonverfahren1D"><span class="header-section-number">1.3.1</span> Das Newtonverfahren zur Berechnung von Nullstellen</h3>
 <p>In vielen Anwendungen steht man vor der Aufgabe, die Gleichung <span class="math inline">\(f(x) = 0\)</span> nach <span class="math inline">\(x\)</span> aufzulösen, d.h. eine Nullstelle <span class="math inline">\(\bar{x}\)</span> der Funktion zu finden. Oft ist es aber nicht möglich, die Lösung einer solchen Gleichung in geschlossener Form darzustellen. Um dennoch eine Lösung zumindest näherungsweise berechnen zu können, kann man folgendermassen vorgehen:</p>
@@ -896,7 +901,7 @@ Lösung
 <iframe scrolling="no" title="Billard" src="https://www.geogebra.org/material/iframe/id/zz2y2use/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/false/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
 </div>
-<p>Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der <span class="math inline">\(x\)</span>-Achse liegt. Die blaue Kugel habe die Koordinaten <span class="math inline">\((x_P|y_P)\)</span>. Weiter sei <span class="math inline">\(X\)</span> der auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten <span class="math inline">\(X=(\cos(x)|\sin(x))\)</span>. Unser Ziel ist es, <span class="math inline">\(x\)</span> so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei <span class="math inline">\(X\)</span> an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in <span class="math inline">\(X\)</span> reflektiert wird. Der Tangentenvektor im Punkt <span class="math inline">\(X\)</span> lautet <span class="math inline">\(\vec{t} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}\)</span>.</p>
+<p>Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der <span class="math inline">\(x\)</span>-Achse liegt. Die blaue Kugel habe die Koordinaten <span class="math inline">\((x_P|y_P)\)</span>. Weiter sei <span class="math inline">\(X\)</span> der Punkt auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten <span class="math inline">\(X=(\cos(x)|\sin(x))\)</span>. Unser Ziel ist es, <span class="math inline">\(x\)</span> so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei <span class="math inline">\(X\)</span> an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in <span class="math inline">\(X\)</span> reflektiert wird. Der Tangentenvektor im Punkt <span class="math inline">\(X\)</span> lautet <span class="math inline">\(\vec{t} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}\)</span>.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
@@ -1120,8 +1125,63 @@ Lösung
 <p>Die <a href="#exr-GradientDescentFirstTry">Übungsaufgabe&nbsp;<span>1.6</span></a> verdeutlicht nochmals das Problem, welches wir bereits in <a href="#exr-NewtonFirstTry">Übungsaufgabe&nbsp;<span>1.4</span></a> gesehen haben. Wir müssen für den Algorithmus die Ableitung <span class="math inline">\(f'\)</span> an mehreren Stellen auswerten. Wir möchten aber die Ableitung einerseits nicht von Hand berechnen und andererseits können wir uns auch nicht mit einer Approximation zufrieden geben.</p>
 <p>Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Descent Methode.</p>
 <div id="exm-GDApplication" class="theorem example">
-<p><span class="theorem-title"><strong>Beispiel 1.3 (Titel) </strong></span><br></p>
-<p>COMING SOON: Anwendungsbeispiel für Gradient Descent</p>
+<p><span class="theorem-title"><strong>Beispiel 1.3 (Abstand zwischen Eillipse und Gerade) </strong></span><br></p>
+<p>Die Punkte <span class="math inline">\(P\)</span> und <span class="math inline">\(Q\)</span> bewegen sich auf Ellipsen im Raum. Die Position des Punktes <span class="math inline">\(P\)</span> zur Zeit <span class="math inline">\(t\)</span> ist gegeben durch <span class="math display">\[
+\begin{flalign}
+    x_P(t) &amp;= 2 \cos(t) - 1 \\
+    y_P(t) &amp;= 1.5 \sin(t)   \\
+    z_P(t) &amp;= 0             \\
+\end{flalign}
+\]</span> und die Position von <span class="math inline">\(Q\)</span> zum Zeitpunkt <span class="math inline">\(t\)</span> lässt sich durch <span class="math display">\[
+\begin{flalign}
+    x_Q(t) &amp;= -3 \sin(2t)     \\
+    y_Q(t) &amp;= 2 \cos(2t) + 1  \\
+    z_Q(t) &amp;= 2 \sin(2t) + 1  \\
+\end{flalign}
+\]</span> bestimmen.</p>
+<div class="fig-AbstandEllipseGerade">
+<iframe scrolling="no" title="Abstandsproblem" src="https://www.geogebra.org/material/iframe/id/ksauhvfy/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/true/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
+</iframe>
+</div>
+<p>Der Abstand zwischen den beiden Punkten lässt sich zu jedem Zeitpunkt <span class="math inline">\(t\)</span> berechnen durch <span class="math inline">\(d = d(t) = |\overrightarrow{PQ}|\)</span>. Das folgende Programm berechnet diese Funktion und zeichnet ihren Graph.</p>
+<div class="cell" data-execution_count="18">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> d(t):</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> t</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.cos(v0) <span class="op">-</span> <span class="dv">1</span>    <span class="co"># x-Koordinate von P</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> <span class="fl">1.5</span> <span class="op">*</span> math.sin(v0)      <span class="co"># y-Koordinate von P</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> <span class="dv">0</span>                       <span class="co"># z-Koordinate von P</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    v4 <span class="op">=</span> <span class="op">-</span><span class="dv">3</span> <span class="op">*</span> math.sin(<span class="dv">2</span><span class="op">*</span>v0)     <span class="co"># x-Koordinate von Q</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    v5 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.cos(<span class="dv">2</span><span class="op">*</span>v0) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># y-Koordinate von Q</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    v6 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.sin(<span class="dv">2</span><span class="op">*</span>v0) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># z-Koordinate von Q</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> math.sqrt((v4<span class="op">-</span>v1)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (v5<span class="op">-</span>v2)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (v6<span class="op">-</span>v3)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Graph der Funktion d(t) plotten</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlim((<span class="dv">0</span>,<span class="dv">2</span><span class="op">*</span>math.pi))</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>ax.set_ylim((<span class="dv">0</span>,<span class="dv">6</span>))</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>math.pi <span class="op">*</span> k <span class="op">/</span> <span class="dv">1000</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1001</span>)]</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> [d(t) <span class="cf">for</span> t <span class="kw">in</span> T]</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>plt.plot(T,Y)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, math.pi<span class="op">/</span><span class="dv">2</span>, math.pi, <span class="dv">3</span><span class="op">*</span>math.pi<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span><span class="op">*</span>math.pi],</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'0'</span>, <span class="st">'π/2'</span>, <span class="st">'π'</span>, <span class="st">'3π/2'</span>, <span class="st">'2π'</span>])</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>plt.show()  </span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-graphofdistanceproblem" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="intro_files/figure-html/fig-graphofdistanceproblem-output-1.png" width="566" height="409" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;1.4: Graph der Abstandsfunktion <span class="math inline">\(d(t)\)</span>.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wir möchten das Minimum der Funktion <span class="math inline">\(d(t)\)</span> mit Hilfe der Gradient Descent Methode finden. Dazu müssen wir aber <span class="math inline">\(d\)</span> ableiten können.</p>
 </div>
 <hr>
 
@@ -1132,6 +1192,9 @@ Arens, Tilo, Frank Hettlich, Christian Karpfinger, Ulrich Kockelkorn, Klaus Lich
 </div>
 <div id="ref-Gander2015" class="csl-entry" role="doc-biblioentry">
 Gander, Walter. 2015. <em>Learning <span>MATLAB</span>: A Problem Solving Approach</em>. 1. Aufl. UNITEXT. Cham, Switzerland: Springer International Publishing.
+</div>
+<div id="ref-Griewank2008EDP" class="csl-entry" role="doc-biblioentry">
+Griewank, Andreas, und Andrea Walther. 2008. <em>Evaluating Derivatives: <span>P</span>rinciples and Techniques of Algorithmic Differentiation</em>. 2nd Aufl. Other Titles in Applied Mathematics 105. Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/ot105/">http://bookstore.siam.org/ot105/</a>.
 </div>
 <div id="ref-Hromkovic2021" class="csl-entry" role="doc-biblioentry">
 Hromkovic, Juraj, Jarka Arnold, Cédric Donner, Urs Hauser, Matthias Hauswirth, Tobias Kohn, Dennis Komm, David Maletinsky, und Nicole Roth. 2021. <em><span>INFORMATIK</span>, Programmieren und Robotik: Grundlagen der Informatik f<span>ü</span>r Schweizer Maturit<span>ä</span>tsschulen</em>.

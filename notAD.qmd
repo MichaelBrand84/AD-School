@@ -52,7 +52,7 @@ for h in H:
     print("h = " + str(h) + "\t=> f'(x0) = " + str(ydot))
 ``` 
 
-Das Phänomen wird noch deutlicher, wenn wir den Fehler $E(h) = \lvert\frac{f(x_0+h)-f(x_0)}{h} - f'(x_0)\rvert$ als Funktion von $h$ plotten. Beachte die doppelt logarithmische Skala.
+Mit kleiner werdendem $h$ scheint sich der Näherungswert für die Ableitung zu verschlechtern. Das Phänomen wird noch deutlicher, wenn wir den Fehler $E(h) = \lvert\frac{f(x_0+h)-f(x_0)}{h} - f'(x_0)\rvert$ als Funktion von $h$ plotten. Beachte die doppelt logarithmische Skala.
 
 ```{python}
 #| label: fig-numDiffProblem
@@ -94,9 +94,9 @@ $$ \frac{f(x_0 + h) - f(x_0)}{h} = \frac{0.21^2 - 0.2^2}{0.01}=0.41$$
 ergab, sondern $f'(x_0)\approx 0.40999...$. Das liegt daran, dass Dezimalzahlen nicht exakt als Binärzahl dargestellt werden können. Da nun die Werte von $f(x_0 + h)$ und $f(x_0)$ für kleine $h$ fast gleich sind, besteht ihre Differenz $f(x_0 + h) - f(x_0)$ nur noch aus diesen Rundungsfehlern. Diese (sinnlose) Differenz ist zwar sehr klein, wird aber im nächsten Schritt mit der sehr grossen Zahl $\frac{1}{h}$ multipliziert, wodurch die Rundungsfehler die gleiche Grössenordnung annehmen, wie die ursprünglichen Funktionswerte. Mehr über Rundungsfehler und Auslöschung kann in @Weitz2021 ab S. 117 nachgelesen werden.
 
 
-## AD ist nicht symbolisches Ableiten
+## AD ist nicht symbolisches Ableiten {#sec-ADnotSymbDiff}
 Computer Algebra Systeme (CAS) sind Programme zur Bearbeitung algebraischer Ausdrücke. Mit solchen Programmen lassen sich auch Ableitungen symbolisch bestimmen. Wie das funktioniert, wird in @Slater2022 kurz angedeutet. 
-Bekannte Beispiele für CAS sind etwa [Wolfram Alpha](https://www.wolframalpha.com/), [Maxima](https://maxima.sourceforge.io/download.html) oder [Sage](https://www.sagemath.org/). Letzteres kann man [hier](https://sagecell.sagemath.org/) auch online ausprobieren. Gib z.B. den folgenden Code ein, welcher die Ableitung der Funktion aus @exr-LoopProgToFun ableitet:
+Bekannte Beispiele für CAS sind etwa [Wolfram Alpha](https://www.wolframalpha.com/), [Maxima](https://maxima.sourceforge.io/download.html) oder [Sage](https://www.sagemath.org/). Letzteres kann man [hier](https://sagecell.sagemath.org/) auch online ausprobieren. Gib z.B. den folgenden Code ein, welcher die Ableitung der Funktion aus @exr-LoopProgToFun bestimmt:
 ```{}
 l(x) = x^2 + 1
 f(x) = l(l(l(x)))

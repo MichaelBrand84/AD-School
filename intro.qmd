@@ -113,7 +113,7 @@ def f(x):
 
 ## Konvention
 
-Eine Funktion berechnet aus einem Argument `x` einen Rückgabewert `y` über eine Reihe von Hilfsvariablen `v`, die mit verschiedenen Indizes versehen sind. Dabei setzen wir am Anfang immer `v0 = x`.
+Eine Funktion berechnet aus einem Argument `x` einen Rückgabewert `y` über eine Reihe von Hilfsvariablen `v`, die mit aufsteigenden Indizes versehen sind. Dabei setzen wir am Anfang immer `v0 = x`.
 
 :::
 
@@ -234,9 +234,7 @@ Natürlich hätte man z.B. `v3` und `v4` auch vertauschen können.
 ## Ein Programm mit einer Schleife
 <br>
 
-Ersetze im Funktionskörper die Schleife durch mehrere Befehle, so dass immer noch der gleiche mathematische Ausdruck berechnet wird und unsere Konvention eingehalten wird. Welche mathematische Funktion wird durch die Python-Funktion berechnet?
-Was ändert sich, wenn stattdessen `for i in range(3)` oder `for i in range(4)` stehen würde? 
-
+Betrachte das folgende Programm:
 ```{python}
 #| eval: false
 #| code-fold: false
@@ -247,6 +245,9 @@ def f(x):
     y = v0
     return y
 ```
+
+Ersetze im Funktionskörper die Schleife durch mehrere Befehle, so dass immer noch der gleiche mathematische Ausdruck berechnet wird und unsere Konvention eingehalten wird. Welche mathematische Funktion wird durch die Python-Funktion berechnet?
+Was ändert sich, wenn stattdessen `for i in range(3)` oder `for i in range(4)` stehen würde? 
 
 :::
 
@@ -327,8 +328,11 @@ $$
 
 Wie eingangs erwähnt wurde, haben Ableitungen viele nützliche Anwendungen. 
 
-COMING SOON: Idee Programm als Funktion ableiten, Namensgebung AD, möglichst exakte Werte gesucht, nicht von Hand ableiten weil letztes Bsp zeigt, dass Funktionsausdrücke schnell sehr gross werden können.
+Wir möchten nun Ableitungen von Funktionen berechnen, die durch Programme beschrieben werden, die wie oben einen numerischen Parameter `x` als Input erhalten und einen numerischen Wert `y` zurückliefern. Unser Ziel wird es sein, die Programme so zu modifizieren, dass der Funktionsaufruf `f(x0)` nicht nur den Funktionswert $f(x_0)$ zurückgibt, sondern auch den Wert der Ableitung $f'(x_0)$. Wir sind dabei nicht an einer symbolischen Ableitung interessiert, wie das z.B. GeoGebra oder Mathematica machen (s. @sec-ADnotSymbDiff), sondern nur an einer punktweisen Auswertung. Natürlich wollen wir die Ableitungsfunktion auch nicht von Hand bestimmen. Wir wollen uns aber auch nicht bloss mit einer Annhäerung des Wertes der Ableitung zufrieden geben (s. @sec-ADnotNumDiff), sondern den Wert von $f'(x_0)$ bis auf Maschinengenauigkeit exakt berechnen. In @sec-SADforOneDimFunctions werden wir eine Methode kennen lernen, die all dies leistet und dabei die Laufzeit eines Programms nicht wesentlich erhöht. Der Name dieser Methode: Algorithmische Differentiation (AD), obwohl die Namensgebung hier nicht eindeutig ist:
 
+> One of the obstacles in this area [of computing derivatives], which involves "symbolic" and "numerical" methods, has been a confusion in terminology [...]. There is not even general agreement on the best name for the field, which is frequently referred to as *automatic* or *computational differentiation* in the literature. For this book the adjective *algorithmic* seemed preferable, because much of the material emphasizes algorithmic structure, sometimes glossing over the details and pitfalls of actual implementations. (Aus dem Vorwort zu @Griewank2008EDP)
+
+Bevor wir uns aber der Methode der algorithmischen Differentiation zuwenden, wollen wir sie durch einige Beispiele motivieren, bei denen die Berechnung von Ableitung von Funktionen und Programmen eine zentrale Rolle spielt: Das Newtonverfahren und das Gradient Descent Verfahren. 
 
 ### Das Newtonverfahren zur Berechnung von Nullstellen  {#sec-Newtonverfahren1D}
 
@@ -490,7 +494,7 @@ Wir betrachten ein Beispiel aus @Gander2015. Platziere die weisse und die blaue 
 
 ::::
 
-Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der $x$-Achse liegt. Die blaue Kugel habe die Koordinaten $(x_P|y_P)$. Weiter sei $X$ der auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten $X=(\cos(x)|\sin(x))$. Unser Ziel ist es, $x$ so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei $X$ an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in $X$ reflektiert wird. Der Tangentenvektor im Punkt $X$ lautet $\vec{t} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}$. 
+Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der $x$-Achse liegt. Die blaue Kugel habe die Koordinaten $(x_P|y_P)$. Weiter sei $X$ der Punkt auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten $X=(\cos(x)|\sin(x))$. Unser Ziel ist es, $x$ so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei $X$ an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in $X$ reflektiert wird. Der Tangentenvektor im Punkt $X$ lautet $\vec{t} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}$. 
 
 ::::{.column-margin}
 
@@ -715,10 +719,67 @@ Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Des
 
 :::{#exm-GDApplication}
 
-## Titel
+## Abstand zwischen Eillipse und Gerade
 <br>
 
-COMING SOON: Anwendungsbeispiel für Gradient Descent
+Die Punkte $P$ und $Q$ bewegen sich auf Ellipsen im Raum. Die Position des Punktes $P$ zur Zeit $t$ ist gegeben durch
+$$
+\begin{flalign}
+    x_P(t) &= 2 \cos(t) - 1 \\
+    y_P(t) &= 1.5 \sin(t)   \\
+    z_P(t) &= 0             \\
+\end{flalign}
+$$
+und die Position von $Q$ zum Zeitpunkt $t$ lässt sich durch
+$$
+\begin{flalign}
+    x_Q(t) &= -3 \sin(2t)     \\
+    y_Q(t) &= 2 \cos(2t) + 1  \\
+    z_Q(t) &= 2 \sin(2t) + 1  \\
+\end{flalign}
+$$
+bestimmen.
+
+::::{.fig-AbstandEllipseGerade}
+
+<iframe scrolling="no" title="Abstandsproblem" src="https://www.geogebra.org/material/iframe/id/ksauhvfy/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/true/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;"> </iframe>
+
+::::
+
+Der Abstand zwischen den beiden Punkten lässt sich zu jedem Zeitpunkt $t$ berechnen durch $d = d(t) = |\overrightarrow{PQ}|$. Das folgende Programm berechnet diese Funktion und zeichnet ihren Graph.
+
+```{python}
+#| code-fold: show
+#| label: fig-GraphOfDistanceProblem
+#| fig-cap: "Graph der Abstandsfunktion $d(t)$."
+
+import math
+
+def d(t):
+    v0 = t
+    v1 = 2 * math.cos(v0) - 1    # x-Koordinate von P
+    v2 = 1.5 * math.sin(v0)      # y-Koordinate von P
+    v3 = 0                       # z-Koordinate von P
+    v4 = -3 * math.sin(2*v0)     # x-Koordinate von Q
+    v5 = 2 * math.cos(2*v0) + 1  # y-Koordinate von Q
+    v6 = 2 * math.sin(2*v0) + 1  # z-Koordinate von Q
+    y = math.sqrt((v4-v1)**2 + (v5-v2)**2 + (v6-v3)**2)
+    return y
+
+# Graph der Funktion d(t) plotten
+fig = plt.figure()
+ax = plt.gca()
+ax.set_xlim((0,2*math.pi))
+ax.set_ylim((0,6))
+T = [2*math.pi * k / 1000 for k in range(1001)]
+Y = [d(t) for t in T]
+plt.plot(T,Y)
+plt.xticks([0, math.pi/2, math.pi, 3*math.pi/2, 2*math.pi],
+           ['0', 'π/2', 'π', '3π/2', '2π'])
+plt.show()  
+```
+
+Wir möchten das Minimum der Funktion $d(t)$ mit Hilfe der Gradient Descent Methode finden. Dazu müssen wir aber $d$ ableiten können.
 
 :::
 ---

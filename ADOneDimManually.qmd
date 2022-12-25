@@ -2,15 +2,15 @@
 tbl-cap-location: bottom
 ---
 
-# Standard Algorithmische Differentiation für eindimensionale Funktionen
+# Standard Algorithmische Differentiation für eindimensionale Funktionen {#sec-SADforOneDimFunctions}
 
-In @sec-ADisnot haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwächen  haben. Während die nuemrische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:
+In @sec-ADisnot haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwächen  haben. Während die numerische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:
 
 > "AD as a technical term refers to a specific family of techniques that compute derivatives trhough accumulation of values during code execution to generate numerical derivative evaluations rather than derivative expressions. This allows accurate evaluation of derivatives at machine precision with only a small constant factor of overhead and ideal asymptotic efficiency." (@Baydin18, S. 2)
 
 In diesem Kapitel lernen wir die *Standard Algorithmische Differentiation* (SAD, auch Vorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten "family of techniques" ist. Wir beschränken uns zunächst wieder auf Funktionen $f : \mathbb{R} \rightarrow \mathbb{R}$ und werden dies später auf Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ erweitern. Neben der Standard-AD gibt es noch die *Adjungierte Algorithmische Differentiation* (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für Funktionen in höherdimensionalen Räumen. 
 
-Gemäss unserer Konvention in @sec-ProgFunc berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, und die Zwischenergebnisse einer Variablen `v` zuweisen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen `vdot` einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein `v` berechnet, um die Berechnung des zugehörigen `vdot` erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Abschnitt werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:
+Gemäss unserer Konvention in @sec-ProgFunc berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, und die Zwischenergebnisse Variablen `v` zuweisen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen `vdot` einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein `v` berechnet, um die Berechnung des zugehörigen `vdot` erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Abschnitt werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:
 
 > "There are as many shades of AD as there are AD users. [This chapter] provides to the user the black and the white; it is up to him to get the correct shade of grey that fits his taste and his requirements." (@Henrard2017ADi, S. 18)
 
@@ -435,7 +435,7 @@ $$
 \begin{alignat}{3}
     &\textrm{Addition:} && (a+a'\epsilon) + (b+b'\epsilon) &&= (a+b) + (a'+b')\epsilon \\ \\
     &\textrm{Subtraktion:} && (a+a'\epsilon) - (b+b'\epsilon) &&= (a-b) + (a'-b')\epsilon \\ \\
-    &\textrm{Multiplikation:}\quad && (a+a'\epsilon) \cdot (b+b'\epsilon) &&= ab + ab'\epsilon + a'b\epsilon + a'b'\epsilon^2 \\
+    &\textrm{Multiplikation:}\quad && (a+a'\epsilon) \cdot (b+b'\epsilon) &&= ab + a'b\epsilon + ab'\epsilon + a'b'\epsilon^2 \\
     & && &&= ab + (a'b + ab')\epsilon \\ \\
     &\textrm{Division:} && (\textrm{für }b\ne 0) \quad \frac{a+a'\epsilon}{b+b'\epsilon} &&= \frac{(a+a'\epsilon)(b-b'\epsilon)}{(b+b'\epsilon)(b-b'\epsilon)} \\
     & && &&= \frac{ab+a'b\epsilon-ab'\epsilon-a'b'\epsilon^2}{b^2 - (b')^2\epsilon^2} \\ 
@@ -1027,7 +1027,7 @@ Gemäss der [Python-Dokumentation](https://docs.python.org/3.8/library/math.html
 #| code-fold: false 
 (math.fabs(v)).derivative = v.derivative if v>=0 else -v.derivative
 ```
-Die Funktion $y=|x|$ ist an der Stelle $x=0$ eigentlich nicht differenzierbar. Da wir aber nicht Ableitungsfunktionen, sondern nur Werte von Ableitungen an einer bestimmten Stelle berechnen, den rechts- oder linksseitigen Grenzwert zurückzugeben, siehe @Gander1992. Wir müssen es dem Benutzer überlassen, das Ergebnis im jeweiligen Kontext korrekt zu interpretieren.
+Die Funktion $y=|x|$ ist an der Stelle $x=0$ eigentlich nicht differenzierbar. Da wir aber nicht Ableitungsfunktionen, sondern nur Werte von Ableitungen an einer bestimmten Stelle berechnen, reicht es, den rechts- oder linksseitigen Grenzwert zurückzugeben, siehe @Gander1992. Wir müssen es dem Benutzer überlassen, das Ergebnis im jeweiligen Kontext korrekt zu interpretieren.
 
 ### Die Funktion `sqrt`
 

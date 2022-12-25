@@ -245,7 +245,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></h1>
+<h1 class="title"><span id="sec-SADforOneDimFunctions" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></span></h1>
 </div>
 
 
@@ -259,12 +259,12 @@ div.csl-indent {
 
 </header>
 
-<p>In <a href="notAD.html"><span>Kapitel&nbsp;2</span></a> haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwächen haben. Während die nuemrische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:</p>
+<p>In <a href="notAD.html"><span>Kapitel&nbsp;2</span></a> haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwächen haben. Während die numerische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:</p>
 <blockquote class="blockquote">
 <p>“AD as a technical term refers to a specific family of techniques that compute derivatives trhough accumulation of values during code execution to generate numerical derivative evaluations rather than derivative expressions. This allows accurate evaluation of derivatives at machine precision with only a small constant factor of overhead and ideal asymptotic efficiency.” (<span class="citation" data-cites="Baydin18">Baydin u.&nbsp;a. (<a href="references.html#ref-Baydin18" role="doc-biblioref">2018</a>)</span>, S. 2)</p>
 </blockquote>
 <p>In diesem Kapitel lernen wir die <em>Standard Algorithmische Differentiation</em> (SAD, auch Vorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten “family of techniques” ist. Wir beschränken uns zunächst wieder auf Funktionen <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}\)</span> und werden dies später auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> erweitern. Neben der Standard-AD gibt es noch die <em>Adjungierte Algorithmische Differentiation</em> (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für Funktionen in höherdimensionalen Räumen.</p>
-<p>Gemäss unserer Konvention in <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, und die Zwischenergebnisse einer Variablen <code>v</code> zuweisen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen <code>vdot</code> einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein <code>v</code> berechnet, um die Berechnung des zugehörigen <code>vdot</code> erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Abschnitt werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:</p>
+<p>Gemäss unserer Konvention in <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, und die Zwischenergebnisse Variablen <code>v</code> zuweisen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen <code>vdot</code> einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein <code>v</code> berechnet, um die Berechnung des zugehörigen <code>vdot</code> erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Abschnitt werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:</p>
 <blockquote class="blockquote">
 <p>“There are as many shades of AD as there are AD users. [This chapter] provides to the user the black and the white; it is up to him to get the correct shade of grey that fits his taste and his requirements.” (<span class="citation" data-cites="Henrard2017ADi">Henrard (<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">2017</a>)</span>, S. 18)</p>
 </blockquote>
@@ -740,7 +740,7 @@ Hintergrund: Duale Zahlen
 \begin{alignat}{3}
     &amp;\textrm{Addition:} &amp;&amp; (a+a'\epsilon) + (b+b'\epsilon) &amp;&amp;= (a+b) + (a'+b')\epsilon \\ \\
     &amp;\textrm{Subtraktion:} &amp;&amp; (a+a'\epsilon) - (b+b'\epsilon) &amp;&amp;= (a-b) + (a'-b')\epsilon \\ \\
-    &amp;\textrm{Multiplikation:}\quad &amp;&amp; (a+a'\epsilon) \cdot (b+b'\epsilon) &amp;&amp;= ab + ab'\epsilon + a'b\epsilon + a'b'\epsilon^2 \\
+    &amp;\textrm{Multiplikation:}\quad &amp;&amp; (a+a'\epsilon) \cdot (b+b'\epsilon) &amp;&amp;= ab + a'b\epsilon + ab'\epsilon + a'b'\epsilon^2 \\
     &amp; &amp;&amp; &amp;&amp;= ab + (a'b + ab')\epsilon \\ \\
     &amp;\textrm{Division:} &amp;&amp; (\textrm{für }b\ne 0) \quad \frac{a+a'\epsilon}{b+b'\epsilon} &amp;&amp;= \frac{(a+a'\epsilon)(b-b'\epsilon)}{(b+b'\epsilon)(b-b'\epsilon)} \\
     &amp; &amp;&amp; &amp;&amp;= \frac{ab+a'b\epsilon-ab'\epsilon-a'b'\epsilon^2}{b^2 - (b')^2\epsilon^2} \\
@@ -1385,7 +1385,7 @@ Lösung
 <div class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(math.fabs(v)).derivative <span class="op">=</span> v.derivative <span class="cf">if</span> v<span class="op">&gt;=</span><span class="dv">0</span> <span class="cf">else</span> <span class="op">-</span>v.derivative</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Die Funktion <span class="math inline">\(y=|x|\)</span> ist an der Stelle <span class="math inline">\(x=0\)</span> eigentlich nicht differenzierbar. Da wir aber nicht Ableitungsfunktionen, sondern nur Werte von Ableitungen an einer bestimmten Stelle berechnen, den rechts- oder linksseitigen Grenzwert zurückzugeben, siehe <span class="citation" data-cites="Gander1992">Gander (<a href="references.html#ref-Gander1992" role="doc-biblioref">1992</a>)</span>. Wir müssen es dem Benutzer überlassen, das Ergebnis im jeweiligen Kontext korrekt zu interpretieren.</p>
+<p>Die Funktion <span class="math inline">\(y=|x|\)</span> ist an der Stelle <span class="math inline">\(x=0\)</span> eigentlich nicht differenzierbar. Da wir aber nicht Ableitungsfunktionen, sondern nur Werte von Ableitungen an einer bestimmten Stelle berechnen, reicht es, den rechts- oder linksseitigen Grenzwert zurückzugeben, siehe <span class="citation" data-cites="Gander1992">Gander (<a href="references.html#ref-Gander1992" role="doc-biblioref">1992</a>)</span>. Wir müssen es dem Benutzer überlassen, das Ergebnis im jeweiligen Kontext korrekt zu interpretieren.</p>
 <section id="die-funktion-sqrt" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="die-funktion-sqrt"><span class="header-section-number">3.4.1</span> Die Funktion <code>sqrt</code></h3>
 <p>Beginnen wir mit der Implementierung der Wurzelfunktion.</p>

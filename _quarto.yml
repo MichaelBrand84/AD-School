@@ -42,3 +42,4 @@ format:
     documentclass: scrreprt
     lang: de
     number-depth: 3
+#    pdf-engine: mikTeX
