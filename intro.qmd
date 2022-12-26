@@ -146,17 +146,15 @@ def f(x):
 
 ## Lösung
 
-$$
-\begin{flalign}
+\begin{align}
 v_1 & = x^2 \\
 v_2 & = x^2 + 2 \\
 v_3 & = - \frac{x^2}{2} \\
 v_4 & = \cos(x^2 + 2) \\
 v_5 & = e^{- \frac{x^2}{2}} \\
 v_6 & = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} \\
-y & = f(x) = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} + \frac{1}{x} \\
-\end{flalign}
-$$
+y & = f(x) = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} + \frac{1}{x}
+\end{align}
 
 :::
 
@@ -270,13 +268,11 @@ def f(x):
     y = v2
     return y
 ```
-$$
-\begin{flalign}
+
+\begin{align}
     f(x) &= \ell(\ell(x)) \\ 
          &= (x^2 + 1)^2 + 1 = x^4 + 2x^2 + 2
-\end{flalign}
-$$
-
+\end{align}
 
 ## `range(3)`
 ```{python}
@@ -290,12 +286,11 @@ def f(x):
     y = v3
     return y
 ```
-$$
-\begin{flalign}
+
+\begin{align}
     f(x) &= \ell(\ell(\ell(x))) \\
          &= ((x^2 + 1)^2 + 1)^2 + 1 = x^8 + 4x^6 + 8x^4 + 8x^2 + 5
-\end{flalign}
-$$
+\end{align}
 
 ## `range(4)`
 ```{python}
@@ -310,13 +305,12 @@ def f(x):
     y = v4
     return y
 ```
-$$
-\begin{flalign}
+
+\begin{align}
     f(x) &= \ell(\ell(\ell(\ell(x)))) \\
          &= (((x^2 + 1)^2 + 1)^2 + 1)^2 + 1 \\
          &= x^{16} + 8x^{14} + 32x^{12} + 80x^{10} + 138x^8 + 168x^6 + 144x^4 + 80x^2 + 26
-\end{flalign}
-$$
+\end{align}
 
 ::::
 
@@ -344,9 +338,13 @@ In vielen Anwendungen steht man vor der Aufgabe, die Gleichung $f(x) = 0$ nach $
 
 Dieser Algorithmus ist als Newtonverfahren bekannt.
 
-:::{.fig-NewtonGeoGebra}
+:::{.content-visible unless-format="pdf"}
+
+::::{.fig-NewtonGeoGebra}
 
 <iframe scrolling="no" title="Newtonverfahren" src="https://www.geogebra.org/material/iframe/id/baja85gv/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;"> </iframe>
+
+::::
 
 :::
 
@@ -478,9 +476,7 @@ Hier wird das Newtonverfahren in einer Funktion implementiert. Die Ableitung wir
 
 :::
 
-Auch die Version 4 der vorgestellten Lösung ist noch nicht befriedigend. Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion `fdot` and der Stelle `x0` ausgewertet werden, um den (bis auf Maschinengenauigkeit) *exakten* Wert von $f'(x_0)$ zu erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut genug war[^1], so haben wir doch keine Garantie, dass wir für alle Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung von $f'(x_0)$ auftreten, wird in @sec-ADnotNumDiff näher eingegangen.
-
-[^1]: Das Newton-Verfahren hat die angenehme Eigenschaft, dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere numerische Verfahren, die die Ableitung verwenden, trifft dies aber nicht zu.
+Auch die Version 4 der vorgestellten Lösung ist noch nicht befriedigend. Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion `fdot` and der Stelle `x0` ausgewertet werden, um den (bis auf Maschinengenauigkeit) *exakten* Wert von $f'(x_0)$ zu erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut genug war ^[Das Newton-Verfahren hat die angenehme Eigenschaft, dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere numerische Verfahren, die die Ableitung verwenden, trifft dies aber nicht zu.], so haben wir doch keine Garantie, dass wir für alle Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung von $f'(x_0)$ auftreten, wird in @sec-ADnotNumDiff näher eingegangen.
 
 :::{#exm-Billard}
 ## Billard auf einem runden Tisch
@@ -488,15 +484,29 @@ Auch die Version 4 der vorgestellten Lösung ist noch nicht befriedigend. Als wi
 
 Wir betrachten ein Beispiel aus @Gander2015. Platziere die weisse und die blaue Billardkugel auf dem runden Tisch. Das Ziel ist es, die weisse Kugel so anzustossen, dass sie die blaue Kugel trifft, nachdem sie vorher genau einmal an die Bande gespielt wurde.
 
-::::{.fig-CircularBillardBasic}
+::::{.content-visible unless-format="pdf"}
+
+:::::{.fig-CircularBillardBasic}
 
 <iframe scrolling="no" title="Billard" src="https://www.geogebra.org/material/iframe/id/zz2y2use/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/false/ctl/false" width="700px" height="500px" style="border:0px;"> </iframe>
+
+:::::
 
 ::::
 
 Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der $x$-Achse liegt. Die blaue Kugel habe die Koordinaten $(x_P|y_P)$. Weiter sei $X$ der Punkt auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten $X=(\cos(x)|\sin(x))$. Unser Ziel ist es, $x$ so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei $X$ an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in $X$ reflektiert wird. Der Tangentenvektor im Punkt $X$ lautet $\vec{t} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}$. 
 
-::::{.column-margin}
+::::{.content-visible unless-format="pdf"}
+
+:::::{.column-margin}
+
+![Billard auf einem runden Tisch](CircularBillard_sketch.png)
+
+:::::
+
+::::
+
+::::{.content-visible when-format="pdf"}
 
 ![Billard auf einem runden Tisch](CircularBillard_sketch.png)
 
@@ -567,12 +577,15 @@ $$
 x_{n+1} = x_n - \lambda\cdot f'(x_n)
 $$ {#eq-gradientDescent}
 
-:::{.fig-GradientDescentGeoGebra1D}
+:::{.content-visible unless-format="pdf"}
+
+::::{.fig-GradientDescentGeoGebra1D}
 
 <iframe scrolling="no" title="Gradient Descent Verfahren" src="https://www.geogebra.org/material/iframe/id/xnjdmuqr/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;"> </iframe>
 
-:::
+::::
 
+:::
 
 :::{#exr-GradientDescentBasicProperties}
 
@@ -723,26 +736,30 @@ Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Des
 <br>
 
 Die Punkte $P$ und $Q$ bewegen sich auf Ellipsen im Raum. Die Position des Punktes $P$ zur Zeit $t$ ist gegeben durch
-$$
-\begin{flalign}
+
+\begin{align}
     x_P(t) &= 2 \cos(t) - 1 \\
     y_P(t) &= 1.5 \sin(t)   \\
-    z_P(t) &= 0             \\
-\end{flalign}
-$$
+    z_P(t) &= 0             
+\end{align}
+
 und die Position von $Q$ zum Zeitpunkt $t$ lässt sich durch
-$$
-\begin{flalign}
+
+\begin{align}
     x_Q(t) &= -3 \sin(2t)     \\
     y_Q(t) &= 2 \cos(2t) + 1  \\
-    z_Q(t) &= 2 \sin(2t) + 1  \\
-\end{flalign}
-$$
+    z_Q(t) &= 2 \sin(2t) + 1  
+\end{align}
+
 bestimmen.
 
-::::{.fig-AbstandEllipseGerade}
+::::{.content-visible unless-format="pdf"}
+
+:::::{.fig-AbstandEllipseGerade}
 
 <iframe scrolling="no" title="Abstandsproblem" src="https://www.geogebra.org/material/iframe/id/ksauhvfy/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/true/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;"> </iframe>
+
+:::::
 
 ::::
 

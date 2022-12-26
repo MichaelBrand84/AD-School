@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.251">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -166,7 +166,7 @@ div.csl-indent {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./" class="sidebar-logo-link">
+      <a href="./index.html" class="sidebar-logo-link">
       <img src="./mycover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
@@ -240,6 +240,7 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -505,17 +506,15 @@ Lösung
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math display">\[
-\begin{flalign}
+<p><span class="math display">\[\begin{align}
 v_1 &amp; = x^2 \\
 v_2 &amp; = x^2 + 2 \\
 v_3 &amp; = - \frac{x^2}{2} \\
 v_4 &amp; = \cos(x^2 + 2) \\
 v_5 &amp; = e^{- \frac{x^2}{2}} \\
 v_6 &amp; = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} \\
-y &amp; = f(x) = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} + \frac{1}{x} \\
-\end{flalign}
-\]</span></p>
+y &amp; = f(x) = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} + \frac{1}{x}
+\end{align}\]</span></p>
 </div>
 </div>
 </div>
@@ -691,12 +690,10 @@ Lösung
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v2</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="math display">\[
-\begin{flalign}
+<p><span class="math display">\[\begin{align}
     f(x) &amp;= \ell(\ell(x)) \\
          &amp;= (x^2 + 1)^2 + 1 = x^4 + 2x^2 + 2
-\end{flalign}
-\]</span></p>
+\end{align}\]</span></p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell" data-execution_count="7">
@@ -708,12 +705,10 @@ Lösung
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v3</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="math display">\[
-\begin{flalign}
+<p><span class="math display">\[\begin{align}
     f(x) &amp;= \ell(\ell(\ell(x))) \\
          &amp;= ((x^2 + 1)^2 + 1)^2 + 1 = x^8 + 4x^6 + 8x^4 + 8x^2 + 5
-\end{flalign}
-\]</span></p>
+\end{align}\]</span></p>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="cell" data-execution_count="8">
@@ -726,13 +721,11 @@ Lösung
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v4</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="math display">\[
-\begin{flalign}
+<p><span class="math display">\[\begin{align}
     f(x) &amp;= \ell(\ell(\ell(\ell(x)))) \\
          &amp;= (((x^2 + 1)^2 + 1)^2 + 1)^2 + 1 \\
          &amp;= x^{16} + 8x^{14} + 32x^{12} + 80x^{10} + 138x^8 + 168x^6 + 144x^4 + 80x^2 + 26
-\end{flalign}
-\]</span></p>
+\end{align}\]</span></p>
 </div>
 </div>
 </div>
@@ -757,9 +750,11 @@ Lösung
 <li>Nun wiederholt man das Verfahren, indem man bei <span class="math inline">\(x_1\)</span> die Tangente an die Kurve legt, usw. Auf diese Weise erhält man eine Folge von Näherungen <span class="math inline">\(x_0, x_1, x_2, \ldots\)</span>, deren Grenzwert die Nullstelle <span class="math inline">\(\bar{x}\)</span> ist.</li>
 </ol>
 <p>Dieser Algorithmus ist als Newtonverfahren bekannt.</p>
+<div>
 <div class="fig-NewtonGeoGebra">
 <iframe scrolling="no" title="Newtonverfahren" src="https://www.geogebra.org/material/iframe/id/baja85gv/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
+</div>
 </div>
 <p>Die Gleichung der Tangente im Punkt <span class="math inline">\((x_n | y_n) = (x_n | f(x_n))\)</span> ist bekanntlich <span class="math inline">\(t(x) = f(x_n) + f'(x_n) \cdot (x - x_n)\)</span>. Die Nullstelle der Tangente ist der Näherungswert <span class="math inline">\(x_{n+1}\)</span>. Aus <span class="math inline">\(t(x_{n+1}) = 0\)</span> ergibt sich nun die Iterationsvorschrift des Newtonverfahrens: <span id="eq-newton"><span class="math display">\[
 x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
@@ -893,15 +888,18 @@ Lösung
 </div>
 </div>
 </div>
-<div class="page-columns page-full"><p>Auch die Version 4 der vorgestellten Lösung ist noch nicht befriedigend. Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion <code>fdot</code> and der Stelle <code>x0</code> ausgewertet werden, um den (bis auf Maschinengenauigkeit) <em>exakten</em> Wert von <span class="math inline">\(f'(x_0)\)</span> zu erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut genug war<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, so haben wir doch keine Garantie, dass wir für alle Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung von <span class="math inline">\(f'(x_0)\)</span> auftreten, wird in <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a> näher eingegangen.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Das Newton-Verfahren hat die angenehme Eigenschaft, dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere numerische Verfahren, die die Ableitung verwenden, trifft dies aber nicht zu.</p></li></div></div>
+<div class="page-columns page-full"><p>Auch die Version 4 der vorgestellten Lösung ist noch nicht befriedigend. Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion <code>fdot</code> and der Stelle <code>x0</code> ausgewertet werden, um den (bis auf Maschinengenauigkeit) <em>exakten</em> Wert von <span class="math inline">\(f'(x_0)\)</span> zu erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut genug war <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, so haben wir doch keine Garantie, dass wir für alle Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung von <span class="math inline">\(f'(x_0)\)</span> auftreten, wird in <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a> näher eingegangen.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Das Newton-Verfahren hat die angenehme Eigenschaft, dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere numerische Verfahren, die die Ableitung verwenden, trifft dies aber nicht zu.</p></li></div></div>
 <div id="exm-Billard" class="theorem example page-columns page-full">
 <p><span class="theorem-title"><strong>Beispiel 1.2 (Billard auf einem runden Tisch) </strong></span><br></p>
 <p>Wir betrachten ein Beispiel aus <span class="citation" data-cites="Gander2015">Gander (<a href="references.html#ref-Gander2015" role="doc-biblioref">2015</a>)</span>. Platziere die weisse und die blaue Billardkugel auf dem runden Tisch. Das Ziel ist es, die weisse Kugel so anzustossen, dass sie die blaue Kugel trifft, nachdem sie vorher genau einmal an die Bande gespielt wurde.</p>
+<div>
 <div class="fig-CircularBillardBasic">
 <iframe scrolling="no" title="Billard" src="https://www.geogebra.org/material/iframe/id/zz2y2use/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/false/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
 </div>
+</div>
 <p>Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der Einheitskreis ist und dass die weisse Kugel auf der <span class="math inline">\(x\)</span>-Achse liegt. Die blaue Kugel habe die Koordinaten <span class="math inline">\((x_P|y_P)\)</span>. Weiter sei <span class="math inline">\(X\)</span> der Punkt auf dem Einheitskreis, an dem die weisse Kugel abprallt. Wir beschreiben diesen Punkt mit seinen Polarkoordinaten <span class="math inline">\(X=(\cos(x)|\sin(x))\)</span>. Unser Ziel ist es, <span class="math inline">\(x\)</span> so zu berechnen, dass die weisse Kugel die blaue trifft, nachdem sie bei <span class="math inline">\(X\)</span> an die Bande gestossen ist. Dabei verhält sie sich so, als ob sie an der Kreistangente in <span class="math inline">\(X\)</span> reflektiert wird. Der Tangentenvektor im Punkt <span class="math inline">\(X\)</span> lautet <span class="math inline">\(\vec{t} = \begin{pmatrix} -\sin(x) \\ \cos(x) \end{pmatrix}\)</span>.</p>
+<div class="page-columns page-full">
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
@@ -910,7 +908,8 @@ Lösung
 <p></p><figcaption class="figure-caption">Billard auf einem runden Tisch</figcaption><p></p>
 </figure>
 </div>
-</div></div><p>Wir betrachten nun die Einheitsvektoren <span class="math inline">\(\vec{e}_Q\)</span> in Richtung <span class="math inline">\(\overrightarrow{XQ}\)</span> und <span class="math inline">\(\vec{e}_P\)</span> in Richtung <span class="math inline">\(\overrightarrow{XP}\)</span>. Wenn die weisse Kugel die blaue treffen soll, dann müssen die Winkel zwischen der Tangente und diesen Vektoren gleich sein. Das ist genau dann der Fall, wenn <span class="math inline">\(\vec{t}\)</span> senkrecht steht auf <span class="math inline">\(\vec{e}_Q + \vec{e}_P\)</span>. Wir müssen also <span class="math inline">\(x\)</span> so bestimmen, dass <span class="math inline">\(\vec{t} \cdot (\vec{e}_Q + \vec{e}_P) = 0\)</span> ist.</p>
+</div></div></div>
+<p>Wir betrachten nun die Einheitsvektoren <span class="math inline">\(\vec{e}_Q\)</span> in Richtung <span class="math inline">\(\overrightarrow{XQ}\)</span> und <span class="math inline">\(\vec{e}_P\)</span> in Richtung <span class="math inline">\(\overrightarrow{XP}\)</span>. Wenn die weisse Kugel die blaue treffen soll, dann müssen die Winkel zwischen der Tangente und diesen Vektoren gleich sein. Das ist genau dann der Fall, wenn <span class="math inline">\(\vec{t}\)</span> senkrecht steht auf <span class="math inline">\(\vec{e}_Q + \vec{e}_P\)</span>. Wir müssen also <span class="math inline">\(x\)</span> so bestimmen, dass <span class="math inline">\(\vec{t} \cdot (\vec{e}_Q + \vec{e}_P) = 0\)</span> ist.</p>
 <p>Das folgende Programm berechnet das Skalarprodukt der linken Seite dieser Gleichung.</p>
 <div class="cell" data-execution_count="13">
 <details open="">
@@ -973,9 +972,11 @@ Lösung
 <p>Wenn <span class="math inline">\(f'(x_n)&gt;0\)</span> ist, dann wissen wir, dass die Funktion <span class="math inline">\(f\)</span> an der Stelle <span class="math inline">\(x_0\)</span> streng monoton wachsend ist. D.h., dass die Funktionswerte links von <span class="math inline">\(x_n\)</span> kleiner sind, als an der Stelle <span class="math inline">\(x_n\)</span>. Analog gilt, dass wenn <span class="math inline">\(f'(x_n)&lt;0\)</span> ist, die Funktion monoton fallend ist und wir uns nach rechts bewegen sollten, um ein Minimum zu finden. In der Nähe eines Minimums ist ausserdem <span class="math inline">\(|f'(x)|\)</span> sehr klein und wir können entsprechend kleinere Schritte machen, um uns diesem anzunähern. Um also von <span class="math inline">\(x_n\)</span> zu <span class="math inline">\(x_{n+1}\)</span> zu kommen, machen wir einen Schritt, der proportional zu <span class="math inline">\(-f'(x_n)\)</span> ist. Mit dem Proporionalitätsfaktor <span class="math inline">\(\lambda\in\mathbb{R}\)</span> und einem geeignet gewählten Startwert <span class="math inline">\(x_0\)</span> erhalten wir die Iterationsvorschrift <span id="eq-gradientDescent"><span class="math display">\[
 x_{n+1} = x_n - \lambda\cdot f'(x_n)
 \tag{1.2}\]</span></span></p>
+<div>
 <div class="fig-GradientDescentGeoGebra1D">
 <iframe scrolling="no" title="Gradient Descent Verfahren" src="https://www.geogebra.org/material/iframe/id/xnjdmuqr/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
+</div>
 </div>
 <div id="exr-GradientDescentBasicProperties" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 1.5 (Eigenschaften der Gradient Descent Methode) </strong></span><br> Experimentiere mit verschiedenen Funktionen und verschiedenen Schrittweiten <span class="math inline">\(\lambda\)</span>. Was passiert, wenn die Schrittweite zu klein bzw. zu gross gewählt wird? Was passiert, wenn <span class="math inline">\(f\)</span> an der Stelle <span class="math inline">\(x_0\)</span> ein lokales Maximum aufweist? Was passiert in der Nähe eines Sattelpunktes?</p>
@@ -1126,22 +1127,24 @@ Lösung
 <p>Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Descent Methode.</p>
 <div id="exm-GDApplication" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 1.3 (Abstand zwischen Eillipse und Gerade) </strong></span><br></p>
-<p>Die Punkte <span class="math inline">\(P\)</span> und <span class="math inline">\(Q\)</span> bewegen sich auf Ellipsen im Raum. Die Position des Punktes <span class="math inline">\(P\)</span> zur Zeit <span class="math inline">\(t\)</span> ist gegeben durch <span class="math display">\[
-\begin{flalign}
+<p>Die Punkte <span class="math inline">\(P\)</span> und <span class="math inline">\(Q\)</span> bewegen sich auf Ellipsen im Raum. Die Position des Punktes <span class="math inline">\(P\)</span> zur Zeit <span class="math inline">\(t\)</span> ist gegeben durch</p>
+<p><span class="math display">\[\begin{align}
     x_P(t) &amp;= 2 \cos(t) - 1 \\
     y_P(t) &amp;= 1.5 \sin(t)   \\
-    z_P(t) &amp;= 0             \\
-\end{flalign}
-\]</span> und die Position von <span class="math inline">\(Q\)</span> zum Zeitpunkt <span class="math inline">\(t\)</span> lässt sich durch <span class="math display">\[
-\begin{flalign}
+    z_P(t) &amp;= 0             
+\end{align}\]</span></p>
+<p>und die Position von <span class="math inline">\(Q\)</span> zum Zeitpunkt <span class="math inline">\(t\)</span> lässt sich durch</p>
+<p><span class="math display">\[\begin{align}
     x_Q(t) &amp;= -3 \sin(2t)     \\
     y_Q(t) &amp;= 2 \cos(2t) + 1  \\
-    z_Q(t) &amp;= 2 \sin(2t) + 1  \\
-\end{flalign}
-\]</span> bestimmen.</p>
+    z_Q(t) &amp;= 2 \sin(2t) + 1  
+\end{align}\]</span></p>
+<p>bestimmen.</p>
+<div>
 <div class="fig-AbstandEllipseGerade">
 <iframe scrolling="no" title="Abstandsproblem" src="https://www.geogebra.org/material/iframe/id/ksauhvfy/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/true/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
+</div>
 </div>
 <p>Der Abstand zwischen den beiden Punkten lässt sich zu jedem Zeitpunkt <span class="math inline">\(t\)</span> berechnen durch <span class="math inline">\(d = d(t) = |\overrightarrow{PQ}|\)</span>. Das folgende Programm berechnet diese Funktion und zeichnet ihren Graph.</p>
 <div class="cell" data-execution_count="18">
@@ -1249,7 +1252,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Kopiert");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Kopiert");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -1285,24 +1305,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

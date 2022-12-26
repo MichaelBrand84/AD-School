@@ -7,9 +7,9 @@ Eine Funktion $y = f(x)$ ist bekanntlich differenzierbar an der Stelle $x_0 \in 
 $$ \lim_{h\rightarrow 0} \frac{f(x_0 + h) - f(x_0)}{h} $$
 existiert. In dem Fall ist $f'(x_0)$ einfach der Wert dieses Grenzwerts.
 
-Ein erster Ansatz zur numerischen Berechnung könnte also sein, den Differenzenquotienten für kleine $h$ auszuwerten[^1].
+Ein erster Ansatz zur numerischen Berechnung könnte also sein, den Differenzenquotienten für kleine $h$ auszuwerten^[Dieser Ansatz kann verbessert werden indem man z.B. $f'(x_0) \approx \frac{f(x_0 + h) - f(x_0 - h)}{2h}$ verwendet. Die im Beispiel beschriebenen Probleme bleiben aber auch dann bestehen.].
 
-[^1]: Dieser Ansatz kann verbessert werden indem man z.B. $f'(x_0) \approx \frac{f(x_0 + h) - f(x_0 - h)}{2h}$ verwendet. Die im Beispiel beschriebenen Probleme bleiben aber auch dann bestehen.
+
 
 :::{#exm-numDiff}
 

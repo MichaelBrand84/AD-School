@@ -1,15 +1,18 @@
 project:
   type: book
 
+execute: 
+  freeze: auto
+
 jupyter: python3
 
 book:
 #  navbar:
 #    search: true 
   title: "AutoDiff"
-  subtitle: "Eine Einführung in algorithmisches Ableiten"
+  subtitle: "Eine Einführung in algorithmisches Differenzieren"
   author: "Michael Brand"
-  date: "19/10/2022"
+  date: "10/19/2022"
   favicon: mycover.png      
   sidebar: 
     logo: mycover.png
@@ -40,6 +43,26 @@ format:
     reference-location: margin
   pdf:
     documentclass: scrreprt
+    papersize: A4
     lang: de
+    geometry: 
+      - top = 30mm
+      - left = 20mm
+      - bottom = 60mm
+      - right = 20mm
+      - heightrounded
+    number-sections: true
     number-depth: 3
-#    pdf-engine: mikTeX
+    pdf-engine: latexmk
+    latex-tinytex: false
+    toc: true
+    toc-depth: 3
+    colorlinks: true
+    reference-location: section
+    cap-location: bottom
+    output-file: AutoDiff.pdf
+    latex-auto-mk: true
+    latex-auto-install: true
+#    include-in-header: 
+#      text: |
+#        \usepackage{amssymb,amsmath,amsthm, amsfonts}

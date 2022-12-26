@@ -139,7 +139,7 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
-\KOMAoption{captions}{tableheading}
+\KOMAoption{captions}{tablesignature}
 \makeatletter
 \@ifpackageloaded{tcolorbox}{}{\usepackage[many]{tcolorbox}}
 \@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
@@ -254,13 +254,13 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{Eine Einführung in algorithmisches Ableiten}
+\subtitle{Eine Einführung in algorithmisches Differenzieren}
 \author{Michael Brand}
-\date{19/10/2022}
+\date{10.07.23}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, frame hidden, boxrule=0pt, enhanced, breakable, interior hidden, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, sharp corners, boxrule=0pt, enhanced, borderline west={3pt}{0pt}{shadecolor}, frame hidden, breakable]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Inhaltsverzeichnis}
 {
@@ -274,15 +274,21 @@
 \chapter*{Vorwort}\label{vorwort}}
 \addcontentsline{toc}{chapter}{Vorwort}
 
+\markboth{Vorwort}{Vorwort}
+
 \bookmarksetup{startatroot}
 
 \hypertarget{einleitung}{%
 \chapter*{Einleitung}\label{einleitung}}
 \addcontentsline{toc}{chapter}{Einleitung}
 
+\markboth{Einleitung}{Einleitung}
+
 \hypertarget{danksagung}{%
 \section*{Danksagung}\label{danksagung}}
 \addcontentsline{toc}{section}{Danksagung}
+
+\markright{Danksagung}
 
 \bookmarksetup{startatroot}
 
@@ -312,8 +318,6 @@ zusammen.
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0347}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1667}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3264}}@{}}
-\caption{\label{tbl-DiffGrundfunktionen}Ableitungen der
-Grundfunktionen}\tabularnewline
 \toprule()
 \begin{minipage}[b]{\linewidth}\raggedright
 \(f(x)\)
@@ -359,6 +363,8 @@ Grundfunktionen}\tabularnewline
 \(\tanh(x)\) & \(\frac{1}{\cosh^2(x)} = 1 - \tanh^2(x)\) & &
 \(\textrm{artanh(x)}\) & \(-\frac{1}{x^2-1}\) \\
 \bottomrule()
+\caption{\label{tbl-DiffGrundfunktionen}Ableitungen der
+Grundfunktionen}\tabularnewline
 \end{longtable}
 
 Neue Funktionen erhält man, indem man die Grundfunktionen aus
@@ -373,7 +379,6 @@ Funktionen abzuleiten.
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
-\caption{\label{tbl-DiffRegeln}Ableitungsregeln}\tabularnewline
 \toprule()
 \endhead
 Summenregel & \(\frac{d}{dx}(f(x)\pm g(x)) = f'(x) \pm g'(x)\) \\
@@ -384,6 +389,7 @@ Quotientenregel &
 \(\frac{d}{dx}\frac{f(x)}{g(x)} = \frac{f'(x)\cdot g(x) - f(x) \cdot g'(x)}{g(x)^2}\) \\
 Kettenregel & \(\frac{d}{dx} f(g(x)) = f'(g(x))\cdot g'(x)\) \\
 \bottomrule()
+\caption{\label{tbl-DiffRegeln}Ableitungsregeln}\tabularnewline
 \end{longtable}
 
 An dieser Stelle sei noch angemerkt, dass sich der Begriff der Ableitung
@@ -464,11 +470,13 @@ Hilfsvariablen \texttt{v0,\ v1,\ v2} ein.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Konvention}, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Konvention}, toprule=.15mm, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+
 Eine Funktion berechnet aus einem Argument \texttt{x} einen Rückgabewert
 \texttt{y} über eine Reihe von Hilfsvariablen \texttt{v}, die mit
 aufsteigenden Indizes versehen sind. Dabei setzen wir am Anfang immer
 \texttt{v0\ =\ x}.
+
 \end{tcolorbox}
 
 \leavevmode\vadjust pre{\hypertarget{exr-ProgToFun}{}}%
@@ -496,7 +504,8 @@ berechnet wird.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+
 \[
 \begin{flalign}
 v_1 & = x^2 \\
@@ -508,6 +517,7 @@ v_6 & = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} \\
 y & = f(x) = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} + \frac{1}{x} \\
 \end{flalign}
 \]
+
 \end{tcolorbox}
 
 \leavevmode\vadjust pre{\hypertarget{exr-FunToGraphProg}{}}%
@@ -521,9 +531,9 @@ der Konvention.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
-\begin{figure}
+\begin{figure}[H]
 
 {\centering 
 
@@ -589,7 +599,7 @@ würde?
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 Für jeden Schleifendurchgang benötigen wir eine neue Hilfsvariable. Die
 Funktion, die dabei entsteht, kann geschrieben werden als
@@ -762,7 +772,7 @@ müsstest.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 Welche der folgenden Lösungsvorschläge kommt deinem Programm am
 nächsten?
@@ -920,13 +930,13 @@ Als wir die Ableitung von Hand berechnet hatten, musste nur die Funktion
 auf Maschinengenauigkeit) \emph{exakten} Wert von \(f'(x_0)\) zu
 erhalten. Bei der letzten Methode muss man sich mit einem Näherungswert
 der Ableitung zufrieden geben. Auch wenn der Wert in diesem Beispiel gut
-genug war\footnote{Dieser Ansatz kann verbessert werden indem man z.B.
-  \(f'(x_0) \approx \frac{f(x_0 + h) - f(x_0 - h)}{2h}\) verwendet. Die
-  im Beispiel beschriebenen Probleme bleiben aber auch dann bestehen.},
-so haben wir doch keine Garantie, dass wir für alle Funktionen einen
-vernünftigen Wert erhalten. Auf die Probleme, die mit dieser Annäherung
-von \(f'(x_0)\) auftreten, wird in Kapitel~\ref{sec-ADnotNumDiff} näher
-eingegangen.
+genug war \footnote{Das Newton-Verfahren hat die angenehme Eigenschaft,
+  dass kleine Rundungsfehler automatisch ausgeglichen werden. Auf andere
+  numerische Verfahren, die die Ableitung verwenden, trifft dies aber
+  nicht zu.}, so haben wir doch keine Garantie, dass wir für alle
+Funktionen einen vernünftigen Wert erhalten. Auf die Probleme, die mit
+dieser Annäherung von \(f'(x_0)\) auftreten, wird in
+Kapitel~\ref{sec-ADnotNumDiff} näher eingegangen.
 
 \leavevmode\vadjust pre{\hypertarget{exm-Billard}{}}%
 \begin{example}[Billard auf einem runden Tisch]\label{exm-Billard}
@@ -1070,7 +1080,8 @@ Sattelpunktes?
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+
 Ist \(\lambda\) zu klein, dann konvergiert das Verfahren nur sehr
 langsam. Ist \(\lambda\) dagegen zu gross, dann kann es passieren, dass
 die Iteration zwischen zwei oder mehr Werten hin- und herspringt oder
@@ -1084,6 +1095,7 @@ wenn \(x_0\) auch nur ein bisschen links oder rechts davon liegt.
 Ähnlich verhält es sich bei Sattelpunkten. Die Folge konvergiert gegen
 die Stelle des Sattelpunktes, wenn \(f(x_0)\) grösser als der \(y\)-Wert
 des Sattelpunktes ist und \(\lambda\) nicht zu gross ist.
+
 \end{tcolorbox}
 
 \leavevmode\vadjust pre{\hypertarget{exr-GradientDescentFirstTry}{}}%
@@ -1103,7 +1115,7 @@ müsstest.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 Welche der folgenden Lösungsvorschläge kommt deinem Programm am
 nächsten?
@@ -1511,10 +1523,12 @@ fdot = diff(f,x)
 expand(fdot)
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tipp}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tipp}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+
 Auf der Website kannst du rechts unter \texttt{Language} auch
 \texttt{Maxima} auswählen und Maxima-Code ausführen. Maxima ist in Sage
 integriert.
+
 \end{tcolorbox}
 
 Für Python gibt es die Bibliothek \texttt{sympy}, die ein CAS für Python
@@ -1653,11 +1667,11 @@ folgende Programm berechnet den Funktionswert.
 \end{verbatim}
 
 \(f\) ist eine zusammengesetzte Funktion, die wir mit den Funktionen \[
-\begin{flalign}
+\begin{align}
     v_0(x)   &= x \\
     v_1(v_0) &= v_0 ^2 \\
     v_2(v_1) &= \sin(v_1)
-\end{flalign}
+\end{align}
 \] schreiben können als \(y=f(x)=v_2(v_1(v_0(x)))\). Die Ableitung
 berechnet sich dann mit der Kettenregel zu \[
 f'(x) = \frac{dv_2}{dv_1} \cdot \frac{dv_1}{dv_0} \cdot \frac{dv_0}{dx} = \cos(v_1)\cdot 2v_0 \cdot 1 = \cos(x^2) \cdot 2x \cdot 1
@@ -1718,7 +1732,7 @@ GeoGebra.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 Es müssen lediglich zwei weitere Zeilen eingefügt werden und zwar für
 die Berechnung von \texttt{v3} und \texttt{v3dot}. Vergiss nicht, die
@@ -1752,7 +1766,7 @@ richtigen Werte zurückzugeben.
 
 \end{tcolorbox}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Konvention}, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Konvention}, toprule=.15mm, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 Ein Programm, welches gemäss der Konvention in
 Kapitel~\ref{sec-ProgFunc} geschrieben ist, wird folgendermassen
@@ -1798,7 +1812,7 @@ ausgeben.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1833,7 +1847,7 @@ Funktionswert und den Wert der Ableitung an der Stelle \(x_0=-2\) aus.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1876,7 +1890,7 @@ Leite die Funktion aus Übungsaufgabe~\ref{exr-FunToGraphProg} ab.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1973,7 +1987,8 @@ Warum wird bei der 2. Variante der Wert der Ableitung falsch berechnet?
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+
 Das Problem tritt in der Schleife auf. In der 2. Variante überschreiben
 wir den Wert von \texttt{v0} bereits mit dem neuen Wert der Iteration.
 Bei der Berechnung von \texttt{v0dot} hätten wir aber noch den alten
@@ -1982,6 +1997,7 @@ Würden wir die Schleife eliminieren und dafür wie in der Lösung zu
 Übungsaufgabe~\ref{exr-LoopProgToFun} für jeden Schleifendurchgang
 fortlaufend numerierte Variablen für die \texttt{v} und \texttt{vdot}
 verwenden, dann wäre die Reihenfolge wieder egal.
+
 \end{tcolorbox}
 
 In der nächsten Übungsaufgabe verwenden wir die Technik der AD, um das
@@ -2002,7 +2018,7 @@ zurückgibt. Stelle alle gefundenen Lösungen grafisch dar.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2135,7 +2151,8 @@ zusätzlichen Programmieraufwand erhalten.
 Der Grundstein für unsere Klasse wurde bereits im 19. Jahrhundert
 gelegt, wie die folgende Infobox zeigt:
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Hintergrund: Duale Zahlen}, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Hintergrund: Duale Zahlen}, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+
 Duale Zahlen wurden 1873 durch William Clifford eingeführt und sind
 ähnlich definiert, wie komplexe Zahlen. Zur Erinnerung: Eine komplexe
 Zahl ist eine Zahl der Form \(a + bi\),wobei \(a,b \in \mathbb{R}\) sind
@@ -2180,6 +2197,7 @@ f(a+a'\epsilon) = f(a) + f'(a)\cdot a'\epsilon
 
 (\href{https://en.wikipedia.org/wiki/Dual_number}{Wikipedia: Dual
 number} und Slater (2022))
+
 \end{tcolorbox}
 
 \hypertarget{sec-FoatSadClassDescription}{%
@@ -2231,12 +2249,14 @@ in ein \texttt{FloatSad}-Objekt umzuwandeln. Die Konvention
 \texttt{v0dot\ =\ 1} ist im Konstruktor kodiert. Von nun an machen wir
 also die folgende Konvention:
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Konvention}, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Konvention}, toprule=.15mm, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+
 Eine Funktion berechnet aus einem Argument \texttt{x} vom Typ
 \texttt{float} oder \texttt{int} einen Rückgabewert \texttt{y} vom Typ
 \texttt{FloatSad} über eine Reihe von Hilfsvariablen \texttt{v}, die
 alle vom Typ \texttt{FloatSad} sind. Insbesondere setzen wir am Anfang
 immer \texttt{v0\ =\ FloatSad(x)}.
+
 \end{tcolorbox}
 
 Das obige Programm berechnet also den Funktionswert und den Wert der
@@ -2416,9 +2436,11 @@ die Ausgabe?
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+
 Es handelt sich um die Funktion \(f(x) = 3 - 2x\). Die Ausgabe
 \(f(2) = -1, f'(2) = -2\) ist also korrekt.
+
 \end{tcolorbox}
 
 Für die nächste Übung musst du das obige Programm kopieren und in einer
@@ -2436,7 +2458,7 @@ Methoden lauten \texttt{\_\_sub\_\_(self,\ other)} bzw.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2485,7 +2507,7 @@ und überzeuge dich von der Korrektheit deines Programms.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2543,7 +2565,7 @@ Programms.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2592,10 +2614,10 @@ Produktregel anwenden: \[
 \] Die linke Seite ergibt andererseits
 \(\frac{d}{dx}(\ln(v_3(x))) = \frac{1}{v_3(x)}\cdot v_3'(x)\), so dass
 wir nun nach \(v_3'(x)\) auflösen können: \[
-\begin{flalign}
+\begin{align}
     v_3'(x) &= v_3(x) \cdot \left( v_2'(x) \cdot \ln(v_1(x)) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right) \\ 
     &= v_1(x) ^{v_2 (x)} \cdot \left( \ln(v_1(x)) \cdot v_2'(x) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right)
-\end{flalign}
+\end{align}
 \] Auch hier sind alle nötigen Fehlerbehandlungen bereits in
 \texttt{math.pow} implementiert.
 
@@ -2611,7 +2633,7 @@ Rolle von \(v_1\) in der obigen Herleitung und \texttt{other} entspricht
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2648,7 +2670,7 @@ verschiedenen Funktionen.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2675,7 +2697,6 @@ Tabelle~\ref{tbl-Vergleichsmethoden} machen wollen.
 
 \hypertarget{tbl-Vergleichsmethoden}{}
 \begin{longtable}[]{@{}ll@{}}
-\caption{\label{tbl-Vergleichsmethoden}Vergleichsoperatoren}\tabularnewline
 \toprule()
 Operator & Methode \\
 \midrule()
@@ -2691,6 +2712,7 @@ Operator & Methode \\
 \texttt{\textgreater{}} & \texttt{\_\_gt\_\_(self,\ other)} \\
 \texttt{\textgreater{}=} & \texttt{\_\_ge\_\_(self,\ other)} \\
 \bottomrule()
+\caption{\label{tbl-Vergleichsmethoden}Vergleichsoperatoren}\tabularnewline
 \end{longtable}
 
 Dazu vergleichen wir jeweils nur die Funktionswerte. Die Implementation
@@ -2827,7 +2849,7 @@ Ableitungen auch für Programme mit Schleifen korrekt berechnet werden.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2868,8 +2890,6 @@ Tabelle~\ref{tbl-mathFunctions} so implementieren, dass wir sie auf
 
 \hypertarget{tbl-mathFunctions}{}
 \begin{longtable}[]{@{}ccc@{}}
-\caption{\label{tbl-mathFunctions}Funktionen des Moduls \texttt{math}
-(Auswahl)}\tabularnewline
 \toprule()
 \endhead
 \texttt{sqrt} & \texttt{exp} & \texttt{log} \\
@@ -2879,6 +2899,8 @@ Tabelle~\ref{tbl-mathFunctions} so implementieren, dass wir sie auf
 \texttt{asinh} & \texttt{acosh} & \texttt{atanh} \\
 \texttt{fabs} & & \\
 \bottomrule()
+\caption{\label{tbl-mathFunctions}Funktionen des Moduls \texttt{math}
+(Auswahl)}\tabularnewline
 \end{longtable}
 
 Gemäss der
@@ -2899,10 +2921,10 @@ berechnet den Absolutbetrag \(|x|\). Ihre Ableitung ist
 
 Die Funktion \(y=|x|\) ist an der Stelle \(x=0\) eigentlich nicht
 differenzierbar. Da wir aber nicht Ableitungsfunktionen, sondern nur
-Werte von Ableitungen an einer bestimmten Stelle berechnen, den rechts-
-oder linksseitigen Grenzwert zurückzugeben, siehe Gander (1992). Wir
-müssen es dem Benutzer überlassen, das Ergebnis im jeweiligen Kontext
-korrekt zu interpretieren.
+Werte von Ableitungen an einer bestimmten Stelle berechnen, reicht es,
+den rechts- oder linksseitigen Grenzwert zurückzugeben, siehe Gander
+(1992). Wir müssen es dem Benutzer überlassen, das Ergebnis im
+jeweiligen Kontext korrekt zu interpretieren.
 
 \hypertarget{die-funktion-sqrt}{%
 \subsection{\texorpdfstring{Die Funktion
@@ -2961,7 +2983,7 @@ Richtigkeit deiner Lösung zu überzeugen.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2995,7 +3017,7 @@ Richtigkeit deines Programms.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 Die Ableitung lautet \[
 \frac{d}{dx}v_3(x) = \frac{\frac{v_1'(x)}{v_1(x)}\cdot \ln(v_2(x))-\ln(v_1(x))\cdot\frac{v_2'(x)}{v_2(x)}}{\ln^2(v_2(x))}
@@ -3033,7 +3055,7 @@ Ergänze die Datei \texttt{mathsad.py} mit den Funktionen \texttt{sin},
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 Beachte, dass man für \texttt{tan} einfach
 \(\tan(x)=\frac{\sin(x)}{\cos(x)}\) verwenden kann, wenn \texttt{sin}
@@ -3089,7 +3111,7 @@ Ergänze die Datei \texttt{mathsad.py} mit den Funktionen \texttt{sinh},
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 Wie bei den trigonometrischen Funktionen gilt auch hier
 \(\tanh(x)=\frac{\sinh(x)}{\cosh(x)}\).
@@ -3189,7 +3211,7 @@ Verwende das Modul \texttt{mathsad}, um die Lösung von
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3229,7 +3251,7 @@ kann aus der obigen Lösung kopiert werden.
 
 \end{exercise}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, colbacktitle=quarto-callout-tip-color!10!white, bottomrule=.15mm, titlerule=0mm, colback=white, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, arc=.35mm, left=2mm, rightrule=.15mm, toprule=.15mm, opacitybacktitle=0.6, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, colback=white, opacityback=0, toptitle=1mm, bottomrule=.15mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Lösung}, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm, titlerule=0mm, coltitle=black, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 In der Funktion \texttt{newton(f,\ x0)} muss lediglich die Berechnung
 des neuen Näherungswertes angepasst werden durch
@@ -3317,6 +3339,8 @@ Billardproblems mit anderen Startwerten.}
 \hypertarget{references}{%
 \chapter*{References}\label{references}}
 \addcontentsline{toc}{chapter}{References}
+
+\markboth{References}{References}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}

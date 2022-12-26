@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.251">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -166,7 +166,7 @@ div.csl-indent {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./" class="sidebar-logo-link">
+      <a href="./index.html" class="sidebar-logo-link">
       <img src="./mycover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
@@ -253,6 +253,7 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -291,13 +292,13 @@ div.csl-indent {
 <pre><code>0.6242659526396992</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(f\)</span> ist eine zusammengesetzte Funktion, die wir mit den Funktionen <span class="math display">\[
-\begin{flalign}
+<p><span class="math inline">\(f\)</span> ist eine zusammengesetzte Funktion, die wir mit den Funktionen</p>
+<p><span class="math display">\[\begin{align}
     v_0(x)   &amp;= x \\
     v_1(v_0) &amp;= v_0 ^2 \\
     v_2(v_1) &amp;= \sin(v_1)
-\end{flalign}
-\]</span> schreiben können als <span class="math inline">\(y=f(x)=v_2(v_1(v_0(x)))\)</span>. Die Ableitung berechnet sich dann mit der Kettenregel zu <span class="math display">\[
+\end{align}\]</span></p>
+<p>schreiben können als <span class="math inline">\(y=f(x)=v_2(v_1(v_0(x)))\)</span>. Die Ableitung berechnet sich dann mit der Kettenregel zu <span class="math display">\[
 f'(x) = \frac{dv_2}{dv_1} \cdot \frac{dv_1}{dv_0} \cdot \frac{dv_0}{dx} = \cos(v_1)\cdot 2v_0 \cdot 1 = \cos(x^2) \cdot 2x \cdot 1
 \]</span> Wir können also die Ableitung von <code>f(x)</code> berechnen, indem wir jede Zeile des Programms gemäss den bekannten Regeln ableiten:</p>
 <pre><code>v0dot = 1
@@ -328,9 +329,11 @@ v2dot = math.cos(v1) * v1dot</code></pre>
 </div>
 </div>
 <p>Die Korrektheit des Programms können wir mit <a href="https://www.geogebra.org/m/u4rkpzsr">GeoGebra</a> überprüfen, welches Ableitungen symbolisch berechnet.</p>
+<div>
 <div class="fig-AbleitungenTesten">
 <iframe scrolling="no" title="Ableitungen berechnen" src="https://www.geogebra.org/material/iframe/id/nghnrzye/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;">
 </iframe>
+</div>
 </div>
 <p>Beachte, dass wir konsequent die Kettenregel verwendet haben. So wird aus <code>v1 = v0**2</code> etwa <code>v1dot = 2 * v0 * v0dot</code> oder aus <code>v2 = sin(v1)</code> wird <code>v2dot = cos(v1) * v1dot</code>.</p>
 <div id="exr-ErstesADBspErweitern" class="theorem exercise">
@@ -736,8 +739,8 @@ Hintergrund: Duale Zahlen
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Duale Zahlen wurden 1873 durch William Clifford eingeführt und sind ähnlich definiert, wie komplexe Zahlen. Zur Erinnerung: Eine komplexe Zahl ist eine Zahl der Form <span class="math inline">\(a + bi\)</span>,wobei <span class="math inline">\(a,b \in \mathbb{R}\)</span> sind und <span class="math inline">\(i\)</span> die Eigenschaft <span class="math inline">\(i^2 = -1\)</span> hat. Eine duale Zahl ist eine Zahl der Form <span class="math inline">\(a + a'\epsilon\)</span>, wobei wieder <span class="math inline">\(a,a' \in \mathbb{R}\)</span> gilt, aber <span class="math inline">\(\epsilon\)</span> die Eigenschaft <span class="math inline">\(\epsilon^2 = 0\)</span> hat. Nun kann man nach dem Permanenzprinzip die folgenden Operationen für duale Zahlen definieren: <span class="math display">\[
-\begin{alignat}{3}
+<p>Duale Zahlen wurden 1873 durch William Clifford eingeführt und sind ähnlich definiert, wie komplexe Zahlen. Zur Erinnerung: Eine komplexe Zahl ist eine Zahl der Form <span class="math inline">\(a + bi\)</span>,wobei <span class="math inline">\(a,b \in \mathbb{R}\)</span> sind und <span class="math inline">\(i\)</span> die Eigenschaft <span class="math inline">\(i^2 = -1\)</span> hat. Eine duale Zahl ist eine Zahl der Form <span class="math inline">\(a + a'\epsilon\)</span>, wobei wieder <span class="math inline">\(a,a' \in \mathbb{R}\)</span> gilt, aber <span class="math inline">\(\epsilon\)</span> die Eigenschaft <span class="math inline">\(\epsilon^2 = 0\)</span> hat. Nun kann man nach dem Permanenzprinzip die folgenden Operationen für duale Zahlen definieren:</p>
+<p><span class="math display">\[\begin{alignat}{3}
     &amp;\textrm{Addition:} &amp;&amp; (a+a'\epsilon) + (b+b'\epsilon) &amp;&amp;= (a+b) + (a'+b')\epsilon \\ \\
     &amp;\textrm{Subtraktion:} &amp;&amp; (a+a'\epsilon) - (b+b'\epsilon) &amp;&amp;= (a-b) + (a'-b')\epsilon \\ \\
     &amp;\textrm{Multiplikation:}\quad &amp;&amp; (a+a'\epsilon) \cdot (b+b'\epsilon) &amp;&amp;= ab + a'b\epsilon + ab'\epsilon + a'b'\epsilon^2 \\
@@ -746,21 +749,21 @@ Hintergrund: Duale Zahlen
     &amp; &amp;&amp; &amp;&amp;= \frac{ab+a'b\epsilon-ab'\epsilon-a'b'\epsilon^2}{b^2 - (b')^2\epsilon^2} \\
     &amp; &amp;&amp; &amp;&amp;= \frac{ab + (a'b-ab')\epsilon}{b^2} \\
     &amp; &amp;&amp; &amp;&amp;= \frac{a}{b} + \frac{a'b - ab'}{b^2} \epsilon
-\end{alignat}
-\]</span> Wir sehen, dass der reelle Teil den Wert der Operation und der duale Teil den Wert der zugehörigen Ableitung enthält. Dies gilt auch für Potenzen, wie man unter Anwendung des binomischen Satzes sieht: <span class="math display">\[
-\begin{align}
+\end{alignat}\]</span></p>
+<p>Wir sehen, dass der reelle Teil den Wert der Operation und der duale Teil den Wert der zugehörigen Ableitung enthält. Dies gilt auch für Potenzen, wie man unter Anwendung des binomischen Satzes sieht:</p>
+<p><span class="math display">\[\begin{align}
     (a+a'\epsilon)^n &amp;= \sum_{k=0}^n \binom n k a^{n-k} (a'\epsilon)^k  \\
     &amp;= a^n + n \cdot a^{n-1} \cdot a'\epsilon + (\textrm{Terme mit }\epsilon^2) \\
     &amp;= a^n + n \cdot a^{n-1} \cdot a' \epsilon
-\end{align}
-\]</span> Im dualen Teil erkennen wir die Kettenregel <span class="math inline">\((a^n)' = n\cdot a^{n-1}\cdot a'\)</span>. Damit können wir duale Zahlen auch in Polynome <span class="math inline">\(p(x) = p_0 + p_1 x + p_2 x^2 + \ldots + p_n x^n\)</span> einsetzen. Wir erhalten dann <span class="math display">\[
-\begin{align}
+\end{align}\]</span></p>
+<p>Im dualen Teil erkennen wir die Kettenregel <span class="math inline">\((a^n)' = n\cdot a^{n-1}\cdot a'\)</span>. Damit können wir duale Zahlen auch in Polynome <span class="math inline">\(p(x) = p_0 + p_1 x + p_2 x^2 + \ldots + p_n x^n\)</span> einsetzen. Wir erhalten dann</p>
+<p><span class="math display">\[\begin{align}
     p(a+a'\epsilon) &amp;= p_0 + p_1 (a+a'\epsilon) + p_2 (a+a'\epsilon)^2 + \ldots + p_n (a+a'\epsilon)^n \\
     &amp;= p_0 + p_1 a + p_1 a'\epsilon + p_2 a^2 + p_2 \cdot 2a a' \epsilon + ... + p_n a^n + p_n \cdot n a^{n-1} a' \epsilon \\
     &amp;= p_0 + p_1 a + p_2 a^2 + \ldots p_n a^n + (p_1 + p_2 \cdot 2a + \ldots + p_n \cdot n a^{n-1}) \cdot a' \epsilon \\
     &amp;= p(a) + p'(a) \cdot a'\epsilon
-\end{align}
-\]</span> Dieses Resultat lässt sich auf allgemeine Funktionen <span class="math inline">\(f\)</span> verallgemeinern (für den Beweis entwickelt man <span class="math inline">\(f\)</span> in eine Taylorreihe und macht die gleichen Überlegungen wie für ein Polynom): <span class="math display">\[
+\end{align}\]</span></p>
+<p>Dieses Resultat lässt sich auf allgemeine Funktionen <span class="math inline">\(f\)</span> verallgemeinern (für den Beweis entwickelt man <span class="math inline">\(f\)</span> in eine Taylorreihe und macht die gleichen Überlegungen wie für ein Polynom): <span class="math display">\[
 f(a+a'\epsilon) = f(a) + f'(a)\cdot a'\epsilon
 \]</span></p>
 <p>(<a href="https://en.wikipedia.org/wiki/Dual_number">Wikipedia: Dual number</a> und <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>)</p>
@@ -1090,12 +1093,12 @@ Lösung
 \ln(v_3(x)) = \ln(v_1(x) ^{v_2 (x)}) = v_2(x) \cdot \ln(v_1(x))
 \]</span> und danach beide Seiten ableiten, wobei wir auf der rechten Seite die Produktregel anwenden: <span class="math display">\[
 \frac{d}{dx}(\ln(v_3(x))) = v_2'(x) \cdot \ln(v_1(x)) + v_2(x) \cdot \frac{1}{v_1(x)} \cdot v_1'(x)
-\]</span> Die linke Seite ergibt andererseits <span class="math inline">\(\frac{d}{dx}(\ln(v_3(x))) = \frac{1}{v_3(x)}\cdot v_3'(x)\)</span>, so dass wir nun nach <span class="math inline">\(v_3'(x)\)</span> auflösen können: <span class="math display">\[
-\begin{flalign}
+\]</span> Die linke Seite ergibt andererseits <span class="math inline">\(\frac{d}{dx}(\ln(v_3(x))) = \frac{1}{v_3(x)}\cdot v_3'(x)\)</span>, so dass wir nun nach <span class="math inline">\(v_3'(x)\)</span> auflösen können:</p>
+<p><span class="math display">\[\begin{align}
     v_3'(x) &amp;= v_3(x) \cdot \left( v_2'(x) \cdot \ln(v_1(x)) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right) \\
     &amp;= v_1(x) ^{v_2 (x)} \cdot \left( \ln(v_1(x)) \cdot v_2'(x) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right)
-\end{flalign}
-\]</span> Auch hier sind alle nötigen Fehlerbehandlungen bereits in <code>math.pow</code> implementiert.</p>
+\end{align}\]</span></p>
+<p>Auch hier sind alle nötigen Fehlerbehandlungen bereits in <code>math.pow</code> implementiert.</p>
 <div id="exr-ImplementPow" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 3.11 (Den Operator <code>**</code> implementieren - Teil 1) </strong></span><br></p>
 <p>Ergänze die Datei <code>floatsad.py</code> mit der Methode <code>__pow__(self, other)</code>. Dabei übernimmt <code>self</code> die Rolle von <span class="math inline">\(v_1\)</span> in der obigen Herleitung und <code>other</code> entspricht <span class="math inline">\(v_2\)</span>. Die Funktion <span class="math inline">\(\ln(\ldots)\)</span> heisst in Python <code>math.log()</code>. Teste dein Programm an verschiedenen Funktionen.</p>
@@ -1831,7 +1834,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Kopiert");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Kopiert");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -1867,24 +1887,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

@@ -35,13 +35,13 @@ print(f(x0))
 ```
 
 $f$ ist eine zusammengesetzte Funktion, die wir mit den Funktionen
-$$
-\begin{flalign}
+
+\begin{align}
     v_0(x)   &= x \\
     v_1(v_0) &= v_0 ^2 \\
     v_2(v_1) &= \sin(v_1)
-\end{flalign}
-$$
+\end{align}
+
 schreiben können als $y=f(x)=v_2(v_1(v_0(x)))$. Die Ableitung berechnet sich dann mit der Kettenregel zu
 $$
 f'(x) = \frac{dv_2}{dv_1} \cdot \frac{dv_1}{dv_0} \cdot \frac{dv_0}{dx} = \cos(v_1)\cdot 2v_0 \cdot 1 = \cos(x^2) \cdot 2x \cdot 1
@@ -73,9 +73,13 @@ print(f(x0))
 ```
 Die Korrektheit des Programms können wir mit [GeoGebra](https://www.geogebra.org/m/u4rkpzsr) überprüfen, welches Ableitungen symbolisch berechnet.
 
-:::{.fig-AbleitungenTesten}
+:::{.content-visible unless-format="pdf"}
+
+::::{.fig-AbleitungenTesten}
 
 <iframe scrolling="no" title="Ableitungen berechnen" src="https://www.geogebra.org/material/iframe/id/nghnrzye/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;"> </iframe>
+
+::::
 
 :::
 
@@ -431,7 +435,7 @@ Der Grundstein für unsere Klasse wurde bereits im 19. Jahrhundert gelegt, wie d
 ## Hintergrund: Duale Zahlen
 
 Duale Zahlen wurden 1873 durch William Clifford eingeführt und sind ähnlich definiert, wie komplexe Zahlen. Zur Erinnerung: Eine komplexe Zahl ist eine Zahl der Form $a + bi$,wobei $a,b \in \mathbb{R}$ sind und $i$ die Eigenschaft $i^2 = -1$ hat. Eine duale Zahl ist eine Zahl der Form $a + a'\epsilon$, wobei wieder $a,a' \in \mathbb{R}$ gilt, aber $\epsilon$ die Eigenschaft $\epsilon^2 = 0$ hat. Nun kann man nach dem Permanenzprinzip die folgenden Operationen für duale Zahlen definieren:
-$$
+
 \begin{alignat}{3}
     &\textrm{Addition:} && (a+a'\epsilon) + (b+b'\epsilon) &&= (a+b) + (a'+b')\epsilon \\ \\
     &\textrm{Subtraktion:} && (a+a'\epsilon) - (b+b'\epsilon) &&= (a-b) + (a'-b')\epsilon \\ \\
@@ -442,24 +446,24 @@ $$
     & && &&= \frac{ab + (a'b-ab')\epsilon}{b^2} \\ 
     & && &&= \frac{a}{b} + \frac{a'b - ab'}{b^2} \epsilon
 \end{alignat}
-$$
+
 Wir sehen, dass der reelle Teil den Wert der Operation und der duale Teil den Wert der zugehörigen Ableitung enthält. Dies gilt auch für Potenzen, wie man unter Anwendung des binomischen Satzes sieht:
-$$
+
 \begin{align}
     (a+a'\epsilon)^n &= \sum_{k=0}^n \binom n k a^{n-k} (a'\epsilon)^k  \\
     &= a^n + n \cdot a^{n-1} \cdot a'\epsilon + (\textrm{Terme mit }\epsilon^2) \\ 
     &= a^n + n \cdot a^{n-1} \cdot a' \epsilon
 \end{align}
-$$
+
 Im dualen Teil erkennen wir die Kettenregel $(a^n)' = n\cdot a^{n-1}\cdot a'$. Damit können wir duale Zahlen auch in Polynome $p(x) = p_0 + p_1 x + p_2 x^2 + \ldots + p_n x^n$ einsetzen. Wir erhalten dann
-$$
+
 \begin{align}
     p(a+a'\epsilon) &= p_0 + p_1 (a+a'\epsilon) + p_2 (a+a'\epsilon)^2 + \ldots + p_n (a+a'\epsilon)^n \\ 
     &= p_0 + p_1 a + p_1 a'\epsilon + p_2 a^2 + p_2 \cdot 2a a' \epsilon + ... + p_n a^n + p_n \cdot n a^{n-1} a' \epsilon \\ 
     &= p_0 + p_1 a + p_2 a^2 + \ldots p_n a^n + (p_1 + p_2 \cdot 2a + \ldots + p_n \cdot n a^{n-1}) \cdot a' \epsilon \\
     &= p(a) + p'(a) \cdot a'\epsilon
 \end{align}
-$$
+
 Dieses Resultat lässt sich auf allgemeine Funktionen $f$ verallgemeinern (für den Beweis entwickelt man $f$ in eine Taylorreihe und macht die gleichen Überlegungen wie für ein Polynom):
 $$
 f(a+a'\epsilon) = f(a) + f'(a)\cdot a'\epsilon
@@ -792,12 +796,12 @@ $$
 \frac{d}{dx}(\ln(v_3(x))) = v_2'(x) \cdot \ln(v_1(x)) + v_2(x) \cdot \frac{1}{v_1(x)} \cdot v_1'(x)
 $$
 Die linke Seite ergibt andererseits $\frac{d}{dx}(\ln(v_3(x))) = \frac{1}{v_3(x)}\cdot v_3'(x)$, so dass wir nun nach $v_3'(x)$ auflösen können:
-$$
-\begin{flalign}
+
+\begin{align}
     v_3'(x) &= v_3(x) \cdot \left( v_2'(x) \cdot \ln(v_1(x)) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right) \\ 
     &= v_1(x) ^{v_2 (x)} \cdot \left( \ln(v_1(x)) \cdot v_2'(x) + \frac{v_2(x)}{v_1(x)} \cdot v_1'(x) \right)
-\end{flalign}
-$$
+\end{align}
+
 Auch hier sind alle nötigen Fehlerbehandlungen bereits in `math.pow` implementiert.
 
 :::{#exr-ImplementPow}
