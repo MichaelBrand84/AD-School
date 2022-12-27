@@ -27,12 +27,13 @@ Die folgende Tabelle fasst die bekannten Ableitungen der Grundfunktionen zusamme
 
 Neue Funktionen erhält man, indem man die Grundfunktionen aus @tbl-DiffGrundfunktionen addiert, subtrahiert, multipliziert, dividiert und komponiert, d.h. Verkettungen der Form $(f\circ g)(x) = f(g(x))$ bildet. Um solche Funktionen abzuleiten, brauchen wir die Regeln aus @tbl-DiffRegeln. Mit diesen Regeln sind wir dann schon in der Lage, alle differenzierbaren Funktionen abzuleiten.
 
-|     |     |
-| --- | --- |
-| Summenregel     | $\frac{d}{dx}(f(x)\pm g(x)) = f'(x) \pm g'(x)$ |
-| Produktregel <br> *Spezialfall: Faktorregel*    | $\frac{d}{dx}(f(x)\cdot g(x)) = f'(x)\cdot g(x) + f(x) \cdot g'(x)$ <br> $\frac{d}{dx}(a\cdot f(x)) = a\cdot f'(x)$ |
-| Quotientenregel | $\frac{d}{dx}\frac{f(x)}{g(x)} = \frac{f'(x)\cdot g(x) - f(x) \cdot g'(x)}{g(x)^2}$  |
-| Kettenregel     | $\frac{d}{dx} f(g(x)) = f'(g(x))\cdot g'(x)$  |
+| Regel                       | Formel                                                                              |
+| --------------------------- | ----------------------------------------------------------------------------------- |
+| Summenregel                 | $\frac{d}{dx}(f(x)\pm g(x)) = f'(x) \pm g'(x)$                                      |
+| Produktregel                | $\frac{d}{dx}(f(x)\cdot g(x)) = f'(x)\cdot g(x) + f(x) \cdot g'(x)$                 |
+| *Spezialfall: Faktorregel*  | $\frac{d}{dx}(a\cdot f(x)) = a\cdot f'(x)$                                          |
+| Quotientenregel             | $\frac{d}{dx}\frac{f(x)}{g(x)} = \frac{f'(x)\cdot g(x) - f(x) \cdot g'(x)}{g(x)^2}$ |
+| Kettenregel                 | $\frac{d}{dx} f(g(x)) = f'(g(x))\cdot g'(x)$                                        |
 
 : Ableitungsregeln {#tbl-DiffRegeln}
 
@@ -47,6 +48,8 @@ Programme, die numerische Werte einlesen und numerische Werte ausgeben, können 
 
 ## Eine Funktion als Programm
 <br>
+
+Betrachte das folgende Programm:
 
 ```{python}
 #| eval: false
@@ -146,7 +149,7 @@ def f(x):
 
 ## Lösung
 
-\begin{align}
+\begin{align*}
 v_1 & = x^2 \\
 v_2 & = x^2 + 2 \\
 v_3 & = - \frac{x^2}{2} \\
@@ -154,7 +157,7 @@ v_4 & = \cos(x^2 + 2) \\
 v_5 & = e^{- \frac{x^2}{2}} \\
 v_6 & = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} \\
 y & = f(x) = \cos(x^2 + 2) \cdot e^{- \frac{x^2}{2}} + \frac{1}{x}
-\end{align}
+\end{align*}
 
 :::
 
@@ -269,10 +272,10 @@ def f(x):
     return y
 ```
 
-\begin{align}
+\begin{align*}
     f(x) &= \ell(\ell(x)) \\ 
          &= (x^2 + 1)^2 + 1 = x^4 + 2x^2 + 2
-\end{align}
+\end{align*}
 
 ## `range(3)`
 ```{python}
@@ -287,10 +290,10 @@ def f(x):
     return y
 ```
 
-\begin{align}
+\begin{align*}
     f(x) &= \ell(\ell(\ell(x))) \\
          &= ((x^2 + 1)^2 + 1)^2 + 1 = x^8 + 4x^6 + 8x^4 + 8x^2 + 5
-\end{align}
+\end{align*}
 
 ## `range(4)`
 ```{python}
@@ -306,11 +309,11 @@ def f(x):
     return y
 ```
 
-\begin{align}
+\begin{align*}
     f(x) &= \ell(\ell(\ell(\ell(x)))) \\
          &= (((x^2 + 1)^2 + 1)^2 + 1)^2 + 1 \\
          &= x^{16} + 8x^{14} + 32x^{12} + 80x^{10} + 138x^8 + 168x^6 + 144x^4 + 80x^2 + 26
-\end{align}
+\end{align*}
 
 ::::
 
@@ -737,19 +740,19 @@ Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Des
 
 Die Punkte $P$ und $Q$ bewegen sich auf Ellipsen im Raum. Die Position des Punktes $P$ zur Zeit $t$ ist gegeben durch
 
-\begin{align}
+\begin{align*}
     x_P(t) &= 2 \cos(t) - 1 \\
     y_P(t) &= 1.5 \sin(t)   \\
     z_P(t) &= 0             
-\end{align}
+\end{align*}
 
 und die Position von $Q$ zum Zeitpunkt $t$ lässt sich durch
 
-\begin{align}
+\begin{align*}
     x_Q(t) &= -3 \sin(2t)     \\
     y_Q(t) &= 2 \cos(2t) + 1  \\
     z_Q(t) &= 2 \sin(2t) + 1  
-\end{align}
+\end{align*}
 
 bestimmen.
 

@@ -18,6 +18,7 @@ book:
     logo: mycover.png
   page-navigation: true
   search: true
+#  cookie-consent: express
   downloads: [pdf]
 #  sharing: [twitter, facebook, instagram]
   chapters:
@@ -52,14 +53,15 @@ format:
       - right = 20mm
       - heightrounded
     number-sections: true
-    number-depth: 3
-    pdf-engine: latexmk
-    latex-tinytex: false
+    number-depth: 2
+#    pdf-engine: latexmk
+    latex-tinytex: true
     toc: true
     toc-depth: 3
     colorlinks: true
     reference-location: section
     cap-location: bottom
+    fig-pos: H
     output-file: AutoDiff.pdf
     latex-auto-mk: true
     latex-auto-install: true
