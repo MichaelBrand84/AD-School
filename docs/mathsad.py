@@ -1,0 +1,91 @@
+################################################################################
+#                                                                              #
+#	Michael Brand                                                              #    
+#	Math module for arguments of type FloatSad                                 #
+#	PYTHON 3.8.2                                                               #
+#                                                                              #
+################################################################################
+
+import math
+from floatsad import FloatSad
+
+def sqrt(x):
+    newValue = math.sqrt(x.value)
+    newDerivative = 1/(2*math.sqrt(x.value)) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def exp(x):
+    newValue = math.exp(x.value)
+    newDerivative = math.exp(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def log(x, b = math.e):
+    if type(b) in (float, int):
+        newValue = math.log(x.value, b)
+        newDerivative = 1 / (x.value * math.log(b)) * x.derivative
+    else:
+        newValue = math.log(x.value, b.value)
+        newDerivative = (x.derivative/x.value * math.log(b.value) - math.log(x.value) * b.derivative / b.value) \
+            / math.pow(math.log(b.value), 2)
+    return FloatSad(newValue, newDerivative)
+
+def sin(x):
+    newValue = math.sin(x.value)
+    newDerivative = math.cos(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def cos(x):
+    newValue = math.cos(x.value)
+    newDerivative = -math.sin(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def tan(x):
+    return sin(x) / cos(x)
+
+def asin(x):
+    newValue = math.asin(x.value)
+    newDerivative = 1/math.sqrt( 1 - math.pow(x.value, 2)) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def acos(x):
+    newValue = math.acos(x.value)
+    newDerivative = -1/math.sqrt( 1 - math.pow(x.value, 2)) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def atan(x):
+    newValue = math.atan(x.value)
+    newDerivative = 1/(math.pow(x.value, 2) + 1) * x.derivative
+    return FloatSad(newValue, newDerivative) 
+
+def sinh(x):
+    newValue = math.sinh(x.value)
+    newDerivative = math.cosh(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def cosh(x):
+    newValue = math.cosh(x.value)
+    newDerivative = math.sinh(x.value) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def tanh(x):
+    return sinh(x) / cosh(x)
+
+def asinh(x):
+    newValue = math.asinh(x.value)
+    newDerivative = 1/math.sqrt(math.pow(x.value, 2) + 1) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def acosh(x):
+    newValue = math.acosh(x.value)
+    newDerivative = 1/math.sqrt(math.pow(x.value, 2) - 1) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def atanh(x):
+    newValue = math.atanh(x.value)
+    newDerivative = -1/(math.pow(x.value, 2) - 1) * x.derivative
+    return FloatSad(newValue, newDerivative)
+
+def fabs(x):
+    newValue = math.fabs(x.value)
+    newDerivative = x.derivative if x>=0 else -x.derivative
+    return FloatSad(newValue, newDerivative)
