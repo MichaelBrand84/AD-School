@@ -735,7 +735,7 @@ Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Des
 
 :::{#exm-GDApplication}
 
-## Abstand zwischen Eillipse und Gerade
+## Minimaler Abstand
 <br>
 
 Die Punkte $P$ und $Q$ bewegen sich auf Ellipsen im Raum. Die Position des Punktes $P$ zur Zeit $t$ ist gegeben durch
