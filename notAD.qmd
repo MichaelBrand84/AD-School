@@ -16,7 +16,7 @@ Ein erster Ansatz zur numerischen Berechnung könnte also sein, den Differenzenq
 ## Numerische Ableitung
 <br>
 
-Leite die Funktion $f(x) = x^2$ an der Stelle $x_0 = 2$ ab.
+Leite die Funktion $f(x) = x^2$ an der Stelle $x_0 = 0.2$ ab.
 
 ```{python}
 #| code-fold: show
