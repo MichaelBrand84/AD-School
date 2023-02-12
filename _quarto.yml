@@ -27,6 +27,7 @@ book:
     - intro.qmd
     - notAD.qmd
     - ADOneDimManually.qmd
+    - HigherDimFunctions.qmd
     - references.qmd
     
 

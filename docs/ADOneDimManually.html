@@ -826,7 +826,7 @@ Hintergrund: Duale Zahlen
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Duale Zahlen wurden 1873 durch William Clifford eingeführt und sind ähnlich definiert, wie komplexe Zahlen. Zur Erinnerung: Eine komplexe Zahl ist eine Zahl der Form <span class="math inline">\(a + bi\)</span>,wobei <span class="math inline">\(a,b \in \mathbb{R}\)</span> sind und <span class="math inline">\(i\)</span> die Eigenschaft <span class="math inline">\(i^2 = -1\)</span> hat. Eine duale Zahl ist eine Zahl der Form <span class="math inline">\(a + a'\epsilon\)</span>, wobei wieder <span class="math inline">\(a,a' \in \mathbb{R}\)</span> gilt, aber <span class="math inline">\(\epsilon\)</span> die Eigenschaft <span class="math inline">\(\epsilon^2 = 0\)</span> hat. Nun kann man nach dem Permanenzprinzip die folgenden Operationen für duale Zahlen definieren:</p>
+<p>Duale Zahlen wurden 1873 durch William Clifford eingeführt und sind ähnlich definiert, wie komplexe Zahlen. Zur Erinnerung: Eine komplexe Zahl ist eine Zahl der Form <span class="math inline">\(a + bi\)</span>, wobei <span class="math inline">\(a,b \in \mathbb{R}\)</span> sind und <span class="math inline">\(i\)</span> die Eigenschaft <span class="math inline">\(i^2 = -1\)</span> hat. Eine duale Zahl ist eine Zahl der Form <span class="math inline">\(a + a'\epsilon\)</span>, wobei wieder <span class="math inline">\(a,a' \in \mathbb{R}\)</span> gilt, aber <span class="math inline">\(\epsilon\)</span> die Eigenschaft <span class="math inline">\(\epsilon^2 = 0\)</span> hat. Nun kann man nach dem Permanenzprinzip die folgenden Operationen für duale Zahlen definieren:</p>
 <p><span class="math display">\[\begin{alignat*}{3}
     &amp;\textrm{Addition:} &amp;&amp; (a+a'\epsilon) + (b+b'\epsilon) &amp;&amp;= (a+b) + (a'+b')\epsilon \\ \\
     &amp;\textrm{Subtraktion:} &amp;&amp; (a+a'\epsilon) - (b+b'\epsilon) &amp;&amp;= (a-b) + (a'-b')\epsilon \\ \\
@@ -1369,7 +1369,7 @@ Lösung
 <pre><code>&lt; -4.0 ; 3.0 &gt;</code></pre>
 </div>
 </div>
-<p>Da nun alle Ableitungsregeln in den verwendeten Operatoren integriert sind, können wir nun sogar auf die Zwischenschritte mit den <code>v</code> verzichten:</p>
+<p>Da nun alle Ableitungsregeln in den verwendeten Operatoren integriert sind, können wir sogar auf die Zwischenschritte mit den <code>v</code> verzichten:</p>
 <div class="cell" data-execution_count="28">
 <details open="">
 <summary>Code</summary>
@@ -1713,9 +1713,8 @@ Lösung
 <span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v<span class="op">**</span><span class="fl">0.5</span></span>
 <span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
 <span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(f(x0)) <span class="co"># math domain error</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f(x0)) <span class="co"># math domain error</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Der rationale Exponent (Wurzel) führt zu einem Fehler.</p>
@@ -1731,9 +1730,8 @@ Lösung
 <span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> mathsad.sqrt(v)</span>
 <span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Y</span>
 <span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(g(x0)) <span class="co"># float division by zero</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g(x0)) <span class="co"># float division by zero</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Die Auswertung der Ableitung der Wurzelfunktion an der Stelle 0 erzeugt einen Fehler. Mit unserer Funktion <code>fabs</code> erhalten wir jedoch den korrekten Wert:</p>
@@ -1749,9 +1747,8 @@ Lösung
 <span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v<span class="op">**</span><span class="dv">3</span></span>
 <span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
 <span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(h(x0)) <span class="co"># funktioniert</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(h(x0)) <span class="co"># funktioniert</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt; 0.0 ; 0.0 &gt;</code></pre>

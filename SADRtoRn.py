@@ -16,10 +16,34 @@ def f(t):
 
 t0 = 3
 y = f(t0)
-print(y)  # Liste von drei Flaotsad Objekten
+print(y[0].derivative)  # Liste von drei Flaotsad Objekten
 # Alternative Darstellung; Liste der drei Werte und Liste der drei Ableitungen.
-print("< " + str([element.value for element in y]) + " ; " + str([element.derivative for element in y]) + " >")
+#print("< " + str([element.value for element in y]) + " ; " + str([element.derivative for element in y]) + " >")
 """
+
+
+from floatsad import FloatSad
+import mathsad
+import numpy as np
+
+@np.vectorize
+def f(t):
+    t = FloatSad(t)
+    y1 = -3*mathsad.sin(2*t)
+    y2 = 2*mathsad.cos(2*t) + 1
+    y3 = 2*mathsad.sin(2*t) + 1
+    y = [y1, y2, y3]
+    return y
+
+getValues = np.vectorize(lambda y : y.value)
+getDerivatives = np.vectorize(lambda y : y.derivative)
+
+t0 = 2
+y0 = f(t0)
+print(getValues(y0))
+print(getDerivatives(y0))
+
+
 
 
 
@@ -50,10 +74,26 @@ print(ydot)
 
 
 
-
+"""
 ## Funktion f: R -> R^m (Parameterkurve)
 ## Manuelle Differentiation mit Listen
 import math
 
 def f(t):
     pass
+
+"""
+
+"""
+## Funktion f: R^n -> R (Fläche)
+from floatsad import FloatSad
+import numpy as np
+def f(x):
+    x = FloatSad(x)
+    y = x[0] * x[1] - x[0]**2
+    return y
+
+x0 = [2, 3]
+y0 = f(x0)
+print(y0)
+"""

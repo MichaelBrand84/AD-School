@@ -1,0 +1,98 @@
+---
+tbl-cap-location: bottom
+---
+
+# Funktionen mit mehreren In- und Outputs
+
+{{< include _floatsadForExecution.qmd >}}
+{{< include _mathsadForExecution.qmd >}}
+
+Wir wollen nun unsere Betrachtungen erweitern auf Funktionen, die zu einem Eingabewert mehrere Ausgabewerte produzieren, d.h. $f : \mathbb{R}\rightarrow\mathbb{R}^m$ (Parameterkurven) oder aus mehreren Eingabewerten einen Ausgabewert berechnen, d.h. $f : \mathbb{R}^n \rightarrow\mathbb{R}$ oder im allgemeinen Fall aus $n$ Eingabewerten $m$ Ausgabewerte berechnen, d.h. $f : \mathbb{R}^n \rightarrow\mathbb{R}^m$.
+
+## Funktionen $\mathbb{R}\rightarrow\mathbb{R}^m$
+
+Eine vektorwertige Funktion $f : \mathbb{R}\rightarrow\mathbb{R}^m$ mit
+
+$$
+f(t) = \left( \begin{align*} y_1 &(t) \\ &\vdots \\ y_m &(t) \end{align*}  \right)
+$$
+
+kann man sich als eine Kurve in einem $m$-dimensionalen Raum vorstellen. Im Beispiel @exm-GDApplication wird beispielsweise die Bahn des Punktes $Q$ durch die Funktion
+
+$$
+f(t) = \left( \begin{align*} -3 &\sin(2t) \\ 2 &\cos(2t) + 1 \\ 2 &\sin(2t) + 1 \end{align*}  \right)
+$$
+
+beschrieben. Die Ableitung einer solchen Funktion wird komponentenweise berechnet und gibt zu einem bestimmten Zeitpunkt $t_0$ den Tangentialvektor im Kurvenpunkt $f(t_0)$ an:
+
+$$
+df(t) = \left( \begin{align*} \dot y_1 &(t) \\ &\vdots \\ \dot y_m &(t) \end{align*}  \right)
+$$
+
+Physikalisch entspricht dies dem Geschwindigkeitsvektor zum Zeitpunkt $t_0$.
+
+Als Programm können wir die obige Kurve so darstellen
+```{python}
+#| code-fold: show
+import math
+
+def f(t):
+    y1 = -3*math.sin(2*t)
+    y2 = 2*math.cos(2*t) + 1
+    y3 = 2*math.sin(2*t) + 1
+    y = [y1, y2, y3]
+    return y
+
+t0 = 2
+y0 = f(t0)
+print(y0)
+```
+
+Für die Ableitung können wir unser Modul `FloatSad` benutzen. Der Rückgabewert der Funktion ist dann ein Array mit drei `FloatSad`-Objekten.
+```{python}
+#| code-fold: show
+from floatsad import FloatSad 
+import mathsad
+
+def f(t):
+    t = FloatSad(t)
+    y1 = -3*mathsad.sin(2*t)
+    y2 = 2*mathsad.cos(2*t) + 1
+    y3 = 2*mathsad.sin(2*t) + 1
+    y = [y1, y2, y3]
+    return y
+
+t0 = 2
+y0 = f(t0)
+print("y1(" + str(t0) + ") = " + str(y0[0].value))
+print("y1'(" + str(t0) + ") = " + str(y0[0].derivative))
+```
+
+Diese Implementation hat den Nachteil, dass die Handhabung etwas kompliziert wird. Insbesondere kann man nicht einfach `y0.value` schreiben, um eine Liste der Funktionswerte zu erhalten. Abhilfe schafft dabei das Modul `numpy` und die Vektorisierung der Funktion:
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+import mathsad
+import numpy as np
+
+@np.vectorize
+def f(t):
+    t = FloatSad(t)
+    y1 = -3*mathsad.sin(2*t)
+    y2 = 2*mathsad.cos(2*t) + 1
+    y3 = 2*mathsad.sin(2*t) + 1
+    y = [y1, y2, y3]
+    return y
+
+getValues = np.vectorize(lambda y : y.value)
+getDerivatives = np.vectorize(lambda y : y.derivative)
+
+t0 = 2
+y0 = f(t0)
+print(getValues(y0))
+print(getDerivatives(y0))
+```
+
+
+## Funktionen $f : \mathbb{R}^n \rightarrow\mathbb{R}^m$
+

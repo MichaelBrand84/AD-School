@@ -205,6 +205,11 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./HigherDimFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -1162,29 +1167,30 @@ Lösung
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> d(t):</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> t</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.cos(v0) <span class="op">-</span> <span class="dv">1</span>    <span class="co"># x-Koordinate von P</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> <span class="fl">1.5</span> <span class="op">*</span> math.sin(v0)      <span class="co"># y-Koordinate von P</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> <span class="dv">0</span>                       <span class="co"># z-Koordinate von P</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    v4 <span class="op">=</span> <span class="op">-</span><span class="dv">3</span> <span class="op">*</span> math.sin(<span class="dv">2</span><span class="op">*</span>v0)     <span class="co"># x-Koordinate von Q</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    v5 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.cos(<span class="dv">2</span><span class="op">*</span>v0) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># y-Koordinate von Q</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    v6 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.sin(<span class="dv">2</span><span class="op">*</span>v0) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># z-Koordinate von Q</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> math.sqrt((v4<span class="op">-</span>v1)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (v5<span class="op">-</span>v2)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (v6<span class="op">-</span>v3)<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Graph der Funktion d(t) plotten</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlim((<span class="dv">0</span>,<span class="dv">2</span><span class="op">*</span>math.pi))</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>ax.set_ylim((<span class="dv">0</span>,<span class="dv">6</span>))</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>math.pi <span class="op">*</span> k <span class="op">/</span> <span class="dv">1000</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1001</span>)]</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> [d(t) <span class="cf">for</span> t <span class="kw">in</span> T]</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>plt.plot(T,Y)</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, math.pi<span class="op">/</span><span class="dv">2</span>, math.pi, <span class="dv">3</span><span class="op">*</span>math.pi<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span><span class="op">*</span>math.pi],</span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'0'</span>, <span class="st">'π/2'</span>, <span class="st">'π'</span>, <span class="st">'3π/2'</span>, <span class="st">'2π'</span>])</span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>plt.show()  </span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> d(t):</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> t</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.cos(v0) <span class="op">-</span> <span class="dv">1</span>    <span class="co"># x-Koordinate von P</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> <span class="fl">1.5</span> <span class="op">*</span> math.sin(v0)      <span class="co"># y-Koordinate von P</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> <span class="dv">0</span>                       <span class="co"># z-Koordinate von P</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    v4 <span class="op">=</span> <span class="op">-</span><span class="dv">3</span> <span class="op">*</span> math.sin(<span class="dv">2</span><span class="op">*</span>v0)     <span class="co"># x-Koordinate von Q</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    v5 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.cos(<span class="dv">2</span><span class="op">*</span>v0) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># y-Koordinate von Q</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    v6 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> math.sin(<span class="dv">2</span><span class="op">*</span>v0) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># z-Koordinate von Q</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> math.sqrt((v4<span class="op">-</span>v1)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (v5<span class="op">-</span>v2)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (v6<span class="op">-</span>v3)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Graph der Funktion d(t) plotten</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>ax.set_xlim((<span class="dv">0</span>,<span class="dv">2</span><span class="op">*</span>math.pi))</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>ax.set_ylim((<span class="dv">0</span>,<span class="dv">6</span>))</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>math.pi <span class="op">*</span> k <span class="op">/</span> <span class="dv">1000</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1001</span>)]</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> [d(t) <span class="cf">for</span> t <span class="kw">in</span> T]</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>plt.plot(T,Y)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, math.pi<span class="op">/</span><span class="dv">2</span>, math.pi, <span class="dv">3</span><span class="op">*</span>math.pi<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span><span class="op">*</span>math.pi],</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'0'</span>, <span class="st">'π/2'</span>, <span class="st">'π'</span>, <span class="st">'3π/2'</span>, <span class="st">'2π'</span>])</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>plt.show()  </span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-graphofdistanceproblem" class="quarto-figure quarto-figure-center anchored">

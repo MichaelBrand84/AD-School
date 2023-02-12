@@ -774,6 +774,7 @@ Der Abstand zwischen den beiden Punkten lässt sich zu jedem Zeitpunkt $t$ berec
 #| fig-cap: "Graph der Abstandsfunktion $d(t)$."
 
 import math
+import matplotlib.pyplot as plt
 
 def d(t):
     v0 = t
