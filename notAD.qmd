@@ -121,7 +121,7 @@ Leite die Funktion $f(x) = l(l(l(x)))$, wobei $l(x) = x^2 + 1$ ist, an der Stell
 ```{python}
 #| code-fold: show
 
-from sympy  import symbols, diff
+from sympy import symbols, diff
 
 def f(x):
     v0 = x

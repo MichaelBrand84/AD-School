@@ -21,6 +21,10 @@ print(y[0].derivative)  # Liste von drei Flaotsad Objekten
 #print("< " + str([element.value for element in y]) + " ; " + str([element.derivative for element in y]) + " >")
 """
 
+"""
+## Funktion f: R -> R^m (Parameterkurve)
+## Ableitung mit Hilfe der FloatSad Klasse berechnet
+## Mit numpy vektorisiert
 
 from floatsad import FloatSad
 import mathsad
@@ -42,7 +46,7 @@ t0 = 2
 y0 = f(t0)
 print(getValues(y0))
 print(getDerivatives(y0))
-
+"""
 
 
 
@@ -97,3 +101,17 @@ x0 = [2, 3]
 y0 = f(x0)
 print(y0)
 """
+
+
+## Funktion f: R^n -> R^m
+## manuelle Implementation mit Listen
+
+def f(x):
+    v0dot = [1, 0, 0]   # nach x1 ableiten
+    v0 = [i for i in x] # hard copy
+    
+
+    return y
+
+x = [1, 2, 3]
+print(f(x))

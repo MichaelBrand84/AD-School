@@ -942,7 +942,7 @@ def __rpow__(self, other):
 :::
 
 
-### Vergleichsopertoren
+### Vergleichsoperatoren
 
 Es könnte sein, dass wir `FloatSad`-Objekte auch miteinander vergleichen wollen, also eine der Abfragen aus @tbl-Vergleichsmethoden machen wollen.
 
@@ -1516,7 +1516,6 @@ Verwende das Modul `mathsad`, um die Lösung von @exr-MinDistlSolution zu verein
 
 In der Funktion `gradient_descent(f, x0, lam)` muss lediglich die Berechnung des neuen Näherungswertes angepasst werden. Statt des Graphen wird hier nur das globale Minimum als Punkt ausgegeben.
 ```{python}
-#| label: fig-MinDistSolutionWithMathsad
 from floatsad import FloatSad
 import math
 import mathsad

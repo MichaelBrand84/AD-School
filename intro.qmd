@@ -11,17 +11,17 @@ Wir kennen Ableitungen von Funktionen $f: \mathbb{R}\rightarrow\mathbb{R}$ aus d
 
 Die folgende Tabelle fasst die bekannten Ableitungen der Grundfunktionen zusammen.
 
-| $f(x)$                    | $f'(x)$                                 |     | $f(x)$                 | $f'(x)$                                       |
-|---------------------------|-----------------------------------------|-----|------------------------|-----------------------------------------------|
-| $x^n$                     | $n \cdot x^n \quad (n\in\mathbb{R})$    |     | $\sqrt{x}$             | $\frac{1}{2\cdot\sqrt{x}}$                    |
-| $e^x$                     | $e^x$                                   |     | $a^x$                  | $a^x \cdot \ln(a) \quad (a>0, a\ne 1)$        |
-| $\ln(x)$                  | $\frac{1}{x}$                           |     | $\log_a(x)$            | $\frac{1}{x\cdot\ln(a)} \quad (a>0, a\ne 1)$  |
-| $\sin(x)$                 | $\cos(x)$                               |     | $\arcsin(x)$           | $\frac{1}{\sqrt{1-x^2}}$                      |
-| $\cos(x)$                 | $-\sin(x)$                              |     | $\arccos(x)$           | $-\frac{1}{\sqrt{1-x^2}}$                     |
-| $\tan(x)$                 | $\frac{1}{\cos^2(x)} = 1 + \tan^2(x)$   |     | $\arctan(x)$           | $\frac{1}{x^2+1}$                             |
-| $\sinh(x)$                | $\cosh(x)$                              |     | $\textrm{arsinh}(x)$   | $\frac{1}{\sqrt{x^2+1}}$                      |
-| $\cosh(x)$                | $\sinh(x)$                              |     | $\textrm{arcosh(x)}$   | $\frac{1}{\sqrt{x^2-1}}$                      |
-| $\tanh(x)$                | $\frac{1}{\cosh^2(x)} = 1 - \tanh^2(x)$ |     | $\textrm{artanh(x)}$   | $-\frac{1}{x^2-1}$                            |
+| $f(x)$                    | $f'(x)$                                   |     | $f(x)$                 | $f'(x)$                                       |
+|---------------------------|-------------------------------------------|-----|------------------------|-----------------------------------------------|
+| $x^n$                     | $n \cdot x^{n-1} \quad (n\in\mathbb{R})$  |     | $\sqrt{x}$             | $\frac{1}{2\cdot\sqrt{x}}$                    |
+| $e^x$                     | $e^x$                                     |     | $a^x$                  | $a^x \cdot \ln(a) \quad (a>0, a\ne 1)$        |
+| $\ln(x)$                  | $\frac{1}{x}$                             |     | $\log_a(x)$            | $\frac{1}{x\cdot\ln(a)} \quad (a>0, a\ne 1)$  |
+| $\sin(x)$                 | $\cos(x)$                                 |     | $\arcsin(x)$           | $\frac{1}{\sqrt{1-x^2}}$                      |
+| $\cos(x)$                 | $-\sin(x)$                                |     | $\arccos(x)$           | $-\frac{1}{\sqrt{1-x^2}}$                     |
+| $\tan(x)$                 | $\frac{1}{\cos^2(x)} = 1 + \tan^2(x)$     |     | $\arctan(x)$           | $\frac{1}{x^2+1}$                             |
+| $\sinh(x)$                | $\cosh(x)$                                |     | $\textrm{arsinh}(x)$   | $\frac{1}{\sqrt{x^2+1}}$                      |
+| $\cosh(x)$                | $\sinh(x)$                                |     | $\textrm{arcosh(x)}$   | $\frac{1}{\sqrt{x^2-1}}$                      |
+| $\tanh(x)$                | $\frac{1}{\cosh^2(x)} = 1 - \tanh^2(x)$   |     | $\textrm{artanh(x)}$   | $-\frac{1}{x^2-1}$                            |
 
 : Ableitungen der Grundfunktionen {#tbl-DiffGrundfunktionen}
 
