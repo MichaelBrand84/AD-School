@@ -230,7 +230,7 @@ div.csl-indent {
   <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="toc-section-number">3.2.3</span>  Die Operatoren <code>+</code> und <code>-</code></a></li>
   <li><a href="#die-operatoren-und" id="toc-die-operatoren-und" class="nav-link" data-scroll-target="#die-operatoren-und"><span class="toc-section-number">3.2.4</span>  Die Operatoren <code>*</code> und <code>/</code></a></li>
   <li><a href="#der-operator" id="toc-der-operator" class="nav-link" data-scroll-target="#der-operator"><span class="toc-section-number">3.2.5</span>  Der Operator <code>**</code></a></li>
-  <li><a href="#vergleichsopertoren" id="toc-vergleichsopertoren" class="nav-link" data-scroll-target="#vergleichsopertoren"><span class="toc-section-number">3.2.6</span>  Vergleichsopertoren</a></li>
+  <li><a href="#vergleichsoperatoren" id="toc-vergleichsoperatoren" class="nav-link" data-scroll-target="#vergleichsoperatoren"><span class="toc-section-number">3.2.6</span>  Vergleichsoperatoren</a></li>
   </ul></li>
   <li><a href="#die-klasse-floatsad-im-einsatz" id="toc-die-klasse-floatsad-im-einsatz" class="nav-link" data-scroll-target="#die-klasse-floatsad-im-einsatz"><span class="toc-section-number">3.3</span>  Die Klasse <code>FloatSad</code> im Einsatz</a></li>
   <li><a href="#das-modul-mathsad" id="toc-das-modul-mathsad" class="nav-link" data-scroll-target="#das-modul-mathsad"><span class="toc-section-number">3.4</span>  Das Modul <code>mathsad</code></a>
@@ -1259,8 +1259,8 @@ Lösung
 </div>
 </div>
 </section>
-<section id="vergleichsopertoren" class="level3" data-number="3.2.6">
-<h3 data-number="3.2.6" class="anchored" data-anchor-id="vergleichsopertoren"><span class="header-section-number">3.2.6</span> Vergleichsopertoren</h3>
+<section id="vergleichsoperatoren" class="level3" data-number="3.2.6">
+<h3 data-number="3.2.6" class="anchored" data-anchor-id="vergleichsoperatoren"><span class="header-section-number">3.2.6</span> Vergleichsoperatoren</h3>
 <p>Es könnte sein, dass wir <code>FloatSad</code>-Objekte auch miteinander vergleichen wollen, also eine der Abfragen aus <a href="#tbl-Vergleichsmethoden">Tabelle&nbsp;<span>3.1</span></a> machen wollen.</p>
 <div id="tbl-Vergleichsmethoden" class="anchored">
 <table class="table">
@@ -1938,8 +1938,7 @@ Lösung
 <div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>In der Funktion <code>gradient_descent(f, x0, lam)</code> muss lediglich die Berechnung des neuen Näherungswertes angepasst werden. Statt des Graphen wird hier nur das globale Minimum als Punkt ausgegeben.</p>
-<div id="fig-mindistsolutionwithmathsad" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
+<div class="cell" data-execution_count="45">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
@@ -1977,8 +1976,6 @@ Lösung
 <div class="cell-output cell-output-stdout">
 <pre><code>Minimum bei ( 4.712388977478413 1.5 )</code></pre>
 </div>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;3.4: <strong>?(caption)</strong></figcaption><p></p>
-</figure>
 </div>
 </div>
 </div>

@@ -9,12 +9,12 @@ tbl-cap-location: bottom
 
 Wir wollen nun unsere Betrachtungen erweitern auf Funktionen, die zu einem Eingabewert mehrere Ausgabewerte produzieren, d.h. $f : \mathbb{R}\rightarrow\mathbb{R}^m$ (Parameterkurven) oder aus mehreren Eingabewerten einen Ausgabewert berechnen, d.h. $f : \mathbb{R}^n \rightarrow\mathbb{R}$ oder im allgemeinen Fall aus $n$ Eingabewerten $m$ Ausgabewerte berechnen, d.h. $f : \mathbb{R}^n \rightarrow\mathbb{R}^m$.
 
-## Funktionen $\mathbb{R}\rightarrow\mathbb{R}^m$
+## Funktionen mit mehreren Ausgabewerten
 
 Eine vektorwertige Funktion $f : \mathbb{R}\rightarrow\mathbb{R}^m$ mit
 
 $$
-f(t) = \left( \begin{align*} y_1 &(t) \\ &\vdots \\ y_m &(t) \end{align*}  \right)
+f(t) = \begin{pmatrix} y_1(t) \\ \vdots \\ y_m(t) \end{pmatrix}
 $$
 
 kann man sich als eine Kurve in einem $m$-dimensionalen Raum vorstellen. Im Beispiel @exm-GDApplication wird beispielsweise die Bahn des Punktes $Q$ durch die Funktion
@@ -26,10 +26,10 @@ $$
 beschrieben. Die Ableitung einer solchen Funktion wird komponentenweise berechnet und gibt zu einem bestimmten Zeitpunkt $t_0$ den Tangentialvektor im Kurvenpunkt $f(t_0)$ an:
 
 $$
-df(t) = \left( \begin{align*} \dot y_1 &(t) \\ &\vdots \\ \dot y_m &(t) \end{align*}  \right)
+\dot{f}(t) = \begin{pmatrix} \dot y_1(t) \\ \vdots \\ \dot y_m(t) \end{pmatrix}
 $$
 
-Physikalisch entspricht dies dem Geschwindigkeitsvektor zum Zeitpunkt $t_0$.
+Physikalisch entspricht dies dem Geschwindigkeitsvektor zum Zeitpunkt $t_0$. Mehr über die Ableitung von Parameterkurven findet man z.B. in @Arens2022, S. 947.
 
 Als Programm können wir die obige Kurve so darstellen
 ```{python}
@@ -38,8 +38,8 @@ import math
 
 def f(t):
     y1 = -3*math.sin(2*t)
-    y2 = 2*math.cos(2*t) + 1
-    y3 = 2*math.sin(2*t) + 1
+    y2 =  2*math.cos(2*t) + 1
+    y3 =  2*math.sin(2*t) + 1
     y = [y1, y2, y3]
     return y
 
@@ -57,8 +57,8 @@ import mathsad
 def f(t):
     t = FloatSad(t)
     y1 = -3*mathsad.sin(2*t)
-    y2 = 2*mathsad.cos(2*t) + 1
-    y3 = 2*mathsad.sin(2*t) + 1
+    y2 =  2*mathsad.cos(2*t) + 1
+    y3 =  2*mathsad.sin(2*t) + 1
     y = [y1, y2, y3]
     return y
 
@@ -68,19 +68,21 @@ print("y1(" + str(t0) + ") = " + str(y0[0].value))
 print("y1'(" + str(t0) + ") = " + str(y0[0].derivative))
 ```
 
-Diese Implementation hat den Nachteil, dass die Handhabung etwas kompliziert wird. Insbesondere kann man nicht einfach `y0.value` schreiben, um eine Liste der Funktionswerte zu erhalten. Abhilfe schafft dabei das Modul `numpy` und die Vektorisierung der Funktion:
+Diese Implementation hat den Nachteil, dass die Handhabung etwas kompliziert wird. Insbesondere kann man nicht einfach `y0.value` schreiben, um eine Liste der Funktionswerte zu erhalten. Abhilfe schafft dabei das Modul `numpy` und die Vektorisierung der Funktion.
+Wir definieren dann noch zwei Funktionen `getValues(y)` und `getDerivatives(y)`, welche aus der Liste `y` von `FloatSad`-Objekten jeweils die Funktionswerte, respektive die Werte der Ableitungen extrahiert.
+
+
 ```{python}
 #| code-fold: show
 from floatsad import FloatSad
 import mathsad
 import numpy as np
 
-@np.vectorize
 def f(t):
     t = FloatSad(t)
     y1 = -3*mathsad.sin(2*t)
-    y2 = 2*mathsad.cos(2*t) + 1
-    y3 = 2*mathsad.sin(2*t) + 1
+    y2 =  2*mathsad.cos(2*t) + 1
+    y3 =  2*mathsad.sin(2*t) + 1
     y = [y1, y2, y3]
     return y
 
@@ -94,5 +96,278 @@ print(getDerivatives(y0))
 ```
 
 
-## Funktionen $f : \mathbb{R}^n \rightarrow\mathbb{R}^m$
+## Funktionen mit mehreren Eingabewerten
 
+Die Ableitung einer Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}$ ist der Gradient
+
+$$
+\nabla f = \left( \frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n} \right)
+$$
+
+Für weitere Details zum Gradienten sei auf @Arens2022, S. 870 verwiesen.
+
+:::{#exm-ExampleFunctionRnToR}
+
+## Eine Funktion mit drei Eingabwerten
+<br>
+
+Betrachte z.B. die Funktion $f : \mathbb{R}^3 \rightarrow \mathbb{R}$
+
+$$
+f(x_0, x_1, x_2) = x_0^2 + 2\cdot x_0 \cdot x_1 - \frac{x_1}{x_2 ^3}
+$$
+
+Das folgende Programm berechnet den Funktionswert $f(1, 2, 3)=\frac{133}{27}\approx 4.9259...$
+
+```{python}
+#| code-fold: show
+def f(x):
+    y = x[0]**2 + 2*x[0]*x[1] - x[1]/x[2]**3
+    return y
+
+x0 = [1, 2, 3]
+y0 = f(x0)
+print(y0)
+```
+
+Der Gradient dieser Funktion ist
+$$
+\nabla f = \left( 2x_0+2x_1, 2x_0 - \frac{1}{x_2^3}, 3\frac{x_1}{x_2^4} \right)
+$$
+
+bzw. ausgewertet an der Stelle $(x_0, x_1, x_2) = (1, 2, 3)$
+$$
+\begin{align*}
+\nabla f \vert _{(1, 2, 3)} &= \left( 6, \frac{53}{27}, \frac2{27} \right) \\
+&\approx \left( 6, 1.9629..., 0.0740... \right)
+\end{align*}
+$$
+:::
+---
+
+Mit der Standard Algorithmischen Differentiation kann der Gradient nicht in einem Durchgang berechnet werden. Bei der Umwandlung der Anfangswerte in `FloatSad`-Objekte müssen wir für allen Variablen in $x = (x_1, \ldots, x_n)$ einen Anfangswert $\dot{x} = (\dot{x_1}, \ldots, \dot{x_n})$ geben. Wenn wir für die Initialisierung $\dot{x} = e_i = (0, \ldots, 1, \ldots, 0)$ verwenden (mit $1$ an der $i$-ten Stelle und sonst lauter $0$), dann bekommen wir den Wert von $\frac{\partial f}{\partial x_i}$.
+
+Um die Funktion im obigen Beispiel mit unserer Klasse `FloatSad` abzuleiten, verwenden wir wieder `numpy` und die Vektorisierungsfunktionen. Als erstes definieren wir eine Funktion `float2FloatSad`, mit der wir aus der Liste `x` eine Liste von `FloatSad`-Objekten erzeugen. Die Werte der Ableitungen werden zu Beginn explizit in der Variablen `xdot` initialisiert. 
+
+:::{.panel-tabset}
+
+## Ableitung nach `x0`
+
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+import numpy as np
+
+def f(x):
+    xdot = [1, 0, 0]
+    x = float2FloatSad(x, xdot)
+    y = x[0]**2 + 2*x[0]*x[1] - x[1]/x[2]**3
+    return y
+
+float2FloatSad = np.vectorize(lambda x, v : FloatSad(x,v))
+
+x0 = [1, 2, 3]
+y0 = f(x0)
+print(y0)
+```
+
+## Ableitung nach `x1`
+
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+import numpy as np
+
+def f(x):
+    xdot = [0, 1, 0]
+    x = float2FloatSad(x, xdot)
+    y = x[0]**2 + 2*x[0]*x[1] - x[1]/x[2]**3
+    return y
+
+float2FloatSad = np.vectorize(lambda x, v : FloatSad(x,v))
+
+x0 = [1, 2, 3]
+y0 = f(x0)
+print(y0)
+```
+
+## Ableitung nach `x2`
+
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+import numpy as np
+
+def f(x):
+    xdot = [0, 0, 1]
+    x = float2FloatSad(x, xdot)
+    y = x[0]**2 + 2*x[0]*x[1] - x[1]/x[2]**3
+    return y
+
+float2FloatSad = np.vectorize(lambda x, v : FloatSad(x,v))
+
+x0 = [1, 2, 3]
+y0 = f(x0)
+print(y0)
+```
+
+:::
+
+Initialisiert man die Ableitungen beispielsweise mit `xdot = [1, 1, 1]`, dann erhält man die Summe der drei Richtungsableitungen:
+```{python}
+#| echo: false
+from floatsad import FloatSad
+import numpy as np
+
+def f(x):
+    xdot = [1, 1, 1]
+    x = float2FloatSad(x, xdot)
+    y = x[0]**2 + 2*x[0]*x[1] - x[1]/x[2]**3
+    return y
+
+float2FloatSad = np.vectorize(lambda x, v : FloatSad(x,v))
+
+x0 = [1, 2, 3]
+y0 = f(x0)
+print(y0)
+```
+
+Allgemein gilt: Initialisiert man `xdot` mit dem Vektor $r = (r_1, \ldots, r_n)^\intercal$, dann erhält man das Skalarprodukt
+$$
+\nabla f \cdot r = 
+\left ( \left .\frac{\partial f}{\partial x_1} \right \vert_{(x_1, \ldots, x_n)}, \ldots, \left .\frac{\partial f}{\partial x_n} \right \vert_{(x_1, \ldots, x_n)}  \right ) \cdot \begin{pmatrix} r_1 \\ \vdots \\ r_n \end{pmatrix} 
+$$
+
+
+## Funktionen mit mehreren Ein- und Ausgabewerten
+
+Eine Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ hat die Form
+$$
+f(x_1, \ldots, x_n) = \left( \begin{align*} y_1(x_1, &\ldots, x_n) \\ &\vdots \\ y_m(x_1, &\ldots, x_n) \end{align*} \right)
+$$
+Die Ableitung einer solchen Funktion wird durch die Jacobi Matrix
+$$
+Jf = \begin{pmatrix}
+    \frac{\partial y_1}{\partial x_1} & \ldots & \frac{\partial y_1}{\partial x_n} \\
+    \vdots & & \vdots \\
+    \frac{\partial y_m}{\partial x_1} & \ldots & \frac{\partial y_m}{\partial x_n}
+\end{pmatrix}
+\in\mathbb{R}^{m\times n}
+$$
+gegeben. Auch hierzu findet der Leser mehr Informationen in @Arens2022, S. 878.
+
+:::{#exm-ExFunctionR2ToR3}
+
+## Eine Funktion mit zwei Ein- und 3 Ausgabwerten
+<br>
+
+Betrachte die Funktion $f : \mathbb{R}^2 \rightarrow \mathbb{R}^3$ 
+$$
+f(x_0, x_1) = 
+    \begin{pmatrix}
+        x_0\cdot \sqrt{x_1} + 3x_1 \\
+        \cos(x_0) / x_1 \\
+        e^{x_0 ^2\cdot x_1}
+    \end{pmatrix}
+$$
+
+Die Jacobi Matrix lautet in diesem Fall
+$$
+Jf = 
+\begin{pmatrix}
+    \sqrt{x_1} & \frac{x_0}{2\sqrt{x_1}} + 3 \\
+    -\frac{\sin(x_0)}{x_1} & -\frac{\cos(x_0)}{x_1^2} \\
+    e^{x_0^2\cdot x_1}\cdot 2 x_0 x_1 & e^{x_0^2\cdot x_1}\cdot x_0^2
+\end{pmatrix}
+$$
+
+Ausgewertet an der Stelle $(x_0, x_1) = (2, 1)$ ergibt dies 
+$$
+f(2,1) \approx \begin{pmatrix} 5 \\ -0.4161... \\ 54.5981... \end{pmatrix}, \qquad 
+JF \vert _{(2,1)} \approx 
+    \begin{pmatrix}  
+        1 & 4 \\
+        -0.9092... & 0.4161... \\
+        218.3926... & 218.3926...
+    \end{pmatrix}
+$$
+
+:::
+---
+
+Um die Funktion aus dem Beispiel mit SAD abzuleiten kombinieren wir die Techniken aus den beiden vorherigen Abschnitten. Je nach Initialisierung von `xdot` erhalten wir die erste oder die zweite Spalte von $JF$.
+
+:::{.panel-tabset}
+
+## 1. Spalte
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+import mathsad
+import numpy as np
+
+def f(x):
+    xdot = [1, 0]
+    x = float2FloatSad(x, xdot)
+    y1 = x[0]*mathsad.sqrt(x[1]) + 3*x[1]
+    y2 = mathsad.cos(x[0]) / x[1]
+    y3 = mathsad.exp(x[0]**2 * x[1])
+    return [y1, y2, y3]    
+
+
+float2FloatSad = np.vectorize(lambda x, v : FloatSad(x,v))
+getValues = np.vectorize(lambda y : y.value)
+getDerivatives = np.vectorize(lambda y : y.derivative)
+
+
+x0 = (2, 1)
+y0 = f(x0)
+print("Funktionswerte:")
+print(getValues(y0))
+print("1. Spalte von Jf:")
+print(getDerivatives(y0))
+```
+
+## 2. Spalte
+```{python}
+#| code-fold: show
+from floatsad import FloatSad
+import mathsad
+import numpy as np
+
+def f(x):
+    xdot = [0, 1]
+    x = float2FloatSad(x, xdot)
+    y1 = x[0]*mathsad.sqrt(x[1]) + 3*x[1]
+    y2 = mathsad.cos(x[0]) / x[1]
+    y3 = mathsad.exp(x[0]**2 * x[1])
+    return [y1, y2, y3]    
+
+
+float2FloatSad = np.vectorize(lambda x, v : FloatSad(x,v))
+getValues = np.vectorize(lambda y : y.value)
+getDerivatives = np.vectorize(lambda y : y.derivative)
+
+
+x0 = (2, 1)
+y0 = f(x0)
+print("Funktionswerte:")
+print(getValues(y0))
+print("2. Spalte von Jf:")
+print(getDerivatives(y0))
+```
+
+:::
+
+Initialisiert man allgemein `xdot` mit dem Vektor $r = (r_1, \ldots, r_n)^\intercal$, dann erhält man als Resultat das Produkt
+$$
+Jf \cdot r = 
+\begin{pmatrix}
+    \frac{\partial y_1}{\partial x_1} & \ldots & \frac{\partial y_1}{\partial x_n} \\
+    \vdots & & \vdots \\
+    \frac{\partial y_m}{\partial x_1} & \ldots & \frac{\partial y_m}{\partial x_n}
+\end{pmatrix}
+\cdot \begin{pmatrix} r_1 \\ \vdots \\ r_n \end{pmatrix} 
+$$
+
+Braucht man die gesammte Jacobi Matrix, dann muss man also die Funktion so oft aufrufen, wie die Matrix Spalten hat, d.h. `len(x)` Mal. Die SAD Methode ist also effizient, wenn eine Funktion mehr Aus- als Eingabewerte hat. Der ineffizienteste Fall tritt auf, wenn die Funktion aus vielen Eingabewerte nur einen Ausgabewert berechnet. Mit anderen Worten: Das Bestimmen des Gradienten einer Funktion $f: \mathbb{R}^n \rightarrow \mathbb{R}$ benötigt den grössten Aufwand gemessen an der Anzahl zu berechnender Werte. Abhilfe schafft in so einem Fall die Adjungierte Automatische Differentiation (AAD).

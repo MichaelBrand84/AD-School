@@ -102,16 +102,52 @@ y0 = f(x0)
 print(y0)
 """
 
-
+"""
 ## Funktion f: R^n -> R^m
 ## manuelle Implementation mit Listen
+from floatsad import FloatSad
+import mathsad
+
+import numpy as np
 
 def f(x):
-    v0dot = [1, 0, 0]   # nach x1 ableiten
-    v0 = [i for i in x] # hard copy
-    
+    xdot = [0, 0, 1]   # nach x1 ableiten
+    x = toFloatSad(x, xdot)
+    y1 = x[0] + 2*x[1]**2 - x[0] / x[2]
+    y2 = mathsad.log(x[0]) + x[1] * x[2]**0.5 +mathsad.exp(mathsad.cos(x[1])) 
+    return [y1, y2]
 
-    return y
+toFloatSad = np.vectorize(lambda x, v: FloatSad(x, v))
+getValues = np.vectorize(lambda y : y.value)
+getDerivatives = np.vectorize(lambda y : y.derivative)
 
-x = [1, 2, 3]
-print(f(x))
+x0 = [1, 2, 3]
+y0 = f(x0)
+print(getValues(y0))
+print(getDerivatives(y0))
+"""
+
+from floatsad import FloatSad
+import mathsad
+import numpy as np
+
+#@np.vectorize
+def f(x):
+    xdot = [1, 0]
+    x = float2FloatSad(x, xdot)
+    y1 = x[0]*mathsad.sqrt(x[1]) + 3*x[1]
+    y2 = mathsad.cos(x[0]) / x[1]
+    y3 = mathsad.exp(x[0]**2 * x[1])
+    return [y1, y2, y3]    
+
+
+float2FloatSad = np.vectorize(lambda x, v : FloatSad(x,v))
+getValues = np.vectorize(lambda y : y.value)
+getDerivatives = np.vectorize(lambda y : y.derivative)
+
+
+x0 = [2, 1]
+y0 = f(x0)
+
+print("Funktionswerte:   " + str(len(getValues(y0))))
+print("1. Spalte von Jf: " + str(getDerivatives(y0)))
