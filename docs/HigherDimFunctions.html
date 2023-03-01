@@ -255,13 +255,13 @@ div.csl-indent {
 <p><span class="math display">\[
 f(t) = \begin{pmatrix} y_1(t) \\ \vdots \\ y_m(t) \end{pmatrix}
 \]</span></p>
-<p>kann man sich als eine Kurve in einem <span class="math inline">\(m\)</span>-dimensionalen Raum vorstellen. Im Beispiel <a href="intro.html#exm-GDApplication">Beispiel&nbsp;<span>1.3</span></a> wird beispielsweise die Bahn des Punktes <span class="math inline">\(Q\)</span> durch die Funktion</p>
+<p>kann man sich als eine Kurve in einem <span class="math inline">\(m\)</span>-dimensionalen Raum vorstellen. Im <a href="intro.html#exm-GDApplication">Beispiel&nbsp;<span>1.3</span></a> wird etwa die Bahn des Punktes <span class="math inline">\(Q\)</span> durch die Funktion</p>
 <p><span class="math display">\[
 f(t) = \left( \begin{align*} -3 &amp;\sin(2t) \\ 2 &amp;\cos(2t) + 1 \\ 2 &amp;\sin(2t) + 1 \end{align*}  \right)
 \]</span></p>
 <p>beschrieben. Die Ableitung einer solchen Funktion wird komponentenweise berechnet und gibt zu einem bestimmten Zeitpunkt <span class="math inline">\(t_0\)</span> den Tangentialvektor im Kurvenpunkt <span class="math inline">\(f(t_0)\)</span> an:</p>
 <p><span class="math display">\[
-\dot{f}(t) = \begin{pmatrix} \dot y_1(t) \\ \vdots \\ \dot y_m(t) \end{pmatrix}
+\dot{f}(t_0) = \begin{pmatrix} \dot y_1(t_0) \\ \vdots \\ \dot y_m(t_0) \end{pmatrix}
 \]</span></p>
 <p>Physikalisch entspricht dies dem Geschwindigkeitsvektor zum Zeitpunkt <span class="math inline">\(t_0\)</span>. Mehr über die Ableitung von Parameterkurven findet man z.B. in <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 947.</p>
 <p>Als Programm können wir die obige Kurve so darstellen</p>
@@ -285,7 +285,7 @@ f(t) = \left( \begin{align*} -3 &amp;\sin(2t) \\ 2 &amp;\cos(2t) + 1 \\ 2 &amp;\
 <pre><code>[2.2704074859237844, -0.3072872417272239, -0.5136049906158564]</code></pre>
 </div>
 </div>
-<p>Für die Ableitung können wir unser Modul <code>FloatSad</code> benutzen. Der Rückgabewert der Funktion ist dann ein Array mit drei <code>FloatSad</code>-Objekten.</p>
+<p>Für die Ableitung können wir unser Modul <code>FloatSad</code> benutzen. Der Rückgabewert der Funktion ist dann eine Liste mit drei <code>FloatSad</code>-Objekten.</p>
 <div class="cell" data-execution_count="4">
 <details open="">
 <summary>Code</summary>
@@ -310,7 +310,7 @@ f(t) = \left( \begin{align*} -3 &amp;\sin(2t) \\ 2 &amp;\cos(2t) + 1 \\ 2 &amp;\
 y1'(2) = 3.921861725181672</code></pre>
 </div>
 </div>
-<p>Diese Implementation hat den Nachteil, dass die Handhabung etwas kompliziert wird. Insbesondere kann man nicht einfach <code>y0.value</code> schreiben, um eine Liste der Funktionswerte zu erhalten. Abhilfe schafft dabei das Modul <code>numpy</code> und die Vektorisierung der Funktion. Wir definieren dann noch zwei Funktionen <code>getValues(y)</code> und <code>getDerivatives(y)</code>, welche aus der Liste <code>y</code> von <code>FloatSad</code>-Objekten jeweils die Funktionswerte, respektive die Werte der Ableitungen extrahiert.</p>
+<p>Diese Implementation hat den Nachteil, dass die Handhabung etwas kompliziert wird. Insbesondere kann man nicht einfach <code>y0.value</code> schreiben, um eine Liste der Funktionswerte zu erhalten. Abhilfe schafft dabei das Modul <code>numpy</code>. Wir verwenden daraus die Möglichkeit, Funktionen zu vektorisieren, um zwei Funktionen <code>getValues(y)</code> und <code>getDerivatives(y)</code> zu definieren, welche aus der Liste <code>y</code> von <code>FloatSad</code>-Objekten jeweils die Funktionswerte, respektive die Werte der Ableitungen extrahieren.</p>
 <div class="cell" data-execution_count="5">
 <details open="">
 <summary>Code</summary>
@@ -349,7 +349,7 @@ y1'(2) = 3.921861725181672</code></pre>
 <p>Für weitere Details zum Gradienten sei auf <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 870 verwiesen.</p>
 <div id="exm-ExampleFunctionRnToR" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 4.1 (Eine Funktion mit drei Eingabwerten) </strong></span><br></p>
-<p>Betrachte z.B. die Funktion <span class="math inline">\(f : \mathbb{R}^3 \rightarrow \mathbb{R}\)</span></p>
+<p>Betrachten wir als Beispiel die Funktion <span class="math inline">\(f : \mathbb{R}^3 \rightarrow \mathbb{R}\)</span></p>
 <p><span class="math display">\[
 f(x_0, x_1, x_2) = x_0^2 + 2\cdot x_0 \cdot x_1 - \frac{x_1}{x_2 ^3}
 \]</span></p>
@@ -380,8 +380,8 @@ f(x_0, x_1, x_2) = x_0^2 + 2\cdot x_0 \cdot x_1 - \frac{x_1}{x_2 ^3}
 \]</span></p>
 </div>
 <hr>
-<p>Mit der Standard Algorithmischen Differentiation kann der Gradient nicht in einem Durchgang berechnet werden. Bei der Umwandlung der Anfangswerte in <code>FloatSad</code>-Objekte müssen wir für allen Variablen in <span class="math inline">\(x = (x_1, \ldots, x_n)\)</span> einen Anfangswert <span class="math inline">\(\dot{x} = (\dot{x_1}, \ldots, \dot{x_n})\)</span> geben. Wenn wir für die Initialisierung <span class="math inline">\(\dot{x} = e_i = (0, \ldots, 1, \ldots, 0)\)</span> verwenden (mit <span class="math inline">\(1\)</span> an der <span class="math inline">\(i\)</span>-ten Stelle und sonst lauter <span class="math inline">\(0\)</span>), dann bekommen wir den Wert von <span class="math inline">\(\frac{\partial f}{\partial x_i}\)</span>.</p>
-<p>Um die Funktion im obigen Beispiel mit unserer Klasse <code>FloatSad</code> abzuleiten, verwenden wir wieder <code>numpy</code> und die Vektorisierungsfunktionen. Als erstes definieren wir eine Funktion <code>float2FloatSad</code>, mit der wir aus der Liste <code>x</code> eine Liste von <code>FloatSad</code>-Objekten erzeugen. Die Werte der Ableitungen werden zu Beginn explizit in der Variablen <code>xdot</code> initialisiert.</p>
+<p>Mit der Standard Algorithmischen Differentiation kann der Gradient nicht in einem Durchgang berechnet werden. Bei der Umwandlung der Anfangswerte in <code>FloatSad</code>-Objekte müssen wir allen Variablen in <span class="math inline">\(x = (x_1, \ldots, x_n)\)</span> einen Anfangswert <span class="math inline">\(\dot{x} = (\dot x_1, \ldots, \dot x_n)\)</span> geben. Wenn wir für die Initialisierung <span class="math inline">\(\dot{x} = e_i = (0, \ldots, 1, \ldots, 0)\)</span> verwenden (mit <span class="math inline">\(1\)</span> an der <span class="math inline">\(i\)</span>-ten Stelle und sonst lauter <span class="math inline">\(0\)</span>), dann bekommen wir den Wert der <span class="math inline">\(i\)</span>-ten partiellen Ableitung <span class="math inline">\(\frac{\partial f}{\partial x_i}\)</span>.</p>
+<p>Um die Funktion im obigen Beispiel mit unserer Klasse <code>FloatSad</code> abzuleiten, verwenden wir wieder <code>numpy</code>. Als erstes definieren wir eine vektorisierte Funktion <code>float2FloatSad</code>, mit der wir aus der Liste <code>x</code> eine Liste von <code>FloatSad</code>-Objekten erzeugen. Die Werte der Ableitungen werden zu Beginn explizit in der Variablen <code>xdot</code> initialisiert.</p>
 <div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Ableitung nach <code>x0</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Ableitung nach <code>x1</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Ableitung nach <code>x2</code></a></li></ul>
 <div class="tab-content">
@@ -465,8 +465,8 @@ f(x_0, x_1, x_2) = x_0^2 + 2\cdot x_0 \cdot x_1 - \frac{x_1}{x_2 ^3}
 <pre><code>&lt; 4.925925925925926 ; 8.037037037037036 &gt;</code></pre>
 </div>
 </div>
-<p>Allgemein gilt: Initialisiert man <code>xdot</code> mit dem Vektor <span class="math inline">\(r = (r_1, \ldots, r_n)^\intercal\)</span>, dann erhält man das Skalarprodukt <span class="math display">\[
-\nabla f \cdot r =
+<p>Allgemein gilt: Initialisiert man <code>xdot</code> mit dem Vektor <span class="math inline">\(\vec r = (r_1, \ldots, r_n)^\intercal\)</span>, dann erhält man das Skalarprodukt <span class="math display">\[
+\nabla f \cdot \vec r =
 \left ( \left .\frac{\partial f}{\partial x_1} \right \vert_{(x_1, \ldots, x_n)}, \ldots, \left .\frac{\partial f}{\partial x_n} \right \vert_{(x_1, \ldots, x_n)}  \right ) \cdot \begin{pmatrix} r_1 \\ \vdots \\ r_n \end{pmatrix}
 \]</span></p>
 </section>
@@ -483,7 +483,7 @@ Jf = \begin{pmatrix}
 \in\mathbb{R}^{m\times n}
 \]</span> gegeben. Auch hierzu findet der Leser mehr Informationen in <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 878.</p>
 <div id="exm-ExFunctionR2ToR3" class="theorem example">
-<p><span class="theorem-title"><strong>Beispiel 4.2 (Eine Funktion mit zwei Ein- und 3 Ausgabwerten) </strong></span><br></p>
+<p><span class="theorem-title"><strong>Beispiel 4.2 (Eine Funktion mit zwei Ein- und drei Ausgabwerten) </strong></span><br></p>
 <p>Betrachte die Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}^3\)</span> <span class="math display">\[
 f(x_0, x_1) =
     \begin{pmatrix}
@@ -601,6 +601,28 @@ Jf \cdot r =
 \cdot \begin{pmatrix} r_1 \\ \vdots \\ r_n \end{pmatrix}
 \]</span></p>
 <p>Braucht man die gesammte Jacobi Matrix, dann muss man also die Funktion so oft aufrufen, wie die Matrix Spalten hat, d.h. <code>len(x)</code> Mal. Die SAD Methode ist also effizient, wenn eine Funktion mehr Aus- als Eingabewerte hat. Der ineffizienteste Fall tritt auf, wenn die Funktion aus vielen Eingabewerte nur einen Ausgabewert berechnet. Mit anderen Worten: Das Bestimmen des Gradienten einer Funktion <span class="math inline">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt den grössten Aufwand gemessen an der Anzahl zu berechnender Werte. Abhilfe schafft in so einem Fall die Adjungierte Automatische Differentiation (AAD).</p>
+<p>Zum Schluss sei noch angemerkt, dass die Definition der drei Funktionen <code>float2FloatSad</code>, <code>getValues</code> und <code>getDerivatives</code> in die Datei <code>floatsad.py</code> geschrieben werden könnten (beachte, dass sie <em>nicht</em> eingerückt werden wie die restlichen Befehle der Klasse). Dann vereinfacht sich das obige Programm:</p>
+<div class="cell" data-execution_count="13">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> float2FloatSad(x, xdot)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    y1 <span class="op">=</span> x[<span class="dv">0</span>]<span class="op">*</span>mathsad.sqrt(x[<span class="dv">1</span>]) <span class="op">+</span> <span class="dv">3</span><span class="op">*</span>x[<span class="dv">1</span>]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    y2 <span class="op">=</span> mathsad.cos(x[<span class="dv">0</span>]) <span class="op">/</span> x[<span class="dv">1</span>]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    y3 <span class="op">=</span> mathsad.exp(x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> x[<span class="dv">1</span>])</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y1, y2, y3]    </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> f(x0)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getValues(y0))</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getDerivatives(y0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
