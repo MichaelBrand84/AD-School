@@ -3,14 +3,13 @@
 
 
 from collections import defaultdict
+import numpy as np
 
 class FloatAad:
 
     def __init__(self, value, derivatives = ()):
         self.value = value
         self.derivatives = derivatives
-
-
 
     def __neg__(self):
         return neg(self)
@@ -29,9 +28,9 @@ class FloatAad:
 
 
 def neg(a):
-    newValue = - a.value
+    newValue = -1 * a.value
     newDerivative = (
-        (a, -1)
+        (a, -1),
     )
     return FloatAad(newValue, newDerivative)
     
@@ -44,7 +43,7 @@ def add(a, b):
     return FloatAad(newValue, newDerivative)
 
 def mul(a, b):
-    newValue = a.value + b.value
+    newValue = a.value * b.value
     newDerivative = (
         (a, b.value),  # ab nach a abgeleitet gibt b
         (b, a.value)   # ab nach b abgeleitet gibt a
@@ -74,25 +73,11 @@ def getDerivatives(y):
     computeDerivatives(y, pathValue = 1)
     return dy
 
+def getGradient(x0, y):
+    dy = getDerivatives(y)
+    grad = []
+    for i in range(len(x0)):
+        grad.append(dy[x0[i]])
+    return grad
 
-
-
-
-if __name__ == '__main__':
-
-    def f(x):
-        x = FloatAad(x)
-        y = x * x + x
-        return y
-
-    x0 = 2
-    y0 = f(x0)
-    dy = getDerivatives(y0)
-
-    print(y0)
-    for key in dy:
-        print(dy[key])
-
-
-
-
+float2FloatAad = np.vectorize(lambda x: FloatAad(x))
