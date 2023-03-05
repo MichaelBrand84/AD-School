@@ -15,7 +15,16 @@ class FloatAad:
         return neg(self)
         
     def __add__(self, other):
-        return add(self, other)
+        if type(other) in [int, float]:
+            return add(self, FloatAad(other))
+        else:
+            return add(self, other)
+        
+    def __radd__(self, other):
+        if type(other) in [int, float]:
+            return add(FloatAad(other), self)
+        else:
+            return add(other, self)
     
     def __sub__(self, other):
         return add(self, neg(other))

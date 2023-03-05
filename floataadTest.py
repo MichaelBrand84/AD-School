@@ -210,12 +210,3 @@ while (x1[0] - x0[0])**2 + (x1[1] - x0[1])**2 > eps:
 print("Das Minimum befindet sich bei " + str(x1))
 print("Der minimale Funktionswert beträgt dort " + str(y0))
 """
-
-
-
-
-
-
-
-
-
