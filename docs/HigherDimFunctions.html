@@ -112,7 +112,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./aad.html" rel="next">
 <link href="./ADOneDimManually.html" rel="prev">
 <link href="./mycover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -210,6 +210,11 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./aad.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -233,7 +238,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></h1>
+<h1 class="title"><span id="sec-HigherDimFunctions" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></span></h1>
 </div>
 
 
@@ -600,7 +605,7 @@ Jf \cdot r =
 \end{pmatrix}
 \cdot \begin{pmatrix} r_1 \\ \vdots \\ r_n \end{pmatrix}
 \]</span></p>
-<p>Braucht man die gesammte Jacobi Matrix, dann muss man also die Funktion so oft aufrufen, wie die Matrix Spalten hat, d.h. <code>len(x)</code> Mal. Die SAD Methode ist also effizient, wenn eine Funktion mehr Aus- als Eingabewerte hat. Der ineffizienteste Fall tritt auf, wenn die Funktion aus vielen Eingabewerte nur einen Ausgabewert berechnet. Mit anderen Worten: Das Bestimmen des Gradienten einer Funktion <span class="math inline">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt den grössten Aufwand gemessen an der Anzahl zu berechnender Werte. Abhilfe schafft in so einem Fall die Adjungierte Automatische Differentiation (AAD).</p>
+<p>Braucht man die gesammte Jacobi Matrix, dann muss man also die Funktion so oft aufrufen, wie die Matrix Spalten hat, d.h. <code>len(x)</code> Mal. Die SAD Methode ist also effizient, wenn eine Funktion mehr Aus- als Eingabewerte hat. Der ineffizienteste Fall tritt auf, wenn die Funktion aus vielen Eingabewerte nur einen Ausgabewert berechnet. Mit anderen Worten: Das Bestimmen des Gradienten einer Funktion <span class="math inline">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt den grössten Aufwand gemessen an der Anzahl der zu berechnenden Werte. Abhilfe schafft in so einem Fall die Adjungierte Automatische Differentiation (AAD).</p>
 <p>Zum Schluss sei noch angemerkt, dass die Definition der drei Funktionen <code>float2FloatSad</code>, <code>getValues</code> und <code>getDerivatives</code> in die Datei <code>floatsad.py</code> geschrieben werden könnten (beachte, dass sie <em>nicht</em> eingerückt werden wie die restlichen Befehle der Klasse). Dann vereinfacht sich das obige Programm:</p>
 <div class="cell" data-execution_count="13">
 <details open="">
@@ -616,11 +621,10 @@ Jf \cdot r =
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    y3 <span class="op">=</span> mathsad.exp(x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> x[<span class="dv">1</span>])</span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y1, y2, y3]    </span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> f(x0)</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getValues(y0))</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getDerivatives(y0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> f(x0)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getValues(y0))</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getDerivatives(y0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
@@ -773,8 +777,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./aad.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>AutoDiff - 5&nbsp; Adjungierte Algorithmische Differentiation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./HigherDimFunctions.html" rel="prev">
+<link href="./mycover.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./mycover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">AutoDiff</a> 
+        <div class="sidebar-tools-main">
+    <a href="./AutoDiff.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Vorwort</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ableitungen und ihre Anwendungen</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notAD.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AD ist nicht …</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./HigherDimFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aad.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-AAD" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>In <a href="HigherDimFunctions.html"><span>Kapitel&nbsp;4</span></a> haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle <span class="math inline">\(m\)</span> Ableitungen einer Funktion <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}^m\)</span> mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt jedoch $<span class="math inline">\(n\)</span> Funktionsaufrufe, nämlich einen für jede partielle Ableitung <span class="math inline">\(\partial f / \partial x_i\)</span>. In diesem Kapitel wollen wir eine Methode entwickeln, die alle <span class="math inline">\(n\)</span> partiellen Ableitungen in einem Funktionsaufruf berechnet.</p>
+<div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion Schrittweise mit Hilfe von elementaren Operationen berechnen und dann in jedem Rechenschritt die Ableitung in einer separaten Variablen speichern. Wir führen also wieder unsere Konvention aus Kapitel <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Gründ wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
+<div id="exm-firstAADbyHand" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 5.1 (Gradient mit AAD) </strong></span><br></p>
+<p>Dieses Beispiel ist eine leicht abgeänderte Version von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> . Betrachten wir die Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> <span class="math display">\[
+y = f(x_0, x_1) = (x_0 + x_1) \cdot x_0 - x_1
+\]</span></p>
+<p>Als Programm können wir die Funktion unter Berücksichtigung der Konvention so schreiben:</p>
+<div class="cell" data-execution_count="1">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x0, x1):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x0</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> x1</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> v0 <span class="op">+</span> v1</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> v2 <span class="op">*</span> v0</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    v4 <span class="op">=</span> v3 <span class="op">-</span> v1</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v4</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>x0, x1 <span class="op">=</span> <span class="dv">2</span>, <span class="dv">3</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> f(x0, x1)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"f("</span> <span class="op">+</span> <span class="bu">str</span>(x0) <span class="op">+</span> <span class="st">","</span> <span class="op">+</span> <span class="bu">str</span>(x1) <span class="op">+</span> <span class="st">") = "</span> <span class="op">+</span> <span class="bu">str</span>(y0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>f(2,3) = 7</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-compTreeMulti" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 229.21 58.20" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 54.2)"> <polygon fill="white" stroke="transparent" points="-4,4 -4,-54.2 225.21,-54.2 225.21,4 -4,4"></polygon> <!-- nx0 --> <g id="node1" class="node">
+<title>
+nx0
+</title>
+<text text-anchor="start" x="3" y="-41.8" font-family="Cambria" font-size="8.00">x</text> <text text-anchor="start" x="7" y="-41.8" font-family="Cambria" baseline-shift="sub" font-size="8.00">0</text> </g> <!-- nPlus --> <g id="node3" class="node">
+<title>
+nPlus
+</title>
+<ellipse fill="none" stroke="black" cx="58.2" cy="-26.2" rx="8.41" ry="8.41"></ellipse> <text text-anchor="middle" x="58.2" y="-23.8" font-family="Cambria" font-size="8.00">+</text> </g> <!-- nx0&#45;&gt;nPlus --> <g id="edge1" class="edge">
+<title>
+nx0-&gt;nPlus
+</title>
+<path fill="none" stroke="black" d="M14.03,-41.12C22.45,-38.21 37.82,-32.9 47.76,-29.46"></path> <polygon fill="black" stroke="black" points="48.09,-30.28 50.17,-28.63 47.52,-28.62 48.09,-30.28"></polygon> </g> <!-- nTimes --> <g id="node4" class="node">
+<title>
+nTimes
+</title>
+<ellipse fill="none" stroke="black" cx="110.61" cy="-26.2" rx="8.41" ry="8.41"></ellipse> <text text-anchor="middle" x="110.61" y="-23.8" font-family="Cambria" font-size="8.00">*</text> </g> <!-- nx0&#45;&gt;nTimes --> <g id="edge3" class="edge">
+<title>
+nx0-&gt;nTimes
+</title>
+<path fill="none" stroke="black" d="M14.21,-43.95C24.96,-45.09 47.68,-46.75 66.4,-43.2 78.75,-40.86 92.08,-35.07 100.62,-30.9"></path> <polygon fill="black" stroke="black" points="101.26,-31.55 103.1,-29.66 100.48,-29.99 101.26,-31.55"></polygon> </g> <!-- nx1 --> <g id="node2" class="node">
+<title>
+nx1
+</title>
+<text text-anchor="start" x="3" y="-7.8" font-family="Cambria" font-size="8.00">x</text> <text text-anchor="start" x="7" y="-7.8" font-family="Cambria" baseline-shift="sub" font-size="8.00">1</text> </g> <!-- nx1&#45;&gt;nPlus --> <g id="edge2" class="edge">
+<title>
+nx1-&gt;nPlus
+</title>
+<path fill="none" stroke="black" d="M14.03,-11.29C22.45,-14.2 37.82,-19.5 47.76,-22.94"></path> <polygon fill="black" stroke="black" points="47.52,-23.78 50.17,-23.77 48.09,-22.13 47.52,-23.78"></polygon> </g> <!-- nMinus --> <g id="node5" class="node">
+<title>
+nMinus
+</title>
+<ellipse fill="none" stroke="black" cx="163.01" cy="-8.2" rx="8.41" ry="8.41"></ellipse> <text text-anchor="middle" x="163.01" y="-5.8" font-family="Cambria" font-size="8.00">-</text> </g> <!-- nx1&#45;&gt;nMinus --> <g id="edge5" class="edge">
+<title>
+nx1-&gt;nMinus
+</title>
+<path fill="none" stroke="black" d="M14.23,-9.16C37.89,-9.01 122.34,-8.46 151.79,-8.27"></path> <polygon fill="black" stroke="black" points="151.97,-9.14 154.47,-8.25 151.96,-7.39 151.97,-9.14"></polygon> </g> <!-- nPlus&#45;&gt;nTimes --> <g id="edge4" class="edge">
+<title>
+nPlus-&gt;nTimes
+</title>
+<path fill="none" stroke="black" d="M66.64,-26.2C75.28,-26.2 89.58,-26.2 99.28,-26.2"></path> <polygon fill="black" stroke="black" points="99.64,-27.08 102.14,-26.2 99.64,-25.33 99.64,-27.08"></polygon> </g> <!-- nTimes&#45;&gt;nMinus --> <g id="edge6" class="edge">
+<title>
+nTimes-&gt;nMinus
+</title>
+<path fill="none" stroke="black" d="M118.62,-23.7C127.49,-20.53 142.82,-15.06 152.68,-11.53"></path> <polygon fill="black" stroke="black" points="153,-12.35 155.06,-10.68 152.41,-10.7 153,-12.35"></polygon> </g> <!-- ny --> <g id="node6" class="node">
+<title>
+ny
+</title>
+<text text-anchor="middle" x="214.21" y="-5.8" font-family="Cambria" font-size="8.00">y</text> </g> <!-- nMinus&#45;&gt;ny --> <g id="edge7" class="edge">
+<title>
+nMinus-&gt;ny
+</title>
+<path fill="none" stroke="black" d="M171.27,-8.2C180.09,-8.2 194.96,-8.2 204.42,-8.2"></path> <polygon fill="black" stroke="black" points="204.67,-9.08 207.17,-8.2 204.67,-7.33 204.67,-9.08"></polygon> </g> </g>
+</svg>
+</p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.1: Computational Graph für <code>y = (x0 + x1) * x0 - x1</code>.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die partiellen Ableitungen von <span class="math inline">\(f\)</span> lauten <span class="math display">\[
+\begin{align*}
+    \frac{\partial y}{\partial x_0} &amp;= \frac{\partial f}{\partial x_0} = (1+0)\cdot x_0 + (x_0 + x_1)\cdot 1 - 0=2x_0 + x_1 \\
+    \frac{\partial y}{\partial x_1} &amp;= \frac{\partial f}{\partial x_1} = (0 + 1)\cdot x_0 - 1 = x_0 - 1
+\end{align*}
+\]</span> wobei für die Ableitung nach <span class="math inline">\(x_0\)</span> die Produktregel verwendet wurde. Die partielle Ableitung <span class="math inline">\(\partial y / \partial x_0\)</span> können wir auch berechnen, indem wir bei <span class="math inline">\(y = v_4\)</span> anfangen und jeweils die Definition der Hilfsvariablen einsetzen: <span class="math display">\[
+\begin{align*}
+    \frac{\partial y}{\partial x_0} &amp;= \frac{\partial v_4}{\partial x_0} \\
+    &amp;= \frac{\partial (v_3 - v_1)}{\partial x_0} \\
+    &amp;= \frac{\partial v_3}{\partial x_0} - \frac{\partial v_1}{\partial x_0} \\
+    &amp;= \frac{\partial (v_2 \cdot v_0)}{\partial x_0} - \frac{\partial x_1}{\partial x_0} \\
+    &amp;= \frac{\partial v_2}{\partial x_0} \cdot v_0 + v_2 \cdot \frac{\partial v_0}{\partial x_0} - 0 \\
+    &amp;= \frac{\partial (v_0 + v_1)}{\partial x_0} \cdot v_0 + v_2 \cdot \frac{\partial x_0}{\partial x_0} \\
+    &amp;= \left( \frac{\partial v_0}{\partial x_0} + \frac{\partial v_1}{\partial x_0} \right) \cdot x_0 + (v_0 + v_1) \cdot 1 \\
+    &amp;= \left( \frac{\partial x_0}{\partial x_0} + \frac{\partial x_1}{\partial x_0} \right) \cdot x_0 + (x_0 + x_1) \\
+    &amp;= (1 + 0) \cdot x_0 + (x_0 + x_1) \\
+    &amp;= 2x_0 + x_1   
+\end{align*}
+\]</span></p>
+<p>Analog findet man (diesmal lassen wir einige der offensichtlicheren Zwischenschritte weg) <span class="math display">\[
+\begin{align*}
+    \frac{\partial y}{\partial x_1} &amp;= \frac{\partial v_4}{\partial x_1} \\
+    &amp;= \frac{\partial v_3}{\partial x_1} - \frac{\partial v_1}{\partial x_1} \\
+    &amp;= \frac{\partial (v_2 \cdot v_0)}{\partial x_1} - 1 \\
+    &amp;= \frac{\partial v_2}{\partial x_1} \cdot v_0 + v_2 \cdot \frac{\partial v_0}{\partial x_1} - 1 \\
+    &amp;= \frac{\partial (v_0 + v_1)}{\partial x_1} \cdot x_0 + v_2 \cdot 0 - 1 \\
+    &amp;= \left( \frac{\partial v_0}{\partial x_1} + \frac{\partial v_1}{\partial x_1} \right) \cdot x_0 - 1 \\
+    &amp;= ( 0 + 1) \cdot x_0 - 1 \\
+    &amp;= x_0 - 1   
+\end{align*}
+\]</span></p>
+<p>Um die beiden Rechnungen zusammenzufassen, führen nun für jede Hilfsvariable <span class="math inline">\(v_i\)</span> eine neue Variable <span class="math inline">\(\bar v_i\)</span> ein, welche definiert ist als <span class="math display">\[
+\bar v_i = \frac{\partial y}{\partial v_i}
+\]</span> Ähnlich wie die <span class="math inline">\(\dot v_i\)</span> aus der SAD speichern diese Variablen die Werte der Ableitungen. Die neue Notation soll anzeigen, dass es sich um die AAD Methode handelt. Unser Ziel ist es also, <span class="math inline">\(\bar v_0\)</span> und <span class="math inline">\(\bar v_1\)</span> zu bestimmen. Beginnen wir in der letzten Zeile des Programms, dann gilt offenbar immer <span class="math inline">\(\bar v_4 = \partial y / \partial v_4 = 1\)</span>. In der Zeile darüber können wir <span class="math inline">\(\bar v_3\)</span> und <span class="math inline">\(\bar v_1\)</span> berechnen, indem wir die Kettenregel verwenden.</p>
+<p><span class="math display">\[\begin{align*}
+    \bar v_3 &amp;= \frac{\partial y}{\partial v_3} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_3} = \bar v_4 \cdot (1-0)=\bar v_4 = 1 \\
+
+    \bar v_1 &amp;= \frac{\partial y}{\partial v_1} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_1} = \bar v_4 \cdot (0-1)= -1
+\end{align*}\]</span></p>
+<p>Aus der Zeile <span class="math inline">\(v_3 = v_2 \cdot v_0\)</span> lassen sich als nächstes Ausdrücke für <span class="math inline">\(\bar v_2\)</span> und <span class="math inline">\(\bar v_0\)</span> finden.</p>
+<p><span class="math display">\[\begin{align*}
+    \bar v_2 &amp;= \frac{\partial y}{\partial v_2} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_2} = \bar v_3 \cdot v_0 = v_0 \\
+
+    \bar v_0 &amp;= \frac{\partial y}{\partial v_0} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_0} = \bar v_3 \cdot v_0 = v_2
+\end{align*}\]</span></p>
+<p>In die Variable <span class="math inline">\(v_0\)</span> enthält beim Programmaufruf aber einen konkreten Wert (im obigen Beispiel ist etwa <code>v0 = x0 = 2</code>) und ebenso die Variable <span class="math inline">\(v_2\)</span> (nämlich <code>v2 = x0 + x1 = 5</code>). Dies sind jedoch erst Zwischenwerte. Wie bei der SAD werden diese im nächsten Schritt aktualisiert. Aus der Zeile <span class="math inline">\(v_2 = v_0 + v_1\)</span> ergibt sich nämlich</p>
+<p><span class="math display">\[\begin{align*}
+    \bar v_0 &amp;= \bar v_0 + \frac{\partial y}{\partial v_0} = \bar v_0 + \frac{\partial y}{\partial v_2} \cdot \frac{\partial v_2}{\partial v_0} \\
+    &amp;= \bar v_0 + \bar v_2 \cdot (1+0) = v_2 + v_0 \\ &amp; \\
+
+    \bar v_1 &amp;= \bar v_1 + \frac{\partial y}{\partial v_1} = \bar v_1 + \frac{\partial y}{\partial v_2} \cdot \frac{\partial v_2}{\partial v_1} \\
+    &amp;= \bar v_1 + \bar v_2 \cdot (0+1) = -1 + v_0
+\end{align*}\]</span></p>
+<p>Nun enthalten die Variablen <span class="math inline">\(\bar v_0\)</span> und <span class="math inline">\(\bar v_1\)</span> die Werte der gewünschten Ableitungen, nämlich <span class="math inline">\(\bar v_0 = (v_0 + v_1) + v_0 = 2x_0 + x_1\)</span> und <span class="math inline">\(\bar v_1 = -1 + x_0\)</span>. Wir können aber die letzten Schritte analog zu den vorherigen ausführen:</p>
+<p><span class="math display">\[\begin{align*}
+    \bar x_1 &amp;= \frac{\partial y}{\partial x_1} = \frac{\partial y}{\partial v_1} \cdot \frac{\partial v_1}{\partial x_1} = \bar v_1 \cdot 1 = -1 + v_0 \\
+
+    \bar x_0 &amp;= \frac{\partial y}{\partial x_0} = \frac{\partial y}{\partial v_0} \cdot \frac{\partial v_0}{\partial x_0} = \bar v_0 \cdot 1 = v_2 + v_0 \\
+\end{align*}\]</span></p>
+<p>Die Schwierigkeit besteht darin, dass wir nicht wie bei der SAD in jedem Schritt die Variable <span class="math inline">\(v_i\)</span> und gleichzeitig die Variable <span class="math inline">\(\dot v_i\)</span> berechnen können. Um die <span class="math inline">\(\bar v_i\)</span> zu bestimmen muss man zuerst die Funktion komplett ausführen, und sich dabei den Aufbau des Computational Graph merken. Erst dann kann man rückwärts die Ableitungswerte berechnen, angefangen bei der letzten Hilfsvariablen <span class="math inline">\(\bar v_4 = 1\)</span>. Das folgende Schema fasst die obigen Rechnungen zusammen.</p>
+<p><span class="math display">\[\begin{equation*}
+\left \downarrow
+    \begin{aligned}[c]
+        v_0 &amp;= x_0 \\
+        v_1 &amp;= x_1 \\
+        v_2 &amp;= x_0 + x_1 \\
+        v_3 &amp;= v_2 \cdot v_0 \\
+        v_4 &amp;= v_3 - v_1 \\
+        y &amp;= v_4
+    \end{aligned}  
+\right .
+
+\qquad
+
+\begin{aligned}[c]
+    &amp; \\
+    &amp; \\
+    &amp; \\
+    &amp; \\
+    &amp; \\
+    &amp;\longrightarrow
+\end{aligned}  
+
+\qquad
+
+\left \uparrow
+    \begin{aligned}[c]
+        \bar x_0 &amp;= 2\cdot x_0 + x_1 \\
+        \bar x_1 &amp;= -1 + x_0 \\
+        \bar v_0 &amp;= v_2 + v_0, \quad \bar v_1 = -1 + v_0 \\
+        \bar v_2 &amp;= v_0, \quad \bar v_0 = v_2 \\
+        \bar v_3 &amp;= 1, \quad \bar v_1 = -1 \\
+        \bar v_4 &amp;= \bar y = 1
+    \end{aligned}  
+\right .
+\end{equation*}\]</span></p>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x0, x1):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> x0</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> x1</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> v0 <span class="op">+</span> v1</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> v2 <span class="op">*</span> v0</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    v4 <span class="op">=</span> v3 <span class="op">-</span> v1</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v4</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    v4bar <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    v3bar <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    v1bar <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    v2bar <span class="op">=</span> v0</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    v0bar <span class="op">=</span> v2</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    v0bar <span class="op">=</span> v0bar <span class="op">+</span> v2bar</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    v1bar <span class="op">=</span> v1bar <span class="op">+</span> v2bar</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    grad <span class="op">=</span> [v0bar, v1bar]</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y, grad]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>x0, x1 <span class="op">=</span> <span class="dv">2</span>, <span class="dv">3</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>[y0, dy] <span class="op">=</span> f(x0, x1)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Funktionswert: "</span> <span class="op">+</span> <span class="bu">str</span>(y0))</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gradient: "</span> <span class="op">+</span> <span class="bu">str</span>(dy))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Funktionswert: 7
+Gradient: [7, 1]</code></pre>
+</div>
+</div>
+<p>Die Werte der Ableitungen <span class="math inline">\(\bar v_i\)</span> lassen sich auch im Computational Graph verfolgen. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen <span class="math inline">\(x_i\)</span>, so werden die Werte der einzelnen Wege addiert.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-compTreeMultiReversed" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 229.21 59.60" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 55.6)"> <polygon fill="white" stroke="transparent" points="-4,4 -4,-55.6 225.21,-55.6 225.21,4 -4,4"></polygon> <!-- nx0 --> <g id="node1" class="node">
+<title>
+nx0
+</title>
+<text text-anchor="start" x="3" y="-43.2" font-family="Cambria" font-size="8.00">x</text> <text text-anchor="start" x="7" y="-43.2" font-family="Cambria" baseline-shift="sub" font-size="8.00">0</text> </g> <!-- nPlus --> <g id="node3" class="node">
+<title>
+nPlus
+</title>
+<ellipse fill="none" stroke="black" cx="58.2" cy="-27.6" rx="8.41" ry="8.41"></ellipse> <text text-anchor="middle" x="58.2" y="-25.2" font-family="Cambria" font-size="8.00">+</text> </g> <!-- nx0&#45;&gt;nPlus --> <g id="edge1" class="edge">
+<title>
+nx0-&gt;nPlus
+</title>
+<path fill="none" stroke="red" d="M16.8,-41.56C26.35,-38.26 41.38,-33.07 50.17,-30.03"></path> <polygon fill="red" stroke="red" points="16.11,-40.87 14.03,-42.52 16.68,-42.53 16.11,-40.87"></polygon> <text text-anchor="middle" x="30.07" y="-29.09" font-family="Cambria" font-size="8.00" fill="red">1</text> </g> <!-- nTimes --> <g id="node4" class="node">
+<title>
+nTimes
+</title>
+<ellipse fill="none" stroke="black" cx="110.61" cy="-27.6" rx="8.41" ry="8.41"></ellipse> <text text-anchor="middle" x="110.61" y="-25.2" font-family="Cambria" font-size="8.00">*</text> </g> <!-- nx0&#45;&gt;nTimes --> <g id="edge3" class="edge">
+<title>
+nx0-&gt;nTimes
+</title>
+<path fill="none" stroke="red" d="M16.94,-45.62C28.48,-46.72 49.14,-47.87 66.4,-44.6 80.03,-42.02 94.85,-35.23 103.1,-31.06"></path> <polygon fill="red" stroke="red" points="16.78,-44.73 14.21,-45.35 16.61,-46.47 16.78,-44.73"></polygon> <text text-anchor="start" x="66.42" y="-38.4" font-family="Cambria" font-size="8.00" fill="red">v</text> <text text-anchor="start" x="70.42" y="-38.4" font-family="Cambria" baseline-shift="sub" font-size="8.00" fill="red">2</text> </g> <!-- nx1 --> <g id="node2" class="node">
+<title>
+nx1
+</title>
+<text text-anchor="start" x="3" y="-9.2" font-family="Cambria" font-size="8.00">x</text> <text text-anchor="start" x="7" y="-9.2" font-family="Cambria" baseline-shift="sub" font-size="8.00">1</text> </g> <!-- nx1&#45;&gt;nPlus --> <g id="edge2" class="edge">
+<title>
+nx1-&gt;nPlus
+</title>
+<path fill="none" stroke="red" d="M16.8,-13.64C26.35,-16.94 41.38,-22.13 50.17,-25.17"></path> <polygon fill="red" stroke="red" points="16.68,-12.67 14.03,-12.68 16.11,-14.33 16.68,-12.67"></polygon> <text text-anchor="middle" x="30.07" y="-11.71" font-family="Cambria" font-size="8.00" fill="red">1</text> </g> <!-- nMinus --> <g id="node5" class="node">
+<title>
+nMinus
+</title>
+<ellipse fill="none" stroke="black" cx="163.01" cy="-9.6" rx="8.41" ry="8.41"></ellipse> <text text-anchor="middle" x="163.01" y="-7.2" font-family="Cambria" font-size="8.00">-</text> </g> <!-- nx1&#45;&gt;nMinus --> <g id="edge5" class="edge">
+<title>
+nx1-&gt;nMinus
+</title>
+<path fill="none" stroke="red" d="M17.04,-10.54C44.85,-10.36 128.79,-9.82 154.47,-9.65"></path> <polygon fill="red" stroke="red" points="16.72,-9.67 14.23,-10.56 16.73,-11.42 16.72,-9.67"></polygon> <text text-anchor="middle" x="81.27" y="-2.9" font-family="Cambria" font-size="8.00" fill="red">-1</text> </g> <!-- nPlus&#45;&gt;nTimes --> <g id="edge4" class="edge">
+<title>
+nPlus-&gt;nTimes
+</title>
+<path fill="none" stroke="red" d="M69.49,-27.6C79.19,-27.6 93.49,-27.6 102.14,-27.6"></path> <polygon fill="red" stroke="red" points="69.14,-26.73 66.64,-27.6 69.14,-28.48 69.14,-26.73"></polygon> <text text-anchor="start" x="76.56" y="-21.4" font-family="Cambria" font-size="8.00" fill="red">v</text> <text text-anchor="start" x="80.56" y="-21.4" font-family="Cambria" baseline-shift="sub" font-size="8.00" fill="red">0</text> </g> <!-- nTimes&#45;&gt;nMinus --> <g id="edge6" class="edge">
+<title>
+nTimes-&gt;nMinus
+</title>
+<path fill="none" stroke="red" d="M121,-24.24C130.89,-20.71 146.21,-15.24 155.06,-12.08"></path> <polygon fill="red" stroke="red" points="120.68,-23.43 118.62,-25.1 121.26,-25.08 120.68,-23.43"></polygon> <text text-anchor="middle" x="134.68" y="-11.44" font-family="Cambria" font-size="8.00" fill="red">1</text> </g> <!-- ny --> <g id="node6" class="node">
+<title>
+ny
+</title>
+<text text-anchor="middle" x="214.21" y="-7.2" font-family="Cambria" font-size="8.00">y</text> </g> <!-- nMinus&#45;&gt;ny --> <g id="edge7" class="edge">
+<title>
+nMinus-&gt;ny
+</title>
+<path fill="none" stroke="red" d="M173.93,-9.6C183.88,-9.6 198.88,-9.6 207.17,-9.6"></path> <polygon fill="red" stroke="red" points="173.77,-8.73 171.27,-9.6 173.77,-10.48 173.77,-8.73"></polygon> <text text-anchor="middle" x="187.47" y="-2.4" font-family="Cambria" font-size="8.00" fill="red">1</text> </g> </g>
+</svg>
+</p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.2: Werte der <code>vbar</code>.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-sidsite2021" class="csl-entry" role="doc-biblioentry">
+Radcliffe, Sidney. 2021. <span>„Reverse-mode automatic differentiation from scratch, in Python“</span>. 22. Mai 2021. <a href="https://sidsite.com/posts/autodiff/">https://sidsite.com/posts/autodiff/</a>.
+</div>
+</div>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Kopiert");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Kopiert");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./HigherDimFunctions.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

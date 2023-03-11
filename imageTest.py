@@ -68,7 +68,7 @@ blurrarray = np.reshape(blurred, length*width)
 blurrarray = float2FloatAad(blurrarray)
 
 # Startwert
-guessimage = np.full(shape = [length, width], fill_value=0.9)
+guessimage = np.full(shape = [length, width], fill_value=0.5)
 
 # Gradient Descent
 lam = 0.01

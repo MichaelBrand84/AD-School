@@ -2,7 +2,7 @@
 tbl-cap-location: bottom
 ---
 
-# Funktionen mit mehreren In- und Outputs
+# Funktionen mit mehreren In- und Outputs {#sec-HigherDimFunctions}
 
 {{< include _floatsadForExecution.qmd >}}
 {{< include _mathsadForExecution.qmd >}}
@@ -369,7 +369,7 @@ Jf \cdot r =
 \cdot \begin{pmatrix} r_1 \\ \vdots \\ r_n \end{pmatrix} 
 $$
 
-Braucht man die gesammte Jacobi Matrix, dann muss man also die Funktion so oft aufrufen, wie die Matrix Spalten hat, d.h. `len(x)` Mal. Die SAD Methode ist also effizient, wenn eine Funktion mehr Aus- als Eingabewerte hat. Der ineffizienteste Fall tritt auf, wenn die Funktion aus vielen Eingabewerte nur einen Ausgabewert berechnet. Mit anderen Worten: Das Bestimmen des Gradienten einer Funktion $f: \mathbb{R}^n \rightarrow \mathbb{R}$ benötigt den grössten Aufwand gemessen an der Anzahl zu berechnender Werte. Abhilfe schafft in so einem Fall die Adjungierte Automatische Differentiation (AAD).
+Braucht man die gesammte Jacobi Matrix, dann muss man also die Funktion so oft aufrufen, wie die Matrix Spalten hat, d.h. `len(x)` Mal. Die SAD Methode ist also effizient, wenn eine Funktion mehr Aus- als Eingabewerte hat. Der ineffizienteste Fall tritt auf, wenn die Funktion aus vielen Eingabewerte nur einen Ausgabewert berechnet. Mit anderen Worten: Das Bestimmen des Gradienten einer Funktion $f: \mathbb{R}^n \rightarrow \mathbb{R}$ benötigt den grössten Aufwand gemessen an der Anzahl der zu berechnenden Werte. Abhilfe schafft in so einem Fall die Adjungierte Automatische Differentiation (AAD).
 
 Zum Schluss sei noch angemerkt, dass die Definition der drei Funktionen `float2FloatSad`, `getValues` und `getDerivatives` in die Datei `floatsad.py` geschrieben werden könnten (beachte, dass sie *nicht* eingerückt werden wie die restlichen Befehle der Klasse). Dann vereinfacht sich das obige Programm:
 ```{python}
