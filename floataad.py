@@ -39,10 +39,28 @@ class FloatAad:
             return add(neg(other), self)
     
     def __mul__(self, other):
-        return mul(self, other)
+        if type(other) in [int, float]:
+            return mul(self, FloatAad(other))
+        else:
+            return mul(self, other)
+        
+    def __rmul__(self, other):
+        if type(other) in [int, float]:
+            return mul(FloatAad(other), self)
+        else:
+            return mul(other, self)
     
     def __truediv__(self, other):
-        return mul(self, inv(other))
+        if type(other) in [int, float]:
+            return mul(self, inv(FloatAad(other)))
+        else:
+            return mul(self, inv(other))
+        
+    def __rtruediv__(self, other):
+        if type(other) in [int, float]:
+            return mul(FloatAad(other), inv(self))
+        else:
+            return mul(other, inv(self))
 
 
 def neg(a):
@@ -71,7 +89,7 @@ def mul(a, b):
 def inv(a):
     newValue = 1. / a.value
     newDerivative = (
-        (a, -1. / a.value**2)
+        (a, -1. / a.value**2),
     )
     return FloatAad(newValue, newDerivative)
 

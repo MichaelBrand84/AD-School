@@ -216,7 +216,7 @@ from floataad import FloatAad, getDerivatives
 x0 = FloatAad(2)
 x1 = FloatAad(3)
 
-y = (1 - x0) * x0 - x1
+y = 4 / (x0 * x1 * x1) - 5 * x0 + 3
 dy = getDerivatives(y)
 
 print(y.value)
