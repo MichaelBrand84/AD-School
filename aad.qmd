@@ -155,7 +155,7 @@ Die Schwierigkeit besteht darin, dass wir nicht wie bei der SAD in jedem Schritt
     \begin{aligned}[c] 
         v_0 &= x_0 \\ 
         v_1 &= x_1 \\
-        v_2 &= x_0 + x_1 \\
+        v_2 &= v_0 + v_1 \\
         v_3 &= v_2 \cdot v_0 \\
         v_4 &= v_3 - v_1 \\
         y &= v_4
