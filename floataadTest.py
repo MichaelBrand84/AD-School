@@ -210,3 +210,16 @@ while (x1[0] - x0[0])**2 + (x1[1] - x0[1])**2 > eps:
 print("Das Minimum befindet sich bei " + str(x1))
 print("Der minimale Funktionswert beträgt dort " + str(y0))
 """
+
+from floataad import FloatAad, getDerivatives
+
+x0 = FloatAad(2)
+x1 = FloatAad(3)
+
+y = (1 - x0) * x0 - x1
+dy = getDerivatives(y)
+
+print(y.value)
+print("")
+print(dy[x0])
+print(dy[x1])

@@ -27,7 +27,16 @@ class FloatAad:
             return add(other, self)
     
     def __sub__(self, other):
-        return add(self, neg(other))
+        if type(other) in [int, float]:
+            return add(self, FloatAad(-other))
+        else:
+            return add(self, neg(other))
+        
+    def __rsub__(self, other):
+        if type(other) in [int, float]:
+            return add(FloatAad(other), neg(self))
+        else:
+            return add(neg(other), self)
     
     def __mul__(self, other):
         return mul(self, other)
