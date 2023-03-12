@@ -95,7 +95,7 @@ print(getDerivatives(y0))
 ```
 
 
-## Funktionen mit mehreren Eingabewerten
+## Funktionen mit mehreren Eingabewerten {#sec-FunktionenMehrereInputs}
 
 Die Ableitung einer Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}$ ist der Gradient
 

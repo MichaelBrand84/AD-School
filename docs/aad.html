@@ -223,7 +223,19 @@ div.csl-indent {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhaltsverzeichnis</h2>
+   
+  <ul>
+  <li><a href="#manuelle-implementation-der-aad" id="toc-manuelle-implementation-der-aad" class="nav-link active" data-scroll-target="#manuelle-implementation-der-aad"><span class="toc-section-number">5.1</span>  Manuelle Implementation der AAD</a></li>
+  <li><a href="#implementation-der-aad-mit-operator-overlaoding" id="toc-implementation-der-aad-mit-operator-overlaoding" class="nav-link" data-scroll-target="#implementation-der-aad-mit-operator-overlaoding"><span class="toc-section-number">5.2</span>  Implementation der AAD mit Operator Overlaoding</a>
+  <ul class="collapse">
+  <li><a href="#die-klasse-floataad" id="toc-die-klasse-floataad" class="nav-link" data-scroll-target="#die-klasse-floataad"><span class="toc-section-number">5.2.1</span>  Die Klasse <code>FloatAad</code></a></li>
+  <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="toc-section-number">5.2.2</span>  Vorzeichen</a></li>
+  <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="toc-section-number">5.2.3</span>  Die Operatoren <code>+</code> und <code>-</code></a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -247,6 +259,9 @@ div.csl-indent {
 
 <p>In <a href="HigherDimFunctions.html"><span>Kapitel&nbsp;4</span></a> haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle <span class="math inline">\(m\)</span> Ableitungen einer Funktion <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}^m\)</span> mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt jedoch <span class="math inline">\(n\)</span> Funktionsaufrufe, nämlich einen für jede partielle Ableitung <span class="math inline">\(\partial f / \partial x_i\)</span>. In diesem Kapitel wollen wir eine Methode entwickeln, die alle <span class="math inline">\(n\)</span> partiellen Ableitungen in einem Funktionsaufruf berechnet.</p>
 <div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus Kapitel <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
+<section id="manuelle-implementation-der-aad" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="manuelle-implementation-der-aad"><span class="header-section-number">5.1</span> Manuelle Implementation der AAD</h2>
+<p>Wir erläutern die Methode zuerst an einem einfachen Beispiel.</p>
 <div id="exm-firstAADbyHand" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.1 (Gradient mit AAD) </strong></span><br></p>
 <p>Dieses Beispiel ist eine leicht abgeänderte Version von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> . Betrachten wir die Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> <span class="math display">\[
@@ -554,6 +569,168 @@ Lösung
 </div>
 </div>
 </div>
+</section>
+<section id="implementation-der-aad-mit-operator-overlaoding" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="implementation-der-aad-mit-operator-overlaoding"><span class="header-section-number">5.2</span> Implementation der AAD mit Operator Overlaoding</h2>
+<p>Nun wollen wir ähnlich wie im <a href="ADOneDimManually.html#sec-SadImplementationOperatorOverloading"><span>Kapitel&nbsp;3.2</span></a> eine Klasse <code>FloatAad</code> entwerfen, welche die Berechnung aller Hilfsvariablen <code>vbar</code> automatisch ausführt. Wie auch zuvor hat jedes <code>FloatAad</code>-Objekt ein Attribut <code>value</code> vom Typ <code>Int</code>. Allerdings reicht es nicht mehr aus, ein <code>Int</code>-Attribut <code>derivative</code> zu definieren, um den Wert der Ableitung zu speichern weil auch die Struktur des Computational Graph gespeichert werden muss. Als Attribut <code>derivatives</code> wählen wir ein <code>tuple</code>, dessen erster Eintrag ein <code>FloatAad</code>-Objekt ist, nämlich die Variable, nach der die partielle Ableitung berechnet wird, und der zweite Eintrag ist der Wert dieser partiellen Ableitung. Da das erste Element des Tupels selber auch ein Attribut <code>derivatives</code> hat, entsteht so eine rekursive Darstellung des Computational Graph.</p>
+<p>Die folgende Implementation ist stark von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> inspiriert. Die Variablennamen wurden angepasst, so dass sie konsistent mit den Bezeichnungen aus <a href="ADOneDimManually.html"><span>Kapitel&nbsp;3</span></a> sind. Ausserdem werden wir unsere Klasse noch mit einiger zusätzlicher Funktionalität ausstatten, etwa mit Typunterscheidungen, so dass wir <code>Int</code>-Zahlen zu <code>FloatAad</code>-Objekten addieren können.</p>
+<section id="die-klasse-floataad" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="die-klasse-floataad"><span class="header-section-number">5.2.1</span> Die Klasse <code>FloatAad</code></h3>
+<p>Wir beginnen unsere Klasse mit einer neuen Datei, welche wir <code>floataad.py</code> nennen. Als erstes definieren wir einen Konstruktor, der uns das Umwandeln von <code>Int</code>- oder <code>Float</code>-Objekten in <code>FloatAad</code>-Objekte erlaubt. Ausserdem definieren wir auch gleich eine Funktion, mit der wir eine Liste von solchen <code>Int</code> oder <code>Float</code> in eine Liste von <code>FloatAad</code> umwandeln können, siehe dazu <a href="HigherDimFunctions.html#sec-FunktionenMehrereInputs"><span>Kapitel&nbsp;4.2</span></a>.</p>
+<div class="cell" data-execution_count="3">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FloatAad:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, derivatives <span class="op">=</span> ()):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> value</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.derivatives <span class="op">=</span> derivatives</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>float2FloatAad <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x: FloatAad(x))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatAad(<span class="dv">2</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(x.value)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(x.derivatives)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">""</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> float2FloatAad(x)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(v))</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(v[<span class="dv">0</span>]))</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(v[<span class="dv">0</span>].value))</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(v[<span class="dv">0</span>].derivatives))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>2
+()
+
+&lt;class 'numpy.ndarray'&gt;
+&lt;class '__main__.FloatAad'&gt;
+&lt;class 'int'&gt;
+&lt;class 'tuple'&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="vorzeichen" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="vorzeichen"><span class="header-section-number">5.2.2</span> Vorzeichen</h3>
+<p>Wir gehen bei der Implementation der unären und binären Operatoren etwas anders vor als im <a href="ADOneDimManually.html#sec-SadImplementationOperatorOverloading"><span>Kapitel&nbsp;3.2</span></a> . Wir definieren zunächst Funktionen für die Operationen und benutzen diese, um die Operatoren zu überladen. Für das negative Vorzeichen sieht das so aus:</p>
+<div class="cell" data-execution_count="4">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FloatAad:</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, value, derivatives <span class="op">=</span> ()):</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> value</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.derivatives <span class="op">=</span> derivatives</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__pos__</span>(<span class="va">self</span>):</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__neg__</span>(<span class="va">self</span>):</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> neg(<span class="va">self</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>float2FloatAad <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x: FloatAad(x))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg(a):</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">*</span> a.value</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        (a, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatAad(<span class="dv">2</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> <span class="op">-</span>x</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(v.value)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(v.derivatives)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>-2
+((&lt;__main__.FloatAad object at 0x0F478280&gt;, -1),)</code></pre>
+</div>
+</div>
+<p>Der Wert von <code>v.derivatives</code> ist ein Tupel, dessen erster Eintrag eine Referenz auf <code>x</code> ist und der Wert des zweiten Eintrags ist <code>-1</code> weil <span class="math inline">\(\partial v / \partial x = -1\)</span> ist.</p>
+</section>
+<section id="die-operatoren-und--" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="die-operatoren-und--"><span class="header-section-number">5.2.3</span> Die Operatoren <code>+</code> und <code>-</code></h3>
+<p>Wenn wir zwei <code>FloatAad</code>-Objekte <code>a</code> und <code>b</code> addieren, dann müssen wir zwei Tupel als Ableitung zurückgeben, nämlich für <span class="math display">\[
+\frac{\partial}{\partial a}(a+b)=1 \qquad\textrm{und für}\qquad \frac{\partial}{\partial b}(a+b)=1
+\]</span></p>
+<p>Die entsprechende Funktion sieht so aus:</p>
+<div class="cell" data-execution_count="5">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> a.value <span class="op">+</span> b.value</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        (a, <span class="dv">1</span>),  <span class="co"># a+b nach a abgeleitet gibt 1</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        (b, <span class="dv">1</span>)   <span class="co"># a+b nach b abgeleitet gibt 1</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Für das Überladen des <code>+</code>-Operators geben wir dann einfach <code>return add(self, other)</code> zurück. Wir wollen bei dieser Gelegenheit aber gleich noch die Typabfrage implementieren, so dass wir nicht nur zwei <code>FloatAad</code>-Objekte addieren können, sondern auch <code>x + 1</code> schreiben können. In diesem Fall wandeln wir die Zahl einfach in ein <code>FloatAad</code>-Objekt um und wenden die Funktion <code>add</code> an. Der <code>__radd__</code>-Operator, mit dem wir einen Ausdruck wie <code>1 + x</code> schreiben können, wird analog definiert.</p>
+<div class="cell" data-execution_count="6">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, other):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(<span class="va">self</span>, FloatAad(other))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(<span class="va">self</span>, other)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__radd__</span>(<span class="va">self</span>, other):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(FloatAad(other), <span class="va">self</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(other, <span class="va">self</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="exr-AadMinusOp" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 5.2 (Den Operator <code>-</code> implementieren) </strong></span><br></p>
+<p>Implementiere die Funktionen <code>__sub__</code> und <code>__rsub__</code>. Du kannst dafür die Funktion <code>neg(a)</code> verwenden.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__sub__</span>(<span class="va">self</span>, other):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(<span class="va">self</span>, FloatAad(<span class="op">-</span>other))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(<span class="va">self</span>, neg(other))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rsub__</span>(<span class="va">self</span>, other):</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(FloatAad(other), neg(<span class="va">self</span>))</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(neg(other), <span class="va">self</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -573,6 +750,8 @@ Radcliffe, Sidney. 2021. <span>„Reverse-mode automatic differentiation from sc
 Slater, Max. 2022. <span>„Differentiable programming from scratch“</span>. Juli 2022. <a href="https://thenumb.at/Autodiff/">https://thenumb.at/Autodiff/</a>.
 </div>
 </div>
+</section>
+</section>
 
 
 </main> <!-- /main -->

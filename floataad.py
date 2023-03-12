@@ -63,6 +63,8 @@ class FloatAad:
             return mul(other, inv(self))
 
 
+float2FloatAad = np.vectorize(lambda x: FloatAad(x))
+
 def neg(a):
     newValue = -1 * a.value
     newDerivative = (
@@ -73,8 +75,8 @@ def neg(a):
 def add(a, b):
     newValue = a.value + b.value
     newDerivative = (
-        (a, 1),  # a nach a abgeleitet gibt 1
-        (b, 1)   # b nach b abgeleitet gibt 1
+        (a, 1),  # a+b nach a abgeleitet gibt 1
+        (b, 1)   # a+b nach b abgeleitet gibt 1
     )
     return FloatAad(newValue, newDerivative)
 
@@ -89,7 +91,7 @@ def mul(a, b):
 def inv(a):
     newValue = 1. / a.value
     newDerivative = (
-        (a, -1. / a.value**2),
+        (a, -1. / a.value**2), 
     )
     return FloatAad(newValue, newDerivative)
 
@@ -116,4 +118,3 @@ def getGradient(x0, y):
         grad.append(dy[x0[i]])
     return grad
 
-float2FloatAad = np.vectorize(lambda x: FloatAad(x))

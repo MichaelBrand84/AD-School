@@ -211,15 +211,11 @@ print("Das Minimum befindet sich bei " + str(x1))
 print("Der minimale Funktionswert beträgt dort " + str(y0))
 """
 
-from floataad import FloatAad, getDerivatives
+from floataad import *
 
 x0 = FloatAad(2)
 x1 = FloatAad(3)
 
-y = 4 / (x0 * x1 * x1) - 5 * x0 + 3
-dy = getDerivatives(y)
+y = x1 * x1
 
-print(y.value)
-print("")
-print(dy[x0])
-print(dy[x1])
+print(type(y.derivatives[0][1]))
