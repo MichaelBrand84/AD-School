@@ -5,9 +5,14 @@ tbl-cap-location: bottom
 
 # Adjungierte Algorithmische Differentiation {#sec-AAD}
 
-In @sec-HigherDimFunctions haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle $m$ Ableitungen einer Funktion $f : \mathbb{R} \rightarrow \mathbb{R}^m$ mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}$ benötigt jedoch $$n$ Funktionsaufrufe, nämlich einen für jede partielle Ableitung $\partial f / \partial x_i$. In diesem Kapitel wollen wir eine Methode entwickeln, die alle $n$ partiellen Ableitungen in einem Funktionsaufruf berechnet. 
+In @sec-HigherDimFunctions haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle $m$ Ableitungen einer Funktion $f : \mathbb{R} \rightarrow \mathbb{R}^m$ mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}$ benötigt jedoch $n$ Funktionsaufrufe, nämlich einen für jede partielle Ableitung $\partial f / \partial x_i$. In diesem Kapitel wollen wir eine Methode entwickeln, die alle $n$ partiellen Ableitungen in einem Funktionsaufruf berechnet. 
 
-Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion Schrittweise mit Hilfe von elementaren Operationen berechnen und dann in jedem Rechenschritt die Ableitung in einer separaten Variablen speichern. Wir führen also wieder unsere Konvention aus Kapitel @sec-ProgFunc ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Gründ wird das Verfahren auch Rückwärts-AD ^[Im Englischen spricht man von *reverse mode differentiation* weil *backward differentiation* für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.] oder Adjungierte AD (AAD) genannt. 
+Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus Kapitel @sec-ProgFunc ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD ^[Im Englischen spricht man von *reverse mode differentiation* weil *backward differentiation* für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.] oder Adjungierte AD (AAD) genannt. 
+
+
+## Manuelle Implementation der AAD
+
+Wir erläutern die Methode zuerst an einem einfachen Beispiel.
 
 :::{#exm-firstAADbyHand}
 
@@ -92,7 +97,7 @@ $$
 \end{align*}
 $$
 
-Analog findet man (diesmal lassen wir einige der offensichtlicheren Zwischenschritte weg)
+Analog findet man $\partial y / \partial x_1$ (diesmal lassen wir einige der offensichtlicheren Zwischenschritte weg):
 $$
 \begin{align*}
     \frac{\partial y}{\partial x_1} &= \frac{\partial v_4}{\partial x_1} \\
@@ -110,41 +115,41 @@ Um die beiden Rechnungen zusammenzufassen, führen nun für jede Hilfsvariable $
 $$
 \bar v_i = \frac{\partial y}{\partial v_i}
 $$
-Ähnlich wie die $\dot v_i$ aus der SAD speichern diese Variablen die Werte der Ableitungen. Die neue Notation soll anzeigen, dass es sich um die AAD Methode handelt. Unser Ziel ist es also, $\bar v_0$ und $\bar v_1$ zu bestimmen. Beginnen wir in der letzten Zeile des Programms, dann gilt offenbar immer $\bar v_4 = \partial y / \partial v_4 = 1$.  In der Zeile darüber können wir $\bar v_3$ und $\bar v_1$ berechnen, indem wir die Kettenregel verwenden.
+Ähnlich wie die $\dot v_i$ aus der SAD speichern diese Variablen die Werte der Ableitungen. Die neue Notation soll anzeigen, dass es sich um die AAD Methode handelt. Unser Ziel ist es also, $\bar v_0 = \partial y / \partial v_0 = \partial y / \partial x_0$ und $\bar v_1 = \partial y / \partial v_1 = \partial y / \partial x_1$ zu bestimmen. Beginnen wir in der letzten Zeile des Programms, dann gilt offenbar immer $\bar v_4 = \partial y / \partial v_4 = 1$.  In der Zeile darüber können wir $\bar v_3$ und $\bar v_1$ berechnen, indem wir die Kettenregel verwenden.
 
 \begin{align*}
-    \bar v_3 &= \frac{\partial y}{\partial v_3} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_3} = \bar v_4 \cdot (1-0)=\bar v_4 = 1 \\
+    \bar v_3 &= \frac{\partial y}{\partial v_3} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_3} = \bar v_4 \cdot (1-0)=\bar v_4  \\
 
-    \bar v_1 &= \frac{\partial y}{\partial v_1} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_1} = \bar v_4 \cdot (0-1)= -1
+    \bar v_1 &= \frac{\partial y}{\partial v_1} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_1} = \bar v_4 \cdot (0-1)= -\bar v_4
 \end{align*}
 
 
+Also sind $\bar v_3 = 1$ und $\bar v_1 = -1$. Der Zwischenwert in $\bar v_1$ wird später ergänzt werden. 
 Aus der Zeile $v_3 = v_2 \cdot v_0$ lassen sich als nächstes Ausdrücke für $\bar v_2$ und $\bar v_0$ finden.
 
 \begin{align*}
-    \bar v_2 &= \frac{\partial y}{\partial v_2} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_2} = \bar v_3 \cdot v_0 = v_0 \\
+    \bar v_2 &= \frac{\partial y}{\partial v_2} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_2} = \bar v_3 \cdot v_0 \\
 
-    \bar v_0 &= \frac{\partial y}{\partial v_0} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_0} = \bar v_3 \cdot v_0 = v_2
+    \bar v_0 &= \frac{\partial y}{\partial v_0} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_0} = \bar v_3 \cdot v_2 
 \end{align*}
 
-
-In die Variable $v_0$ enthält beim Programmaufruf aber einen konkreten Wert (im obigen Beispiel ist etwa `v0 = x0 = 2`) und ebenso die Variable $v_2$ (nämlich `v2 = x0 + x1 = 5`). Dies sind jedoch erst Zwischenwerte. Wie bei der SAD werden diese im nächsten Schritt aktualisiert. Aus der Zeile $v_2 = v_0 + v_1$ ergibt sich nämlich
+Mit den vorher berechneten Werten erhalten wir also $\bar v_2 = v_0$ und $\bar v_0 = v_2$. Beide Werte sind durch die Funktion bereits berechnet worden. Im obigen Beispiel gilt etwa `v0 = x0 = 2` und `v2 = x0 + x1 = 5`. Auch diese Zwischenwerte werden im nächsten Schritt ergänzt. Aus der Zeile $v_2 = v_0 + v_1$ ergibt sich nämlich
 
 \begin{align*}
     \bar v_0 &= \bar v_0 + \frac{\partial y}{\partial v_0} = \bar v_0 + \frac{\partial y}{\partial v_2} \cdot \frac{\partial v_2}{\partial v_0} \\
-    &= \bar v_0 + \bar v_2 \cdot (1+0) = v_2 + v_0 \\ & \\
+    &= \bar v_0 + \bar v_2 \cdot (1+0) = \bar v_0 + \bar v_2 \\ & \\
 
     \bar v_1 &= \bar v_1 + \frac{\partial y}{\partial v_1} = \bar v_1 + \frac{\partial y}{\partial v_2} \cdot \frac{\partial v_2}{\partial v_1} \\
-    &= \bar v_1 + \bar v_2 \cdot (0+1) = -1 + v_0
+    &= \bar v_1 + \bar v_2 \cdot (0+1) = \bar v_1 + \bar v_2
 \end{align*}
 
-
+Mit den bereits bekannten Werten erhalten wir $\bar v_0 = v_2 + v_0$ (bzw. mit den konkreten Werten des Beispiels `v0bar = 5 + 2`) und $\bar v_1 = -1 + v_0$ (bzw. `v1bar = -1 + 2`).
 Nun enthalten die Variablen $\bar v_0$ und $\bar v_1$ die Werte der gewünschten Ableitungen, nämlich $\bar v_0 = (v_0 + v_1) + v_0 = 2x_0 + x_1$ und $\bar v_1 = -1 + x_0$. Wir können aber die letzten Schritte analog zu den vorherigen ausführen:
 
 \begin{align*}
-    \bar x_1 &= \frac{\partial y}{\partial x_1} = \frac{\partial y}{\partial v_1} \cdot \frac{\partial v_1}{\partial x_1} = \bar v_1 \cdot 1 = -1 + v_0 \\
+    \bar x_1 &= \frac{\partial y}{\partial x_1} = \frac{\partial y}{\partial v_1} \cdot \frac{\partial v_1}{\partial x_1} = \bar v_1 \cdot 1  \\
 
-    \bar x_0 &= \frac{\partial y}{\partial x_0} = \frac{\partial y}{\partial v_0} \cdot \frac{\partial v_0}{\partial x_0} = \bar v_0 \cdot 1 = v_2 + v_0 \\
+    \bar x_0 &= \frac{\partial y}{\partial x_0} = \frac{\partial y}{\partial v_0} \cdot \frac{\partial v_0}{\partial x_0} = \bar v_0 \cdot 1  \\
 \end{align*}
 
 
@@ -177,11 +182,11 @@ Die Schwierigkeit besteht darin, dass wir nicht wie bei der SAD in jedem Schritt
 
 \left \uparrow 
     \begin{aligned}[c] 
-        \bar x_0 &= 2\cdot x_0 + x_1 \\ 
-        \bar x_1 &= -1 + x_0 \\
-        \bar v_0 &= v_2 + v_0, \quad \bar v_1 = -1 + v_0 \\
-        \bar v_2 &= v_0, \quad \bar v_0 = v_2 \\
-        \bar v_3 &= 1, \quad \bar v_1 = -1 \\
+        \bar x_0 &= \bar v_0 = 2\cdot x_0 + x_1 \\ 
+        \bar x_1 &= \bar v_1 = -1 + x_0 \\
+        \bar v_0 &= \bar v_0 + \bar v_2, \quad \bar v_1 = \bar v_1 + \bar v_2 \\
+        \bar v_2 &= \bar v_3 \cdot v_0, \quad \bar v_0 = \bar v_3 \cdot v_2 \\
+        \bar v_3 &= \bar v_4, \quad \bar v_1 = -\bar v_4 \\
         \bar v_4 &= \bar y = 1
     \end{aligned}  
 \right . 
@@ -197,10 +202,10 @@ def f(x0, x1):
     v4 = v3 - v1
     y = v4
     v4bar = 1
-    v3bar = 1
-    v1bar = -1
-    v2bar = v0
-    v0bar = v2
+    v3bar = v4bar
+    v1bar = -v4bar
+    v2bar = v3bar * v0
+    v0bar = v3bar * v2
     v0bar = v0bar + v2bar
     v1bar = v1bar + v2bar
     grad = [v0bar, v1bar]
@@ -212,7 +217,7 @@ print("Funktionswert: " + str(y0))
 print("Gradient: " + str(dy))
 ```
 
-Die Werte der Ableitungen $\bar v_i$ lassen sich auch im Computational Graph verfolgen. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen $x_i$, so werden die Werte der einzelnen Wege addiert.
+Die Werte der Ableitungen $\bar v_i$ lassen sich auch im Computational Graph verfolgen. Der Wert bei der Kante von $v_i$ nach $v_j$ entspricht der partiellen Ableitung $\partial v_i / \partial v_j$. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen $x_i$, so werden die Werte der einzelnen Wege addiert.
 
 ```{dot}
 //| label: fig-compTreeMultiReversed
@@ -248,3 +253,26 @@ digraph {
 
 :::
 ---
+
+:::{#exr-EigeneAADBeispiele1}
+
+## Eigene Beispiele finden
+<br>
+
+Schreibe eigene Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}$ für $n\in\lbrace 2, 3 \rbrace$ hin und erstelle den Computational Graph und ein Programm. Leite das Programm nach der oben beschriebenen AAD Methode ab und überzeuge dich an verschiedenen Stellen davon, dass der Gradient korrekt ist.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+Beispiele können in der Literatur gefunden werden, z.B. bei @sidsite2021, @Slater2022, @Baydin18 (S. 13), @Griewank2008EDP (S. 9, S. 42) oder @Henrard2017ADi (S. 24).
+
+:::
+
+
+
+
+
+## Implementation der AAD mit Operator Overlaoding
+

@@ -245,8 +245,8 @@ div.csl-indent {
 
 </header>
 
-<p>In <a href="HigherDimFunctions.html"><span>Kapitel&nbsp;4</span></a> haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle <span class="math inline">\(m\)</span> Ableitungen einer Funktion <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}^m\)</span> mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt jedoch $<span class="math inline">\(n\)</span> Funktionsaufrufe, nämlich einen für jede partielle Ableitung <span class="math inline">\(\partial f / \partial x_i\)</span>. In diesem Kapitel wollen wir eine Methode entwickeln, die alle <span class="math inline">\(n\)</span> partiellen Ableitungen in einem Funktionsaufruf berechnet.</p>
-<div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion Schrittweise mit Hilfe von elementaren Operationen berechnen und dann in jedem Rechenschritt die Ableitung in einer separaten Variablen speichern. Wir führen also wieder unsere Konvention aus Kapitel <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Gründ wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
+<p>In <a href="HigherDimFunctions.html"><span>Kapitel&nbsp;4</span></a> haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle <span class="math inline">\(m\)</span> Ableitungen einer Funktion <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}^m\)</span> mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt jedoch <span class="math inline">\(n\)</span> Funktionsaufrufe, nämlich einen für jede partielle Ableitung <span class="math inline">\(\partial f / \partial x_i\)</span>. In diesem Kapitel wollen wir eine Methode entwickeln, die alle <span class="math inline">\(n\)</span> partiellen Ableitungen in einem Funktionsaufruf berechnet.</p>
+<div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus Kapitel <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
 <div id="exm-firstAADbyHand" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.1 (Gradient mit AAD) </strong></span><br></p>
 <p>Dieses Beispiel ist eine leicht abgeänderte Version von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> . Betrachten wir die Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> <span class="math display">\[
@@ -358,7 +358,7 @@ nMinus-&gt;ny
     &amp;= 2x_0 + x_1   
 \end{align*}
 \]</span></p>
-<p>Analog findet man (diesmal lassen wir einige der offensichtlicheren Zwischenschritte weg) <span class="math display">\[
+<p>Analog findet man <span class="math inline">\(\partial y / \partial x_1\)</span> (diesmal lassen wir einige der offensichtlicheren Zwischenschritte weg): <span class="math display">\[
 \begin{align*}
     \frac{\partial y}{\partial x_1} &amp;= \frac{\partial v_4}{\partial x_1} \\
     &amp;= \frac{\partial v_3}{\partial x_1} - \frac{\partial v_1}{\partial x_1} \\
@@ -372,31 +372,31 @@ nMinus-&gt;ny
 \]</span></p>
 <p>Um die beiden Rechnungen zusammenzufassen, führen nun für jede Hilfsvariable <span class="math inline">\(v_i\)</span> eine neue Variable <span class="math inline">\(\bar v_i\)</span> ein, welche definiert ist als <span class="math display">\[
 \bar v_i = \frac{\partial y}{\partial v_i}
-\]</span> Ähnlich wie die <span class="math inline">\(\dot v_i\)</span> aus der SAD speichern diese Variablen die Werte der Ableitungen. Die neue Notation soll anzeigen, dass es sich um die AAD Methode handelt. Unser Ziel ist es also, <span class="math inline">\(\bar v_0\)</span> und <span class="math inline">\(\bar v_1\)</span> zu bestimmen. Beginnen wir in der letzten Zeile des Programms, dann gilt offenbar immer <span class="math inline">\(\bar v_4 = \partial y / \partial v_4 = 1\)</span>. In der Zeile darüber können wir <span class="math inline">\(\bar v_3\)</span> und <span class="math inline">\(\bar v_1\)</span> berechnen, indem wir die Kettenregel verwenden.</p>
+\]</span> Ähnlich wie die <span class="math inline">\(\dot v_i\)</span> aus der SAD speichern diese Variablen die Werte der Ableitungen. Die neue Notation soll anzeigen, dass es sich um die AAD Methode handelt. Unser Ziel ist es also, <span class="math inline">\(\bar v_0 = \partial y / \partial v_0 = \partial y / \partial x_0\)</span> und <span class="math inline">\(\bar v_1 = \partial y / \partial v_1 = \partial y / \partial x_1\)</span> zu bestimmen. Beginnen wir in der letzten Zeile des Programms, dann gilt offenbar immer <span class="math inline">\(\bar v_4 = \partial y / \partial v_4 = 1\)</span>. In der Zeile darüber können wir <span class="math inline">\(\bar v_3\)</span> und <span class="math inline">\(\bar v_1\)</span> berechnen, indem wir die Kettenregel verwenden.</p>
 <p><span class="math display">\[\begin{align*}
-    \bar v_3 &amp;= \frac{\partial y}{\partial v_3} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_3} = \bar v_4 \cdot (1-0)=\bar v_4 = 1 \\
+    \bar v_3 &amp;= \frac{\partial y}{\partial v_3} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_3} = \bar v_4 \cdot (1-0)=\bar v_4  \\
 
-    \bar v_1 &amp;= \frac{\partial y}{\partial v_1} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_1} = \bar v_4 \cdot (0-1)= -1
+    \bar v_1 &amp;= \frac{\partial y}{\partial v_1} = \frac{\partial y}{\partial v_4} \cdot \frac{\partial v_4}{\partial v_1} = \bar v_4 \cdot (0-1)= -\bar v_4
 \end{align*}\]</span></p>
-<p>Aus der Zeile <span class="math inline">\(v_3 = v_2 \cdot v_0\)</span> lassen sich als nächstes Ausdrücke für <span class="math inline">\(\bar v_2\)</span> und <span class="math inline">\(\bar v_0\)</span> finden.</p>
+<p>Also sind <span class="math inline">\(\bar v_3 = 1\)</span> und <span class="math inline">\(\bar v_1 = -1\)</span>. Der Zwischenwert in <span class="math inline">\(\bar v_1\)</span> wird später ergänzt werden. Aus der Zeile <span class="math inline">\(v_3 = v_2 \cdot v_0\)</span> lassen sich als nächstes Ausdrücke für <span class="math inline">\(\bar v_2\)</span> und <span class="math inline">\(\bar v_0\)</span> finden.</p>
 <p><span class="math display">\[\begin{align*}
-    \bar v_2 &amp;= \frac{\partial y}{\partial v_2} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_2} = \bar v_3 \cdot v_0 = v_0 \\
+    \bar v_2 &amp;= \frac{\partial y}{\partial v_2} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_2} = \bar v_3 \cdot v_0 \\
 
-    \bar v_0 &amp;= \frac{\partial y}{\partial v_0} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_0} = \bar v_3 \cdot v_0 = v_2
+    \bar v_0 &amp;= \frac{\partial y}{\partial v_0} = \frac{\partial y}{\partial v_3} \cdot \frac{\partial v_3}{\partial v_0} = \bar v_3 \cdot v_2
 \end{align*}\]</span></p>
-<p>In die Variable <span class="math inline">\(v_0\)</span> enthält beim Programmaufruf aber einen konkreten Wert (im obigen Beispiel ist etwa <code>v0 = x0 = 2</code>) und ebenso die Variable <span class="math inline">\(v_2\)</span> (nämlich <code>v2 = x0 + x1 = 5</code>). Dies sind jedoch erst Zwischenwerte. Wie bei der SAD werden diese im nächsten Schritt aktualisiert. Aus der Zeile <span class="math inline">\(v_2 = v_0 + v_1\)</span> ergibt sich nämlich</p>
+<p>Mit den vorher berechneten Werten erhalten wir also <span class="math inline">\(\bar v_2 = v_0\)</span> und <span class="math inline">\(\bar v_0 = v_2\)</span>. Beide Werte sind durch die Funktion bereits berechnet worden. Im obigen Beispiel gilt etwa <code>v0 = x0 = 2</code> und <code>v2 = x0 + x1 = 5</code>. Auch diese Zwischenwerte werden im nächsten Schritt ergänzt. Aus der Zeile <span class="math inline">\(v_2 = v_0 + v_1\)</span> ergibt sich nämlich</p>
 <p><span class="math display">\[\begin{align*}
     \bar v_0 &amp;= \bar v_0 + \frac{\partial y}{\partial v_0} = \bar v_0 + \frac{\partial y}{\partial v_2} \cdot \frac{\partial v_2}{\partial v_0} \\
-    &amp;= \bar v_0 + \bar v_2 \cdot (1+0) = v_2 + v_0 \\ &amp; \\
+    &amp;= \bar v_0 + \bar v_2 \cdot (1+0) = \bar v_0 + \bar v_2 \\ &amp; \\
 
     \bar v_1 &amp;= \bar v_1 + \frac{\partial y}{\partial v_1} = \bar v_1 + \frac{\partial y}{\partial v_2} \cdot \frac{\partial v_2}{\partial v_1} \\
-    &amp;= \bar v_1 + \bar v_2 \cdot (0+1) = -1 + v_0
+    &amp;= \bar v_1 + \bar v_2 \cdot (0+1) = \bar v_1 + \bar v_2
 \end{align*}\]</span></p>
-<p>Nun enthalten die Variablen <span class="math inline">\(\bar v_0\)</span> und <span class="math inline">\(\bar v_1\)</span> die Werte der gewünschten Ableitungen, nämlich <span class="math inline">\(\bar v_0 = (v_0 + v_1) + v_0 = 2x_0 + x_1\)</span> und <span class="math inline">\(\bar v_1 = -1 + x_0\)</span>. Wir können aber die letzten Schritte analog zu den vorherigen ausführen:</p>
+<p>Mit den bereits bekannten Werten erhalten wir <span class="math inline">\(\bar v_0 = v_2 + v_0\)</span> (bzw. mit den konkreten Werten des Beispiels <code>v0bar = 5 + 2</code>) und <span class="math inline">\(\bar v_1 = -1 + v_0\)</span> (bzw. <code>v1bar = -1 + 2</code>). Nun enthalten die Variablen <span class="math inline">\(\bar v_0\)</span> und <span class="math inline">\(\bar v_1\)</span> die Werte der gewünschten Ableitungen, nämlich <span class="math inline">\(\bar v_0 = (v_0 + v_1) + v_0 = 2x_0 + x_1\)</span> und <span class="math inline">\(\bar v_1 = -1 + x_0\)</span>. Wir können aber die letzten Schritte analog zu den vorherigen ausführen:</p>
 <p><span class="math display">\[\begin{align*}
-    \bar x_1 &amp;= \frac{\partial y}{\partial x_1} = \frac{\partial y}{\partial v_1} \cdot \frac{\partial v_1}{\partial x_1} = \bar v_1 \cdot 1 = -1 + v_0 \\
+    \bar x_1 &amp;= \frac{\partial y}{\partial x_1} = \frac{\partial y}{\partial v_1} \cdot \frac{\partial v_1}{\partial x_1} = \bar v_1 \cdot 1  \\
 
-    \bar x_0 &amp;= \frac{\partial y}{\partial x_0} = \frac{\partial y}{\partial v_0} \cdot \frac{\partial v_0}{\partial x_0} = \bar v_0 \cdot 1 = v_2 + v_0 \\
+    \bar x_0 &amp;= \frac{\partial y}{\partial x_0} = \frac{\partial y}{\partial v_0} \cdot \frac{\partial v_0}{\partial x_0} = \bar v_0 \cdot 1  \\
 \end{align*}\]</span></p>
 <p>Die Schwierigkeit besteht darin, dass wir nicht wie bei der SAD in jedem Schritt die Variable <span class="math inline">\(v_i\)</span> und gleichzeitig die Variable <span class="math inline">\(\dot v_i\)</span> berechnen können. Um die <span class="math inline">\(\bar v_i\)</span> zu bestimmen muss man zuerst die Funktion komplett ausführen, und sich dabei den Aufbau des Computational Graph merken. Erst dann kann man rückwärts die Ableitungswerte berechnen, angefangen bei der letzten Hilfsvariablen <span class="math inline">\(\bar v_4 = 1\)</span>. Das folgende Schema fasst die obigen Rechnungen zusammen.</p>
 <p><span class="math display">\[\begin{equation*}
@@ -404,7 +404,7 @@ nMinus-&gt;ny
     \begin{aligned}[c]
         v_0 &amp;= x_0 \\
         v_1 &amp;= x_1 \\
-        v_2 &amp;= x_0 + x_1 \\
+        v_2 &amp;= v_0 + v_1 \\
         v_3 &amp;= v_2 \cdot v_0 \\
         v_4 &amp;= v_3 - v_1 \\
         y &amp;= v_4
@@ -426,11 +426,11 @@ nMinus-&gt;ny
 
 \left \uparrow
     \begin{aligned}[c]
-        \bar x_0 &amp;= 2\cdot x_0 + x_1 \\
-        \bar x_1 &amp;= -1 + x_0 \\
-        \bar v_0 &amp;= v_2 + v_0, \quad \bar v_1 = -1 + v_0 \\
-        \bar v_2 &amp;= v_0, \quad \bar v_0 = v_2 \\
-        \bar v_3 &amp;= 1, \quad \bar v_1 = -1 \\
+        \bar x_0 &amp;= \bar v_0 = 2\cdot x_0 + x_1 \\
+        \bar x_1 &amp;= \bar v_1 = -1 + x_0 \\
+        \bar v_0 &amp;= \bar v_0 + \bar v_2, \quad \bar v_1 = \bar v_1 + \bar v_2 \\
+        \bar v_2 &amp;= \bar v_3 \cdot v_0, \quad \bar v_0 = \bar v_3 \cdot v_2 \\
+        \bar v_3 &amp;= \bar v_4, \quad \bar v_1 = -\bar v_4 \\
         \bar v_4 &amp;= \bar y = 1
     \end{aligned}  
 \right .
@@ -446,10 +446,10 @@ nMinus-&gt;ny
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    v4 <span class="op">=</span> v3 <span class="op">-</span> v1</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v4</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    v4bar <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    v3bar <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    v1bar <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    v2bar <span class="op">=</span> v0</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    v0bar <span class="op">=</span> v2</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    v3bar <span class="op">=</span> v4bar</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    v1bar <span class="op">=</span> <span class="op">-</span>v4bar</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    v2bar <span class="op">=</span> v3bar <span class="op">*</span> v0</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    v0bar <span class="op">=</span> v3bar <span class="op">*</span> v2</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    v0bar <span class="op">=</span> v0bar <span class="op">+</span> v2bar</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    v1bar <span class="op">=</span> v1bar <span class="op">+</span> v2bar</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    grad <span class="op">=</span> [v0bar, v1bar]</span>
@@ -465,7 +465,7 @@ nMinus-&gt;ny
 Gradient: [7, 1]</code></pre>
 </div>
 </div>
-<p>Die Werte der Ableitungen <span class="math inline">\(\bar v_i\)</span> lassen sich auch im Computational Graph verfolgen. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen <span class="math inline">\(x_i\)</span>, so werden die Werte der einzelnen Wege addiert.</p>
+<p>Die Werte der Ableitungen <span class="math inline">\(\bar v_i\)</span> lassen sich auch im Computational Graph verfolgen. Der Wert bei der Kante von <span class="math inline">\(v_i\)</span> nach <span class="math inline">\(v_j\)</span> entspricht der partiellen Ableitung <span class="math inline">\(\partial v_i / \partial v_j\)</span>. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen <span class="math inline">\(x_i\)</span>, so werden die Werte der einzelnen Wege addiert.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-compTreeMultiReversed" class="quarto-figure quarto-figure-center anchored">
@@ -534,11 +534,43 @@ nMinus-&gt;ny
 </div>
 </div>
 <hr>
+<div id="exr-EigeneAADBeispiele1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Übungsaufgabe 5.1 (Eigene Beispiele finden) </strong></span><br></p>
+<p>Schreibe eigene Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> für <span class="math inline">\(n\in\lbrace 2, 3 \rbrace\)</span> hin und erstelle den Computational Graph und ein Programm. Leite das Programm nach der oben beschriebenen AAD Methode ab und überzeuge dich an verschiedenen Stellen davon, dass der Gradient korrekt ist.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Beispiele können in der Literatur gefunden werden, z.B. bei <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="Baydin18">Baydin u.&nbsp;a. (<a href="references.html#ref-Baydin18" role="doc-biblioref">2018</a>)</span> (S. 13), <span class="citation" data-cites="Griewank2008EDP">Griewank und Walther (<a href="references.html#ref-Griewank2008EDP" role="doc-biblioref">2008</a>)</span> (S. 9, S. 42) oder <span class="citation" data-cites="Henrard2017ADi">Henrard (<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">2017</a>)</span> (S. 24).</p>
+</div>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-Baydin18" class="csl-entry" role="doc-biblioentry">
+Baydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, und Jeffrey Mark Siskind. 2018. <span>„Automatic Differentiation in Machine Learning: a Survey“</span>. <em>Journal of Machine Learning Research</em> 18 (153): 1–43. <a href="http://jmlr.org/papers/v18/17-468.html">http://jmlr.org/papers/v18/17-468.html</a>.
+</div>
+<div id="ref-Griewank2008EDP" class="csl-entry" role="doc-biblioentry">
+Griewank, Andreas, und Andrea Walther. 2008. <em>Evaluating Derivatives: <span>P</span>rinciples and Techniques of Algorithmic Differentiation</em>. 2. Aufl. Other Titles in Applied Mathematics 105. Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/ot105/">http://bookstore.siam.org/ot105/</a>.
+</div>
+<div id="ref-Henrard2017ADi" class="csl-entry" role="doc-biblioentry">
+Henrard, Marc. 2017. <em>Algorithmic Differentiation in Finance Explained</em>. Financial Engineering Explained. Cham: Palgrave Macmillan. <a href="https://doi.org/10.1007/978-3-319-53979-9">https://doi.org/10.1007/978-3-319-53979-9</a>.
+</div>
 <div id="ref-sidsite2021" class="csl-entry" role="doc-biblioentry">
 Radcliffe, Sidney. 2021. <span>„Reverse-mode automatic differentiation from scratch, in Python“</span>. 22. Mai 2021. <a href="https://sidsite.com/posts/autodiff/">https://sidsite.com/posts/autodiff/</a>.
+</div>
+<div id="ref-Slater2022" class="csl-entry" role="doc-biblioentry">
+Slater, Max. 2022. <span>„Differentiable programming from scratch“</span>. Juli 2022. <a href="https://thenumb.at/Autodiff/">https://thenumb.at/Autodiff/</a>.
 </div>
 </div>
 
