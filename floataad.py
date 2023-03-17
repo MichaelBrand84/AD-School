@@ -37,7 +37,7 @@ class FloatAad:
         if type(other) in [int, float]:
             return add(FloatAad(other), neg(self))
         else:
-            return add(neg(other), self)
+            return add(other, neg(self))
     
     def __mul__(self, other):
         if type(other) in [int, float]:

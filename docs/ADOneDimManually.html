@@ -274,7 +274,7 @@ div.csl-indent {
 <blockquote class="blockquote">
 <p>“AD as a technical term refers to a specific family of techniques that compute derivatives trhough accumulation of values during code execution to generate numerical derivative evaluations rather than derivative expressions. This allows accurate evaluation of derivatives at machine precision with only a small constant factor of overhead and ideal asymptotic efficiency.” (<span class="citation" data-cites="Baydin18">Baydin u.&nbsp;a. (<a href="references.html#ref-Baydin18" role="doc-biblioref">2018</a>)</span>, S. 2)</p>
 </blockquote>
-<p>In diesem Kapitel lernen wir die <em>Standard Algorithmische Differentiation</em> (SAD, auch Vorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten “family of techniques” ist. Wir beschränken uns zunächst wieder auf Funktionen <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}\)</span> und werden dies später auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> erweitern. Neben der Standard-AD gibt es noch die <em>Adjungierte Algorithmische Differentiation</em> (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für Funktionen in höherdimensionalen Räumen.</p>
+<p>In diesem Kapitel lernen wir die <em>Standard Algorithmische Differentiation</em> (SAD, auch Vorwärts-AD genannt) kennen, welche die einfachste Variante der erwähnten “family of techniques” ist. Wir beschränken uns zunächst wieder auf Funktionen <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}\)</span> und werden dies später auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> erweitern. Neben der Standard-AD gibt es noch die <em>Adjungierte Algorithmische Differentiation</em> (AAD, auch Rückwärts-AD genannt). Die Vorteile dieser Methode offenbaren sich jedoch erst für Funktionen in höherdimensionalen Räumen. Der interessierte Leser findet hierzu eine kurze Einführung in <a href="aad.html"><span>Kapitel&nbsp;5</span></a>.</p>
 <p>Gemäss unserer Konvention in <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> berechnen wir eine mathematische Funktion, indem wir sie in ihre Bestandteile zerlegen, und die Zwischenergebnisse Variablen <code>v</code> zuweisen. Wie im obigen Zitat erwähnt, besteht die Grundidee der AD darin, eine Reihe von Hilfsvariablen <code>vdot</code> einzuführen, welche jeweils die Werte der Ableitungen enthalten. In diesem Kapitel machen wir dies explizit, indem wir jede Programmzeile, die ein <code>v</code> berechnet, um die Berechnung des zugehörigen <code>vdot</code> erweitern. Dies scheint zunächst umständlich zu sein, aber im nächsten Abschnitt werden wir eine Klasse schreiben, die diese Schritte für uns automatisiert. Wie Marc Henrard in seinem Buch schreibt:</p>
 <blockquote class="blockquote">
 <p>“There are as many shades of AD as there are AD users. [This chapter] provides to the user the black and the white; it is up to him to get the correct shade of grey that fits his taste and his requirements.” (<span class="citation" data-cites="Henrard2017ADi">Henrard (<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">2017</a>)</span>, S. 18)</p>
@@ -1793,6 +1793,9 @@ Lösung
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt; -0.3700550823007931 ; -0.14136926695938976 &gt;</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <div id="exr-mathsadAnwenden" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 3.19 (Verwendung von <code>mathsad</code>) </strong></span><br></p>
@@ -1813,19 +1816,19 @@ Lösung
 <div class="cell" data-execution_count="43">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatSad(x)</span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> mathsad.log(u) <span class="op">/</span> mathsad.sqrt(u <span class="op">+</span> x)</span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> math.sqrt(<span class="dv">2</span>)</span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>f0 <span class="op">=</span> f(x0)</span>
-<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f0.derivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatSad(x)</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> mathsad.log(u) <span class="op">/</span> mathsad.sqrt(u <span class="op">+</span> x)</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> math.sqrt(<span class="dv">2</span>)</span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>f0 <span class="op">=</span> f(x0)</span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f0.derivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.22198842685304976</code></pre>
@@ -1854,65 +1857,65 @@ Lösung
 <div class="cell" data-execution_count="44">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameter a, px, py werden im global space gefunden</span></span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatSad(x)</span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>    Xx, Xy <span class="op">=</span> mathsad.cos(x), mathsad.sin(x) <span class="co"># Koordinaten von X</span></span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>    tx, ty <span class="op">=</span> <span class="op">-</span>Xy, Xx                        <span class="co"># Komponenten des Tangentialvektors</span></span>
-<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    XPx, XPy <span class="op">=</span> px <span class="op">-</span> Xx, py <span class="op">-</span> Xy             <span class="co"># Komponenten des Vektors XP</span></span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>    lXP <span class="op">=</span> mathsad.sqrt(XPx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> XPy<span class="op">**</span><span class="dv">2</span>)     <span class="co"># Länge des Vektors XP</span></span>
-<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>    ePx, ePy <span class="op">=</span> XPx <span class="op">/</span> lXP, XPy <span class="op">/</span> lXP         <span class="co"># Komponenten des Einheitsvektors in Richtung XP</span></span>
-<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>    XQx, XQy <span class="op">=</span> a <span class="op">-</span> Xx, <span class="op">-</span>Xy                  <span class="co"># Komponenten des Vektors XQ</span></span>
-<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>    lXQ <span class="op">=</span> mathsad.sqrt(XQx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> XQy<span class="op">**</span><span class="dv">2</span>)     <span class="co"># Länge des Vektors XQ</span></span>
-<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>    eQx, eQy <span class="op">=</span> XQx <span class="op">/</span> lXQ, XQy <span class="op">/</span> lXQ         <span class="co"># Komponenten des Einheitsvektors in Richtung XQ</span></span>
-<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> (ePx <span class="op">+</span> eQx) <span class="op">*</span> tx <span class="op">+</span> (ePy <span class="op">+</span> eQy) <span class="op">*</span> ty <span class="co"># Skalarprodukt</span></span>
-<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
-<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> newton(f, x0):</span>
-<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="fl">1e-8</span></span>
-<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> f(x0)</span>
-<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> y0.value <span class="op">/</span> y0.derivative</span>
-<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> math.fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
-<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
-<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a>        y0 <span class="op">=</span> f(x0)</span>
-<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> y0.value <span class="op">/</span> y0.derivative</span>
-<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
-<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameter definieren</span></span>
-<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span>          <span class="co"># Position von Q = (a|0)</span></span>
-<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>    px, py <span class="op">=</span> <span class="fl">0.2</span>, <span class="fl">0.6</span> <span class="co"># Position von P = (px|py)</span></span>
-<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Lösung des Billardproblems berechnen</span></span>
-<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="bu">set</span>({}) <span class="co"># leere Menge, in der die gefundenen Lösungen gespeichert werden</span></span>
-<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>math.pi <span class="op">*</span> k <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)]  <span class="co"># Liste der Startwerte für Newton</span></span>
-<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x0 <span class="kw">in</span> X:</span>
-<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> newton(f, x0)</span>
-<span id="cb60-41"><a href="#cb60-41" aria-hidden="true" tabindex="-1"></a>        sol.add(x)</span>
-<span id="cb60-42"><a href="#cb60-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Lösungen grafisch darstellen</span></span>
-<span id="cb60-44"><a href="#cb60-44" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plt.figure()</span>
-<span id="cb60-45"><a href="#cb60-45" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.gca()</span>
-<span id="cb60-46"><a href="#cb60-46" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim((<span class="op">-</span><span class="fl">1.2</span>, <span class="fl">1.2</span>))</span>
-<span id="cb60-47"><a href="#cb60-47" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim((<span class="op">-</span><span class="fl">1.2</span>, <span class="fl">1.2</span>))</span>
-<span id="cb60-48"><a href="#cb60-48" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(<span class="st">'equal'</span>)</span>
-<span id="cb60-49"><a href="#cb60-49" aria-hidden="true" tabindex="-1"></a>    circle <span class="op">=</span> plt.Circle((<span class="dv">0</span>,<span class="dv">0</span>), <span class="dv">1</span>, color<span class="op">=</span><span class="st">'b'</span>, fill<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb60-50"><a href="#cb60-50" aria-hidden="true" tabindex="-1"></a>    qBall <span class="op">=</span> plt.Circle((a,<span class="dv">0</span>), <span class="fl">0.02</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
-<span id="cb60-51"><a href="#cb60-51" aria-hidden="true" tabindex="-1"></a>    pBall <span class="op">=</span> plt.Circle([px, py], <span class="fl">0.02</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
-<span id="cb60-52"><a href="#cb60-52" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(circle)</span>
-<span id="cb60-53"><a href="#cb60-53" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(qBall)</span>
-<span id="cb60-54"><a href="#cb60-54" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(pBall)</span>
-<span id="cb60-55"><a href="#cb60-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="kw">in</span> sol:</span>
-<span id="cb60-56"><a href="#cb60-56" aria-hidden="true" tabindex="-1"></a>        xcoords <span class="op">=</span> [a, math.cos(x), px]</span>
-<span id="cb60-57"><a href="#cb60-57" aria-hidden="true" tabindex="-1"></a>        ycoords <span class="op">=</span> [<span class="dv">0</span>, math.sin(x), py]</span>
-<span id="cb60-58"><a href="#cb60-58" aria-hidden="true" tabindex="-1"></a>        plt.plot(xcoords, ycoords, linewidth<span class="op">=</span><span class="dv">1</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
-<span id="cb60-59"><a href="#cb60-59" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameter a, px, py werden im global space gefunden</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatSad(x)</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>    Xx, Xy <span class="op">=</span> mathsad.cos(x), mathsad.sin(x) <span class="co"># Koordinaten von X</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>    tx, ty <span class="op">=</span> <span class="op">-</span>Xy, Xx                        <span class="co"># Komponenten des Tangentialvektors</span></span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    XPx, XPy <span class="op">=</span> px <span class="op">-</span> Xx, py <span class="op">-</span> Xy             <span class="co"># Komponenten des Vektors XP</span></span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>    lXP <span class="op">=</span> mathsad.sqrt(XPx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> XPy<span class="op">**</span><span class="dv">2</span>)     <span class="co"># Länge des Vektors XP</span></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>    ePx, ePy <span class="op">=</span> XPx <span class="op">/</span> lXP, XPy <span class="op">/</span> lXP         <span class="co"># Komponenten des Einheitsvektors in Richtung XP</span></span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>    XQx, XQy <span class="op">=</span> a <span class="op">-</span> Xx, <span class="op">-</span>Xy                  <span class="co"># Komponenten des Vektors XQ</span></span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>    lXQ <span class="op">=</span> mathsad.sqrt(XQx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> XQy<span class="op">**</span><span class="dv">2</span>)     <span class="co"># Länge des Vektors XQ</span></span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>    eQx, eQy <span class="op">=</span> XQx <span class="op">/</span> lXQ, XQy <span class="op">/</span> lXQ         <span class="co"># Komponenten des Einheitsvektors in Richtung XQ</span></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> (ePx <span class="op">+</span> eQx) <span class="op">*</span> tx <span class="op">+</span> (ePy <span class="op">+</span> eQy) <span class="op">*</span> ty <span class="co"># Skalarprodukt</span></span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> newton(f, x0):</span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="fl">1e-8</span></span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> f(x0)</span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> y0.value <span class="op">/</span> y0.derivative</span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> math.fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>        y0 <span class="op">=</span> f(x0)</span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> y0.value <span class="op">/</span> y0.derivative</span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameter definieren</span></span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span>          <span class="co"># Position von Q = (a|0)</span></span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>    px, py <span class="op">=</span> <span class="fl">0.2</span>, <span class="fl">0.6</span> <span class="co"># Position von P = (px|py)</span></span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Lösung des Billardproblems berechnen</span></span>
+<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="bu">set</span>({}) <span class="co"># leere Menge, in der die gefundenen Lösungen gespeichert werden</span></span>
+<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>math.pi <span class="op">*</span> k <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)]  <span class="co"># Liste der Startwerte für Newton</span></span>
+<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x0 <span class="kw">in</span> X:</span>
+<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> newton(f, x0)</span>
+<span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a>        sol.add(x)</span>
+<span id="cb61-42"><a href="#cb61-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Lösungen grafisch darstellen</span></span>
+<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plt.figure()</span>
+<span id="cb61-45"><a href="#cb61-45" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.gca()</span>
+<span id="cb61-46"><a href="#cb61-46" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim((<span class="op">-</span><span class="fl">1.2</span>, <span class="fl">1.2</span>))</span>
+<span id="cb61-47"><a href="#cb61-47" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim((<span class="op">-</span><span class="fl">1.2</span>, <span class="fl">1.2</span>))</span>
+<span id="cb61-48"><a href="#cb61-48" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(<span class="st">'equal'</span>)</span>
+<span id="cb61-49"><a href="#cb61-49" aria-hidden="true" tabindex="-1"></a>    circle <span class="op">=</span> plt.Circle((<span class="dv">0</span>,<span class="dv">0</span>), <span class="dv">1</span>, color<span class="op">=</span><span class="st">'b'</span>, fill<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb61-50"><a href="#cb61-50" aria-hidden="true" tabindex="-1"></a>    qBall <span class="op">=</span> plt.Circle((a,<span class="dv">0</span>), <span class="fl">0.02</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb61-51"><a href="#cb61-51" aria-hidden="true" tabindex="-1"></a>    pBall <span class="op">=</span> plt.Circle([px, py], <span class="fl">0.02</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb61-52"><a href="#cb61-52" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(circle)</span>
+<span id="cb61-53"><a href="#cb61-53" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(qBall)</span>
+<span id="cb61-54"><a href="#cb61-54" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(pBall)</span>
+<span id="cb61-55"><a href="#cb61-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="kw">in</span> sol:</span>
+<span id="cb61-56"><a href="#cb61-56" aria-hidden="true" tabindex="-1"></a>        xcoords <span class="op">=</span> [a, math.cos(x), px]</span>
+<span id="cb61-57"><a href="#cb61-57" aria-hidden="true" tabindex="-1"></a>        ycoords <span class="op">=</span> [<span class="dv">0</span>, math.sin(x), py]</span>
+<span id="cb61-58"><a href="#cb61-58" aria-hidden="true" tabindex="-1"></a>        plt.plot(xcoords, ycoords, linewidth<span class="op">=</span><span class="dv">1</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb61-59"><a href="#cb61-59" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-billardproblemsolutionwithmathsad" class="quarto-figure quarto-figure-center anchored">
@@ -1946,37 +1949,37 @@ Lösung
 <div class="cell" data-execution_count="45">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> d(t):</span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> FloatSad(t)</span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>    Px <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> mathsad.cos(t) <span class="op">-</span> <span class="dv">1</span>    <span class="co"># x-Koordinate von P</span></span>
-<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    Py <span class="op">=</span> <span class="fl">1.5</span> <span class="op">*</span> mathsad.sin(t)      <span class="co"># y-Koordinate von P</span></span>
-<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>    Pz <span class="op">=</span> <span class="dv">0</span>                         <span class="co"># z-Koordinate von P</span></span>
-<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>    Qx <span class="op">=</span> <span class="op">-</span><span class="dv">3</span> <span class="op">*</span> mathsad.sin(<span class="dv">2</span><span class="op">*</span>t)     <span class="co"># x-Koordinate von Q</span></span>
-<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    Qy <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> mathsad.cos(<span class="dv">2</span><span class="op">*</span>t) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># y-Koordinate von Q</span></span>
-<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>    Qz <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> mathsad.sin(<span class="dv">2</span><span class="op">*</span>t) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># z-Koordinate von Q</span></span>
-<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> mathsad.sqrt((Px<span class="op">-</span>Qx)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (Py<span class="op">-</span>Qy)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (Pz<span class="op">-</span>Qz)<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
-<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(f, x0, lam):</span>
-<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="fl">1e-9</span></span>
-<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Erster Schritt berechnen</span></span>
-<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> f(x0)</span>
-<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> y0.derivative</span>
-<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> math.fabs(x1<span class="op">-</span>x0) <span class="op">&gt;</span> tol:</span>
-<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
-<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>        y0 <span class="op">=</span> f(x0)</span>
-<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> y0.derivative</span>
-<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
-<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a>    tmin <span class="op">=</span> gradient_descent(d, t0, <span class="fl">0.01</span>)</span>
-<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a>    dmin <span class="op">=</span> d(tmin)</span>
-<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Minimum bei ("</span>, tmin, dmin.value, <span class="st">")"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> d(t):</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> FloatSad(t)</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>    Px <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> mathsad.cos(t) <span class="op">-</span> <span class="dv">1</span>    <span class="co"># x-Koordinate von P</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>    Py <span class="op">=</span> <span class="fl">1.5</span> <span class="op">*</span> mathsad.sin(t)      <span class="co"># y-Koordinate von P</span></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>    Pz <span class="op">=</span> <span class="dv">0</span>                         <span class="co"># z-Koordinate von P</span></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>    Qx <span class="op">=</span> <span class="op">-</span><span class="dv">3</span> <span class="op">*</span> mathsad.sin(<span class="dv">2</span><span class="op">*</span>t)     <span class="co"># x-Koordinate von Q</span></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>    Qy <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> mathsad.cos(<span class="dv">2</span><span class="op">*</span>t) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># y-Koordinate von Q</span></span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>    Qz <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> mathsad.sin(<span class="dv">2</span><span class="op">*</span>t) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># z-Koordinate von Q</span></span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> mathsad.sqrt((Px<span class="op">-</span>Qx)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (Py<span class="op">-</span>Qy)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (Pz<span class="op">-</span>Qz)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(f, x0, lam):</span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="fl">1e-9</span></span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Erster Schritt berechnen</span></span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> f(x0)</span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> y0.derivative</span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> math.fabs(x1<span class="op">-</span>x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> x1</span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>        y0 <span class="op">=</span> f(x0)</span>
+<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> y0.derivative</span>
+<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
+<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>    tmin <span class="op">=</span> gradient_descent(d, t0, <span class="fl">0.01</span>)</span>
+<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>    dmin <span class="op">=</span> d(tmin)</span>
+<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Minimum bei ("</span>, tmin, dmin.value, <span class="st">")"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Minimum bei ( 4.712388977478413 1.5 )</code></pre>

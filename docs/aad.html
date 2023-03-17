@@ -228,7 +228,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#manuelle-implementation-der-aad" id="toc-manuelle-implementation-der-aad" class="nav-link active" data-scroll-target="#manuelle-implementation-der-aad"><span class="toc-section-number">5.1</span>  Manuelle Implementation der AAD</a></li>
-  <li><a href="#implementation-der-aad-mit-operator-overlaoding" id="toc-implementation-der-aad-mit-operator-overlaoding" class="nav-link" data-scroll-target="#implementation-der-aad-mit-operator-overlaoding"><span class="toc-section-number">5.2</span>  Implementation der AAD mit Operator Overlaoding</a>
+  <li><a href="#implementation-der-aad-mit-operator-overloading" id="toc-implementation-der-aad-mit-operator-overloading" class="nav-link" data-scroll-target="#implementation-der-aad-mit-operator-overloading"><span class="toc-section-number">5.2</span>  Implementation der AAD mit Operator Overloading</a>
   <ul class="collapse">
   <li><a href="#die-klasse-floataad" id="toc-die-klasse-floataad" class="nav-link" data-scroll-target="#die-klasse-floataad"><span class="toc-section-number">5.2.1</span>  Die Klasse <code>FloatAad</code></a></li>
   <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="toc-section-number">5.2.2</span>  Vorzeichen</a></li>
@@ -261,13 +261,13 @@ div.csl-indent {
 <div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus Kapitel <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
 <section id="manuelle-implementation-der-aad" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="manuelle-implementation-der-aad"><span class="header-section-number">5.1</span> Manuelle Implementation der AAD</h2>
-<p>Wir erläutern die Methode zuerst an einem einfachen Beispiel.</p>
+<p>Wir erläutern die Methode zuerst an einem einfachen Beispiel, welches eine leicht abgeänderte Version des Beispiels von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> ist.</p>
 <div id="exm-firstAADbyHand" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.1 (Gradient mit AAD) </strong></span><br></p>
-<p>Dieses Beispiel ist eine leicht abgeänderte Version von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> . Betrachten wir die Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> <span class="math display">\[
+<p>Betrachten wir die Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> <span class="math display">\[
 y = f(x_0, x_1) = (x_0 + x_1) \cdot x_0 - x_1
 \]</span></p>
-<p>Als Programm können wir die Funktion unter Berücksichtigung der Konvention so schreiben:</p>
+<p>Als Programm können wir die Funktion unter Berücksichtigung der Konvention so schreiben (siehe auch <a href="#fig-compTreeMulti">Abbildung&nbsp;<span>5.1</span></a>):</p>
 <div class="cell" data-execution_count="1">
 <details open="">
 <summary>Code</summary>
@@ -480,7 +480,7 @@ nMinus-&gt;ny
 Gradient: [7, 1]</code></pre>
 </div>
 </div>
-<p>Die Werte der Ableitungen <span class="math inline">\(\bar v_i\)</span> lassen sich auch im Computational Graph verfolgen. Der Wert bei der Kante von <span class="math inline">\(v_i\)</span> nach <span class="math inline">\(v_j\)</span> entspricht der partiellen Ableitung <span class="math inline">\(\partial v_i / \partial v_j\)</span>. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen <span class="math inline">\(x_i\)</span>, so werden die Werte der einzelnen Wege addiert.</p>
+<p>Die Werte der Ableitungen <span class="math inline">\(\bar v_i\)</span> lassen sich auch im Computational Graph verfolgen, siehe <a href="#fig-compTreeMultiReversed">Abbildung&nbsp;<span>5.2</span></a>. Der Wert bei der Kante von <span class="math inline">\(v_i\)</span> nach <span class="math inline">\(v_j\)</span> entspricht der partiellen Ableitung <span class="math inline">\(\partial v_i / \partial v_j\)</span>. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen <span class="math inline">\(x_i\)</span>, so werden die Werte der einzelnen Wege addiert.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-compTreeMultiReversed" class="quarto-figure quarto-figure-center anchored">
@@ -542,7 +542,7 @@ nMinus-&gt;ny
 <path fill="none" stroke="red" d="M173.93,-9.6C183.88,-9.6 198.88,-9.6 207.17,-9.6"></path> <polygon fill="red" stroke="red" points="173.77,-8.73 171.27,-9.6 173.77,-10.48 173.77,-8.73"></polygon> <text text-anchor="middle" x="187.47" y="-2.4" font-family="Cambria" font-size="8.00" fill="red">1</text> </g> </g>
 </svg>
 </p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.2: Werte der <code>vbar</code>.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.2: Werte der Hilfsvariablen <code>vbar</code>.</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -551,7 +551,7 @@ nMinus-&gt;ny
 <hr>
 <div id="exr-EigeneAADBeispiele1" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 5.1 (Eigene Beispiele finden) </strong></span><br></p>
-<p>Schreibe eigene Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> für <span class="math inline">\(n\in\lbrace 2, 3 \rbrace\)</span> hin und erstelle den Computational Graph und ein Programm. Leite das Programm nach der oben beschriebenen AAD Methode ab und überzeuge dich an verschiedenen Stellen davon, dass der Gradient korrekt ist.</p>
+<p>Schreibe eine eigene Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> für <span class="math inline">\(n\in\lbrace 2, 3 \rbrace\)</span> hin und erstelle den Computational Graph und ein Programm. Leite das Programm nach der oben beschriebenen AAD Methode ab und überzeuge dich an verschiedenen Stellen davon, dass der Gradient korrekt ist.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -565,15 +565,15 @@ Lösung
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Beispiele können in der Literatur gefunden werden, z.B. bei <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="Baydin18">Baydin u.&nbsp;a. (<a href="references.html#ref-Baydin18" role="doc-biblioref">2018</a>)</span> (S. 13), <span class="citation" data-cites="Griewank2008EDP">Griewank und Walther (<a href="references.html#ref-Griewank2008EDP" role="doc-biblioref">2008</a>)</span> (S. 9, S. 42) oder <span class="citation" data-cites="Henrard2017ADi">Henrard (<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">2017</a>)</span> (S. 24).</p>
+<p>Beispiele findet man in der Literatur, z.B. bei <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="Baydin18">Baydin u.&nbsp;a. (<a href="references.html#ref-Baydin18" role="doc-biblioref">2018</a>)</span> (S. 13), <span class="citation" data-cites="Griewank2008EDP">Griewank und Walther (<a href="references.html#ref-Griewank2008EDP" role="doc-biblioref">2008</a>)</span> (S. 9, S. 42) oder <span class="citation" data-cites="Henrard2017ADi">Henrard (<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">2017</a>)</span> (S. 24).</p>
 </div>
 </div>
 </div>
 </section>
-<section id="implementation-der-aad-mit-operator-overlaoding" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="implementation-der-aad-mit-operator-overlaoding"><span class="header-section-number">5.2</span> Implementation der AAD mit Operator Overlaoding</h2>
-<p>Nun wollen wir ähnlich wie im <a href="ADOneDimManually.html#sec-SadImplementationOperatorOverloading"><span>Kapitel&nbsp;3.2</span></a> eine Klasse <code>FloatAad</code> entwerfen, welche die Berechnung aller Hilfsvariablen <code>vbar</code> automatisch ausführt. Wie auch zuvor hat jedes <code>FloatAad</code>-Objekt ein Attribut <code>value</code> vom Typ <code>Int</code>. Allerdings reicht es nicht mehr aus, ein <code>Int</code>-Attribut <code>derivative</code> zu definieren, um den Wert der Ableitung zu speichern weil auch die Struktur des Computational Graph gespeichert werden muss. Als Attribut <code>derivatives</code> wählen wir ein <code>tuple</code>, dessen erster Eintrag ein <code>FloatAad</code>-Objekt ist, nämlich die Variable, nach der die partielle Ableitung berechnet wird, und der zweite Eintrag ist der Wert dieser partiellen Ableitung. Da das erste Element des Tupels selber auch ein Attribut <code>derivatives</code> hat, entsteht so eine rekursive Darstellung des Computational Graph.</p>
-<p>Die folgende Implementation ist stark von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> inspiriert. Die Variablennamen wurden angepasst, so dass sie konsistent mit den Bezeichnungen aus <a href="ADOneDimManually.html"><span>Kapitel&nbsp;3</span></a> sind. Ausserdem werden wir unsere Klasse noch mit einiger zusätzlicher Funktionalität ausstatten, etwa mit Typunterscheidungen, so dass wir <code>Int</code>-Zahlen zu <code>FloatAad</code>-Objekten addieren können.</p>
+<section id="implementation-der-aad-mit-operator-overloading" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="implementation-der-aad-mit-operator-overloading"><span class="header-section-number">5.2</span> Implementation der AAD mit Operator Overloading</h2>
+<p>Nun wollen wir ähnlich wie im <a href="ADOneDimManually.html#sec-SadImplementationOperatorOverloading"><span>Kapitel&nbsp;3.2</span></a> eine Klasse <code>FloatAad</code> entwerfen, welche die Berechnung aller Hilfsvariablen <code>vbar</code> automatisch ausführt. Wie auch zuvor hat jedes <code>FloatAad</code>-Objekt ein Attribut <code>value</code> vom Typ <code>Int</code> oder <code>Float</code>. Allerdings reicht es nicht mehr aus, ein <code>Float</code>-Attribut <code>derivative</code> zu definieren, um den Wert der Ableitung zu speichern weil auch die Struktur des Computational Graph gespeichert werden muss. Als Attribut <code>derivatives</code> wählen wir ein <code>tuple</code>, dessen erster Eintrag ein <code>FloatAad</code>-Objekt ist, nämlich die Variable, nach der die partielle Ableitung berechnet wird. Der zweite Eintrag ist der Wert dieser partiellen Ableitung. Da das erste Element des Tupels selber auch ein Attribut <code>derivatives</code> hat, entsteht so eine rekursive Darstellung des Computational Graph.</p>
+<p>Die folgende Implementation lehnt sich stark an <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> an. Die Variablennamen wurden angepasst, so dass sie konsistent mit den Bezeichnungen aus <a href="ADOneDimManually.html"><span>Kapitel&nbsp;3</span></a> sind. Ausserdem werden wir unsere Klasse noch mit einiger zusätzlicher Funktionalität ausstatten, etwa mit Typunterscheidungen, so dass wir z.B. auch wieder <code>Int</code>-Zahlen zu <code>FloatAad</code>-Objekten addieren können.</p>
 <section id="die-klasse-floataad" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="die-klasse-floataad"><span class="header-section-number">5.2.1</span> Die Klasse <code>FloatAad</code></h3>
 <p>Wir beginnen unsere Klasse mit einer neuen Datei, welche wir <code>floataad.py</code> nennen. Als erstes definieren wir einen Konstruktor, der uns das Umwandeln von <code>Int</code>- oder <code>Float</code>-Objekten in <code>FloatAad</code>-Objekte erlaubt. Ausserdem definieren wir auch gleich eine Funktion, mit der wir eine Liste von solchen <code>Int</code> oder <code>Float</code> in eine Liste von <code>FloatAad</code> umwandeln können, siehe dazu <a href="HigherDimFunctions.html#sec-FunktionenMehrereInputs"><span>Kapitel&nbsp;4.2</span></a>.</p>
@@ -656,10 +656,10 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>-2
-((&lt;__main__.FloatAad object at 0x0F478280&gt;, -1),)</code></pre>
+((&lt;__main__.FloatAad object at 0x0FC24D90&gt;, -1),)</code></pre>
 </div>
 </div>
-<p>Der Wert von <code>v.derivatives</code> ist ein Tupel, dessen erster Eintrag eine Referenz auf <code>x</code> ist und der Wert des zweiten Eintrags ist <code>-1</code> weil <span class="math inline">\(\partial v / \partial x = -1\)</span> ist.</p>
+<p>Der Wert von <code>v.derivatives</code> ist ein Tupel, dessen erster Eintrag eine Referenz auf das <code>FloatAad</code>-Objekt <code>x</code> ist und der Wert des zweiten Eintrags ist <code>-1</code> weil <span class="math inline">\(\partial v / \partial x = -1\)</span> ist.</p>
 </section>
 <section id="die-operatoren-und--" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="die-operatoren-und--"><span class="header-section-number">5.2.3</span> Die Operatoren <code>+</code> und <code>-</code></h3>
@@ -679,7 +679,7 @@ Lösung
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Für das Überladen des <code>+</code>-Operators geben wir dann einfach <code>return add(self, other)</code> zurück. Wir wollen bei dieser Gelegenheit aber gleich noch die Typabfrage implementieren, so dass wir nicht nur zwei <code>FloatAad</code>-Objekte addieren können, sondern auch <code>x + 1</code> schreiben können. In diesem Fall wandeln wir die Zahl einfach in ein <code>FloatAad</code>-Objekt um und wenden die Funktion <code>add</code> an. Der <code>__radd__</code>-Operator, mit dem wir einen Ausdruck wie <code>1 + x</code> schreiben können, wird analog definiert.</p>
+<p>Für das Überladen des <code>+</code>-Operators geben wir dann einfach <code>return add(self, other)</code> zurück. Wir wollen bei dieser Gelegenheit aber gleich noch die Typabfrage implementieren, so dass wir nicht nur zwei <code>FloatAad</code>-Objekte addieren können, sondern auch Ausdrücke wie <code>x + 1</code> schreiben können. In diesem Fall wandeln wir die Zahl einfach in ein <code>FloatAad</code>-Objekt um und wenden die Funktion <code>add</code> an. Der <code>__radd__</code>-Operator, mit dem wir einen Ausdruck wie <code>1 + x</code> schreiben können, wird analog definiert.</p>
 <div class="cell" data-execution_count="6">
 <details open="">
 <summary>Code</summary>
@@ -698,7 +698,7 @@ Lösung
 </div>
 <div id="exr-AadMinusOp" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 5.2 (Den Operator <code>-</code> implementieren) </strong></span><br></p>
-<p>Implementiere die Funktionen <code>__sub__</code> und <code>__rsub__</code>. Du kannst dafür die Funktion <code>neg(a)</code> verwenden.</p>
+<p>Implementiere die Funktionen <code>__sub__</code> und <code>__rsub__</code>. Du kannst dafür die Funktionen <code>neg(a)</code> und <code>add(a,b)</code> verwenden.</p>
 </div>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
@@ -725,7 +725,7 @@ Lösung
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(FloatAad(other), neg(<span class="va">self</span>))</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(neg(other), <span class="va">self</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add(other, neg(<span class="va">self</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>

@@ -12,20 +12,19 @@ In @sec-HigherDimFunctions haben wir gesehen, dass wir mit der Standard Algorith
 
 ## Manuelle Implementation der AAD
 
-Wir erläutern die Methode zuerst an einem einfachen Beispiel.
+Wir erläutern die Methode zuerst an einem einfachen Beispiel, welches eine leicht abgeänderte Version des Beispiels von @sidsite2021 ist.
 
 :::{#exm-firstAADbyHand}
 
 ## Gradient mit AAD
 <br>
 
-Dieses Beispiel ist eine leicht abgeänderte Version von @sidsite2021 .
 Betrachten wir die Funktion $f : \mathbb{R}^2 \rightarrow \mathbb{R}$
 $$
 y = f(x_0, x_1) = (x_0 + x_1) \cdot x_0 - x_1
 $$
 
-Als Programm können wir die Funktion unter Berücksichtigung der Konvention so schreiben:
+Als Programm können wir die Funktion unter Berücksichtigung der Konvention so schreiben (siehe auch @fig-compTreeMulti):
 ```{python}
 #| code-fold: show
 def f(x0, x1):
@@ -217,11 +216,11 @@ print("Funktionswert: " + str(y0))
 print("Gradient: " + str(dy))
 ```
 
-Die Werte der Ableitungen $\bar v_i$ lassen sich auch im Computational Graph verfolgen. Der Wert bei der Kante von $v_i$ nach $v_j$ entspricht der partiellen Ableitung $\partial v_i / \partial v_j$. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen $x_i$, so werden die Werte der einzelnen Wege addiert.
+Die Werte der Ableitungen $\bar v_i$ lassen sich auch im Computational Graph verfolgen, siehe @fig-compTreeMultiReversed. Der Wert bei der Kante von $v_i$ nach $v_j$ entspricht der partiellen Ableitung $\partial v_i / \partial v_j$. Entlang eines Weges werden die Werte multipliziert. Führen mehrere Wege zu einer Variablen $x_i$, so werden die Werte der einzelnen Wege addiert.
 
 ```{dot}
 //| label: fig-compTreeMultiReversed
-//| fig-cap: Werte der `vbar`.
+//| fig-cap: Werte der Hilfsvariablen `vbar`.
 digraph {
     rankdir = LR
     fontname = "Consolas"
@@ -259,14 +258,14 @@ digraph {
 ## Eigene Beispiele finden
 <br>
 
-Schreibe eigene Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}$ für $n\in\lbrace 2, 3 \rbrace$ hin und erstelle den Computational Graph und ein Programm. Leite das Programm nach der oben beschriebenen AAD Methode ab und überzeuge dich an verschiedenen Stellen davon, dass der Gradient korrekt ist.
+Schreibe eine eigene Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}$ für $n\in\lbrace 2, 3 \rbrace$ hin und erstelle den Computational Graph und ein Programm. Leite das Programm nach der oben beschriebenen AAD Methode ab und überzeuge dich an verschiedenen Stellen davon, dass der Gradient korrekt ist.
 
 :::
 
 :::{.callout-tip collapse="true"}
 
 ## Lösung
-Beispiele können in der Literatur gefunden werden, z.B. bei @sidsite2021, @Slater2022, @Baydin18 (S. 13), @Griewank2008EDP (S. 9, S. 42) oder @Henrard2017ADi (S. 24).
+Beispiele findet man in der Literatur, z.B. bei @sidsite2021, @Slater2022, @Baydin18 (S. 13), @Griewank2008EDP (S. 9, S. 42) oder @Henrard2017ADi (S. 24).
 
 :::
 
@@ -274,11 +273,11 @@ Beispiele können in der Literatur gefunden werden, z.B. bei @sidsite2021, @Slat
 
 
 
-## Implementation der AAD mit Operator Overlaoding
+## Implementation der AAD mit Operator Overloading
 
-Nun wollen wir ähnlich wie im @sec-SadImplementationOperatorOverloading eine Klasse `FloatAad` entwerfen, welche die Berechnung aller Hilfsvariablen `vbar` automatisch ausführt. Wie auch zuvor hat jedes `FloatAad`-Objekt ein Attribut `value` vom Typ `Int`. Allerdings reicht es nicht mehr aus, ein `Int`-Attribut `derivative` zu definieren, um den Wert der Ableitung zu speichern weil auch die Struktur des Computational Graph gespeichert werden muss. Als Attribut `derivatives` wählen wir ein `tuple`, dessen erster Eintrag ein `FloatAad`-Objekt ist, nämlich die Variable, nach der die partielle Ableitung berechnet wird, und der zweite Eintrag ist der Wert dieser partiellen Ableitung. Da das erste Element des Tupels selber auch ein Attribut `derivatives` hat, entsteht so eine rekursive Darstellung des Computational Graph. 
+Nun wollen wir ähnlich wie im @sec-SadImplementationOperatorOverloading eine Klasse `FloatAad` entwerfen, welche die Berechnung aller Hilfsvariablen `vbar` automatisch ausführt. Wie auch zuvor hat jedes `FloatAad`-Objekt ein Attribut `value` vom Typ `Int` oder `Float`. Allerdings reicht es nicht mehr aus, ein `Float`-Attribut `derivative` zu definieren, um den Wert der Ableitung zu speichern weil auch die Struktur des Computational Graph gespeichert werden muss. Als Attribut `derivatives` wählen wir ein `tuple`, dessen erster Eintrag ein `FloatAad`-Objekt ist, nämlich die Variable, nach der die partielle Ableitung berechnet wird. Der zweite Eintrag ist der Wert dieser partiellen Ableitung. Da das erste Element des Tupels selber auch ein Attribut `derivatives` hat, entsteht so eine rekursive Darstellung des Computational Graph. 
 
-Die folgende Implementation ist stark von @sidsite2021 inspiriert. Die Variablennamen wurden angepasst, so dass sie konsistent mit den Bezeichnungen aus @sec-SADforOneDimFunctions sind. Ausserdem werden wir unsere Klasse noch mit einiger zusätzlicher Funktionalität ausstatten, etwa mit Typunterscheidungen, so dass wir `Int`-Zahlen zu `FloatAad`-Objekten addieren können.
+Die folgende Implementation lehnt sich stark an @sidsite2021 an. Die Variablennamen wurden angepasst, so dass sie konsistent mit den Bezeichnungen aus @sec-SADforOneDimFunctions sind. Ausserdem werden wir unsere Klasse noch mit einiger zusätzlicher Funktionalität ausstatten, etwa mit Typunterscheidungen, so dass wir z.B. auch wieder `Int`-Zahlen zu `FloatAad`-Objekten addieren können.
 
 ### Die Klasse `FloatAad`
 
@@ -350,7 +349,7 @@ if __name__ == '__main__':
     print(v.value)
     print(v.derivatives)
 ```
-Der Wert von `v.derivatives` ist ein Tupel, dessen erster Eintrag eine Referenz auf `x` ist und der Wert des zweiten Eintrags ist `-1` weil $\partial v / \partial x = -1$ ist.
+Der Wert von `v.derivatives` ist ein Tupel, dessen erster Eintrag eine Referenz auf das `FloatAad`-Objekt `x` ist und der Wert des zweiten Eintrags ist `-1` weil $\partial v / \partial x = -1$ ist.
 
 ### Die Operatoren `+` und `-`
 
@@ -372,7 +371,7 @@ def add(a, b):
     return FloatAad(newValue, newDerivative)
 ```
 
-Für das Überladen des `+`-Operators geben wir dann einfach `return add(self, other)` zurück. Wir wollen bei dieser Gelegenheit aber gleich noch die Typabfrage implementieren, so dass wir nicht nur zwei `FloatAad`-Objekte addieren können, sondern auch `x + 1` schreiben können. In diesem Fall wandeln wir die Zahl einfach in ein `FloatAad`-Objekt um und wenden die Funktion `add` an. Der `__radd__`-Operator, mit dem wir einen Ausdruck wie `1 + x` schreiben können, wird analog definiert.
+Für das Überladen des `+`-Operators geben wir dann einfach `return add(self, other)` zurück. Wir wollen bei dieser Gelegenheit aber gleich noch die Typabfrage implementieren, so dass wir nicht nur zwei `FloatAad`-Objekte addieren können, sondern auch Ausdrücke wie `x + 1` schreiben können. In diesem Fall wandeln wir die Zahl einfach in ein `FloatAad`-Objekt um und wenden die Funktion `add` an. Der `__radd__`-Operator, mit dem wir einen Ausdruck wie `1 + x` schreiben können, wird analog definiert.
 ```{python}
 #| code-fold: show
 #| eval: false
@@ -394,7 +393,7 @@ def __radd__(self, other):
 ## Den Operator `-` implementieren
 <br>
 
-Implementiere die Funktionen `__sub__` und `__rsub__`. Du kannst dafür die Funktion `neg(a)` verwenden.
+Implementiere die Funktionen `__sub__` und `__rsub__`. Du kannst dafür die Funktionen `neg(a)` und `add(a,b)` verwenden.
 
 :::
 
@@ -414,7 +413,7 @@ def __rsub__(self, other):
     if type(other) in [int, float]:
         return add(FloatAad(other), neg(self))
     else:
-        return add(neg(other), self)
+        return add(other, neg(self))
 ```
 
 :::
