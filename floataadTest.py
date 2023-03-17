@@ -216,6 +216,9 @@ from floataad import *
 x0 = FloatAad(2)
 x1 = FloatAad(3)
 
-y = x1 * x1
+y = x0**x1 + x0
+dy = getDerivatives(y)  
 
-print(type(y.derivatives[0][1]))
+print(y.value)
+print(dy[x0])
+print(dy[x1])

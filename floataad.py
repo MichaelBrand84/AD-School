@@ -4,6 +4,7 @@
 
 from collections import defaultdict
 import numpy as np
+import math
 
 class FloatAad:
 
@@ -61,6 +62,18 @@ class FloatAad:
             return mul(FloatAad(other), inv(self))
         else:
             return mul(other, inv(self))
+        
+    def __pow__(self, other):
+        if type(other) in [int, float]:
+            return pow(self, FloatAad(other))
+        else:
+            return pow(self, other)
+        
+    def __rpow__(self, other):
+        if type(other) in [int, float]:
+            return pow(FloatAad(other), self)
+        else:
+            return pow(other, self)
 
 
 float2FloatAad = np.vectorize(lambda x: FloatAad(x))
@@ -83,8 +96,8 @@ def add(a, b):
 def mul(a, b):
     newValue = a.value * b.value
     newDerivative = (
-        (a, b.value),  # ab nach a abgeleitet gibt b
-        (b, a.value)   # ab nach b abgeleitet gibt a
+        (a, b.value),  # a*b nach a abgeleitet gibt b
+        (b, a.value)   # a*b nach b abgeleitet gibt a
     )
     return FloatAad(newValue, newDerivative)
 
@@ -92,6 +105,14 @@ def inv(a):
     newValue = 1. / a.value
     newDerivative = (
         (a, -1. / a.value**2), 
+    )
+    return FloatAad(newValue, newDerivative)
+
+def pow(a, b):
+    newValue = math.pow(a.value,b.value)
+    newDerivative = (
+        (a, b.value * math.pow(a.value, b.value-1)), # a^b nach a abgeleitet gibt b*a^(b-1)
+        (b, math.pow(a.value, b.value) * math.log(a.value))  # a^b nach b abgeleitet gibt a^b * ln(a)
     )
     return FloatAad(newValue, newDerivative)
 
