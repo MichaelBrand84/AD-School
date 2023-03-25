@@ -758,3 +758,7 @@ def __rpow__(self, other):
 ```
 
 Die fertige Klasse `FloatAad` von [hier](floataad.py) kopiert werden.
+
+
+## Die Klasse `FloatAad` im Einsatz
+

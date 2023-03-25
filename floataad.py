@@ -25,31 +25,74 @@ class FloatAad:
     def __neg__(self):
         return neg(self)
         
-    def __add__(self, other):
+    """def __add__(self, other):
         if type(other) in [int, float]:
             return add(self, FloatAad(other))
         else:
             return add(self, other)
-        
+            
     def __radd__(self, other):
         if type(other) in [int, float]:
             return add(FloatAad(other), self)
         else:
             return add(other, self)
+    """
     
-    def __sub__(self, other):
+    def __add__(self, other):
+        if type(other) in [int, float]:
+            newValue = self.value + other
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
+        else:
+            return add(self, other)
+        
+    def __radd__(self, other):
+        if type(other) in [int, float]:
+            newValue = other + self.value
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
+        else:
+            return add(other, self)
+    
+    """def __sub__(self, other):
         if type(other) in [int, float]:
             return add(self, FloatAad(-other))
         else:
             return add(self, neg(other))
+    
         
     def __rsub__(self, other):
         if type(other) in [int, float]:
             return add(FloatAad(other), neg(self))
         else:
             return add(other, neg(self))
+    """
     
-    def __mul__(self, other):
+    def __sub__(self, other):
+        if type(other) in [int, float]:
+            newValue = self.value - other
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
+        else:
+            return add(self, neg(other))
+        
+    def __rsub__(self, other):
+        if type(other) in [int, float]:
+            newValue = other - self.value
+            newDerivative = (
+                (self, -1),
+            )
+            return FloatAad(newValue, newDerivative)
+        else:
+            return add(other, neg(self)) 
+
+    """def __mul__(self, other):
         if type(other) in [int, float]:
             return mul(self, FloatAad(other))
         else:
@@ -60,8 +103,29 @@ class FloatAad:
             return mul(FloatAad(other), self)
         else:
             return mul(other, self)
-    
-    def __truediv__(self, other):
+    """
+
+    def __mul__(self, other):
+        if type(other) in [int, float]:
+            newValue = self.value * other
+            newDerivative = (
+                (self, other), 
+            )
+            return FloatAad(newValue, newDerivative)
+        else:
+            return mul(self, other)
+        
+    def __rmul__(self, other):
+        if type(other) in [int, float]:
+            newValue = other * self.value
+            newDerivative = (
+                (self, other), 
+            )
+            return FloatAad(newValue, newDerivative)
+        else:
+            return mul(other, self)
+
+    """def __truediv__(self, other):
         if type(other) in [int, float]:
             return mul(self, inv(FloatAad(other)))
         else:
@@ -72,8 +136,29 @@ class FloatAad:
             return mul(FloatAad(other), inv(self))
         else:
             return mul(other, inv(self))
+    """
+    
+    def __truediv__(self, other):
+        if type(other) in [int, float]:
+            newValue = self.value / other
+            newDerivative = (
+                (self, 1 / other),
+            )
+            return FloatAad(newValue, newDerivative)
+        else:
+            return mul(self, inv(other))
         
-    def __pow__(self, other):
+    def __rtruediv__(self, other):
+        if type(other) in [int, float]:
+            newValue = other / self.value
+            newDerivative = (
+                (self, - other / math.pow(self.value,2)),
+            )
+            return FloatAad(newValue, newDerivative)
+        else:
+            return mul(other, inv(self))
+
+    """def __pow__(self, other):
         if type(other) in [int, float]:
             return pow(self, FloatAad(other))
         else:
@@ -82,6 +167,27 @@ class FloatAad:
     def __rpow__(self, other):
         if type(other) in [int, float]:
             return pow(FloatAad(other), self)
+        else:
+            return pow(other, self)
+    """
+
+    def __pow__(self, other):
+        if type(other) in [int, float]:
+            newValue = math.pow(self.value, other)
+            newDerivative = (
+                (self, other * math.pow(self.value, other - 1)),
+            ) 
+            return FloatAad(newValue, newDerivative)           
+        else:
+            return pow(self, other)
+    
+    def __rpow__(self, other):
+        if type(other) in [int, float]:
+            newValue = math.pow(other, self.value)
+            newDerivative = (
+                (self, math.pow(other, self.value) * math.log(other)),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
             return pow(other, self)
 

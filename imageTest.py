@@ -47,7 +47,8 @@ def loss(x):
     # Umwandeln in FloatAad
     temparray = float2FloatAad(temparray)
 
-    y = sum((temparray - blurrarray) * (temparray - blurrarray))
+    #y = sum((temparray - blurrarray) * (temparray - blurrarray))
+    y = sum((temparray - blurrarray) ** 2)
     g = getGradient(temparray, y)
     return [y.value, g]
 
@@ -113,7 +114,7 @@ diffOrig = 0.5 * (image - guessimage + 1)
 plt.imshow(diffOrig, cmap = "gray")
 
 ax = plt.subplot(3,2,6)
-ax.set_title("Blurred Original - Blurred Guess")
+ax.set_title("Blurred - Blurred Guess")
 ax.set_axis_off()
 diffBlurred = 0.5 * (blurred - blurredguess + 1)
 plt.imshow(diffBlurred, cmap = "gray")
