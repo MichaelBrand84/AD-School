@@ -417,3 +417,344 @@ def __rsub__(self, other):
 ```
 
 :::
+
+
+### Gradienten berechnen
+
+Hier ist die bisher implementierte Klasse zusammen mit einem kleinen Testprogramm, welches die Funktion $f(x_0, x_1) = 2x_0 - x_1 + 5$ berechnet.
+
+```{python}
+#| code-fold: true
+import numpy as np
+
+class FloatAad:
+
+    def __init__(self, value, derivatives = ()):
+        self.value = value
+        self.derivatives = derivatives
+
+    def __pos__(self):
+        return self
+
+    def __neg__(self):
+        return neg(self)
+
+    def __add__(self, other):
+        if type(other) in [int, float]:
+            return add(self, FloatAad(other))
+        else:
+            return add(self, other)
+
+    def __radd__(self, other):
+        if type(other) in [int, float]:
+            return add(FloatAad(other), self)
+        else:
+            return add(other, self)
+
+    def __sub__(self, other):
+        if type(other) in [int, float]:
+            return add(self, FloatAad(-other))
+        else:
+            return add(self, neg(other))
+
+    def __rsub__(self, other):
+        if type(other) in [int, float]:
+            return add(FloatAad(other), neg(self))
+        else:
+            return add(other, neg(self))
+
+float2FloatAad = np.vectorize(lambda x: FloatAad(x))
+
+def neg(a):
+    newValue = -1 * a.value
+    newDerivative = (
+        (a, -1),
+    )
+    return FloatAad(newValue, newDerivative)
+
+def add(a, b):
+    newValue = a.value + b.value
+    newDerivative = (
+        (a, 1),  # a+b nach a abgeleitet gibt 1
+        (b, 1)   # a+b nach b abgeleitet gibt 1
+    )
+    return FloatAad(newValue, newDerivative)
+
+if __name__ == '__main__':
+
+    x0 = FloatAad(2)
+    x1 = FloatAad(3)
+    y = x0 + x0 - x1 + 5
+
+    print(y.value)
+    print(y.derivatives)
+    print(y.derivatives[0][0].derivatives)
+```
+
+Wir sehen, dass der Funktionswert $f(2,3) = 6$ korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein `FloatAad`-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten `FloatAad`-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen $\partial f / \partial x_0 = 2x_0 = 4$ und $\partial f / \partial x_1 = -1$. Wir schreiben dafür nun eine Funktion `getDerivatives(y)`, welche aus dem `FloatAad`-Objekt `y` rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen $x_i$ führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion `computeDerivative`. 
+Der Rückgabewert soll dann ein Dictionary sein (`defaultdict` aus dem Modul `collections`, welches zu Beginn importiert werden muss), dessen Schlüsselwerte die Variablen `x0, x1` etc. sind und die zugehörigen Werte sind die partiellen Ableitungen $\partial f / \partial x_i$. 
+
+```{python}
+#| code-fold: show
+#| eval: false
+def getDerivatives(y):
+    dy = defaultdict(lambda: 0)
+
+    def computeDerivatives(y, pathValue):
+        for node, localDerivative in y.derivatives:
+            # Multipliziere entlang eines Weges im Graph
+            valueOfPathToNode = pathValue * localDerivative
+            # Addiere entlang unterschiedlicher Wege
+            dy[node] = dy[node] + valueOfPathToNode
+            # Rekursion zum Durchlaufen des ganzen Graphen
+            computeDerivatives(node, valueOfPathToNode)
+
+    # Initialisierung mit 1 (Ableitung von y nach y)
+    computeDerivatives(y, pathValue = 1)
+    return dy
+```
+
+Die partiellen Ableitungen können nun mit `dy = getDerivatives(y)` berechnet und mit `dy[x0]`, bzw. `dy[x1]` ausgegeben werden.
+
+Wenn der Input der Funktion eine Liste `x0` ist, dann möchten wir noch eine Funktion `getGradient(x0, y)` haben, welche den Gradienten von `y` in Form einer Liste zurückgibt. 
+```{python}
+#| code-fold: show
+#| eval: false
+def getGradient(x0, y):
+    dy = getDerivatives(y)
+    grad = []
+    for i in range(len(x0)):
+        grad.append(dy[x0[i]])
+    return grad
+```
+
+Mit diesen Befehlen können wir nun unsere Programme testen.
+
+```{python}
+#| code-fold: show
+#| echo: true
+#| eval: false
+if __name__ == '__main__':
+
+    x = [2, 3]
+    x = float2FloatAad(x)
+    
+    y = x[0] + x[0] - x[1] + 5
+    dy = getGradient(x, y)
+
+    print(y.value)
+    print(dy)
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+import numpy as np
+from collections import defaultdict
+
+class FloatAad:
+
+    def __init__(self, value, derivatives = ()):
+        self.value = value
+        self.derivatives = derivatives
+
+    def __pos__(self):
+        return self
+
+    def __neg__(self):
+        return neg(self)
+
+    def __add__(self, other):
+        if type(other) in [int, float]:
+            return add(self, FloatAad(other))
+        else:
+            return add(self, other)
+
+    def __radd__(self, other):
+        if type(other) in [int, float]:
+            return add(FloatAad(other), self)
+        else:
+            return add(other, self)
+
+    def __sub__(self, other):
+        if type(other) in [int, float]:
+            return add(self, FloatAad(-other))
+        else:
+            return add(self, neg(other))
+
+    def __rsub__(self, other):
+        if type(other) in [int, float]:
+            return add(FloatAad(other), neg(self))
+        else:
+            return add(other, neg(self))
+
+float2FloatAad = np.vectorize(lambda x: FloatAad(x))
+
+def neg(a):
+    newValue = -1 * a.value
+    newDerivative = (
+        (a, -1),
+    )
+    return FloatAad(newValue, newDerivative)
+    
+def add(a, b):
+    newValue = a.value + b.value
+    newDerivative = (
+        (a, 1),  # a+b nach a abgeleitet gibt 1
+        (b, 1)   # a+b nach b abgeleitet gibt 1
+    )
+    return FloatAad(newValue, newDerivative)
+
+def getDerivatives(y):
+    dy = defaultdict(lambda: 0)
+
+    def computeDerivatives(y, pathValue):
+        for node, localDerivative in y.derivatives:
+            # Multipliziere entlang eines Weges im Graph
+            valueOfPathToNode = pathValue * localDerivative
+            # Addiere entlang unterschiedlicher Wege
+            dy[node] = dy[node] + valueOfPathToNode
+            # Rekursion zum Durchlaufen des ganzen Graphen
+            computeDerivatives(node, valueOfPathToNode)
+
+    # Initialisierung mit 1 (Ableitung von y nach y)
+    computeDerivatives(y, pathValue = 1)
+    return dy
+
+def getGradient(x0, y):
+    dy = getDerivatives(y)
+    grad = []
+    for i in range(len(x0)):
+        grad.append(dy[x0[i]])
+    return grad
+
+if __name__ == '__main__':
+
+    x = [2, 3]
+    x = float2FloatAad(x)
+    
+    y = x[0] + x[0] - x[1] + 5
+    dy = getGradient(x, y)
+
+    print(y.value)
+    print(dy)
+```
+
+
+### Die Operatoren `*` und `/`
+
+Wenn wir zwei `FloatAad`-Objekte `a` und `b` multiplizieren, dann lauten die partiellen Ableitungen
+$$
+\frac{\partial}{\partial a}(a \cdot b)=b \qquad\textrm{und}\qquad \frac{\partial}{\partial b}(a \cdot b)=a
+$$
+
+Wir erzeugen also wieder zwei Tupel für die Ableitung.
+```{python}
+#| code-fold: show
+#| eval: false
+def mul(a, b):
+    newValue = a.value * b.value
+    newDerivative = (
+        (a, b.value),  # a*b nach a abgeleitet gibt b
+        (b, a.value)   # a*b nach b abgeleitet gibt a
+    )
+    return FloatAad(newValue, newDerivative)
+```
+
+Damit überladen wir nun den `*`-Operator:
+```{python}
+#| code-fold: show
+#| eval: false
+def __mul__(self, other):
+    if type(other) in [int, float]:
+        return mul(self, FloatAad(other))
+    else:
+        return mul(self, other)
+    
+def __rmul__(self, other):
+    if type(other) in [int, float]:
+        return mul(FloatAad(other), self)
+    else:
+        return mul(other, self)
+```
+
+:::{#exr-AadDivOp}
+
+## Den Operator `/` implementieren
+<br>
+
+Ähnlich wie in @exr-AadMinusOp können wir die Division mit Hilfe der Funktion `mul(a,b)` realisieren. Schreibe dafür eine Funktion `inv(a)`, welche in $\frac{1}{a}$ als `FloatAad`-Objekt berechnet. 
+Implementiere damit die Funktionen `__truediv__` und `__rtruediv__`.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+Die Funktion `inv(a)`:
+```{python}
+#| code-fold: true
+def inv(a):
+    newValue = 1. / a.value
+    newDerivative = (
+        (a, -1. / a.value**2), 
+    )
+    return FloatAad(newValue, newDerivative)
+```
+Und damit der `/`-Operator
+```{python}
+#| code-fold: true
+def __truediv__(self, other):
+    if type(other) in [int, float]:
+        return mul(self, inv(FloatAad(other)))
+    else:
+        return mul(self, inv(other))
+        
+def __rtruediv__(self, other):
+    if type(other) in [int, float]:
+        return mul(FloatAad(other), inv(self))
+    else:
+        return mul(other, inv(self))
+```
+
+:::
+
+### Der Operator `**`
+
+Es fehlt nun nur noch der Potenzoperator. Die partiellen Ableitungen von $a^b$ lauten
+$$
+\frac{\partial}{\partial a}(a^b)=b\cdot a^{b-1} \qquad\textrm{und}\qquad \frac{\partial}{\partial b}(a^b)=a^b \cdot \ln(a)
+$$
+
+Wieder definieren wir uns zuerst eine Funktion
+```{python}
+#| code-fold: show
+#| eval: false
+def pow(a, b):
+    newValue = math.pow(a.value,b.value)
+    newDerivative = (
+        (a, b.value * math.pow(a.value, b.value-1)), # a^b nach a abgeleitet gibt b*a^(b-1)
+        (b, math.pow(a.value, b.value) * math.log(a.value))  # a^b nach b abgeleitet gibt a^b * ln(a)
+    )
+    return FloatAad(newValue, newDerivative)
+```
+und benutzen diese zur Überladung des `**`-Operators:
+```{python}
+#| code-fold: show
+#| eval: false
+def __pow__(self, other):
+    if type(other) in [int, float]:
+        return pow(self, FloatAad(other))
+    else:
+        return pow(self, other)
+    
+def __rpow__(self, other):
+    if type(other) in [int, float]:
+        return pow(FloatAad(other), self)
+    else:
+        return pow(other, self)
+```
+
+Die fertige Klasse `FloatAad` von [hier](floataad.py) kopiert werden.

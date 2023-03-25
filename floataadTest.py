@@ -213,12 +213,11 @@ print("Der minimale Funktionswert beträgt dort " + str(y0))
 
 from floataad import *
 
-x0 = FloatAad(2)
-x1 = FloatAad(3)
-
-y = x0**x1 + x0
-dy = getDerivatives(y)  
+x = [2, 3]
+x = float2FloatAad(x)
+    
+y = x[0] + x[0] - x[1] + 5
+dy = getGradient(x, y)
 
 print(y.value)
-print(dy[x0])
-print(dy[x1])
+print(dy)
