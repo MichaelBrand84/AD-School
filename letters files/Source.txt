@@ -1,0 +1,1 @@
+https://archive.alvb.in/bsc/material-disciplinas/svn-src/PatternRecognition/NeuralOCR/JavaNNS-LinuxIntel/examples/

@@ -371,19 +371,27 @@ def add(a, b):
     return FloatAad(newValue, newDerivative)
 ```
 
-Für das Überladen des `+`-Operators geben wir dann einfach `return add(self, other)` zurück. Wir wollen bei dieser Gelegenheit aber gleich noch die Typabfrage implementieren, so dass wir nicht nur zwei `FloatAad`-Objekte addieren können, sondern auch Ausdrücke wie `x + 1` schreiben können. In diesem Fall wandeln wir die Zahl einfach in ein `FloatAad`-Objekt um und wenden die Funktion `add` an. Der `__radd__`-Operator, mit dem wir einen Ausdruck wie `1 + x` schreiben können, wird analog definiert.
+Für das Überladen des `+`-Operators geben wir dann einfach `return add(self, other)` zurück. Wir wollen bei dieser Gelegenheit aber gleich noch die Typabfrage implementieren, so dass wir nicht nur zwei `FloatAad`-Objekte addieren können, sondern auch Ausdrücke wie `x + 1` schreiben können. In diesem Fall brauchen wir für die `newDerivative` nur ein Tupel, welches wir direkt in der Funktion `__add__` bestimmen. Der `__radd__`-Operator, mit dem wir einen Ausdruck wie `1 + x` schreiben können, wird analog definiert.
 ```{python}
 #| code-fold: show
 #| eval: false
 def __add__(self, other):
     if type(other) in [int, float]:
-        return add(self, FloatAad(other))
+        newValue = self.value + other
+        newDerivative = (
+            (self, 1),
+        )
+        return FloatAad(newValue, newDerivative)
     else:
         return add(self, other)
-
+    
 def __radd__(self, other):
     if type(other) in [int, float]:
-        return add(FloatAad(other), self)
+        newValue = other + self.value
+        newDerivative = (
+            (self, 1),
+        )
+        return FloatAad(newValue, newDerivative)
     else:
         return add(other, self)
 ```
@@ -405,15 +413,23 @@ Implementiere die Funktionen `__sub__` und `__rsub__`. Du kannst dafür die Funk
 #| code-fold: true
 def __sub__(self, other):
     if type(other) in [int, float]:
-        return add(self, FloatAad(-other))
+        newValue = self.value - other
+        newDerivative = (
+            (self, 1),
+        )
+        return FloatAad(newValue, newDerivative)
     else:
         return add(self, neg(other))
         
 def __rsub__(self, other):
     if type(other) in [int, float]:
-        return add(FloatAad(other), neg(self))
+        newValue = other - self.value
+        newDerivative = (
+            (self, -1),
+        )
+        return FloatAad(newValue, newDerivative)
     else:
-        return add(other, neg(self))
+        return add(other, neg(self)) 
 ```
 
 :::
@@ -441,27 +457,43 @@ class FloatAad:
 
     def __add__(self, other):
         if type(other) in [int, float]:
-            return add(self, FloatAad(other))
+            newValue = self.value + other
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
             return add(self, other)
-
+        
     def __radd__(self, other):
         if type(other) in [int, float]:
-            return add(FloatAad(other), self)
+            newValue = other + self.value
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
             return add(other, self)
-
+    
     def __sub__(self, other):
         if type(other) in [int, float]:
-            return add(self, FloatAad(-other))
+            newValue = self.value - other
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
             return add(self, neg(other))
-
+        
     def __rsub__(self, other):
         if type(other) in [int, float]:
-            return add(FloatAad(other), neg(self))
+            newValue = other - self.value
+            newDerivative = (
+                (self, -1),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
-            return add(other, neg(self))
+            return add(other, neg(self)) 
 
 float2FloatAad = np.vectorize(lambda x: FloatAad(x))
 
@@ -567,27 +599,43 @@ class FloatAad:
 
     def __add__(self, other):
         if type(other) in [int, float]:
-            return add(self, FloatAad(other))
+            newValue = self.value + other
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
             return add(self, other)
-
+        
     def __radd__(self, other):
         if type(other) in [int, float]:
-            return add(FloatAad(other), self)
+            newValue = other + self.value
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
             return add(other, self)
-
+    
     def __sub__(self, other):
         if type(other) in [int, float]:
-            return add(self, FloatAad(-other))
+            newValue = self.value - other
+            newDerivative = (
+                (self, 1),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
             return add(self, neg(other))
-
+        
     def __rsub__(self, other):
         if type(other) in [int, float]:
-            return add(FloatAad(other), neg(self))
+            newValue = other - self.value
+            newDerivative = (
+                (self, -1),
+            )
+            return FloatAad(newValue, newDerivative)
         else:
-            return add(other, neg(self))
+            return add(other, neg(self)) 
 
 float2FloatAad = np.vectorize(lambda x: FloatAad(x))
 
@@ -668,13 +716,21 @@ Damit überladen wir nun den `*`-Operator:
 #| eval: false
 def __mul__(self, other):
     if type(other) in [int, float]:
-        return mul(self, FloatAad(other))
+        newValue = self.value * other
+        newDerivative = (
+            (self, other), 
+        )
+        return FloatAad(newValue, newDerivative)
     else:
         return mul(self, other)
-    
+        
 def __rmul__(self, other):
     if type(other) in [int, float]:
-        return mul(FloatAad(other), self)
+        newValue = other * self.value
+        newDerivative = (
+            (self, other), 
+        )
+        return FloatAad(newValue, newDerivative)
     else:
         return mul(other, self)
 ```
@@ -708,13 +764,21 @@ Und damit der `/`-Operator
 #| code-fold: true
 def __truediv__(self, other):
     if type(other) in [int, float]:
-        return mul(self, inv(FloatAad(other)))
+        newValue = self.value / other
+        newDerivative = (
+            (self, 1 / other),
+        )
+        return FloatAad(newValue, newDerivative)
     else:
         return mul(self, inv(other))
         
 def __rtruediv__(self, other):
     if type(other) in [int, float]:
-        return mul(FloatAad(other), inv(self))
+        newValue = other / self.value
+        newDerivative = (
+            (self, - other / math.pow(self.value,2)),
+        )
+        return FloatAad(newValue, newDerivative)
     else:
         return mul(other, inv(self))
 ```
@@ -746,13 +810,21 @@ und benutzen diese zur Überladung des `**`-Operators:
 #| eval: false
 def __pow__(self, other):
     if type(other) in [int, float]:
-        return pow(self, FloatAad(other))
+        newValue = math.pow(self.value, other)
+        newDerivative = (
+            (self, other * math.pow(self.value, other - 1)),
+        ) 
+        return FloatAad(newValue, newDerivative)           
     else:
         return pow(self, other)
     
 def __rpow__(self, other):
     if type(other) in [int, float]:
-        return pow(FloatAad(other), self)
+        newValue = math.pow(other, self.value)
+        newDerivative = (
+            (self, math.pow(other, self.value) * math.log(other)),
+        )
+        return FloatAad(newValue, newDerivative)
     else:
         return pow(other, self)
 ```
@@ -761,4 +833,8 @@ Die fertige Klasse `FloatAad` von [hier](floataad.py) kopiert werden.
 
 
 ## Die Klasse `FloatAad` im Einsatz
+
+{{< include _floataadForExecution.qmd >}}
+
+### Bilder schärfen
 
