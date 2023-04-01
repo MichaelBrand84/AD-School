@@ -836,5 +836,148 @@ Die fertige Klasse `FloatAad` von [hier](floataad.py) kopiert werden.
 
 {{< include _floataadForExecution.qmd >}}
 
+Wir sind nun in der Lage, Gradienten von Funktionen zu berechnen, solange darin noch keine Ausdrücke mit $\sin$ oder $\ln$ etc. vorkommen.
+
+:::{#exm-gradientsWithAAD}
+
+## Gradient mit `FloatAad`
+<br>
+
+Betrachte die Funktion
+$$
+f(x_0, x_1, x_2) = x_0 \cdot x_1^2 + \frac{2 ^{x_1}}{x_2} - \frac{2}{x_2^2}
+$$
+Der Gradient lautet
+$$
+\nabla f = \begin{pmatrix} 
+    x_1^2  , \;
+    2x_0x_1 + \frac{2^{x_1}\cdot\ln(2)}{x_2} , \;
+    -\frac{2^{x_1}}{x_2^2}+\frac{4}{x_2^3}
+    \end{pmatrix}
+$$
+
+Werten wir die Funktion an der Stelle $(x_0, x_1, x_2) = (3, 2, -1)$ aus, dann erhalten wir $f(3, 2, -1) = 6$ und 
+
+\begin{align*}
+\nabla f|_{(3, 2 -1)} &= \begin{pmatrix} 
+    4  , \;
+    12-4\cdot \ln(2) ,\;
+     -8
+    \end{pmatrix} \\
+    &\approx \begin{pmatrix} 
+    4  , \;
+    9.23 , \;
+     -8
+    \end{pmatrix}
+\end{align*}
+
+Testen wir dies mit unserer Klasse:
+
+```{python}
+#| code-fold: show
+from floataad import float2FloatAad, getGradient
+
+def f(x):
+    v1 = x[0] * x[1]**2
+    v2 = 2**x[1] / x[2]
+    v3 = 2 / x[2]**2
+    y = v1 + v2 - v3
+    return y
+
+x0 = [3,2,-1]
+x0 = float2FloatAad(x0)
+
+y = f(x0)
+y0 = y.value
+dy = getGradient(x0, y)
+
+print("Funktionswert: " + str(y0))
+print("Gradient: " + str(dy))
+```
+
+:::
+---
+
+Wir können mit der Klasse `FloatAad` auch die Jacobi Matrix einer Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ bestimmen. Ähnlich wie in @sec-FuncRnToRm benötigen wir dazu jedoch mehrere Durchgänge. Diesmal muss jede Zeile der Matrix $Jf$ einzeln berechnet werden. Dafür müssen wir die Methode `getGradient` $m$ Mal aufrufen, nämlich einmal für jedes `y[i]`. Um dies zu automatisieren definieren wir uns wieder zwei Funktionen `getValues` und `getJacobian` (welche wir natürlich auch in die Klasse `FloatAad` schreiben könnten). Während `FloatSad` günstig war, solange $n<m$ war, so ist  `FloatAad` günstig, wenn $n>m$ ist.
+
+:::{#exm-JacobianWithAad}
+
+## Jacobi Matrix mit `FloatAad`
+<br>
+
+Wir betrachten die Funktion $f : \mathbb{R}^3 \rightarrow \mathbb{R}^2$ mit
+$$
+f(x_0, x_1, x_2) = 
+    \begin{pmatrix}
+        y_0 \\ y_1
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        x_0 + x_1^2 + \frac{1}{x_2} \\
+        x_0 \cdot x_1 \cdot x_2
+    \end{pmatrix}
+$$
+
+Die Jacobi Matrix lautet
+\begin{align*}
+Jf &= 
+    \begin{pmatrix}
+        \frac{\partial y_0}{\partial x_0} & \frac{\partial y_0}{\partial x_1} & \frac{\partial y_0}{\partial x_2} \\
+        \frac{\partial y_1}{\partial x_0} & \frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2}
+    \end{pmatrix} \\
+    &=
+    \begin{pmatrix}
+        1 & 2x_1 & -\frac{1}{x_2 ^2} \\
+        x_1 x_2 & x_0 x_2 & x_0 x_1
+    \end{pmatrix}
+\end{align*}
+
+Ausgewertet an der Stelle $(x_0, x_1, x_2) = (-2, -4, 0.5)$ erhalten wir $f(-2, -4, 0.5) = (16, 4)^\intercal$ und 
+$$
+Jf|_{(-2,-4,0.5)} = 
+\begin{pmatrix}
+    1 & -8 & -4 \\
+    -2 & -1 & 8
+\end{pmatrix}
+$$
+
+Als Programm mit den oben beschriebenen Funktionen erhalten wir
+```{python}
+#| code-fold: show
+from floataad import float2FloatAad, getGradient
+import numpy as np
+
+def f(x):
+    y0 = x[0] + x[1]**2 + 1/x[2]
+    y1 = x[0] * x[1] * x[2]
+    return [y0, y1]
+
+x0 = [-2,-4,0.5]
+x0 = float2FloatAad(x0)
+
+getValues = np.vectorize(lambda y : y.value)
+getJacobian = lambda x,y : np.array([getGradient(x, y[i]) for i in range(len(y))])
+
+y = f(x0)
+
+val = getValues(y)
+Jacobian = getJacobian(x0, y)
+
+print("Funktionswert: " +str(val))
+print("Jf =")
+print(Jacobian)
+```
+
+:::
+---
+
+### Gradient Descent zum Auffinden lokaler Minima
+
+
+### Lineare Regression
+
+
 ### Bilder schärfen
 
+
+### Ein einaches neuronales Netz

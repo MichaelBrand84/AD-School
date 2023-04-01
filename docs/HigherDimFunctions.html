@@ -229,7 +229,7 @@ div.csl-indent {
   <ul>
   <li><a href="#funktionen-mit-mehreren-ausgabewerten" id="toc-funktionen-mit-mehreren-ausgabewerten" class="nav-link active" data-scroll-target="#funktionen-mit-mehreren-ausgabewerten"><span class="toc-section-number">4.1</span>  Funktionen mit mehreren Ausgabewerten</a></li>
   <li><a href="#sec-FunktionenMehrereInputs" id="toc-sec-FunktionenMehrereInputs" class="nav-link" data-scroll-target="#sec-FunktionenMehrereInputs"><span class="toc-section-number">4.2</span>  Funktionen mit mehreren Eingabewerten</a></li>
-  <li><a href="#funktionen-mit-mehreren-ein--und-ausgabewerten" id="toc-funktionen-mit-mehreren-ein--und-ausgabewerten" class="nav-link" data-scroll-target="#funktionen-mit-mehreren-ein--und-ausgabewerten"><span class="toc-section-number">4.3</span>  Funktionen mit mehreren Ein- und Ausgabewerten</a></li>
+  <li><a href="#sec-FuncRnToRm" id="toc-sec-FuncRnToRm" class="nav-link" data-scroll-target="#sec-FuncRnToRm"><span class="toc-section-number">4.3</span>  Funktionen mit mehreren Ein- und Ausgabewerten</a></li>
   </ul>
 </nav>
     </div>
@@ -475,8 +475,8 @@ f(x_0, x_1, x_2) = x_0^2 + 2\cdot x_0 \cdot x_1 - \frac{x_1}{x_2 ^3}
 \left ( \left .\frac{\partial f}{\partial x_1} \right \vert_{(x_1, \ldots, x_n)}, \ldots, \left .\frac{\partial f}{\partial x_n} \right \vert_{(x_1, \ldots, x_n)}  \right ) \cdot \begin{pmatrix} r_1 \\ \vdots \\ r_n \end{pmatrix}
 \]</span></p>
 </section>
-<section id="funktionen-mit-mehreren-ein--und-ausgabewerten" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="funktionen-mit-mehreren-ein--und-ausgabewerten"><span class="header-section-number">4.3</span> Funktionen mit mehreren Ein- und Ausgabewerten</h2>
+<section id="sec-FuncRnToRm" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-FuncRnToRm"><span class="header-section-number">4.3</span> Funktionen mit mehreren Ein- und Ausgabewerten</h2>
 <p>Eine Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> hat die Form <span class="math display">\[
 f(x_1, \ldots, x_n) = \left( \begin{align*} y_1(x_1, &amp;\ldots, x_n) \\ &amp;\vdots \\ y_m(x_1, &amp;\ldots, x_n) \end{align*} \right)
 \]</span> Die Ableitung einer solchen Funktion wird durch die Jacobi Matrix <span class="math display">\[
@@ -596,8 +596,8 @@ JF \vert _{(2,1)} \approx
 </div>
 </div>
 </div>
-<p>Initialisiert man allgemein <code>xdot</code> mit dem Vektor <span class="math inline">\(r = (r_1, \ldots, r_n)^\intercal\)</span>, dann erhält man als Resultat das Produkt <span class="math display">\[
-Jf \cdot r =
+<p>Initialisiert man allgemein <code>xdot</code> mit dem Vektor <span class="math inline">\(\vec{r} = (r_1, \ldots, r_n)^\intercal\)</span>, dann erhält man als Resultat das Produkt <span class="math display">\[
+Jf \cdot \vec{r} =
 \begin{pmatrix}
     \frac{\partial y_1}{\partial x_1} &amp; \ldots &amp; \frac{\partial y_1}{\partial x_n} \\
     \vdots &amp; &amp; \vdots \\

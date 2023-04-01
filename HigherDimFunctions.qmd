@@ -238,7 +238,7 @@ $$
 $$
 
 
-## Funktionen mit mehreren Ein- und Ausgabewerten
+## Funktionen mit mehreren Ein- und Ausgabewerten {#sec-FuncRnToRm}
 
 Eine Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ hat die Form
 $$
@@ -358,9 +358,9 @@ print(getDerivatives(y0))
 
 :::
 
-Initialisiert man allgemein `xdot` mit dem Vektor $r = (r_1, \ldots, r_n)^\intercal$, dann erhält man als Resultat das Produkt
+Initialisiert man allgemein `xdot` mit dem Vektor $\vec{r} = (r_1, \ldots, r_n)^\intercal$, dann erhält man als Resultat das Produkt
 $$
-Jf \cdot r = 
+Jf \cdot \vec{r} = 
 \begin{pmatrix}
     \frac{\partial y_1}{\partial x_1} & \ldots & \frac{\partial y_1}{\partial x_n} \\
     \vdots & & \vdots \\
