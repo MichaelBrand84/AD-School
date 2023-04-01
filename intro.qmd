@@ -571,7 +571,7 @@ Wir möchten die Nullstellen der Funktion `f(x)` mit unserer Funtion `newton` be
 
 
 
-### Gradient Descent zum Auffinden lokaler Minima
+### Gradient Descent zum Auffinden lokaler Minima  {#sec-gradientDescent}
 
 Eine weitere wichtige Aufgabe besteht darin, ein Minimum einer Funktion zu finden. Auch hier wollen wir mit Hilfe der Ableitung eine Folge von Näherungswerten $x_0, x_1, x_2, \ldots$ finden, deren Grenzwert die $x$-Koordinate eines (lokalen) Minimums von $f$ ist.
 

@@ -973,8 +973,81 @@ print(Jacobian)
 
 ### Gradient Descent zum Auffinden lokaler Minima
 
+Eine Funktion $f : \mathbb{R}^2 \rightarrow \mathbb{R}$ kann man sich als eine i.A. gekrümmte Fläche im $\mathbb{R}^3$ vorstellen. Ist die Funktion differenzierbar, dann diese Fläche in einer Umgebung eines Punktes $(x_0, x_1, f(x_0, x_1))$ beliebig gut durch eine Tangentialebene angenähert werden. Der Gradient $\nabla f|_{(x_0, x_1)}$ stellt ein Vektor in dieser Tangentialebene dar, und zwar zeigt er gerade in die Richtung des steilsten Anstiegs der Fläche. Entsprechend zeigt $-\nabla f$ in die Richtung des steilsten Abstiegs, siehe @Arens2022, S. 871. Damit lässt sich die Gradient Descent Methode zur Berechnung eines lokalen Minimums, die wir im @sec-gradientDescent kennen gelernt haben, auch zum Auffinden eines lokalen Minimums einer Fläche verwenden. Sie lässt sich sogar auf Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}$ anwenden, siehe @Arens2022, S. 1324.
+
+Im Fall einer 2-dimensionalen Fläche starten wir an einem Punkt $(x_{0,0}, x_{1,0})$, welchen wir durch seinen Ortsvektor $\vec{x}_0$ beschreiben. Dann berechnen wir rekursiv eine Folge von (Ortsvektoren zu) Punkten $\vec{x}_n$, welche im Idealfall zu einem lokalen Minimum der Funktion konvergieren, gemäss der Vorschrift
+$$
+\vec{x}_{n+1} = \vec{x}_n - \lambda\cdot(\nabla f(\vec{x}_n))^\intercal
+$$
+
+$\lambda\in\mathbb{R}$ beeinflusst wie im @sec-gradientDescent die Schrittweite. Ist $\lambda$ zu klein, dann konvergiert die Iteration nur sehr langsam, wird $\lambda$ hingegen zu gross gewählt, dann kann es passieren, dass sich die Iteration von einem lokalen Minimum weg bewegt. 
+
+:::{#exm-gradientDescentWithAAD}
+
+## Gradient Descent auf einer Fläche
+<br>
+
+Betrachte die Funktion $f(x_0, x_1) = x_0^4 + x_1^4 + x_0 x_1^3 - x_0^2 x_1 - x_1^2$.
+
+::::{.content-visible unless-format="pdf"}
+
+Hier wird diese Funktion einmal als 2-dimensionale Fläche und einmal als Konturlinien Plot dargestellt. Im linken Feld kann man den Startpunkt und $\lambda$ wählen und die ersten 30 Iterationen darstellen.
+
+:::::{.fig-AbstandEllipseGerade}
+
+<iframe scrolling="no" title="Gradient descent 2d" src="https://www.geogebra.org/material/iframe/id/c2zjuxef/width/700/height/600/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="600px" style="border:0px;"> </iframe>
+
+:::::
+
+Man erkennt, dass die Funktion drei lokale Minima hat.
+
+::::
+
+Nun wollen wir die lokalen Minima mit Hilfe der Gradient Descent Methode berechnen. Damit wir $\lambda \cdot (\nabla f)$ als `lam * df` berechnen können, wandeln wir die Liste, die wir mit `getGradient` erhalten, in ein `numpy`-array um. Die oben beschriebene Iteration wird so lange ausgeführt, bis $|\vec{x}_{n+1}-\vec{x}_n|\le 10^{-6}$ ist.
+
+```{python}
+#| code-fold: show
+from floataad import float2FloatAad, getGradient
+import numpy as np
+
+def f(x):
+    y = x[0]**4 + x[1]**4 + x[0] * x[1]**3
+    y = y - x[0]**2 * x[1] - x[1]**2
+    return y
+
+getValues = np.vectorize(lambda y : y.value)
+
+# Startwert und Lambda für Gradient Descent
+x0 = [0.5, 0]
+lam = 0.1
+tol = 1e-6 # Toleranz für Abbruchbedingung
+
+x0 = float2FloatAad(x0)
+y0 = f(x0)
+dy = np.array(getGradient(x0, y0))
+
+# Erster Schritt
+x1 = x0 - lam * dy
+
+# Iteration bis die Distanz zwischen zwei
+# aufeinanderfolgenden Punkten kleiner ist als tol.
+while np.linalg.norm(getValues(x0) - getValues(x1)) > tol:
+    x0 = x1
+    y0 = f(x0)
+    dy = np.array(getGradient(x0, y0))
+    x1 = x0 - lam * dy
+
+print("Lokales Minimum gefunden in der Nähe von")
+print(getValues(x1))
+```
+
+:::
+---
+
+Die folgenden drei Abschnitte beschreiben verschiedene Anwendungen des Gradient Descent Verfahrens, die wir mit Hilfe von `FloatAad` programmieren können.
 
 ### Lineare Regression
+
 
 
 ### Bilder schärfen

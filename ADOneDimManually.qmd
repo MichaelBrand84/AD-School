@@ -1467,36 +1467,32 @@ def newton(f, x0):
         x1 = x0 - y0.value / y0.derivative
     return x1
 
-if __name__ == "__main__":
-
-    # Parameter definieren
-    a = -0.5          # Position von Q = (a|0)
-    px, py = 0.2, 0.6 # Position von P = (px|py)
-
-    # Lösung des Billardproblems berechnen
-    sol = set({}) # leere Menge, in der die gefundenen Lösungen gespeichert werden
-    X = [2*math.pi * k / 10 for k in range(10)]  # Liste der Startwerte für Newton
-    for x0 in X:
-        x = newton(f, x0)
-        sol.add(x)
-
-    # Lösungen grafisch darstellen
-    fig = plt.figure()
-    ax = plt.gca()
-    ax.set_xlim((-1.2, 1.2))
-    ax.set_ylim((-1.2, 1.2))
-    ax.set_aspect('equal')
-    circle = plt.Circle((0,0), 1, color='b', fill=False)
-    qBall = plt.Circle((a,0), 0.02, color='k')
-    pBall = plt.Circle([px, py], 0.02, color='k')
-    ax.add_patch(circle)
-    ax.add_patch(qBall)
-    ax.add_patch(pBall)
-    for x in sol:
-        xcoords = [a, math.cos(x), px]
-        ycoords = [0, math.sin(x), py]
-        plt.plot(xcoords, ycoords, linewidth=1, linestyle='--')
-    plt.show()
+# Parameter definieren
+a = -0.5          # Position von Q = (a|0)
+px, py = 0.2, 0.6 # Position von P = (px|py)
+# Lösung des Billardproblems berechnen
+sol = set({}) # leere Menge, in der die gefundenen Lösungen gespeichert werden
+X = [2*math.pi * k / 10 for k in range(10)]  # Liste der Startwerte für Newton
+for x0 in X:
+    x = newton(f, x0)
+    sol.add(x)
+# Lösungen grafisch darstellen
+fig = plt.figure()
+ax = plt.gca()
+ax.set_xlim((-1.2, 1.2))
+ax.set_ylim((-1.2, 1.2))
+ax.set_aspect('equal')
+circle = plt.Circle((0,0), 1, color='b', fill=False)
+qBall = plt.Circle((a,0), 0.02, color='k')
+pBall = plt.Circle([px, py], 0.02, color='k')
+ax.add_patch(circle)
+ax.add_patch(qBall)
+ax.add_patch(pBall)
+for x in sol:
+    xcoords = [a, math.cos(x), px]
+    ycoords = [0, math.sin(x), py]
+    plt.plot(xcoords, ycoords, linewidth=1, linestyle='--')
+plt.show()
 ```
 
 :::
@@ -1542,11 +1538,11 @@ def gradient_descent(f, x0, lam):
         x1 = x0 - lam * y0.derivative
     return x1
 
-if __name__ == "__main__":
-    t0 = 3
-    tmin = gradient_descent(d, t0, 0.01)
-    dmin = d(tmin)
-    print("Minimum bei (", tmin, dmin.value, ")")
+
+t0 = 3
+tmin = gradient_descent(d, t0, 0.01)
+dmin = d(tmin)
+print("Minimum bei (", tmin, dmin.value, ")")
 ```
 
 :::

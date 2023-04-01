@@ -232,7 +232,7 @@ div.csl-indent {
   <li><a href="#unser-ziel-programme-ableiten" id="toc-unser-ziel-programme-ableiten" class="nav-link" data-scroll-target="#unser-ziel-programme-ableiten"><span class="toc-section-number">1.3</span>  Unser Ziel: Programme ableiten</a>
   <ul class="collapse">
   <li><a href="#sec-Newtonverfahren1D" id="toc-sec-Newtonverfahren1D" class="nav-link" data-scroll-target="#sec-Newtonverfahren1D"><span class="toc-section-number">1.3.1</span>  Das Newtonverfahren zur Berechnung von Nullstellen</a></li>
-  <li><a href="#gradient-descent-zum-auffinden-lokaler-minima" id="toc-gradient-descent-zum-auffinden-lokaler-minima" class="nav-link" data-scroll-target="#gradient-descent-zum-auffinden-lokaler-minima"><span class="toc-section-number">1.3.2</span>  Gradient Descent zum Auffinden lokaler Minima</a></li>
+  <li><a href="#sec-gradientDescent" id="toc-sec-gradientDescent" class="nav-link" data-scroll-target="#sec-gradientDescent"><span class="toc-section-number">1.3.2</span>  Gradient Descent zum Auffinden lokaler Minima</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -987,8 +987,8 @@ Lösung
 </div>
 <hr>
 </section>
-<section id="gradient-descent-zum-auffinden-lokaler-minima" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="gradient-descent-zum-auffinden-lokaler-minima"><span class="header-section-number">1.3.2</span> Gradient Descent zum Auffinden lokaler Minima</h3>
+<section id="sec-gradientDescent" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="sec-gradientDescent"><span class="header-section-number">1.3.2</span> Gradient Descent zum Auffinden lokaler Minima</h3>
 <p>Eine weitere wichtige Aufgabe besteht darin, ein Minimum einer Funktion zu finden. Auch hier wollen wir mit Hilfe der Ableitung eine Folge von Näherungswerten <span class="math inline">\(x_0, x_1, x_2, \ldots\)</span> finden, deren Grenzwert die <span class="math inline">\(x\)</span>-Koordinate eines (lokalen) Minimums von <span class="math inline">\(f\)</span> ist.</p>
 <p>Wenn <span class="math inline">\(f'(x_n)&gt;0\)</span> ist, dann wissen wir, dass die Funktion <span class="math inline">\(f\)</span> an der Stelle <span class="math inline">\(x_0\)</span> streng monoton wachsend ist. D.h., dass die Funktionswerte links von <span class="math inline">\(x_n\)</span> kleiner sind, als an der Stelle <span class="math inline">\(x_n\)</span>. Analog gilt, dass wenn <span class="math inline">\(f'(x_n)&lt;0\)</span> ist, die Funktion monoton fallend ist und wir uns nach rechts bewegen sollten, um ein Minimum zu finden. In der Nähe eines Minimums ist ausserdem <span class="math inline">\(|f'(x)|\)</span> sehr klein und wir können entsprechend kleinere Schritte machen, um uns diesem anzunähern. Um also von <span class="math inline">\(x_n\)</span> zu <span class="math inline">\(x_{n+1}\)</span> zu kommen, machen wir einen Schritt, der proportional zu <span class="math inline">\(-f'(x_n)\)</span> ist. Mit dem Proporionalitätsfaktor <span class="math inline">\(\lambda\in\mathbb{R}\)</span> und einem geeignet gewählten Startwert <span class="math inline">\(x_0\)</span> erhalten wir die Iterationsvorschrift <span id="eq-gradientDescent"><span class="math display">\[
 x_{n+1} = x_n - \lambda\cdot f'(x_n)
