@@ -26,7 +26,7 @@ class FloatAad:
         return neg(self)
     
     def __add__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = self.value + other
             newDerivative = (
                 (self, 1),
@@ -36,7 +36,7 @@ class FloatAad:
             return add(self, other)
         
     def __radd__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = other + self.value
             newDerivative = (
                 (self, 1),
@@ -46,7 +46,7 @@ class FloatAad:
             return add(other, self)
     
     def __sub__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = self.value - other
             newDerivative = (
                 (self, 1),
@@ -56,7 +56,7 @@ class FloatAad:
             return add(self, neg(other))
         
     def __rsub__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = other - self.value
             newDerivative = (
                 (self, -1),
@@ -66,7 +66,7 @@ class FloatAad:
             return add(other, neg(self)) 
 
     def __mul__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = self.value * other
             newDerivative = (
                 (self, other), 
@@ -76,7 +76,7 @@ class FloatAad:
             return mul(self, other)
     
     def __rmul__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = other * self.value
             newDerivative = (
                 (self, other), 
@@ -86,7 +86,7 @@ class FloatAad:
             return mul(other, self)
     
     def __truediv__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = self.value / other
             newDerivative = (
                 (self, 1 / other),
@@ -96,7 +96,7 @@ class FloatAad:
             return mul(self, inv(other))
         
     def __rtruediv__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = other / self.value
             newDerivative = (
                 (self, - other / math.pow(self.value,2)),
@@ -106,7 +106,7 @@ class FloatAad:
             return mul(other, inv(self))
 
     def __pow__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = math.pow(self.value, other)
             newDerivative = (
                 (self, other * math.pow(self.value, other - 1)),
@@ -116,7 +116,7 @@ class FloatAad:
             return pow(self, other)
     
     def __rpow__(self, other):
-        if type(other) in [int, float, np.float64]:
+        if type(other) in [int, float]:
             newValue = math.pow(other, self.value)
             newDerivative = (
                 (self, math.pow(other, self.value) * math.log(other)),

@@ -1763,6 +1763,9 @@ Lösung
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt; 0.0 ; 0.0 &gt;</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 </div>
 <hr>
@@ -1773,28 +1776,25 @@ Lösung
 <h2 data-number="3.5" class="anchored" data-anchor-id="das-modul-mathsad-im-einsatz"><span class="header-section-number">3.5</span> Das Modul <code>mathsad</code> im Einsatz</h2>
 <p>Nun können wir unser Modul mit</p>
 <div class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>einbinden und verwenden. Die Funktion aus <a href="#exr-SAD1">Übungsaufgabe&nbsp;<span>3.3</span></a> beispielsweise können wir nun direkt hinschreiben:</p>
 <div class="cell" data-execution_count="42">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatSad(x)</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> mathsad.cos(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span>) <span class="op">*</span> mathsad.exp(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>x</span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span></span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f(x0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floatsad <span class="im">import</span> FloatSad</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathsad</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatSad(x)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> mathsad.cos(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span>) <span class="op">*</span> mathsad.exp(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>x</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f(x0))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt; -0.3700550823007931 ; -0.14136926695938976 &gt;</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code></code></pre>
 </div>
 </div>
 <div id="exr-mathsadAnwenden" class="theorem exercise">
@@ -1886,36 +1886,32 @@ Lösung
 <span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> y0.value <span class="op">/</span> y0.derivative</span>
 <span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
 <span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameter definieren</span></span>
-<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span>          <span class="co"># Position von Q = (a|0)</span></span>
-<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>    px, py <span class="op">=</span> <span class="fl">0.2</span>, <span class="fl">0.6</span> <span class="co"># Position von P = (px|py)</span></span>
-<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Lösung des Billardproblems berechnen</span></span>
-<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> <span class="bu">set</span>({}) <span class="co"># leere Menge, in der die gefundenen Lösungen gespeichert werden</span></span>
-<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>math.pi <span class="op">*</span> k <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)]  <span class="co"># Liste der Startwerte für Newton</span></span>
-<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x0 <span class="kw">in</span> X:</span>
-<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> newton(f, x0)</span>
-<span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a>        sol.add(x)</span>
-<span id="cb61-42"><a href="#cb61-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Lösungen grafisch darstellen</span></span>
-<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plt.figure()</span>
-<span id="cb61-45"><a href="#cb61-45" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.gca()</span>
-<span id="cb61-46"><a href="#cb61-46" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim((<span class="op">-</span><span class="fl">1.2</span>, <span class="fl">1.2</span>))</span>
-<span id="cb61-47"><a href="#cb61-47" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim((<span class="op">-</span><span class="fl">1.2</span>, <span class="fl">1.2</span>))</span>
-<span id="cb61-48"><a href="#cb61-48" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(<span class="st">'equal'</span>)</span>
-<span id="cb61-49"><a href="#cb61-49" aria-hidden="true" tabindex="-1"></a>    circle <span class="op">=</span> plt.Circle((<span class="dv">0</span>,<span class="dv">0</span>), <span class="dv">1</span>, color<span class="op">=</span><span class="st">'b'</span>, fill<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb61-50"><a href="#cb61-50" aria-hidden="true" tabindex="-1"></a>    qBall <span class="op">=</span> plt.Circle((a,<span class="dv">0</span>), <span class="fl">0.02</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
-<span id="cb61-51"><a href="#cb61-51" aria-hidden="true" tabindex="-1"></a>    pBall <span class="op">=</span> plt.Circle([px, py], <span class="fl">0.02</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
-<span id="cb61-52"><a href="#cb61-52" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(circle)</span>
-<span id="cb61-53"><a href="#cb61-53" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(qBall)</span>
-<span id="cb61-54"><a href="#cb61-54" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(pBall)</span>
-<span id="cb61-55"><a href="#cb61-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="kw">in</span> sol:</span>
-<span id="cb61-56"><a href="#cb61-56" aria-hidden="true" tabindex="-1"></a>        xcoords <span class="op">=</span> [a, math.cos(x), px]</span>
-<span id="cb61-57"><a href="#cb61-57" aria-hidden="true" tabindex="-1"></a>        ycoords <span class="op">=</span> [<span class="dv">0</span>, math.sin(x), py]</span>
-<span id="cb61-58"><a href="#cb61-58" aria-hidden="true" tabindex="-1"></a>        plt.plot(xcoords, ycoords, linewidth<span class="op">=</span><span class="dv">1</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
-<span id="cb61-59"><a href="#cb61-59" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter definieren</span></span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span>          <span class="co"># Position von Q = (a|0)</span></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>px, py <span class="op">=</span> <span class="fl">0.2</span>, <span class="fl">0.6</span> <span class="co"># Position von P = (px|py)</span></span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Lösung des Billardproblems berechnen</span></span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> <span class="bu">set</span>({}) <span class="co"># leere Menge, in der die gefundenen Lösungen gespeichert werden</span></span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>math.pi <span class="op">*</span> k <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)]  <span class="co"># Liste der Startwerte für Newton</span></span>
+<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x0 <span class="kw">in</span> X:</span>
+<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> newton(f, x0)</span>
+<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a>    sol.add(x)</span>
+<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Lösungen grafisch darstellen</span></span>
+<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
+<span id="cb61-42"><a href="#cb61-42" aria-hidden="true" tabindex="-1"></a>ax.set_xlim((<span class="op">-</span><span class="fl">1.2</span>, <span class="fl">1.2</span>))</span>
+<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>ax.set_ylim((<span class="op">-</span><span class="fl">1.2</span>, <span class="fl">1.2</span>))</span>
+<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">'equal'</span>)</span>
+<span id="cb61-45"><a href="#cb61-45" aria-hidden="true" tabindex="-1"></a>circle <span class="op">=</span> plt.Circle((<span class="dv">0</span>,<span class="dv">0</span>), <span class="dv">1</span>, color<span class="op">=</span><span class="st">'b'</span>, fill<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb61-46"><a href="#cb61-46" aria-hidden="true" tabindex="-1"></a>qBall <span class="op">=</span> plt.Circle((a,<span class="dv">0</span>), <span class="fl">0.02</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb61-47"><a href="#cb61-47" aria-hidden="true" tabindex="-1"></a>pBall <span class="op">=</span> plt.Circle([px, py], <span class="fl">0.02</span>, color<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb61-48"><a href="#cb61-48" aria-hidden="true" tabindex="-1"></a>ax.add_patch(circle)</span>
+<span id="cb61-49"><a href="#cb61-49" aria-hidden="true" tabindex="-1"></a>ax.add_patch(qBall)</span>
+<span id="cb61-50"><a href="#cb61-50" aria-hidden="true" tabindex="-1"></a>ax.add_patch(pBall)</span>
+<span id="cb61-51"><a href="#cb61-51" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> sol:</span>
+<span id="cb61-52"><a href="#cb61-52" aria-hidden="true" tabindex="-1"></a>    xcoords <span class="op">=</span> [a, math.cos(x), px]</span>
+<span id="cb61-53"><a href="#cb61-53" aria-hidden="true" tabindex="-1"></a>    ycoords <span class="op">=</span> [<span class="dv">0</span>, math.sin(x), py]</span>
+<span id="cb61-54"><a href="#cb61-54" aria-hidden="true" tabindex="-1"></a>    plt.plot(xcoords, ycoords, linewidth<span class="op">=</span><span class="dv">1</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb61-55"><a href="#cb61-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-billardproblemsolutionwithmathsad" class="quarto-figure quarto-figure-center anchored">
@@ -1975,11 +1971,11 @@ Lösung
 <span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> y0.derivative</span>
 <span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1</span>
 <span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>    tmin <span class="op">=</span> gradient_descent(d, t0, <span class="fl">0.01</span>)</span>
-<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>    dmin <span class="op">=</span> d(tmin)</span>
-<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Minimum bei ("</span>, tmin, dmin.value, <span class="st">")"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>tmin <span class="op">=</span> gradient_descent(d, t0, <span class="fl">0.01</span>)</span>
+<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>dmin <span class="op">=</span> d(tmin)</span>
+<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Minimum bei ("</span>, tmin, dmin.value, <span class="st">")"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Minimum bei ( 4.712388977478413 1.5 )</code></pre>

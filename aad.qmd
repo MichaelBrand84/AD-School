@@ -836,7 +836,7 @@ Die fertige Klasse `FloatAad` von [hier](floataad.py) kopiert werden.
 
 {{< include _floataadForExecution.qmd >}}
 
-Wir sind nun in der Lage, Gradienten von Funktionen zu berechnen, solange darin noch keine Ausdrücke mit $\sin$ oder $\ln$ etc. vorkommen.
+Wir sind nun in der Lage, Gradienten von Funktionen zu berechnen, solange darin noch keine Ausdrücke wie $\sin(x)$ oder $\ln(x)$ etc. vorkommen.
 
 :::{#exm-gradientsWithAAD}
 
@@ -898,7 +898,7 @@ print("Gradient: " + str(dy))
 :::
 ---
 
-Wir können mit der Klasse `FloatAad` auch die Jacobi Matrix einer Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ bestimmen. Ähnlich wie in @sec-FuncRnToRm benötigen wir dazu jedoch mehrere Durchgänge. Diesmal muss jede Zeile der Matrix $Jf$ einzeln berechnet werden. Dafür müssen wir die Methode `getGradient` $m$ Mal aufrufen, nämlich einmal für jedes `y[i]`. Um dies zu automatisieren definieren wir uns wieder zwei Funktionen `getValues` und `getJacobian` (welche wir natürlich auch in die Klasse `FloatAad` schreiben könnten). Während `FloatSad` günstig war, solange $n<m$ war, so ist  `FloatAad` günstig, wenn $n>m$ ist.
+Wir können mit der Klasse `FloatAad` auch die Jacobi Matrix einer Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ bestimmen. Ähnlich wie in @sec-FuncRnToRm benötigen wir dazu jedoch mehrere Durchgänge. Diesmal muss jede *Zeile* der Matrix $Jf$ einzeln berechnet werden. Dafür müssen wir die Methode `getGradient` $m$ Mal aufrufen, nämlich einmal für jedes `y[i]`. Um dies zu automatisieren definieren wir uns wieder zwei Funktionen `getValues` und `getJacobian` (welche wir natürlich auch in die Klasse `FloatAad` schreiben könnten). Während `FloatSad` günstig war, solange $n<m$ war, so ist  `FloatAad` günstig, wenn $n>m$ ist.
 
 :::{#exm-JacobianWithAad}
 
@@ -973,14 +973,14 @@ print(Jacobian)
 
 ### Gradient Descent zum Auffinden lokaler Minima
 
-Eine Funktion $f : \mathbb{R}^2 \rightarrow \mathbb{R}$ kann man sich als eine i.A. gekrümmte Fläche im $\mathbb{R}^3$ vorstellen. Ist die Funktion differenzierbar, dann diese Fläche in einer Umgebung eines Punktes $(x_0, x_1, f(x_0, x_1))$ beliebig gut durch eine Tangentialebene angenähert werden. Der Gradient $\nabla f|_{(x_0, x_1)}$ stellt ein Vektor in dieser Tangentialebene dar, und zwar zeigt er gerade in die Richtung des steilsten Anstiegs der Fläche. Entsprechend zeigt $-\nabla f$ in die Richtung des steilsten Abstiegs, siehe @Arens2022, S. 871. Damit lässt sich die Gradient Descent Methode zur Berechnung eines lokalen Minimums, die wir im @sec-gradientDescent kennen gelernt haben, auch zum Auffinden eines lokalen Minimums einer Fläche verwenden. Sie lässt sich sogar auf Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}$ anwenden, siehe @Arens2022, S. 1324.
+Eine Funktion $f : \mathbb{R}^2 \rightarrow \mathbb{R}$ kann man sich als eine i.A. gekrümmte Fläche im $\mathbb{R}^3$ vorstellen. Der Gradient $\nabla f|_{(x_0, x_1)}$ ist ein Vektor in $\mathbb{R}^2$, der gerade in die Richtung des steilsten Anstiegs der Fläche beim Punkt $(x_0, x_1)$ zeigt. Entsprechend zeigt $-\nabla f$ in die Richtung des steilsten Abstiegs, siehe @Arens2022, S. 871. Damit lässt sich die Gradient Descent Methode zur Bestimmung eines lokalen Minimums, die wir im @sec-gradientDescent kennen gelernt haben, auch zum Auffinden eines lokalen Minimums einer Fläche verwenden. Sie lässt sich sogar auf Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}$ anwenden, siehe @Arens2022, S. 1324.
 
 Im Fall einer 2-dimensionalen Fläche starten wir an einem Punkt $(x_{0,0}, x_{1,0})$, welchen wir durch seinen Ortsvektor $\vec{x}_0$ beschreiben. Dann berechnen wir rekursiv eine Folge von (Ortsvektoren zu) Punkten $\vec{x}_n$, welche im Idealfall zu einem lokalen Minimum der Funktion konvergieren, gemäss der Vorschrift
 $$
 \vec{x}_{n+1} = \vec{x}_n - \lambda\cdot(\nabla f(\vec{x}_n))^\intercal
 $$
 
-$\lambda\in\mathbb{R}$ beeinflusst wie im @sec-gradientDescent die Schrittweite. Ist $\lambda$ zu klein, dann konvergiert die Iteration nur sehr langsam, wird $\lambda$ hingegen zu gross gewählt, dann kann es passieren, dass sich die Iteration von einem lokalen Minimum weg bewegt. 
+$\lambda\in\mathbb{R}^+$ beeinflusst wie im @sec-gradientDescent die Schrittweite. Ist $\lambda$ zu klein, dann konvergiert die Iteration nur sehr langsam, wird $\lambda$ hingegen zu gross gewählt, dann kann es passieren, dass sich die Iteration von einem lokalen Minimum wieder weg bewegt. 
 
 :::{#exm-gradientDescentWithAAD}
 
@@ -991,7 +991,7 @@ Betrachte die Funktion $f(x_0, x_1) = x_0^4 + x_1^4 + x_0 x_1^3 - x_0^2 x_1 - x_
 
 ::::{.content-visible unless-format="pdf"}
 
-Hier wird diese Funktion einmal als 2-dimensionale Fläche und einmal als Konturlinien Plot dargestellt. Im linken Feld kann man den Startpunkt und $\lambda$ wählen und die ersten 30 Iterationen darstellen.
+Hier wird diese Funktion einmal als 2-dimensionale Fläche und einmal als mit Hilfe von Konturlinien dargestellt. Im linken Feld kann man den Startpunkt und $\lambda$ wählen und die ersten 30 Iterationen darstellen.
 
 :::::{.fig-AbstandEllipseGerade}
 
@@ -1003,7 +1003,7 @@ Man erkennt, dass die Funktion drei lokale Minima hat.
 
 ::::
 
-Nun wollen wir die lokalen Minima mit Hilfe der Gradient Descent Methode berechnen. Damit wir $\lambda \cdot (\nabla f)$ als `lam * df` berechnen können, wandeln wir die Liste, die wir mit `getGradient` erhalten, in ein `numpy`-array um. Die oben beschriebene Iteration wird so lange ausgeführt, bis $|\vec{x}_{n+1}-\vec{x}_n|\le 10^{-6}$ ist.
+Nun wollen wir ein lokales Minimum mit Hilfe der Gradient Descent Methode finden. Damit wir $\lambda \cdot (\nabla f)$ als `lam * df` berechnen können, wandeln wir die Liste, die wir mit `getGradient` erhalten, in ein `numpy`-array um. Die oben beschriebene Iteration wird so lange ausgeführt, bis $|\vec{x}_{n+1}-\vec{x}_n|\le 10^{-6}$ ist.
 
 ```{python}
 #| code-fold: show
@@ -1046,7 +1046,87 @@ print(getValues(x1))
 
 Die folgenden drei Abschnitte beschreiben verschiedene Anwendungen des Gradient Descent Verfahrens, die wir mit Hilfe von `FloatAad` programmieren können.
 
+
+
+
 ### Lineare Regression
+
+Beim klassischen Ausgleichsproblem sind $n$ Datenpunkte $(x_i , y_i)$ (Messwerte) gegeben, zwischen denen ein linearer Zusammenhang vermutet wird, d.h. $y_i \approx g(x_i) = a\cdot x_i + b$. Auf Grund von Messfehlern und anderen Einflüssen können wir jedoch nicht erwarten, dass der Zusammenhang exakt einer linearen Funktion entspricht, d.h. der Fehler $y_i - g(x_i)$ ist im Allgemeinen nicht Null. Das Ziel ist nun, die Parameter $a$ und $b$ so zu bestimmen, dass die Summe der Quadrate dieser Fehler möglichst klein wird. Mit anderen Worten: wir suchen das Minimum der Funktion $\Phi : \mathbb{R}^2 \rightarrow \mathbb{R}$
+$$
+\Phi(a, b) = \sum_{i = 1}^n (y_i - (a\cdot x_i + b))^2
+$$
+Die Funktion $\Phi$ wird insbesondere im Kontext des maschinellen Lernens auch *Loss Funktion* genannt. Da es sich bei $\Phi(a,b)$ um eine quadratische Funktion in $a$ und $b$ handelt, besitzt sie ein eindeutiges Minimum, welches auch rein analytisch gefunden werden kann, siehe z.B. @Arens2022, S. 1526. Wir wollen das Minimum aber mit dem Gradient Descent Verfahren bestimmen. Als Startwert verwenden wir einfach $(a, b) = (0, 0)$.
+
+:::{#exm-LinearRegressionWithGradientDescent}
+
+## Lineare Regression mit Gradient Descent und `AAD`
+<br>
+
+In diesem Beispiel gehen wir davon aus, dass der korrekte, aber unbekannte, lineare Zusammenhang durch $y = f(x) = 2x+3$ gegeben ist. Wir erzeugen zunächst eine Anzahl von `anz = 50` Datenpunkten, die zufällig um diese Gerade streuen. Danach versuchen wir, die Parameter $a$ und $b$ mittels linearer Regression aus diesen Datenpunkten zu rekonstruieren. Die Funktion `loss(a, b)` berechnet die Funktion $\Phi(a,b)$, deren Ableitung automatisch mittels `FloatAad` berechnet wird. Der so berechnete Gradient von $\Phi$ wird für das Gradient Descent Verfahren verwendet. Da die Funktion nur zwei unabhängige Variablen hat, verwenden wir direkt den Konstruktor `FloatAad` und die Methode `getDerivatives` anstelle der vektorisierten Methoden `float2FloatAad` und `getGradient`. Schliesslich werden die Datenpunkte zusammen mit der korrekten Funktion $f$ und der Ausgleichsgeraden $g$ grafisch dargestellt. 
+```{python}
+#| code-fold: show
+#| label: fig-GraphOfLinearRegression
+#| fig-cap: "Ausgleichsgerade."
+from floataad import FloatAad, getDerivatives
+import numpy as np
+import matplotlib.pyplot as plt
+
+def loss(a, b):
+    # X und Y werden im global space gefunden
+    sum = 0
+    for i in range(len(X)):
+        d = float(Y[i]) - (a * float(X[i]) + b)
+        sum += d**2
+    return np.sum(sum)
+    
+
+# Parameter zur Erzeugung der Datenpunkte
+anz = 50 # Anzahl Datenpunkte
+xmin, xmax = 0, 10
+s = 2    # Streuung
+
+# Erzeugende Funktion
+f = lambda x: 2 * x + 3
+
+# Daten erzeugen
+X = np.linspace(xmin, xmax, anz)
+Y = f(X)
+# Rauschen hinzufügen
+Y = Y + s * np.random.randn(anz)
+
+
+# Gradient Descent
+lam = 0.0005
+
+a0, b0 = FloatAad(0), FloatAad(0) # Startwerte
+
+Phi = loss(a0, b0)
+dPhi = getDerivatives(Phi)
+
+a1 = a0 - lam * dPhi[a0]
+b1 = b0 - lam * dPhi[b0]
+
+while (a1.value-a0.value)**2 + (b1.value-b0.value)**2 > 1e-9:
+    a0, b0 = a1, b1
+    Phi = loss(a0, b0)
+    dPhi = getDerivatives(Phi)
+    a1 = a0 - lam * dPhi[a0]
+    b1 = b0 - lam * dPhi[b0]
+
+# Regressionsgerade
+a, b = a1.value, b1.value
+g = np.vectorize(lambda x : a * x + b)
+print("y = g(x) = " + str(a) + "x + " + str(b))
+
+# Daten darstellen
+plt.plot(X,Y, 'b.', X, f(X), 'r--', X, g(X), 'g-.')
+plt.legend(["Datenpunkte", "Erzeugende Funktion", "Regressionsgerade"])
+plt.show()
+```
+
+:::
+---
+
 
 
 

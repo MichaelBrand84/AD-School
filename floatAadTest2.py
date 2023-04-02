@@ -91,20 +91,20 @@ print(getValues(x1))
 """
 
 
-# Lineare Regression
+# Lineare Regression ohne Vektorisierung
 
-from floataad import FloatAad, getGradient
+from floataad import FloatAad, getDerivatives
 import numpy as np
 import matplotlib.pyplot as plt
 
-getValues = np.vectorize(lambda y : y.value)
-
-def loss(a, b, X, Y):
-    d = Y - g(a,b, X)
-    ds = d ** 2
-    return np.sum(ds)
-
-lossv = np.vectorize(loss)
+def loss(a, b):
+    # X und Y werden im global space gefunden
+    sum = 0
+    for i in range(len(X)):
+        d = float(Y[i]) - (a * float(X[i]) + b)
+        sum += d**2
+    return np.sum(sum)
+    
 
 # Parameter
 anz = 50 # Anzahl Datenpunkte
@@ -120,16 +120,31 @@ Y = f(X)
 # Rauschen hinzufügen
 Y = Y + s * np.random.randn(anz)
 
+
 # Gradient Descent
-a0 = FloatAad(1)
-b0 = FloatAad(2)
+lam = 0.0005
 
-g = np.vectorize(lambda a,b,X : a*X+b)
+a0, b0 = FloatAad(0), FloatAad(0) # Startwerte
 
-print(getValues(lossv(a0,b0,X,Y)))
+Phi = loss(a0, b0)
+dPhi = getDerivatives(Phi)
 
-"""
+a1 = a0 - lam * dPhi[a0]
+b1 = b0 - lam * dPhi[b0]
+
+while (a1.value-a0.value)**2 + (b1.value-b0.value)**2 > 1e-9:
+    a0, b0 = a1, b1
+    Phi = loss(a0, b0)
+    dPhi = getDerivatives(Phi)
+    a1 = a0 - lam * dPhi[a0]
+    b1 = b0 - lam * dPhi[b0]
+
+# Regressionsgerade
+a, b = a1.value, b1.value
+g = np.vectorize(lambda x : a * x + b)
+print("y = g(x) = " + str(a) + "x + " + str(b))
+
 # Daten darstellen
-plt.plot(X,Y, 'b.', X, f(X), 'r--')
+plt.plot(X,Y, 'b.', X, f(X), 'r--', X, g(X), 'g-.')
+plt.legend(["Datenpunkte", "Erzeugende Funktion", "Regressionsgerade"])
 plt.show()
-"""
