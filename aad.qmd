@@ -993,7 +993,7 @@ Betrachte die Funktion $f(x_0, x_1) = x_0^4 + x_1^4 + x_0 x_1^3 - x_0^2 x_1 - x_
 
 Hier wird diese Funktion einmal als 2-dimensionale Fläche und einmal als mit Hilfe von Konturlinien dargestellt. Im linken Feld kann man den Startpunkt und $\lambda$ wählen und die ersten 30 Iterationen darstellen.
 
-:::::{.fig-AbstandEllipseGerade}
+:::::{.fig-GradientDescent2DGeoGebra}
 
 <iframe scrolling="no" title="Gradient descent 2d" src="https://www.geogebra.org/material/iframe/id/c2zjuxef/width/700/height/600/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="600px" style="border:0px;"> </iframe>
 
@@ -1055,7 +1055,7 @@ Beim klassischen Ausgleichsproblem sind $n$ Datenpunkte $(x_i , y_i)$ (Messwerte
 $$
 \Phi(a, b) = \sum_{i = 1}^n (y_i - (a\cdot x_i + b))^2
 $$
-Die Funktion $\Phi$ wird insbesondere im Kontext des maschinellen Lernens auch *Loss Funktion* genannt. Da es sich bei $\Phi(a,b)$ um eine quadratische Funktion in $a$ und $b$ handelt, besitzt sie ein eindeutiges Minimum, welches auch rein analytisch gefunden werden kann, siehe z.B. @Arens2022, S. 1526. Wir wollen das Minimum aber mit dem Gradient Descent Verfahren bestimmen. Als Startwert verwenden wir einfach $(a, b) = (0, 0)$.
+Dieser Ansatz stammt von Gauss und wird auch die Methode der kleinsten Fehlerquadrate genannt. Die Funktion $\Phi$ wird insbesondere im Kontext des maschinellen Lernens auch *Loss Funktion* genannt. Da es sich bei $\Phi(a,b)$ um eine quadratische Funktion in $a$ und $b$ handelt, besitzt sie ein eindeutiges Minimum, welches auch rein analytisch gefunden werden kann, siehe z.B. @Arens2022, S. 1526. Wir wollen das Minimum aber mit dem Gradient Descent Verfahren bestimmen. Als Startwert verwenden wir einfach $(a, b) = (0, 0)$.
 
 :::{#exm-LinearRegressionWithGradientDescent}
 
@@ -1131,6 +1131,155 @@ plt.show()
 
 
 ### Bilder schärfen
+
+Die Idee zu dieser Anwendung stammt von @Slater2022. Beim Fotografieren kann es passieren, dass die Linse der Kamera nicht richtig fokussiert ist und das Bild dadurch unscharf wirkt. Es ist jedoch möglich, ein Bild bis zu einem gewissen Grad nachträglich zu schärfen.
+
+Als Testbild verwenden wir das folgende Bild eines Teddybären, welches unter der Creative Commons 4.0 Lizenz auf [https://www.pngall.com/toy-png/download/55843](https://www.pngall.com/toy-png/download/55843) [Letzter Zugriff 02.04.2023] zur Verfügung gestellt wird. Allerdings müssen wir die Auflösung von ursprünglich 180 x 180 Pixel auf 30 x 30 Pixel reduzieren, was mit jeder Bildbearbeitungssoftware gemacht werden kann. Der Grund dafür ist, dass die Anzahl Pixel darüber entscheidet, wie viele `FloatAad`-Objekte wir erzeugen müssen und während des Gradient Descent Verfahrens wird der Computational Graph bei vielen Variablen sehr gross, so dass beim Berechnen der Ableitungen die maximale Rekursionstiefe überschritten würde. Wir verwenden also das in  rechts dargestellte Bild `Bear30.jpg`.
+
+::: {#fig-teddys layout="[1,6]" layout-ncol=2 layout-valign="bottom"}
+
+![Original 180 x 180](Bear_original.png){#fig-originalTeddy}
+
+![Testbild 30 x 30](Bear30.jpg){width=180  #fig-smallTeddy}
+
+Testbild eines Teddybärs.
+:::
+
+Es stellt sich heraus, dass selbst diese kleine Auflösung noch zu viele `FloatAad`-Objekte benötigt weil jedes Pixel drei Farbkanäle hat. Daher wandeln wir das Bild nach dem Laden zuerst in ein Graustufenbild um.
+```{python}
+#| code-fold: show
+from matplotlib.image import imread
+from floataad import float2FloatAad, getGradient
+
+import matplotlib.pyplot as plt
+import math
+import numpy as np
+
+original = imread('bear30.jpg') / 255
+# Bild in Graustufenbild umwandeln
+image = 1/3 * (original[:,:,0] + original[:,:,1] + original[:,:,2])
+[length, width] = np.shape(image)
+```
+
+Um die Unschärfe einer schlecht fokussierten Linse zu simulieren, wenden wir einen *Gaussian Blur* an. Wie das genau funktioniert wird z.B. in diesem Video von Grant Sanderson von [3blue1brown](https://www.3blue1brown.com) [Letzter Zugriff 02.04.2023] erklärt.
+{{< video https://youtu.be/KuXjwB4LzSA start="512" >}}
+
+Die folgende Funktion wendet einen solchen Gaussian Blur auf ein Bild an. Die Vorlage des Codes stammt aus dem Forumsbeitrag [How to gauss-filter (blur) a floating point numpy array](https://stackoverflow.com/questions/29920114/how-to-gauss-filter-blur-a-floating-point-numpy-array) von stackoverflow [Letzter Zugriff 02.04.2023] und wurde so abgeändert, dass die kernel-Grösse selber bestimmt werden kann.
+```{python}
+#| code-fold: show
+def blur(a): 
+    # kernel erzeugen
+    kernel_size = 4
+    k1 = [np.array([math.comb(kernel_size, k) for k in range(kernel_size)])]
+    kernel = np.dot(np.transpose(k1), k1)
+    kernel = kernel / np.sum(kernel)
+    
+    # Faltung (Convolution) ausführen
+    arraylist = []
+    for y in range(kernel_size):
+        temparray = np.copy(a)
+        temparray = np.roll(temparray, y - 1, axis=0)
+        for x in range(kernel_size):
+            temparray_X = np.copy(temparray)
+            temparray_X = np.roll(temparray_X, x - 1, axis=1)*kernel[y,x]
+            arraylist.append(temparray_X)
+
+    arraylist = np.array(arraylist)
+    arraylist_sum = np.sum(arraylist, axis=0)
+    return arraylist_sum
+```
+
+Nun wenden wir diesen Filter auf unser Testbild an.
+
+```{python}
+#| code-fold: show
+#| label: fig-TestBildMitBlur
+#| fig-cap: "Testbild und Blur."
+# Blur erzeugen
+blurredimage = blur(image)
+blurrarray = np.reshape(blurredimage, length*width)
+
+# Plot
+ax = plt.subplot(1,2,1)
+ax.set_title("Original")
+ax.set_axis_off()
+plt.imshow(image, cmap = "gray")
+
+ax = plt.subplot(1,2,2)
+ax.set_title("Blurred")
+ax.set_axis_off()
+plt.imshow(blurredimage, cmap = "gray")
+
+plt.show()
+```
+Unser Ziel ist wie gesagt, mit Hilfe des Gradient Descent Verfahrens aus dem unscharfen Bild rechts wieder so nahe wie möglich an das Original heranzukommen. Dazu beginnen wir mit einem "Startwert", das ein Bild ist, welches aus 30 x 30 Pixeln besteht, die alle den Wert 0.5 haben, d.h. mit einem grauen Bild. 
+```{python}
+#| code-fold: show
+# Startwert
+guessimage = np.full(shape = [length, width], fill_value=0.5)
+```
+Diese $30\times30=900$ Pixelwerte sind nun der Input unserer Loss Funktion und werden im Laufe der Gradient Descent Iteration so verändert, dass sie diese Funktion minimieren. Diese Loss Funktion definieren wir folgendermassen: Auf das `guessimage` wird zuerst ein Gaussian Blur angewendet. Danach betrachten wir die Differenzen `blur(guessimage) - blurredimage` in jedem Pixel. Nach dem Gauss'schen Ansatz der kleinsten Fehlerquadrate definieren wir die Loss Funktion als Summe der Quadrate aller Fehler in den einzelnen Pixeln. Dahinter steckt die Idee, dass wenn die Differenzen zwischen den unscharfen Bildern `blur(guessimage) - blur(original)` klein ist, dann sollten auch die Differenzen `guessimage - original` klein sein, d.h. `testimage` sollte in etwa dem `original` entsprechen.
+
+Für die konkrete Umsetzung wandeln wir das Bild mit den $30\times30$ Pixeln in einen Vektor der Länge 900 um. Das haben wir für für das `blurredimage` bereits in der Zeile `blurrarray = np.reshape(blurredimage, length*width)` gemacht. Für das `guessimage` müssen wir nach der Umwandlung die 900 Einträge zunächst in `FloatAad`-Objekte umwandeln. All das geschieht in der folgenden Funktion.
+```{python}
+#| code-fold: show
+def loss(x):
+    # Input x ist ein Bild, auf welches der Gauss Filter angewendet wird
+    # Danach wird das Bild als 1-dim. Array gespeichert
+    [length, width] = np.shape(x)
+    temp = blur(x)
+    temparray = np.reshape(temp, length * width)
+
+    # Umwandeln in FloatAad
+    temparray = float2FloatAad(temparray)
+
+    y = sum((temparray - blurrarray) ** 2)
+    g = getGradient(temparray, y)
+    return [y.value, g]
+```
+Nun können wir das Gradient Descent Verfahren anwenden.
+```{python}
+#| code-fold: show
+#| label: fig-ImageReconstructionResult
+#| fig-cap: "Resultat des Schärfens und Differenz zum Original"
+# Gradient Descent Parameter
+lam = 0.01
+tol = 0.5
+
+[lossval, grad] = loss(guessimage)
+
+while lossval > tol:
+    [lossval, grad] = loss(guessimage) 
+    diff = np.reshape(grad, [length, width])
+    guessimage = guessimage - lam * diff
+
+# Plot
+ax = plt.subplot(2,2,1)
+ax.set_title("Guess")
+ax.set_axis_off()
+plt.imshow(guessimage, cmap = "gray")
+
+ax = plt.subplot(2,2,2)
+ax.set_title("Blurred Guess")
+ax.set_axis_off()
+blurredguess = blur(guessimage)
+plt.imshow(blurredguess, cmap = "gray")
+
+ax = plt.subplot(2,2,3)
+ax.set_title("Original - Guess")
+ax.set_axis_off()
+diffOrig = 0.5 * (image - guessimage + 1)
+plt.imshow(diffOrig, cmap = "gray")
+
+ax = plt.subplot(2,2,4)
+ax.set_title("Blurred - Blurred Guess")
+ax.set_axis_off()
+diffBlurred = 0.5 * (blurredimage - blurredguess + 1)
+plt.imshow(diffBlurred, cmap = "gray")
+
+plt.show()
+```
+Das vollständige Programm kann auch [hier](deblurImage.py) heruntergeladen werden.
 
 
 ### Ein einaches neuronales Netz

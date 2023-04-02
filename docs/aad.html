@@ -666,7 +666,7 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>-2
-((&lt;__main__.FloatAad object at 0x0F5FD0D0&gt;, -1),)</code></pre>
+((&lt;__main__.FloatAad object at 0x0FC5DE98&gt;, -1),)</code></pre>
 </div>
 </div>
 <p>Der Wert von <code>v.derivatives</code> ist ein Tupel, dessen erster Eintrag eine Referenz auf das <code>FloatAad</code>-Objekt <code>x</code> ist und der Wert des zweiten Eintrags ist <code>-1</code> weil <span class="math inline">\(\partial v / \partial x = -1\)</span> ist.</p>
@@ -847,8 +847,8 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>6
-((&lt;__main__.FloatAad object at 0x0F5F8580&gt;, 1),)
-((&lt;__main__.FloatAad object at 0x0F5F8598&gt;, 1), (&lt;__main__.FloatAad object at 0x0F5F8190&gt;, 1))</code></pre>
+((&lt;__main__.FloatAad object at 0x0FC64EC8&gt;, 1),)
+((&lt;__main__.FloatAad object at 0x0FC64490&gt;, 1), (&lt;__main__.FloatAad object at 0x0FC64190&gt;, 1))</code></pre>
 </div>
 </div>
 <p>Wir sehen, dass der Funktionswert <span class="math inline">\(f(2,3) = 6\)</span> korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein <code>FloatAad</code>-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten <code>FloatAad</code>-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_0 = 2x_0 = 4\)</span> und <span class="math inline">\(\partial f / \partial x_1 = -1\)</span>. Wir schreiben dafür nun eine Funktion <code>getDerivatives(y)</code>, welche aus dem <code>FloatAad</code>-Objekt <code>y</code> rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen <span class="math inline">\(x_i\)</span> führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion <code>computeDerivative</code>. Der Rückgabewert soll dann ein Dictionary sein (<code>defaultdict</code> aus dem Modul <code>collections</code>, welches zu Beginn importiert werden muss), dessen Schlüsselwerte die Variablen <code>x0, x1</code> etc. sind und die zugehörigen Werte sind die partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_i\)</span>.</p>
@@ -903,10 +903,7 @@ Lösung
 </div>
 <div class="cell" data-execution_count="12">
 <div class="cell-output cell-output-stdout">
-<pre><code>6</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
+<pre><code>6
 [2, -1]</code></pre>
 </div>
 </div>
@@ -920,38 +917,38 @@ Lösung
 <div class="cell" data-execution_count="13">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mul(a, b):</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> a.value <span class="op">*</span> b.value</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        (a, b.value),  <span class="co"># a*b nach a abgeleitet gibt b</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        (b, a.value)   <span class="co"># a*b nach b abgeleitet gibt a</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mul(a, b):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> a.value <span class="op">*</span> b.value</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        (a, b.value),  <span class="co"># a*b nach a abgeleitet gibt b</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        (b, a.value)   <span class="co"># a*b nach b abgeleitet gibt a</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Damit überladen wir nun den <code>*</code>-Operator:</p>
 <div class="cell" data-execution_count="14">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__mul__</span>(<span class="va">self</span>, other):</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">*</span> other</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, other), </span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mul(<span class="va">self</span>, other)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rmul__</span>(<span class="va">self</span>, other):</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">*</span> <span class="va">self</span>.value</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, other), </span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mul(other, <span class="va">self</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__mul__</span>(<span class="va">self</span>, other):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">*</span> other</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, other), </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mul(<span class="va">self</span>, other)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rmul__</span>(<span class="va">self</span>, other):</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">*</span> <span class="va">self</span>.value</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, other), </span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mul(other, <span class="va">self</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div id="exr-AadDivOp" class="theorem exercise">
@@ -974,37 +971,37 @@ Lösung
 <div class="cell" data-execution_count="15">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> inv(a):</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> <span class="fl">1.</span> <span class="op">/</span> a.value</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        (a, <span class="op">-</span><span class="fl">1.</span> <span class="op">/</span> a.value<span class="op">**</span><span class="dv">2</span>), </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> inv(a):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> <span class="fl">1.</span> <span class="op">/</span> a.value</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        (a, <span class="op">-</span><span class="fl">1.</span> <span class="op">/</span> a.value<span class="op">**</span><span class="dv">2</span>), </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Und damit der <code>/</code>-Operator</p>
 <div class="cell" data-execution_count="16">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__truediv__</span>(<span class="va">self</span>, other):</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">/</span> other</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, <span class="dv">1</span> <span class="op">/</span> other),</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mul(<span class="va">self</span>, inv(other))</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rtruediv__</span>(<span class="va">self</span>, other):</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">/</span> <span class="va">self</span>.value</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, <span class="op">-</span> other <span class="op">/</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value,<span class="dv">2</span>)),</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mul(other, inv(<span class="va">self</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__truediv__</span>(<span class="va">self</span>, other):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> <span class="va">self</span>.value <span class="op">/</span> other</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, <span class="dv">1</span> <span class="op">/</span> other),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mul(<span class="va">self</span>, inv(other))</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rtruediv__</span>(<span class="va">self</span>, other):</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> other <span class="op">/</span> <span class="va">self</span>.value</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, <span class="op">-</span> other <span class="op">/</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value,<span class="dv">2</span>)),</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mul(other, inv(<span class="va">self</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -1020,38 +1017,38 @@ Lösung
 <div class="cell" data-execution_count="17">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">pow</span>(a, b):</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.<span class="bu">pow</span>(a.value,b.value)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        (a, b.value <span class="op">*</span> math.<span class="bu">pow</span>(a.value, b.value<span class="op">-</span><span class="dv">1</span>)), <span class="co"># a^b nach a abgeleitet gibt b*a^(b-1)</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        (b, math.<span class="bu">pow</span>(a.value, b.value) <span class="op">*</span> math.log(a.value))  <span class="co"># a^b nach b abgeleitet gibt a^b * ln(a)</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">pow</span>(a, b):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> math.<span class="bu">pow</span>(a.value,b.value)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        (a, b.value <span class="op">*</span> math.<span class="bu">pow</span>(a.value, b.value<span class="op">-</span><span class="dv">1</span>)), <span class="co"># a^b nach a abgeleitet gibt b*a^(b-1)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        (b, math.<span class="bu">pow</span>(a.value, b.value) <span class="op">*</span> math.log(a.value))  <span class="co"># a^b nach b abgeleitet gibt a^b * ln(a)</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>und benutzen diese zur Überladung des <code>**</code>-Operators:</p>
 <div class="cell" data-execution_count="18">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__pow__</span>(<span class="va">self</span>, other):</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, other <span class="op">*</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other <span class="op">-</span> <span class="dv">1</span>)),</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        ) </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)           </span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">pow</span>(<span class="va">self</span>, other)</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rpow__</span>(<span class="va">self</span>, other):</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(other, <span class="va">self</span>.value)</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, math.<span class="bu">pow</span>(other, <span class="va">self</span>.value) <span class="op">*</span> math.log(other)),</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">pow</span>(other, <span class="va">self</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__pow__</span>(<span class="va">self</span>, other):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, other <span class="op">*</span> math.<span class="bu">pow</span>(<span class="va">self</span>.value, other <span class="op">-</span> <span class="dv">1</span>)),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        ) </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)           </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">pow</span>(<span class="va">self</span>, other)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__rpow__</span>(<span class="va">self</span>, other):</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(other) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        newValue <span class="op">=</span> math.<span class="bu">pow</span>(other, <span class="va">self</span>.value)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        newDerivative <span class="op">=</span> (</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>, math.<span class="bu">pow</span>(other, <span class="va">self</span>.value) <span class="op">*</span> math.log(other)),</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">pow</span>(other, <span class="va">self</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Die fertige Klasse <code>FloatAad</code> von <a href="floataad.py">hier</a> kopiert werden.</p>
@@ -1060,7 +1057,7 @@ Lösung
 <section id="die-klasse-floataad-im-einsatz" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="die-klasse-floataad-im-einsatz"><span class="header-section-number">5.3</span> Die Klasse <code>FloatAad</code> im Einsatz</h2>
 <p></p>
-<p>Wir sind nun in der Lage, Gradienten von Funktionen zu berechnen, solange darin noch keine Ausdrücke mit <span class="math inline">\(\sin\)</span> oder <span class="math inline">\(\ln\)</span> etc. vorkommen.</p>
+<p>Wir sind nun in der Lage, Gradienten von Funktionen zu berechnen, solange darin noch keine Ausdrücke wie <span class="math inline">\(\sin(x)\)</span> oder <span class="math inline">\(\ln(x)\)</span> etc. vorkommen.</p>
 <div id="exm-gradientsWithAAD" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.2 (Gradient mit <code>FloatAad</code>) </strong></span><br></p>
 <p>Betrachte die Funktion <span class="math display">\[
@@ -1089,36 +1086,33 @@ f(x_0, x_1, x_2) = x_0 \cdot x_1^2 + \frac{2 ^{x_1}}{x_2} - \frac{2}{x_2^2}
 <div class="cell" data-execution_count="19">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> x[<span class="dv">0</span>] <span class="op">*</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> <span class="dv">2</span><span class="op">**</span>x[<span class="dv">1</span>] <span class="op">/</span> x[<span class="dv">2</span>]</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> <span class="dv">2</span> <span class="op">/</span> x[<span class="dv">2</span>]<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v1 <span class="op">+</span> v2 <span class="op">-</span> v3</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="dv">3</span>,<span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> float2FloatAad(x0)</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(x0)</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> y.value</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> getGradient(x0, y)</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Funktionswert: "</span> <span class="op">+</span> <span class="bu">str</span>(y0))</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gradient: "</span> <span class="op">+</span> <span class="bu">str</span>(dy))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> x[<span class="dv">0</span>] <span class="op">*</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">=</span> <span class="dv">2</span><span class="op">**</span>x[<span class="dv">1</span>] <span class="op">/</span> x[<span class="dv">2</span>]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">=</span> <span class="dv">2</span> <span class="op">/</span> x[<span class="dv">2</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> v1 <span class="op">+</span> v2 <span class="op">-</span> v3</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="dv">3</span>,<span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> float2FloatAad(x0)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(x0)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> y.value</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> getGradient(x0, y)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Funktionswert: "</span> <span class="op">+</span> <span class="bu">str</span>(y0))</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gradient: "</span> <span class="op">+</span> <span class="bu">str</span>(dy))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Funktionswert: 6.0</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
+<pre><code>Funktionswert: 6.0
 Gradient: [4.0, 9.227411277760218, -8.0]</code></pre>
 </div>
 </div>
 </div>
 <hr>
-<p>Wir können mit der Klasse <code>FloatAad</code> auch die Jacobi Matrix einer Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> bestimmen. Ähnlich wie in <a href="HigherDimFunctions.html#sec-FuncRnToRm"><span>Kapitel&nbsp;4.3</span></a> benötigen wir dazu jedoch mehrere Durchgänge. Diesmal muss jede Zeile der Matrix <span class="math inline">\(Jf\)</span> einzeln berechnet werden. Dafür müssen wir die Methode <code>getGradient</code> <span class="math inline">\(m\)</span> Mal aufrufen, nämlich einmal für jedes <code>y[i]</code>. Um dies zu automatisieren definieren wir uns wieder zwei Funktionen <code>getValues</code> und <code>getJacobian</code> (welche wir natürlich auch in die Klasse <code>FloatAad</code> schreiben könnten). Während <code>FloatSad</code> günstig war, solange <span class="math inline">\(n&lt;m\)</span> war, so ist <code>FloatAad</code> günstig, wenn <span class="math inline">\(n&gt;m\)</span> ist.</p>
+<p>Wir können mit der Klasse <code>FloatAad</code> auch die Jacobi Matrix einer Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> bestimmen. Ähnlich wie in <a href="HigherDimFunctions.html#sec-FuncRnToRm"><span>Kapitel&nbsp;4.3</span></a> benötigen wir dazu jedoch mehrere Durchgänge. Diesmal muss jede <em>Zeile</em> der Matrix <span class="math inline">\(Jf\)</span> einzeln berechnet werden. Dafür müssen wir die Methode <code>getGradient</code> <span class="math inline">\(m\)</span> Mal aufrufen, nämlich einmal für jedes <code>y[i]</code>. Um dies zu automatisieren definieren wir uns wieder zwei Funktionen <code>getValues</code> und <code>getJacobian</code> (welche wir natürlich auch in die Klasse <code>FloatAad</code> schreiben könnten). Während <code>FloatSad</code> günstig war, solange <span class="math inline">\(n&lt;m\)</span> war, so ist <code>FloatAad</code> günstig, wenn <span class="math inline">\(n&gt;m\)</span> ist.</p>
 <div id="exm-JacobianWithAad" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.3 (Jacobi Matrix mit <code>FloatAad</code>) </strong></span><br></p>
 <p>Wir betrachten die Funktion <span class="math inline">\(f : \mathbb{R}^3 \rightarrow \mathbb{R}^2\)</span> mit <span class="math display">\[
@@ -1155,34 +1149,31 @@ Jf|_{(-2,-4,0.5)} =
 <div class="cell" data-execution_count="20">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> x[<span class="dv">0</span>] <span class="op">+</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>x[<span class="dv">2</span>]</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    y1 <span class="op">=</span> x[<span class="dv">0</span>] <span class="op">*</span> x[<span class="dv">1</span>] <span class="op">*</span> x[<span class="dv">2</span>]</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y0, y1]</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">4</span>,<span class="fl">0.5</span>]</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> float2FloatAad(x0)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>getValues <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> y : y.value)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>getJacobian <span class="op">=</span> <span class="kw">lambda</span> x,y : np.array([getGradient(x, y[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(y))])</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(x0)</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>val <span class="op">=</span> getValues(y)</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>Jacobian <span class="op">=</span> getJacobian(x0, y)</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Funktionswert: "</span> <span class="op">+</span><span class="bu">str</span>(val))</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Jf ="</span>)</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Jacobian)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> x[<span class="dv">0</span>] <span class="op">+</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>x[<span class="dv">2</span>]</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    y1 <span class="op">=</span> x[<span class="dv">0</span>] <span class="op">*</span> x[<span class="dv">1</span>] <span class="op">*</span> x[<span class="dv">2</span>]</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y0, y1]</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">4</span>,<span class="fl">0.5</span>]</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> float2FloatAad(x0)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>getValues <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> y : y.value)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>getJacobian <span class="op">=</span> <span class="kw">lambda</span> x,y : np.array([getGradient(x, y[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(y))])</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(x0)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>val <span class="op">=</span> getValues(y)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>Jacobian <span class="op">=</span> getJacobian(x0, y)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Funktionswert: "</span> <span class="op">+</span><span class="bu">str</span>(val))</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Jf ="</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Jacobian)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Funktionswert: [16.  4.]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
+<pre><code>Funktionswert: [16.  4.]
 Jf =
 [[ 1. -8. -4.]
  [-2. -1.  8.]]</code></pre>
@@ -1192,58 +1183,58 @@ Jf =
 <hr>
 <section id="gradient-descent-zum-auffinden-lokaler-minima" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="gradient-descent-zum-auffinden-lokaler-minima"><span class="header-section-number">5.3.1</span> Gradient Descent zum Auffinden lokaler Minima</h3>
-<p>Eine Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> kann man sich als eine i.A. gekrümmte Fläche im <span class="math inline">\(\mathbb{R}^3\)</span> vorstellen. Ist die Funktion differenzierbar, dann diese Fläche in einer Umgebung eines Punktes <span class="math inline">\((x_0, x_1, f(x_0, x_1))\)</span> beliebig gut durch eine Tangentialebene angenähert werden. Der Gradient <span class="math inline">\(\nabla f|_{(x_0, x_1)}\)</span> stellt ein Vektor in dieser Tangentialebene dar, und zwar zeigt er gerade in die Richtung des steilsten Anstiegs der Fläche. Entsprechend zeigt <span class="math inline">\(-\nabla f\)</span> in die Richtung des steilsten Abstiegs, siehe <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 871. Damit lässt sich die Gradient Descent Methode zur Berechnung eines lokalen Minimums, die wir im <a href="intro.html#sec-gradientDescent"><span>Kapitel&nbsp;1.3.2</span></a> kennen gelernt haben, auch zum Auffinden eines lokalen Minimums einer Fläche verwenden. Sie lässt sich sogar auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> anwenden, siehe <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 1324.</p>
+<p>Eine Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> kann man sich als eine i.A. gekrümmte Fläche im <span class="math inline">\(\mathbb{R}^3\)</span> vorstellen. Der Gradient <span class="math inline">\(\nabla f|_{(x_0, x_1)}\)</span> ist ein Vektor in <span class="math inline">\(\mathbb{R}^2\)</span>, der gerade in die Richtung des steilsten Anstiegs der Fläche beim Punkt <span class="math inline">\((x_0, x_1)\)</span> zeigt. Entsprechend zeigt <span class="math inline">\(-\nabla f\)</span> in die Richtung des steilsten Abstiegs, siehe <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 871. Damit lässt sich die Gradient Descent Methode zur Bestimmung eines lokalen Minimums, die wir im <a href="intro.html#sec-gradientDescent"><span>Kapitel&nbsp;1.3.2</span></a> kennen gelernt haben, auch zum Auffinden eines lokalen Minimums einer Fläche verwenden. Sie lässt sich sogar auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> anwenden, siehe <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 1324.</p>
 <p>Im Fall einer 2-dimensionalen Fläche starten wir an einem Punkt <span class="math inline">\((x_{0,0}, x_{1,0})\)</span>, welchen wir durch seinen Ortsvektor <span class="math inline">\(\vec{x}_0\)</span> beschreiben. Dann berechnen wir rekursiv eine Folge von (Ortsvektoren zu) Punkten <span class="math inline">\(\vec{x}_n\)</span>, welche im Idealfall zu einem lokalen Minimum der Funktion konvergieren, gemäss der Vorschrift <span class="math display">\[
 \vec{x}_{n+1} = \vec{x}_n - \lambda\cdot(\nabla f(\vec{x}_n))^\intercal
 \]</span></p>
-<p><span class="math inline">\(\lambda\in\mathbb{R}\)</span> beeinflusst wie im <a href="intro.html#sec-gradientDescent"><span>Kapitel&nbsp;1.3.2</span></a> die Schrittweite. Ist <span class="math inline">\(\lambda\)</span> zu klein, dann konvergiert die Iteration nur sehr langsam, wird <span class="math inline">\(\lambda\)</span> hingegen zu gross gewählt, dann kann es passieren, dass sich die Iteration von einem lokalen Minimum weg bewegt.</p>
+<p><span class="math inline">\(\lambda\in\mathbb{R}^+\)</span> beeinflusst wie im <a href="intro.html#sec-gradientDescent"><span>Kapitel&nbsp;1.3.2</span></a> die Schrittweite. Ist <span class="math inline">\(\lambda\)</span> zu klein, dann konvergiert die Iteration nur sehr langsam, wird <span class="math inline">\(\lambda\)</span> hingegen zu gross gewählt, dann kann es passieren, dass sich die Iteration von einem lokalen Minimum wieder weg bewegt.</p>
 <div id="exm-gradientDescentWithAAD" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.4 (Gradient Descent auf einer Fläche) </strong></span><br></p>
 <p>Betrachte die Funktion <span class="math inline">\(f(x_0, x_1) = x_0^4 + x_1^4 + x_0 x_1^3 - x_0^2 x_1 - x_1^2\)</span>.</p>
 <div>
-<p>Hier wird diese Funktion einmal als 2-dimensionale Fläche und einmal als Konturlinien Plot dargestellt. Im linken Feld kann man den Startpunkt und <span class="math inline">\(\lambda\)</span> wählen und die ersten 30 Iterationen darstellen.</p>
-<div class="fig-AbstandEllipseGerade">
+<p>Hier wird diese Funktion einmal als 2-dimensionale Fläche und einmal als mit Hilfe von Konturlinien dargestellt. Im linken Feld kann man den Startpunkt und <span class="math inline">\(\lambda\)</span> wählen und die ersten 30 Iterationen darstellen.</p>
+<div class="fig-GradientDescent2DGeoGebra">
 <iframe scrolling="no" title="Gradient descent 2d" src="https://www.geogebra.org/material/iframe/id/c2zjuxef/width/700/height/600/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="600px" style="border:0px;">
 </iframe>
 </div>
 <p>Man erkennt, dass die Funktion drei lokale Minima hat.</p>
 </div>
-<p>Nun wollen wir die lokalen Minima mit Hilfe der Gradient Descent Methode berechnen. Damit wir <span class="math inline">\(\lambda \cdot (\nabla f)\)</span> als <code>lam * df</code> berechnen können, wandeln wir die Liste, die wir mit <code>getGradient</code> erhalten, in ein <code>numpy</code>-array um. Die oben beschriebene Iteration wird so lange ausgeführt, bis <span class="math inline">\(|\vec{x}_{n+1}-\vec{x}_n|\le 10^{-6}\)</span> ist.</p>
+<p>Nun wollen wir ein lokales Minimum mit Hilfe der Gradient Descent Methode finden. Damit wir <span class="math inline">\(\lambda \cdot (\nabla f)\)</span> als <code>lam * df</code> berechnen können, wandeln wir die Liste, die wir mit <code>getGradient</code> erhalten, in ein <code>numpy</code>-array um. Die oben beschriebene Iteration wird so lange ausgeführt, bis <span class="math inline">\(|\vec{x}_{n+1}-\vec{x}_n|\le 10^{-6}\)</span> ist.</p>
 <div class="cell" data-execution_count="21">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">4</span> <span class="op">+</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">4</span> <span class="op">+</span> x[<span class="dv">0</span>] <span class="op">*</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">3</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> y <span class="op">-</span> x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> x[<span class="dv">1</span>] <span class="op">-</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>getValues <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> y : y.value)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Startwert und Lambda für Gradient Descent</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="fl">0.5</span>, <span class="dv">0</span>]</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.1</span></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-6</span> <span class="co"># Toleranz für Abbruchbedingung</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> float2FloatAad(x0)</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> f(x0)</span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> np.array(getGradient(x0, y0))</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Erster Schritt</span></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> dy</span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Iteration bis die Distanz zwischen zwei</span></span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="co"># aufeinanderfolgenden Punkten kleiner ist als tol.</span></span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> np.linalg.norm(getValues(x0) <span class="op">-</span> getValues(x1)) <span class="op">&gt;</span> tol:</span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x1</span>
-<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> f(x0)</span>
-<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> np.array(getGradient(x0, y0))</span>
-<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> dy</span>
-<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Lokales Minimum gefunden in der Nähe von"</span>)</span>
-<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getValues(x1))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">4</span> <span class="op">+</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">4</span> <span class="op">+</span> x[<span class="dv">0</span>] <span class="op">*</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">3</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> y <span class="op">-</span> x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> x[<span class="dv">1</span>] <span class="op">-</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>getValues <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> y : y.value)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Startwert und Lambda für Gradient Descent</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="fl">0.5</span>, <span class="dv">0</span>]</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-6</span> <span class="co"># Toleranz für Abbruchbedingung</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> float2FloatAad(x0)</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> f(x0)</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> np.array(getGradient(x0, y0))</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Erster Schritt</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> dy</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Iteration bis die Distanz zwischen zwei</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="co"># aufeinanderfolgenden Punkten kleiner ist als tol.</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> np.linalg.norm(getValues(x0) <span class="op">-</span> getValues(x1)) <span class="op">&gt;</span> tol:</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x1</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> f(x0)</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> np.array(getGradient(x0, y0))</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> dy</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Lokales Minimum gefunden in der Nähe von"</span>)</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getValues(x1))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Lokales Minimum gefunden in der Nähe von
@@ -1258,76 +1249,76 @@ Jf =
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="lineare-regression"><span class="header-section-number">5.3.2</span> Lineare Regression</h3>
 <p>Beim klassischen Ausgleichsproblem sind <span class="math inline">\(n\)</span> Datenpunkte <span class="math inline">\((x_i , y_i)\)</span> (Messwerte) gegeben, zwischen denen ein linearer Zusammenhang vermutet wird, d.h. <span class="math inline">\(y_i \approx g(x_i) = a\cdot x_i + b\)</span>. Auf Grund von Messfehlern und anderen Einflüssen können wir jedoch nicht erwarten, dass der Zusammenhang exakt einer linearen Funktion entspricht, d.h. der Fehler <span class="math inline">\(y_i - g(x_i)\)</span> ist im Allgemeinen nicht Null. Das Ziel ist nun, die Parameter <span class="math inline">\(a\)</span> und <span class="math inline">\(b\)</span> so zu bestimmen, dass die Summe der Quadrate dieser Fehler möglichst klein wird. Mit anderen Worten: wir suchen das Minimum der Funktion <span class="math inline">\(\Phi : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> <span class="math display">\[
 \Phi(a, b) = \sum_{i = 1}^n (y_i - (a\cdot x_i + b))^2
-\]</span> Die Funktion <span class="math inline">\(\Phi\)</span> wird insbesondere im Kontext des maschinellen Lernens auch <em>Loss Funktion</em> genannt. Da es sich bei <span class="math inline">\(\Phi(a,b)\)</span> um eine quadratische Funktion in <span class="math inline">\(a\)</span> und <span class="math inline">\(b\)</span> handelt, besitzt sie ein eindeutiges Minimum, welches auch rein analytisch gefunden werden kann, siehe z.B. <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 1526. Wir wollen das Minimum aber mit dem Gradient Descent Verfahren bestimmen. Als Startwert verwenden wir einfach <span class="math inline">\((a, b) = (0, 0)\)</span>.</p>
+\]</span> Dieser Ansatz stammt von Gauss und wird auch die Methode der kleinsten Fehlerquadrate genannt. Die Funktion <span class="math inline">\(\Phi\)</span> wird insbesondere im Kontext des maschinellen Lernens auch <em>Loss Funktion</em> genannt. Da es sich bei <span class="math inline">\(\Phi(a,b)\)</span> um eine quadratische Funktion in <span class="math inline">\(a\)</span> und <span class="math inline">\(b\)</span> handelt, besitzt sie ein eindeutiges Minimum, welches auch rein analytisch gefunden werden kann, siehe z.B. <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 1526. Wir wollen das Minimum aber mit dem Gradient Descent Verfahren bestimmen. Als Startwert verwenden wir einfach <span class="math inline">\((a, b) = (0, 0)\)</span>.</p>
 <div id="exm-LinearRegressionWithGradientDescent" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.5 (Lineare Regression mit Gradient Descent und <code>AAD</code>) </strong></span><br></p>
 <p>In diesem Beispiel gehen wir davon aus, dass der korrekte, aber unbekannte, lineare Zusammenhang durch <span class="math inline">\(y = f(x) = 2x+3\)</span> gegeben ist. Wir erzeugen zunächst eine Anzahl von <code>anz = 50</code> Datenpunkten, die zufällig um diese Gerade streuen. Danach versuchen wir, die Parameter <span class="math inline">\(a\)</span> und <span class="math inline">\(b\)</span> mittels linearer Regression aus diesen Datenpunkten zu rekonstruieren. Die Funktion <code>loss(a, b)</code> berechnet die Funktion <span class="math inline">\(\Phi(a,b)\)</span>, deren Ableitung automatisch mittels <code>FloatAad</code> berechnet wird. Der so berechnete Gradient von <span class="math inline">\(\Phi\)</span> wird für das Gradient Descent Verfahren verwendet. Da die Funktion nur zwei unabhängige Variablen hat, verwenden wir direkt den Konstruktor <code>FloatAad</code> und die Methode <code>getDerivatives</code> anstelle der vektorisierten Methoden <code>float2FloatAad</code> und <code>getGradient</code>. Schliesslich werden die Datenpunkte zusammen mit der korrekten Funktion <span class="math inline">\(f\)</span> und der Ausgleichsgeraden <span class="math inline">\(g\)</span> grafisch dargestellt.</p>
 <div class="cell" data-execution_count="22">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> FloatAad, getDerivatives</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(a, b):</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># X und Y werden im global space gefunden</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X)):</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> <span class="bu">float</span>(Y[i]) <span class="op">-</span> (a <span class="op">*</span> <span class="bu">float</span>(X[i]) <span class="op">+</span> b)</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sum</span> <span class="op">+=</span> d<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(<span class="bu">sum</span>)</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter zur Erzeugung der Datenpunkte</span></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>anz <span class="op">=</span> <span class="dv">50</span> <span class="co"># Anzahl Datenpunkte</span></span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>xmin, xmax <span class="op">=</span> <span class="dv">0</span>, <span class="dv">10</span></span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="dv">2</span>    <span class="co"># Streuung</span></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeugende Funktion</span></span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">2</span> <span class="op">*</span> x <span class="op">+</span> <span class="dv">3</span></span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten erzeugen</span></span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(xmin, xmax, anz)</span>
-<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> f(X)</span>
-<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Rauschen hinzufügen</span></span>
-<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> Y <span class="op">+</span> s <span class="op">*</span> np.random.randn(anz)</span>
-<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Descent</span></span>
-<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.0005</span></span>
-<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>a0, b0 <span class="op">=</span> FloatAad(<span class="dv">0</span>), FloatAad(<span class="dv">0</span>) <span class="co"># Startwerte</span></span>
-<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> loss(a0, b0)</span>
-<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>dPhi <span class="op">=</span> getDerivatives(Phi)</span>
-<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a>a1 <span class="op">=</span> a0 <span class="op">-</span> lam <span class="op">*</span> dPhi[a0]</span>
-<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> b0 <span class="op">-</span> lam <span class="op">*</span> dPhi[b0]</span>
-<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (a1.value<span class="op">-</span>a0.value)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (b1.value<span class="op">-</span>b0.value)<span class="op">**</span><span class="dv">2</span> <span class="op">&gt;</span> <span class="fl">1e-6</span>:</span>
-<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a>    a0, b0 <span class="op">=</span> a1, b1</span>
-<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a>    Phi <span class="op">=</span> loss(a0, b0)</span>
-<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a>    dPhi <span class="op">=</span> getDerivatives(Phi)</span>
-<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a>    a1 <span class="op">=</span> a0 <span class="op">-</span> lam <span class="op">*</span> dPhi[a0]</span>
-<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> b0 <span class="op">-</span> lam <span class="op">*</span> dPhi[b0]</span>
-<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Regressionsgerade</span></span>
-<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> a1.value, b1.value</span>
-<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x : a <span class="op">*</span> x <span class="op">+</span> b)</span>
-<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"y = g(x) = "</span> <span class="op">+</span> <span class="bu">str</span>(a) <span class="op">+</span> <span class="st">"x + "</span> <span class="op">+</span> <span class="bu">str</span>(b))</span>
-<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten darstellen</span></span>
-<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a>plt.plot(X,Y, <span class="st">'b.'</span>, X, f(X), <span class="st">'r--'</span>, X, g(X), <span class="st">'g-.'</span>)</span>
-<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">"Datenpunkte"</span>, <span class="st">"Erzeugende Funktion"</span>, <span class="st">"Regressionsgerade"</span>])</span>
-<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> FloatAad, getDerivatives</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(a, b):</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># X und Y werden im global space gefunden</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X)):</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> <span class="bu">float</span>(Y[i]) <span class="op">-</span> (a <span class="op">*</span> <span class="bu">float</span>(X[i]) <span class="op">+</span> b)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sum</span> <span class="op">+=</span> d<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(<span class="bu">sum</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter zur Erzeugung der Datenpunkte</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>anz <span class="op">=</span> <span class="dv">50</span> <span class="co"># Anzahl Datenpunkte</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>xmin, xmax <span class="op">=</span> <span class="dv">0</span>, <span class="dv">10</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="dv">2</span>    <span class="co"># Streuung</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeugende Funktion</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">2</span> <span class="op">*</span> x <span class="op">+</span> <span class="dv">3</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten erzeugen</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(xmin, xmax, anz)</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> f(X)</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Rauschen hinzufügen</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> Y <span class="op">+</span> s <span class="op">*</span> np.random.randn(anz)</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Descent</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.0005</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>a0, b0 <span class="op">=</span> FloatAad(<span class="dv">0</span>), FloatAad(<span class="dv">0</span>) <span class="co"># Startwerte</span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> loss(a0, b0)</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>dPhi <span class="op">=</span> getDerivatives(Phi)</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>a1 <span class="op">=</span> a0 <span class="op">-</span> lam <span class="op">*</span> dPhi[a0]</span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> b0 <span class="op">-</span> lam <span class="op">*</span> dPhi[b0]</span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (a1.value<span class="op">-</span>a0.value)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (b1.value<span class="op">-</span>b0.value)<span class="op">**</span><span class="dv">2</span> <span class="op">&gt;</span> <span class="fl">1e-9</span>:</span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>    a0, b0 <span class="op">=</span> a1, b1</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>    Phi <span class="op">=</span> loss(a0, b0)</span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>    dPhi <span class="op">=</span> getDerivatives(Phi)</span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>    a1 <span class="op">=</span> a0 <span class="op">-</span> lam <span class="op">*</span> dPhi[a0]</span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> b0 <span class="op">-</span> lam <span class="op">*</span> dPhi[b0]</span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Regressionsgerade</span></span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> a1.value, b1.value</span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x : a <span class="op">*</span> x <span class="op">+</span> b)</span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"y = g(x) = "</span> <span class="op">+</span> <span class="bu">str</span>(a) <span class="op">+</span> <span class="st">"x + "</span> <span class="op">+</span> <span class="bu">str</span>(b))</span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten darstellen</span></span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>plt.plot(X,Y, <span class="st">'b.'</span>, X, f(X), <span class="st">'r--'</span>, X, g(X), <span class="st">'g-.'</span>)</span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">"Datenpunkte"</span>, <span class="st">"Erzeugende Funktion"</span>, <span class="st">"Regressionsgerade"</span>])</span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>y = g(x) = 1.9346630834095884x + 3.586081047682159</code></pre>
+<pre><code>y = g(x) = 2.010085281515536x + 2.523538852588186</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div id="fig-graphoflinearregression" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aad_files/figure-html/fig-graphoflinearregression-output-2.png" width="566" height="407" class="figure-img"></p>
+<p><img src="aad_files/figure-html/fig-graphoflinearregression-output-2.png" width="566" height="405" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Abbildung&nbsp;5.3: Ausgleichsgerade.</figcaption><p></p>
 </figure>
 </div>
@@ -1338,6 +1329,185 @@ Jf =
 </section>
 <section id="bilder-schärfen" class="level3" data-number="5.3.3">
 <h3 data-number="5.3.3" class="anchored" data-anchor-id="bilder-schärfen"><span class="header-section-number">5.3.3</span> Bilder schärfen</h3>
+<p>Die Idee zu dieser Anwendung stammt von <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>. Beim Fotografieren kann es passieren, dass die Linse der Kamera nicht richtig fokussiert ist und das Bild dadurch unscharf wirkt. Es ist jedoch möglich, ein Bild bis zu einem gewissen Grad nachträglich zu schärfen.</p>
+<p>Als Testbild verwenden wir das folgende Bild eines Teddybären, welches unter der Creative Commons 4.0 Lizenz auf <a href="https://www.pngall.com/toy-png/download/55843">https://www.pngall.com/toy-png/download/55843</a> [Letzter Zugriff 02.04.2023] zur Verfügung gestellt wird. Allerdings müssen wir die Auflösung von ursprünglich 180 x 180 Pixel auf 30 x 30 Pixel reduzieren, was mit jeder Bildbearbeitungssoftware gemacht werden kann. Der Grund dafür ist, dass die Anzahl Pixel darüber entscheidet, wie viele <code>FloatAad</code>-Objekte wir erzeugen müssen und während des Gradient Descent Verfahrens wird der Computational Graph bei vielen Variablen sehr gross, so dass beim Berechnen der Ableitungen die maximale Rekursionstiefe überschritten würde. Wir verwenden also das in rechts dargestellte Bild <code>Bear30.jpg</code>.</p>
+<div id="fig-teddys" class="quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-bottom">
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-originalTeddy" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Bear_original.png" class="img-fluid figure-img" data-ref-parent="fig-teddys"></p>
+<p></p><figcaption class="figure-caption">(a) Original 180 x 180</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-smallTeddy" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Bear30.jpg" class="img-fluid figure-img" data-ref-parent="fig-teddys" width="180"></p>
+<p></p><figcaption class="figure-caption">(b) Testbild 30 x 30</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.4: Testbild eines Teddybärs.</figcaption><p></p>
+</figure>
+</div>
+<p>Es stellt sich heraus, dass selbst diese kleine Auflösung noch zu viele <code>FloatAad</code>-Objekte benötigt weil jedes Pixel drei Farbkanäle hat. Daher wandeln wir das Bild nach dem Laden zuerst in ein Graustufenbild um.</p>
+<div class="cell" data-execution_count="23">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.image <span class="im">import</span> imread</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>original <span class="op">=</span> imread(<span class="st">'bear30.jpg'</span>) <span class="op">/</span> <span class="dv">255</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Bild in Graustufenbild umwandeln</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span> <span class="op">*</span> (original[:,:,<span class="dv">0</span>] <span class="op">+</span> original[:,:,<span class="dv">1</span>] <span class="op">+</span> original[:,:,<span class="dv">2</span>])</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>[length, width] <span class="op">=</span> np.shape(image)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Um die Unschärfe einer schlecht fokussierten Linse zu simulieren, wenden wir einen <em>Gaussian Blur</em> an. Wie das genau funktioniert wird z.B. in diesem Video von Grant Sanderson von <a href="https://www.3blue1brown.com">3blue1brown</a> [Letzter Zugriff 02.04.2023] erklärt.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/KuXjwB4LzSA?start=512" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Die folgende Funktion wendet einen solchen Gaussian Blur auf ein Bild an. Die Vorlage des Codes stammt aus dem Forumsbeitrag <a href="https://stackoverflow.com/questions/29920114/how-to-gauss-filter-blur-a-floating-point-numpy-array">How to gauss-filter (blur) a floating point numpy array</a> von stackoverflow [Letzter Zugriff 02.04.2023] und wurde so abgeändert, dass die kernel-Grösse selber bestimmt werden kann.</p>
+<div class="cell" data-execution_count="24">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> blur(a): </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># kernel erzeugen</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    kernel_size <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    k1 <span class="op">=</span> [np.array([math.comb(kernel_size, k) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(kernel_size)])]</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> np.dot(np.transpose(k1), k1)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> kernel <span class="op">/</span> np.<span class="bu">sum</span>(kernel)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Faltung (Convolution) ausführen</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    arraylist <span class="op">=</span> []</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(kernel_size):</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>        temparray <span class="op">=</span> np.copy(a)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>        temparray <span class="op">=</span> np.roll(temparray, y <span class="op">-</span> <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(kernel_size):</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>            temparray_X <span class="op">=</span> np.copy(temparray)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>            temparray_X <span class="op">=</span> np.roll(temparray_X, x <span class="op">-</span> <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)<span class="op">*</span>kernel[y,x]</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>            arraylist.append(temparray_X)</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>    arraylist <span class="op">=</span> np.array(arraylist)</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    arraylist_sum <span class="op">=</span> np.<span class="bu">sum</span>(arraylist, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arraylist_sum</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Nun wenden wir diesen Filter auf unser Testbild an.</p>
+<div class="cell" data-execution_count="25">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Blur erzeugen</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>blurredimage <span class="op">=</span> blur(image)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>blurrarray <span class="op">=</span> np.reshape(blurredimage, length<span class="op">*</span>width)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Original"</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>plt.imshow(image, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred"</span>)</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>plt.imshow(blurredimage, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-testbildmitblur" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="aad_files/figure-html/fig-testbildmitblur-output-1.png" width="540" height="276" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.5: Testbild und Blur.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Unser Ziel ist wie gesagt, mit Hilfe des Gradient Descent Verfahrens aus dem unscharfen Bild rechts wieder so nahe wie möglich an das Original heranzukommen. Dazu beginnen wir mit einem “Startwert”, das ein Bild ist, welches aus 30 x 30 Pixeln besteht, die alle den Wert 0.5 haben, d.h. mit einem grauen Bild.</p>
+<div class="cell" data-execution_count="26">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Startwert</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>guessimage <span class="op">=</span> np.full(shape <span class="op">=</span> [length, width], fill_value<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Diese <span class="math inline">\(30\times30=900\)</span> Pixelwerte sind nun der Input unserer Loss Funktion und werden im Laufe der Gradient Descent Iteration so verändert, dass sie diese Funktion minimieren. Diese Loss Funktion definieren wir folgendermassen: Auf das <code>guessimage</code> wird zuerst ein Gaussian Blur angewendet. Danach betrachten wir die Differenzen <code>blur(guessimage) - blurredimage</code> in jedem Pixel. Nach dem Gauss’schen Ansatz der kleinsten Fehlerquadrate definieren wir die Loss Funktion als Summe der Quadrate aller Fehler in den einzelnen Pixeln. Dahinter steckt die Idee, dass wenn die Differenzen zwischen den unscharfen Bildern <code>blur(guessimage) - blur(original)</code> klein ist, dann sollten auch die Differenzen <code>guessimage - original</code> klein sein, d.h. <code>testimage</code> sollte in etwa dem <code>original</code> entsprechen.</p>
+<p>Für die konkrete Umsetzung wandeln wir das Bild mit den <span class="math inline">\(30\times30\)</span> Pixeln in einen Vektor der Länge 900 um. Das haben wir für für das <code>blurredimage</code> bereits in der Zeile <code>blurrarray = np.reshape(blurredimage, length*width)</code> gemacht. Für das <code>guessimage</code> müssen wir nach der Umwandlung die 900 Einträge zunächst in <code>FloatAad</code>-Objekte umwandeln. All das geschieht in der folgenden Funktion.</p>
+<div class="cell" data-execution_count="27">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(x):</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Input x ist ein Bild, auf welches der Gauss Filter angewendet wird</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Danach wird das Bild als 1-dim. Array gespeichert</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    [length, width] <span class="op">=</span> np.shape(x)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    temp <span class="op">=</span> blur(x)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    temparray <span class="op">=</span> np.reshape(temp, length <span class="op">*</span> width)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Umwandeln in FloatAad</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    temparray <span class="op">=</span> float2FloatAad(temparray)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="bu">sum</span>((temparray <span class="op">-</span> blurrarray) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> getGradient(temparray, y)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y.value, g]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Nun können wir das Gradient Descent Verfahren anwenden.</p>
+<div class="cell" data-execution_count="28">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Descent Parameter</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>[lossval, grad] <span class="op">=</span> loss(guessimage)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> lossval <span class="op">&gt;</span> tol:</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    [lossval, grad] <span class="op">=</span> loss(guessimage) </span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> np.reshape(grad, [length, width])</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    guessimage <span class="op">=</span> guessimage <span class="op">-</span> lam <span class="op">*</span> diff</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Guess"</span>)</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>plt.imshow(guessimage, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred Guess"</span>)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>blurredguess <span class="op">=</span> blur(guessimage)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>plt.imshow(blurredguess, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Original - Guess"</span>)</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>diffOrig <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (image <span class="op">-</span> guessimage <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>plt.imshow(diffOrig, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred - Blurred Guess"</span>)</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>diffBlurred <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (blurredimage <span class="op">-</span> blurredguess <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>plt.imshow(diffBlurred, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-imagereconstructionresult" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="aad_files/figure-html/fig-imagereconstructionresult-output-1.png" width="479" height="402" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.6: Resultat des Schärfens und Differenz zum Original</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Das vollständige Programm kann auch <a href="deblurImage.py">hier</a> heruntergeladen werden.</p>
 </section>
 <section id="ein-einaches-neuronales-netz" class="level3" data-number="5.3.4">
 <h3 data-number="5.3.4" class="anchored" data-anchor-id="ein-einaches-neuronales-netz"><span class="header-section-number">5.3.4</span> Ein einaches neuronales Netz</h3>

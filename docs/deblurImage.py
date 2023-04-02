@@ -1,10 +1,22 @@
-# Werte
-# kernel_size = 4 in blur(a)
-# lam = 0.01
-# tol = 0.5
+########################################################################################################
+#                                                                                                      #
+#	Michael Brand                                                                                      #    
+#	Deblurring an image using the gradient descent method                                              #
+#	PYTHON 3.8.2                                                                                       #
+#                                                                                                      #
+#   Based on an idea of Max Slater                                                                     #
+#   https://thenumb.at/Autodiff/ [Last access 02.03.2023]                                              #
+#                                                                                                      #
+#   Using Code from                                                                                    #
+#   https://stackoverflow.com/questions/29920114/how-to-gauss-filter-blur-a-floating-point-numpy-array #
+#                                                                                                      #
+########################################################################################################
 
 
-
+## Values
+## kernel_size = 4 in blur(a)
+## lam = 0.01
+## tol = 0.5
 
 from matplotlib.image import imread
 from floataad import float2FloatAad, getGradient
@@ -15,15 +27,13 @@ import numpy as np
 
 
 def blur(a):
-    # Quelle für diese Funktion: https://stackoverflow.com/questions/29920114/how-to-gauss-filter-blur-a-floating-point-numpy-array
-    
-    # kernel erzeugen
+    # create kernel
     kernel_size = 4
     k1 = [np.array([math.comb(kernel_size, k) for k in range(kernel_size)])]
     kernel = np.dot(np.transpose(k1), k1)
     kernel = kernel / np.sum(kernel)
     
-    # Faltung ausführen
+    # convolution
     arraylist = []
     for y in range(kernel_size):
         temparray = np.copy(a)
@@ -38,13 +48,12 @@ def blur(a):
     return arraylist_sum
 
 def loss(x):
-    # Input x ist ein Bild, auf welches der Gauss Filter angewendet wird
-    # Danach wird das Bild als 1-dim. Array gespeichert
+    # Input x is an image.
     [length, width] = np.shape(x)
-    temp = blur(x)
-    temparray = np.reshape(temp, length * width)
+    temp = blur(x)  # blur input image
+    temparray = np.reshape(temp, length * width)  # reshape as a vector
 
-    # Umwandeln in FloatAad
+    # transform to List of FloatAad-Objects
     temparray = float2FloatAad(temparray)
 
     y = sum((temparray - blurrarray) ** 2)
@@ -52,24 +61,24 @@ def loss(x):
     return [y.value, g]
 
 
-    
 
+# Read Image
+# Image Source: https://www.pngall.com/toy-png/download/55843 
+# Image was reshaped to 30 x 30 pixels
 
-# Bild einlesen
-# Quelle des Bildes: https://www.pngall.com/toy-png/download/55843 
 original = imread('bear30.jpg') / 255
-# Bild in Graustufenbild umwandeln
+# convert image to grey scale
 image = 1/3 * (original[:,:,0] + original[:,:,1] + original[:,:,2])
 [length, width] = np.shape(image)
 
-# Blur erzeugen
+# blur image
 blurredimage = blur(image)
 blurrarray = np.reshape(blurredimage, length*width)
 
-# Startwert
+# initial value for gradient descent
 guessimage = np.full(shape = [length, width], fill_value=0.5)
 
-# Gradient Descent
+# Gradient Descent Method
 lam = 0.01
 tol = 0.5
 
@@ -79,11 +88,8 @@ while lossval > tol:
     [lossval, grad] = loss(guessimage) 
     diff = np.reshape(grad, [length, width])
     guessimage = guessimage - lam * diff
-#    print(lossval)
 
-
-
-# alles plotten
+# plot everything
 ax = plt.subplot(3,2,1)
 ax.set_title("Original")
 ax.set_axis_off()
