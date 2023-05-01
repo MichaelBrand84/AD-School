@@ -586,7 +586,7 @@ Lösung
 <p>Die folgende Implementation lehnt sich stark an <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> an. Die Variablennamen wurden angepasst, so dass sie konsistent mit den Bezeichnungen aus <a href="ADOneDimManually.html"><span>Kapitel&nbsp;3</span></a> sind. Ausserdem werden wir unsere Klasse noch mit einiger zusätzlicher Funktionalität ausstatten, etwa mit Typunterscheidungen, so dass wir z.B. auch wieder <code>Int</code>-Zahlen zu <code>FloatAad</code>-Objekten addieren können.</p>
 <section id="die-klasse-floataad" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="die-klasse-floataad"><span class="header-section-number">5.2.1</span> Die Klasse <code>FloatAad</code></h3>
-<p>Wir beginnen unsere Klasse mit einer neuen Datei, welche wir <code>floataad.py</code> nennen. Als erstes definieren wir einen Konstruktor, der uns das Umwandeln von <code>Int</code>- oder <code>Float</code>-Objekten in <code>FloatAad</code>-Objekte erlaubt. Ausserdem definieren wir auch gleich eine Funktion, mit der wir eine Liste von solchen <code>Int</code> oder <code>Float</code> in eine Liste von <code>FloatAad</code> umwandeln können, siehe dazu <a href="HigherDimFunctions.html#sec-FunktionenMehrereInputs"><span>Kapitel&nbsp;4.2</span></a>.</p>
+<p>Wir beginnen unsere Klasse mit einer neuen Datei, welche wir <code>floataad.py</code> nennen. Als erstes definieren wir einen Konstruktor, der uns das Umwandeln von <code>Int</code>- oder <code>Float</code>-Objekten in <code>FloatAad</code>-Objekte erlaubt. Ausserdem definieren wir auch gleich eine Funktion <code>float2FloatAad</code>, mit der wir eine Liste von solchen <code>Int</code> oder <code>Float</code> in eine Liste von <code>FloatAad</code> umwandeln können und eine Funktion <code>getValues</code>, welche aus einer Liste von <code>FloatAad</code>-Objekten die Funktionswerte ausliest, siehe dazu <a href="HigherDimFunctions.html#sec-FunktionenMehrereInputs"><span>Kapitel&nbsp;4.2</span></a>.</p>
 <div class="cell" data-execution_count="3">
 <details open="">
 <summary>Code</summary>
@@ -599,7 +599,7 @@ Lösung
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.derivatives <span class="op">=</span> derivatives</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>float2FloatAad <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x: FloatAad(x))</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>getValues <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x : x.value)</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
@@ -647,26 +647,27 @@ Lösung
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> neg(<span class="va">self</span>)</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>float2FloatAad <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x: FloatAad(x))</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg(a):</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">*</span> a.value</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        (a, <span class="op">-</span><span class="dv">1</span>),</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>getValues <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x : x.value)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg(a):</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">*</span> a.value</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        (a, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatAad(<span class="dv">2</span>)</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> <span class="op">-</span>x</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(v.value)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(v.derivatives)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> FloatAad(<span class="dv">2</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> <span class="op">-</span>x</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(v.value)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(v.derivatives)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>-2
-((&lt;__main__.FloatAad object at 0x0FC5DE98&gt;, -1),)</code></pre>
+((&lt;__main__.FloatAad object at 0x0FAE5EE0&gt;, -1),)</code></pre>
 </div>
 </div>
 <p>Der Wert von <code>v.derivatives</code> ist ein Tupel, dessen erster Eintrag eine Referenz auf das <code>FloatAad</code>-Objekt <code>x</code> ist und der Wert des zweiten Eintrags ist <code>-1</code> weil <span class="math inline">\(\partial v / \partial x = -1\)</span> ist.</p>
@@ -819,39 +820,40 @@ Lösung
 <span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> add(other, neg(<span class="va">self</span>)) </span>
 <span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>float2FloatAad <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x: FloatAad(x))</span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg(a):</span>
-<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">*</span> a.value</span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>        (a, <span class="op">-</span><span class="dv">1</span>),</span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b):</span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> a.value <span class="op">+</span> b.value</span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>        (a, <span class="dv">1</span>),  <span class="co"># a+b nach a abgeleitet gibt 1</span></span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>        (b, <span class="dv">1</span>)   <span class="co"># a+b nach b abgeleitet gibt 1</span></span>
-<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
-<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> FloatAad(<span class="dv">2</span>)</span>
-<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> FloatAad(<span class="dv">3</span>)</span>
-<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x0 <span class="op">+</span> x0 <span class="op">-</span> x1 <span class="op">+</span> <span class="dv">5</span></span>
-<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(y.value)</span>
-<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(y.derivatives)</span>
-<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(y.derivatives[<span class="dv">0</span>][<span class="dv">0</span>].derivatives)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>getValues <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x : x.value)</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg(a):</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">*</span> a.value</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>        (a, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b):</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> a.value <span class="op">+</span> b.value</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>        (a, <span class="dv">1</span>),  <span class="co"># a+b nach a abgeleitet gibt 1</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>        (b, <span class="dv">1</span>)   <span class="co"># a+b nach b abgeleitet gibt 1</span></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> FloatAad(<span class="dv">2</span>)</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> FloatAad(<span class="dv">3</span>)</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x0 <span class="op">+</span> x0 <span class="op">-</span> x1 <span class="op">+</span> <span class="dv">5</span></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(y.value)</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(y.derivatives)</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(y.derivatives[<span class="dv">0</span>][<span class="dv">0</span>].derivatives)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>6
-((&lt;__main__.FloatAad object at 0x0FC64EC8&gt;, 1),)
-((&lt;__main__.FloatAad object at 0x0FC64490&gt;, 1), (&lt;__main__.FloatAad object at 0x0FC64190&gt;, 1))</code></pre>
+((&lt;__main__.FloatAad object at 0x101D4448&gt;, 1),)
+((&lt;__main__.FloatAad object at 0x101D43E8&gt;, 1), (&lt;__main__.FloatAad object at 0x101D4418&gt;, 1))</code></pre>
 </div>
 </div>
-<p>Wir sehen, dass der Funktionswert <span class="math inline">\(f(2,3) = 6\)</span> korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein <code>FloatAad</code>-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten <code>FloatAad</code>-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_0 = 2x_0 = 4\)</span> und <span class="math inline">\(\partial f / \partial x_1 = -1\)</span>. Wir schreiben dafür nun eine Funktion <code>getDerivatives(y)</code>, welche aus dem <code>FloatAad</code>-Objekt <code>y</code> rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen <span class="math inline">\(x_i\)</span> führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion <code>computeDerivative</code>. Der Rückgabewert soll dann ein Dictionary sein (<code>defaultdict</code> aus dem Modul <code>collections</code>, welches zu Beginn importiert werden muss), dessen Schlüsselwerte die Variablen <code>x0, x1</code> etc. sind und die zugehörigen Werte sind die partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_i\)</span>.</p>
+<p>Wir sehen, dass der Funktionswert <span class="math inline">\(f(2,3) = 6\)</span> korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein <code>FloatAad</code>-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten <code>FloatAad</code>-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_0 = 2\)</span> und <span class="math inline">\(\partial f / \partial x_1 = -1\)</span>. Wir schreiben dafür nun eine Funktion <code>getDerivatives(y)</code>, welche aus dem <code>FloatAad</code>-Objekt <code>y</code> rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen <span class="math inline">\(x_i\)</span> führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion <code>computeDerivative</code>. Der Rückgabewert soll dann ein Dictionary sein (<code>defaultdict</code> aus dem Modul <code>collections</code>, welches zu Beginn importiert werden muss), dessen Schlüsselwerte die Variablen <code>x0, x1</code> etc. sind und die zugehörigen Werte sind die partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_i\)</span>.</p>
 <div class="cell" data-execution_count="9">
 <details open="">
 <summary>Code</summary>
@@ -1313,12 +1315,12 @@ Jf =
 <span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>y = g(x) = 2.010085281515536x + 2.523538852588186</code></pre>
+<pre><code>y = g(x) = 1.923043127622768x + 3.508195805103736</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div id="fig-graphoflinearregression" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aad_files/figure-html/fig-graphoflinearregression-output-2.png" width="566" height="405" class="figure-img"></p>
+<p><img src="aad_files/figure-html/fig-graphoflinearregression-output-2.png" width="566" height="404" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Abbildung&nbsp;5.3: Ausgleichsgerade.</figcaption><p></p>
 </figure>
 </div>

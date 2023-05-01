@@ -21,7 +21,7 @@ fFloat = open('iris.csv','r')
 dataset = np.loadtxt(fFloat, delimiter = ',')
 fFloat.close()
 
-"""
+
 # Daten plotten
 fig = plt.figure(1)
 
@@ -54,7 +54,7 @@ ax.set_xlabel('Kelchblattbreite (cm)')
 ax.set_ylabel('Kronblattbreite (cm)')
 
 plt.show()
-"""
+
 
 
 # Testdaten extrahieren

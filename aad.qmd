@@ -281,7 +281,7 @@ Die folgende Implementation lehnt sich stark an @sidsite2021 an. Die Variablenna
 
 ### Die Klasse `FloatAad`
 
-Wir beginnen unsere Klasse mit einer neuen Datei, welche wir `floataad.py` nennen. Als erstes definieren wir einen Konstruktor, der uns das Umwandeln von `Int`- oder `Float`-Objekten in `FloatAad`-Objekte erlaubt. Ausserdem definieren wir auch gleich eine Funktion, mit der wir eine Liste von solchen `Int` oder `Float` in eine Liste von `FloatAad` umwandeln können, siehe dazu @sec-FunktionenMehrereInputs.
+Wir beginnen unsere Klasse mit einer neuen Datei, welche wir `floataad.py` nennen. Als erstes definieren wir einen Konstruktor, der uns das Umwandeln von `Int`- oder `Float`-Objekten in `FloatAad`-Objekte erlaubt. Ausserdem definieren wir auch gleich eine Funktion `float2FloatAad`, mit der wir eine Liste von solchen `Int` oder `Float` in eine Liste von `FloatAad` umwandeln können und eine Funktion `getValues`, welche aus einer Liste von `FloatAad`-Objekten die Funktionswerte ausliest, siehe dazu @sec-FunktionenMehrereInputs.
 ```{python}
 #| code-fold: show
 import numpy as np
@@ -293,7 +293,7 @@ class FloatAad:
         self.derivatives = derivatives
 
 float2FloatAad = np.vectorize(lambda x: FloatAad(x))
-
+getValues = np.vectorize(lambda x : x.value)
 
 if __name__ == '__main__':
 
@@ -332,6 +332,7 @@ class FloatAad:
         return neg(self)
 
 float2FloatAad = np.vectorize(lambda x: FloatAad(x))
+getValues = np.vectorize(lambda x : x.value)
 
 def neg(a):
     newValue = -1 * a.value
@@ -496,6 +497,7 @@ class FloatAad:
             return add(other, neg(self)) 
 
 float2FloatAad = np.vectorize(lambda x: FloatAad(x))
+getValues = np.vectorize(lambda x : x.value)
 
 def neg(a):
     newValue = -1 * a.value
@@ -523,7 +525,7 @@ if __name__ == '__main__':
     print(y.derivatives[0][0].derivatives)
 ```
 
-Wir sehen, dass der Funktionswert $f(2,3) = 6$ korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein `FloatAad`-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten `FloatAad`-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen $\partial f / \partial x_0 = 2x_0 = 4$ und $\partial f / \partial x_1 = -1$. Wir schreiben dafür nun eine Funktion `getDerivatives(y)`, welche aus dem `FloatAad`-Objekt `y` rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen $x_i$ führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion `computeDerivative`. 
+Wir sehen, dass der Funktionswert $f(2,3) = 6$ korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein `FloatAad`-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten `FloatAad`-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen $\partial f / \partial x_0 = 2$ und $\partial f / \partial x_1 = -1$. Wir schreiben dafür nun eine Funktion `getDerivatives(y)`, welche aus dem `FloatAad`-Objekt `y` rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen $x_i$ führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion `computeDerivative`. 
 Der Rückgabewert soll dann ein Dictionary sein (`defaultdict` aus dem Modul `collections`, welches zu Beginn importiert werden muss), dessen Schlüsselwerte die Variablen `x0, x1` etc. sind und die zugehörigen Werte sind die partiellen Ableitungen $\partial f / \partial x_i$. 
 
 ```{python}
@@ -638,6 +640,7 @@ class FloatAad:
             return add(other, neg(self)) 
 
 float2FloatAad = np.vectorize(lambda x: FloatAad(x))
+getValues = np.vectorize(lambda x : x.value)
 
 def neg(a):
     newValue = -1 * a.value
