@@ -132,6 +132,7 @@ class FloatAad:
 
 
 float2FloatAad = np.vectorize(lambda x: FloatAad(x))
+getValues = np.vectorize(lambda x : x.value)
 
 def neg(a):
     newValue = -1 * a.value

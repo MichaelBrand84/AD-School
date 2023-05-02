@@ -1285,4 +1285,12 @@ plt.show()
 Das vollständige Programm kann auch [hier](deblurImage.py) heruntergeladen werden.
 
 
+
+
+
+
+
+
+
+
 ### Ein einaches neuronales Netz
