@@ -80,36 +80,60 @@ XTrain = np.c_[XTrain, np.ones(len(Y) - dataRecords)]
 # Gewichte initialisieren
 W = np.random.random(5 * 3)
 
-
+# Softmax Funktion für Vektor z
+def softmax(z):
+    if z.dtype == "object":
+        return [mathaad.exp(x) / sum(mathaad.exp(z)) for x in z]
+    else:
+        return [np.exp(x) / sum(np.exp(z)) for x in z]
 
 
 def loss(W, XTrain, YTrain):
-    def softmax(z):
-        return [mathaad.exp(x) / sum(mathaad.exp(z)) for x in z]
     
     N = len(YTrain) # Anzahl Trainingsdaten
     
     # Gewichte als FloatAad-Matrix
     Wtemp = float2FloatAad(W)
-    Wtemp = np.reshape(Wtemp, [5, 3])
+    WtempMatrix = np.reshape(Wtemp, [5, 3])
     
     
     # Labels als one hot encoding
     YOneHot = np.zeros([N, 3])
     YOneHot[range(N), YTrain] = 1
 
-    Z = XTrain @ Wtemp
+    Z = XTrain @ WtempMatrix
     # Softmax auf jede Zeile anwenden
     Yp = np.apply_along_axis(softmax, 1, Z)
     
     # Cross Entropy
-    D = [- YOneHot[i] @ mathaad.log(Yp[i]) for i in range(N) ]
+    D = [- np.transpose(YOneHot[i]) @ mathaad.log(Yp[i]) for i in range(N) ]
     S = sum(D) / N
     LossValue = getValues(S)
-    LossGrad = getGradient(W, S)
+    LossGrad = np.array(getGradient(Wtemp, S))
     return [LossValue, LossGrad]
 
-
+# Fit mit Gradient Descent
+lam = 0.001 # Lernrate
+tol = 4e-4
+# erster Gradient Descent Schritt
 [Lval, Lgrad] = loss(W, XTrain, YTrain)
-print(Lval)
-print(Lgrad)  # Problem: alle Gradienten sind Null
+W1 = W - lam * Lgrad
+while np.linalg.norm(W - W1) > tol:
+    W = W1
+    [Lval, Lgrad] = loss(W, XTrain, YTrain)
+    W1 = W - lam * Lgrad
+    #print(np.linalg.norm(W - W1))
+
+#print(Lval)
+
+
+# Test des Modells
+XTest = np.c_[XTest, np.ones(dataRecords)]
+W = np.reshape(W1, [5, 3])
+Z = XTest @ W
+Yp = Yp = np.apply_along_axis(softmax, 1, Z)
+Y = np.apply_along_axis(np.argmax, 1, Yp)
+
+# Vergleich mit Resultaten
+nCorrect = sum(Y == YTest)
+print(str(nCorrect) + " von " + str(dataRecords) + " wurden korrekt klassifiziert.")
