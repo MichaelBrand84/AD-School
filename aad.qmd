@@ -1589,3 +1589,5 @@ Y = np.apply_along_axis(np.argmax, 1, Yp)
 nCorrect = sum(Y == YTest)
 print("%d von %d wurden korrekt klassifiziert." %(nCorrect, dataRecords))
 ```
+
+Das vollständige Program kann [hier](FisherClassification.py) heruntergeladen werden.
