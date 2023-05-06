@@ -1084,7 +1084,7 @@ print(f(1))
 :::
 
 
-## Das Modul `mathsad`
+## Das Modul `mathsad`  {#sec-modulMathSad}
 
 Mit der Klasse `FloatSad` können wir Funktionswerte und Ableitungen von algebraischen Funktionen bilden. Wir können aber unsere `FloatSad`-Objekte noch nicht mit den Funktionen aus dem Python-Modul `math` verwenden, z.B. mit `exp` oder `sin`. In diesem Abschnitt wollen wir ein eigenes Modul `mathsad` schreiben, in dem wir die Funktionen aus @tbl-mathFunctions so implementieren, dass wir sie auf `FloatSad`-Objekte anwenden können.
 

@@ -1289,8 +1289,303 @@ Das vollständige Programm kann auch [hier](deblurImage.py) heruntergeladen werd
 
 
 
+## Das Modul `mathaad` {#sec-modulMathAad}
+
+In diesem Kapitel schreiben wir ein Modul `mathaad`, welches eine Auswahl an mathematischen Funktionen beinhaltet, die auf `FloatAad`-Objekte angewendet werden können. Wir gehen dabei analog zum @sec-modulMathSad vor, beschränken uns aber auf die Funktionen `sqrt`, `exp`, `log` und die drei trigonometrischen Funktionen. Ausserdem verwenden wir Funktionen aus `numpy` weil wir als Argumente auch Arrays von `FloatAad`-Objekte übergeben wollen. Die Funktion soll in diesem Fall elementweise angewendet werden, wofür der Decorator `@np.vectorize` sorg. Der folgende Code sollte in einer Datei `mathaad.py` gespeichert und im gleichen Ordner wie die anderen Dateien abgelegt werden.
+
+```{python}
+#| code-fold: show
+import numpy as np
+from floataad import FloatAad
+
+@np.vectorize
+def sqrt(x):
+    newValue = np.sqrt(x.value)
+    newDerivative = (
+        (x, 1. / (2 * np.sqrt(x.value))),
+    )
+    return FloatAad(newValue, newDerivative)
+
+@np.vectorize
+def exp(x):
+    newValue = np.exp(x.value)
+    newDerivative = (
+        (x, newValue),
+    )
+    return FloatAad(newValue, newDerivative)
+
+@np.vectorize
+def log(x):
+    newValue = np.log(x.value)
+    newDerivative = (
+        (x, 1. / x.value),
+    )
+    return FloatAad(newValue, newDerivative)
+
+@np.vectorize
+def sin(x):
+    newValue = np.sin(x.value)
+    newDerivative = (
+        (x, np.cos(x.value)),
+    )
+    return FloatAad(newValue, newDerivative)
+
+@np.vectorize
+def cos(x):
+    newValue = np.cos(x.value)
+    newDerivative = (
+        (x, -np.sin(x.value)),
+    )
+    return FloatAad(newValue, newDerivative)
+
+@np.vectorize
+def tan(x):
+    return sin(x) / cos(x)
+```
+
+Die Datei kann [hier](mathaad.py) heruntergeladen werden.
 
 
+## Das Modul `mathaad` im Einsatz
 
+Zum Schluss wollen wir uns ein einfaches neuronales Netz zur Lösung eines berühmten Klassifikationsproblems programmieren.
 
-### Ein einaches neuronales Netz
+### Ein einaches neuronales Netz zur Klassifikation von Lilien
+
+Wir verwenden für dieses Beispiel einen der bekanntesten Datensätze, nämlich Fisher's Datensatz zu Lilien. Er wurde bereits 1936 vom britischen Biologen und Statistier Ronald Fisher verwendet und ist heute nach ihm benannt. Auch in @Hromkovic2022 (S. 160) wird auf diesen Datensatz Bezug genommen.
+Die Datei [iris.data](iris.data) kann von @Fisher1936 heruntergeladen werden. Über diesen Datensatz liest man dort
+
+> [It is] A small classic dataset from Fisher, 1936. One of the earliest datasets used for evaluation of classification methodologies. [...]
+> This is perhaps the best known database to be found in the pattern recognition literature.  Fisher's paper is a classic in the field and is referenced frequently to this day.
+
+Die Datei enthält 150 Datensätze (Zeilen) mit je 5 Spalten. Die 1. Spalte gibt die Länge des Kelchblattes (Sepalum) an, die 2. Spalte die Breite des Kelchblattes, die 3. Spalte enthält die Länge des Kornblattes (Petalum) und die 4. Spalte enthält die Breite des Kornblattes. Die 5. Spalte schliesslich gibt an, von welcher Lilienart die Daten stammen. Im Datensatz gibt es drei Arten von Lilien (Iris setosa, Iris versicolor und Iris virginica) und von jeder Art sind 50 Messungen enthalten.  
+
+Unser Ziel wird es sein, auf Grund der vier gemessenen Grössen (Länge und Breite des Kelch- bzw. Kornblattes) die Art vorher zu sagen. Als erstes wollen wir die Daten grafisch als Scatterplot darstellen (@Frochte2021, S. 71). Zunächst ändern wir aber die Label in der 5. Spalte noch zu `0` (Iris setosa), `1` (Iris versicolor), bzw. `2` (Iris virginica)
+
+```{python}
+#| code-fold: true
+#| label: fig-ImageIrisScatterplot
+#| fig-cap: "Scatter Plots der Fisher Iris Daten"
+import numpy as np
+import matplotlib.pyplot as plt
+from time import time
+
+from floataad import float2FloatAad, getValues, getGradient
+import mathaad
+
+# Daten einlesen
+# Label in 0 (Iris-setosa), bzw. 1 (Iris-versicolor), bzw. 2 (Iris-virginica) ändern
+fString = open('iris.data','r')
+fFloat  = open('iris.csv','w')
+
+for line in fString:
+    line = line.replace('Iris-setosa', '0')
+    line = line.replace('Iris-versicolor', '1')
+    line = line.replace('Iris-virginica', '2')
+    fFloat.write(line)
+
+fString.close()
+fFloat.close()
+
+fFloat = open('iris.csv','r')
+dataset = np.loadtxt(fFloat, delimiter = ',')
+fFloat.close()
+
+# Daten plotten
+fig = plt.figure(1)
+
+ax = fig.add_subplot(2,2,1)
+ax.scatter(dataset[0:50,0], dataset[0:50,1], 
+            c = 'red', s = 20, alpha = 0.6)
+ax.scatter(dataset[50:100,0], dataset[50:100,1], 
+            c = 'green', marker = '^', s = 20, alpha = 0.6)
+ax.scatter(dataset[100:150,0], dataset[100:150,1], 
+            c = 'blue', marker = '*', s = 20, alpha = 0.6)
+ax.set_xlabel('Kelchblattlaenge (cm)')
+ax.set_ylabel('Kelchblattbreite (cm)')
+
+ax = fig.add_subplot(2,2,2)
+ax.scatter(dataset[0:50,2], dataset[0:50,3], 
+            c = 'red', s = 20, alpha = 0.6)
+ax.scatter(dataset[50:100,2], dataset[50:100,3], 
+            c = 'green', marker = '^', s = 20, alpha = 0.6)
+ax.scatter(dataset[100:150,2], dataset[100:150,3], 
+            c = 'blue', marker = '*', s = 20, alpha = 0.6)
+ax.set_xlabel('Kronblattlaenge (cm)')
+ax.set_ylabel('Kronblattbreite (cm)')
+
+ax = fig.add_subplot(2,2,3)
+ax.scatter(dataset[0:50,0], dataset[0:50,2], 
+            c = 'red', s = 20, alpha = 0.6)
+ax.scatter(dataset[50:100,0], dataset[50:100,2], 
+            c = 'green', marker = '^', s = 20, alpha = 0.6)
+ax.scatter(dataset[100:150,0], dataset[100:150,2], 
+            c = 'blue', marker = '*', s = 20, alpha = 0.6)
+ax.set_xlabel('Kelchblattlaenge (cm)')
+ax.set_ylabel('Kronblattlaenge (cm)')
+
+ax = fig.add_subplot(2,2,4)
+ax.scatter(dataset[0:50,1], dataset[0:50,3], 
+            c = 'red', s = 20, alpha = 0.6)
+ax.scatter(dataset[50:100,1], dataset[50:100,3], 
+            c = 'green', marker = '^', s = 20, alpha = 0.6)
+ax.scatter(dataset[100:150,1], dataset[100:150,3], 
+            c = 'blue', marker = '*', s = 20, alpha = 0.6)
+ax.set_xlabel('Kelchblattbreite (cm)')
+ax.set_ylabel('Kronblattbreite (cm)')
+
+plt.show()
+```
+
+Nun wählen wir uns aus den 150 Einträgen des Datensatzes zufällig 30 heraus, welche wir als Testdaten verwenden. Die übrigen 120 Einträge dienen uns als Trainingsdaten, mit denen wir unser neuronales Netz trainieren werden.
+
+```{python}
+#| code-fold: show
+# Daten in Trainings- und Testdaten aufteilen
+X = dataset[:, 0:4] # Messwerte
+Y = dataset[:, 4]   # Label
+allData = np.arange(0, X.shape[0])
+testIndices = np.random.choice(X.shape[0], size = 30, replace = False)
+trainIndices = np.delete(allData, testIndices)
+dataRecords = len(testIndices)
+XTrain = X[trainIndices, :]
+YTrain = np.array(Y[trainIndices], dtype = np.int32)
+XTest = X[testIndices, :]
+YTest = Y[testIndices]
+```
+
+Unser Netz soll aus 4 Inputneuronen und 3 Outputneuronen bestehen. Die vier Inputs stehen für die vier Messwerte `X[0], ..., X[3]`. Wenn dort die entsprechenden Messwerte eingegeben wurden, dann werden bei den Outputneuronen `Y[0], ..., Y[2]` vier Werte zwischen $0$ und $1$ generiert, welche die Wahrscheinlichkeiten darstellen, dass es sich um die entsprechende Lilienart handelt. Das Neuron mit dem grössten Wert stellt unsere Vorhersage dar. Das neuronale Netz hat also die folgende Architektur:
+
+```{dot}
+//| label: fig-FisherNNArchitecture
+//| fig-cap: Neuronales Netz für den Lilienklassifikator.
+//| fig-width: 4    
+graph {
+    rankdir = LR
+    fontname = "Consolas"
+    node [fontname = "Cambria", fontsize=8, width=".2", height=".2", margin=".02"];
+    edge [fontname = "Cambria", fontsize=8, arrowsize=0.25, len=minlen];
+    
+    x0 [label = "", shape = circle];
+    x1 [label = "", hape = circle];
+    x2 [label = "", hape = circle];
+    x3 [label = "", hape = circle];
+    y0 [label = "", hape = circle];
+    y1 [label = "", hape = circle];
+    y2 [label = "", shape = circle];
+
+    {rank = same; x0, x1, x2, x3};
+    {rank = same; y0, y1, y2};
+
+    x0 -- y0; x0 -- y1; x0 -- y2; 
+    x1 -- y0; x1 -- y1; x1 -- y2; 
+    x2 -- y0; x2 -- y1; x2 -- y2; 
+    x3 -- y0; x3 -- y1; x3 -- y2; 
+}
+```
+
+Entlang jeder Kante multiplizeren wir den Wert $x_i$ mit einem Gewicht $w_{ij}$ und addieren die vier Werte. Zu dieser Summe addieren wir noch einen Bias $b_i$ so entstehen drei Zwischenwerte
+$$
+z_i = \sum_{j=0}^3 w_{ij}x_j + b_i \quad\textrm{für}\quad i\in\lbrace0, 1, 2\rbrace
+$$
+In Matrixschreibweise können wir das ausdrücken als
+$$
+\vec{z} = W\cdot \vec{x} + \vec{b}
+$$
+mit $W\in \mathbb{R}^{3\times 4}$, $\vec{x}\in\mathbb{R}^4$ und $\vec{b}, \vec{z} \in \mathbb{R}^3$.
+Die Zwischenwerten $z_i$ müssen nun noch so skaliert werden, dass sie eine Wahrscheinlichkeitsverteilung darstellen. Das erreichen wir, die Softmax Funktion anwenden:
+$$
+\hat y_i = \sigma_i(\vec z) = \frac{e^{z_i}}{\sum_{k=0}^2 e^{z_k}} \quad\textrm{für}\quad i\in\lbrace0, 1, 2\rbrace
+$$
+Mehr zur Softmax Funktion findet man z.B. in @Frochte2021 (S. 240). Im folgenden Programm unterscheiden wir noch, ob wir die Funktion auf einen Vektor aus Zahlen oder einen Vektor aus `FloatAad`-Objekten anwenden.
+```{python}
+#| code-fold: show
+# Softmax Funktion für Vektor z
+def softmax(z):
+    if z.dtype == "object":
+        return [mathaad.exp(x) / sum(mathaad.exp(z)) for x in z]
+    else:
+        return [np.exp(x) / sum(np.exp(z)) for x in z]
+```
+Unsere Vorhersage ist dann der Wert
+$$
+y = \operatorname{argmax} \hat y_i \in \lbrace0, 1, 2\rbrace 
+$$
+
+Die Frage ist also, wie wir die 12 Gewichte $w_{ij}$ und die Bias $b_i$ wählen. Letztere setzen wir einfach auf $b_i = 1$ für alle $i$. Bei der Bestimmung der Gewichte kommen unsere Trainingsdaten ins Spiel. Wir definieren uns eine Loss Funktion $J : \mathbb{R}^{12} \rightarrow \mathbb{R}$, welche als Input die Gewichte $W$ erhält und als Output die so genannte Cross-Entropy liefert, welche ein Mass für die Abweichung von der korrekten Klassifikation ist. Sie wird berechnet, indem man zuerst
+$$
+D(\vec y, \vec {\hat y}) = - \sum_i y_i\cdot \ln(\hat y_i)
+$$
+berechnet, wobei die $\hat y_i$ wie oben definiert sind und $\vec y = (y_i)_{i=0, 1, 2}$ die One-Hot Codierung der korrekten Labels ist, d.h. 
+\begin{align*}
+    \vec y &= (\matrix{1, 0, 0})^\intercal \quad\textrm{falls der korrekte Label 0 (Iris setosa) ist,} \\
+    \vec y &= (\matrix{0, 1, 0})^\intercal \quad\textrm{falls der korrekte Label 1 (Iris versicolor) ist,} \\ 
+    \vec y &= (\matrix{0, 0, 1})^\intercal \quad\textrm{falls der korrekte Label 2 (Iris virginica) ist.}
+\end{align*}
+
+Die Cross-Entropy über alle $N=120$ Beispiele erhält man dann als 
+$$
+J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
+$$
+Weitere Details zur Cross-Entropy findet man ebenfalls in @Frochte2021 (S. 241). In der Python Funktion wandeln wir die Gewichte zuerst in `FloatAad`-Objete um und geben am Schluss den Wert $J(W)$ und die den Gradienten $\nabla J (W)$ zurück.
+```{python}
+#| code-fold: show
+def loss(Weights, bias, XTrain, YTrain):
+    
+    N = len(YTrain) # Anzahl Trainingsdaten
+    
+    # Gewichte als FloatAad-Matrix
+    Wtemp = float2FloatAad(Weights)
+    WtempMatrix = np.reshape(Wtemp, [4, 3])
+    
+    
+    # Labels als One-Hot Encoding
+    YOneHot = np.zeros([N, 3])
+    YOneHot[range(N), YTrain] = 1
+
+    Z = XTrain @ WtempMatrix + bias
+    # Softmax auf jede Zeile anwenden
+    Yhat = np.apply_along_axis(softmax, 1, Z)
+    
+    # Cross Entropy
+    D = [- YOneHot[i] @ mathaad.log(Yhat[i]) for i in range(N) ]
+    J = sum(D) / N
+    LossValue = getValues(J)
+    LossGrad = np.array(getGradient(Wtemp, J))
+    return [LossValue, LossGrad]
+```
+
+Nun verwenden wir wieder das Gradient Descent Verfahren, um ein lokales Minimum der Loss Funktion zu finden und damit die Gewichte zu optimieren. Wir initialisieren die Gewichte mit zufälligen Werten.
+```{python}
+#| code-fold: show
+# Gewichte initialisieren
+W = np.random.random(4 * 3)
+b = np.ones(3)  # bias
+
+# Fit mit Gradient Descent
+lam = 0.5 # Lernrate
+tol = 1e-2
+start = time()
+[Lval, Lgrad] = loss(W, b, XTrain, YTrain)
+while np.linalg.norm(Lgrad) > tol:
+    W1 = W - lam * Lgrad
+    [Lval, Lgrad] = loss(W1, b, XTrain, YTrain)
+    W = W1
+end = time()
+zeit = end - start
+print("Der Lernprozess dauerte %1.2f Sekunden." %zeit)
+```
+
+Zum Schluss wenden wir die Matrix mit den optimierten Gewichten auf die 30 Testdaten an, welche wir im Trainingsprozess noch nicht verwendet hatten, und zählen, wie viele davon durch unser Netz korrekt klassifiziert werden.
+```{python}
+#| code-fold: show
+# Test des Modells
+W = np.reshape(W, [4, 3])
+Z = XTest @ W + b
+Yp = Yp = np.apply_along_axis(softmax, 1, Z)
+Y = np.apply_along_axis(np.argmax, 1, Yp)
+
+# Vergleich mit Resultaten
+nCorrect = sum(Y == YTest)
+print("%d von %d wurden korrekt klassifiziert." %(nCorrect, dataRecords))
+```

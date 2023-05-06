@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from time import time
 
 from floataad import float2FloatAad, getValues, getGradient
 import mathaad
@@ -140,9 +141,7 @@ nCorrect = sum(Y == YTest)
 print(str(nCorrect) + " von " + str(dataRecords) + " wurden korrekt klassifiziert.")
 """
 
-# Gewichte initialisieren
-W = np.random.random(4 * 3)  # Gewichte
-b = np.ones(3)  # bias
+
 
 # Softmax Funktion für Vektor z
 def softmax(z):
@@ -160,42 +159,47 @@ def loss(Weights, bias, XTrain, YTrain):
     WtempMatrix = np.reshape(Wtemp, [4, 3])
     
     
-    # Labels als one hot encoding
+    # Labels als One-Hot Encoding
     YOneHot = np.zeros([N, 3])
     YOneHot[range(N), YTrain] = 1
 
     Z = XTrain @ WtempMatrix + bias
     # Softmax auf jede Zeile anwenden
-    Yp = np.apply_along_axis(softmax, 1, Z)
+    Yhat = np.apply_along_axis(softmax, 1, Z)
     
     # Cross Entropy
-    D = [- np.transpose(YOneHot[i]) @ mathaad.log(Yp[i]) for i in range(N) ]
-    S = sum(D) / N
-    LossValue = getValues(S)
-    LossGrad = np.array(getGradient(Wtemp, S))
+    D = [- YOneHot[i] @ mathaad.log(Yhat[i]) for i in range(N) ]
+    J = sum(D) / N
+    LossValue = getValues(J)
+    LossGrad = np.array(getGradient(Wtemp, J))
     return [LossValue, LossGrad]
+
+# Gewichte initialisieren
+W = np.random.random(4 * 3)  # Gewichte
+b = np.ones(3)  # bias
 
 # Fit mit Gradient Descent
 lam = 0.5 # Lernrate
 tol = 1e-2
+start = time()
 # erster Gradient Descent Schritt
 [Lval, Lgrad] = loss(W, b, XTrain, YTrain)
-W1 = W - lam * Lgrad
+#W1 = W - lam * Lgrad
 while np.linalg.norm(Lgrad) > tol:   #np.linalg.norm(W - W1) > tol:
-    W = W1
-    [Lval, Lgrad] = loss(W, b, XTrain, YTrain)
     W1 = W - lam * Lgrad
-    print(np.linalg.norm(Lgrad))
-
-print(Lval)
-
+    [Lval, Lgrad] = loss(W1, b, XTrain, YTrain)
+    W = W1
+    #print(np.linalg.norm(Lgrad))
+end = time()
+zeit = end - start
+print("Der Lernprozess dauerte %1.2f Sekunden." %zeit)
 
 # Test des Modells
-W = np.reshape(W1, [4, 3])
+W = np.reshape(W, [4, 3])
 Z = XTest @ W + b
 Yp = Yp = np.apply_along_axis(softmax, 1, Z)
 Y = np.apply_along_axis(np.argmax, 1, Yp)
 
 # Vergleich mit Resultaten
 nCorrect = sum(Y == YTest)
-print(str(nCorrect) + " von " + str(dataRecords) + " wurden korrekt klassifiziert.")
+print("%d von %d wurden korrekt klassifiziert." %(nCorrect, dataRecords))
