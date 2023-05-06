@@ -1373,8 +1373,7 @@ from time import time
 from floataad import float2FloatAad, getValues, getGradient
 import mathaad
 
-# Daten einlesen
-# Label in 0 (Iris-setosa), bzw. 1 (Iris-versicolor), bzw. 2 (Iris-virginica) ändern
+# Daten einlesen und Labels ändern
 fString = open('iris.data','r')
 fFloat  = open('iris.csv','w')
 
@@ -1512,7 +1511,7 @@ $$
 y = \operatorname{argmax} \hat y_i \in \lbrace0, 1, 2\rbrace 
 $$
 
-Die Frage ist also, wie wir die 12 Gewichte $w_{ij}$ und die Bias $b_i$ wählen. Letztere setzen wir einfach auf $b_i = 1$ für alle $i$. Bei der Bestimmung der Gewichte kommen unsere Trainingsdaten ins Spiel. Wir definieren uns eine Loss Funktion $J : \mathbb{R}^{12} \rightarrow \mathbb{R}$, welche als Input die Gewichte $W$ erhält und als Output die so genannte Cross-Entropy liefert, welche ein Mass für die Abweichung von der korrekten Klassifikation ist. Sie wird berechnet, indem man zuerst
+Die Frage ist also, wie wir die 12 Gewichte $w_{ij}$ und die Bias $b_i$ wählen. Letztere setzen wir einfach auf $b_i = 1$ für alle $i$. Bei der Bestimmung der Gewichte kommen unsere Trainingsdaten ins Spiel. Wir definieren uns eine Loss Funktion $J : \mathbb{R}^{12} \rightarrow \mathbb{R}$, welche als Input die Gewichte $W$ erhält und als Output die so genannte Cross-Entropy liefert, welche ein Mass für die Abweichung von der korrekten Klassifikation ist. Sie wird bestimmt, indem man zuerst
 $$
 D(\vec y, \vec {\hat y}) = - \sum_i y_i\cdot \ln(\hat y_i)
 $$
@@ -1523,7 +1522,7 @@ berechnet, wobei die $\hat y_i$ wie oben definiert sind und $\vec y = (y_i)_{i=0
     \vec y &= (\matrix{0, 0, 1})^\intercal \quad\textrm{falls der korrekte Label 2 (Iris virginica) ist.}
 \end{align*}
 
-Die Cross-Entropy über alle $N=120$ Beispiele erhält man dann als 
+Die Cross-Entropy über alle $N=120$ Beispiele erhält man dann als Mittelwert dieser Grössen
 $$
 J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 $$
@@ -1554,6 +1553,8 @@ def loss(Weights, bias, XTrain, YTrain):
     LossGrad = np.array(getGradient(Wtemp, J))
     return [LossValue, LossGrad]
 ```
+
+Man beachte, dass das Matrixprodukt in der Zeile `Z = XTrain @ WtempMatrix + bias` eigentlich $X\cdot W^\intercal + \vec b^\intercal$ ist, mit $X\in\mathbb{R}^{120\times 4}$ und $W^\intercal \in \mathbb{R}^{4\times 3}$. Die Addition von `bias` wird dann auf jede Zeile $X\cdot W^\intercal \in \mathbb{R}^{120\times 3}$ angewendet.
 
 Nun verwenden wir wieder das Gradient Descent Verfahren, um ein lokales Minimum der Loss Funktion zu finden und damit die Gewichte zu optimieren. Wir initialisieren die Gewichte mit zufälligen Werten.
 ```{python}

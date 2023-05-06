@@ -671,7 +671,7 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>-2
-((&lt;__main__.FloatAad object at 0x0F584F58&gt;, -1),)</code></pre>
+((&lt;__main__.FloatAad object at 0x000001F475349DE0&gt;, -1),)</code></pre>
 </div>
 </div>
 <p>Der Wert von <code>v.derivatives</code> ist ein Tupel, dessen erster Eintrag eine Referenz auf das <code>FloatAad</code>-Objekt <code>x</code> ist und der Wert des zweiten Eintrags ist <code>-1</code> weil <span class="math inline">\(\partial v / \partial x = -1\)</span> ist.</p>
@@ -853,8 +853,8 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>6
-((&lt;__main__.FloatAad object at 0x0FC74460&gt;, 1),)
-((&lt;__main__.FloatAad object at 0x0FC74400&gt;, 1), (&lt;__main__.FloatAad object at 0x0FC74430&gt;, 1))</code></pre>
+((&lt;__main__.FloatAad object at 0x000001F475332DD0&gt;, 1),)
+((&lt;__main__.FloatAad object at 0x000001F475332CB0&gt;, 1), (&lt;__main__.FloatAad object at 0x000001F475332D40&gt;, 1))</code></pre>
 </div>
 </div>
 <p>Wir sehen, dass der Funktionswert <span class="math inline">\(f(2,3) = 6\)</span> korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein <code>FloatAad</code>-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten <code>FloatAad</code>-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_0 = 2\)</span> und <span class="math inline">\(\partial f / \partial x_1 = -1\)</span>. Wir schreiben dafür nun eine Funktion <code>getDerivatives(y)</code>, welche aus dem <code>FloatAad</code>-Objekt <code>y</code> rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen <span class="math inline">\(x_i\)</span> führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion <code>computeDerivative</code>. Der Rückgabewert soll dann ein Dictionary sein (<code>defaultdict</code> aus dem Modul <code>collections</code>, welches zu Beginn importiert werden muss), dessen Schlüsselwerte die Variablen <code>x0, x1</code> etc. sind und die zugehörigen Werte sind die partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_i\)</span>.</p>
@@ -1319,12 +1319,12 @@ Jf =
 <span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>y = g(x) = 1.88853355359366x + 3.1593357675261644</code></pre>
+<pre><code>y = g(x) = 1.9970709230222317x + 2.7231287432323</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div id="fig-graphoflinearregression" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aad_files/figure-html/fig-graphoflinearregression-output-2.png" width="566" height="404" class="figure-img"></p>
+<p><img src="aad_files/figure-html/fig-graphoflinearregression-output-2.png" width="566" height="411" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Abbildung&nbsp;5.3: Ausgleichsgerade.</figcaption><p></p>
 </figure>
 </div>
@@ -1507,7 +1507,7 @@ Jf =
 <div class="cell-output cell-output-display">
 <div id="fig-imagereconstructionresult" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aad_files/figure-html/fig-imagereconstructionresult-output-1.png" width="479" height="402" class="figure-img"></p>
+<p><img src="aad_files/figure-html/fig-imagereconstructionresult-output-1.png" width="480" height="409" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Abbildung&nbsp;5.6: Resultat des Schärfens und Differenz zum Original</figcaption><p></p>
 </figure>
 </div>
@@ -1659,7 +1659,7 @@ Jf =
 <div class="cell-output cell-output-display">
 <div id="fig-imageirisscatterplot" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aad_files/figure-html/fig-imageirisscatterplot-output-1.png" width="589" height="426" class="figure-img"></p>
+<p><img src="aad_files/figure-html/fig-imageirisscatterplot-output-1.png" width="589" height="433" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Abbildung&nbsp;5.7: Scatter Plots der Fisher Iris Daten</figcaption><p></p>
 </figure>
 </div>
@@ -1794,14 +1794,14 @@ z_i = \sum_{j=0}^3 w_{ij}x_j + b_i \quad\textrm{für}\quad i\in\lbrace0, 1, 2\rb
 <p>Unsere Vorhersage ist dann der Wert <span class="math display">\[
 y = \operatorname{argmax} \hat y_i \in \lbrace0, 1, 2\rbrace
 \]</span></p>
-<p>Die Frage ist also, wie wir die 12 Gewichte <span class="math inline">\(w_{ij}\)</span> und die Bias <span class="math inline">\(b_i\)</span> wählen. Letztere setzen wir einfach auf <span class="math inline">\(b_i = 1\)</span> für alle <span class="math inline">\(i\)</span>. Bei der Bestimmung der Gewichte kommen unsere Trainingsdaten ins Spiel. Wir definieren uns eine Loss Funktion <span class="math inline">\(J : \mathbb{R}^{12} \rightarrow \mathbb{R}\)</span>, welche als Input die Gewichte <span class="math inline">\(W\)</span> erhält und als Output die so genannte Cross-Entropy liefert, welche ein Mass für die Abweichung von der korrekten Klassifikation ist. Sie wird berechnet, indem man zuerst <span class="math display">\[
+<p>Die Frage ist also, wie wir die 12 Gewichte <span class="math inline">\(w_{ij}\)</span> und die Bias <span class="math inline">\(b_i\)</span> wählen. Letztere setzen wir einfach auf <span class="math inline">\(b_i = 1\)</span> für alle <span class="math inline">\(i\)</span>. Bei der Bestimmung der Gewichte kommen unsere Trainingsdaten ins Spiel. Wir definieren uns eine Loss Funktion <span class="math inline">\(J : \mathbb{R}^{12} \rightarrow \mathbb{R}\)</span>, welche als Input die Gewichte <span class="math inline">\(W\)</span> erhält und als Output die so genannte Cross-Entropy liefert, welche ein Mass für die Abweichung von der korrekten Klassifikation ist. Sie wird bestimmt, indem man zuerst <span class="math display">\[
 D(\vec y, \vec {\hat y}) = - \sum_i y_i\cdot \ln(\hat y_i)
 \]</span> berechnet, wobei die <span class="math inline">\(\hat y_i\)</span> wie oben definiert sind und <span class="math inline">\(\vec y = (y_i)_{i=0, 1, 2}\)</span> die One-Hot Codierung der korrekten Labels ist, d.h. <span class="math display">\[\begin{align*}
     \vec y &amp;= (\matrix{1, 0, 0})^\intercal \quad\textrm{falls der korrekte Label 0 (Iris setosa) ist,} \\
     \vec y &amp;= (\matrix{0, 1, 0})^\intercal \quad\textrm{falls der korrekte Label 1 (Iris versicolor) ist,} \\
     \vec y &amp;= (\matrix{0, 0, 1})^\intercal \quad\textrm{falls der korrekte Label 2 (Iris virginica) ist.}
 \end{align*}\]</span></p>
-<p>Die Cross-Entropy über alle <span class="math inline">\(N=120\)</span> Beispiele erhält man dann als <span class="math display">\[
+<p>Die Cross-Entropy über alle <span class="math inline">\(N=120\)</span> Beispiele erhält man dann als Mittelwert dieser Grössen <span class="math display">\[
 J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 \]</span> Weitere Details zur Cross-Entropy findet man ebenfalls in <span class="citation" data-cites="Frochte2021">Frochte (<a href="references.html#ref-Frochte2021" role="doc-biblioref">2021</a>)</span> (S. 241). In der Python Funktion wandeln wir die Gewichte zuerst in <code>FloatAad</code>-Objete um und geben am Schluss den Wert <span class="math inline">\(J(W)\)</span> und die den Gradienten <span class="math inline">\(\nabla J (W)\)</span> zurück.</p>
 <div class="cell" data-execution_count="33">
@@ -1832,6 +1832,7 @@ J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 <span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [LossValue, LossGrad]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>Man beachte, dass das Matrixprodukt in der Zeile <code>Z = XTrain @ WtempMatrix + bias</code> eigentlich <span class="math inline">\(X\cdot W^\intercal + \vec b^\intercal\)</span> ist, mit <span class="math inline">\(X\in\mathbb{R}^{120\times 4}\)</span> und <span class="math inline">\(W^\intercal \in \mathbb{R}^{4\times 3}\)</span>. Die Addition von <code>bias</code> wird wird dann auf jede Zeile <span class="math inline">\(X\cdot W^\intercal \in \mathbb{R}^{120\times 3}\)</span> angewendet.</p>
 <p>Nun verwenden wir wieder das Gradient Descent Verfahren, um ein lokales Minimum der Loss Funktion zu finden und damit die Gewichte zu optimieren. Wir initialisieren die Gewichte mit zufälligen Werten.</p>
 <div class="cell" data-execution_count="34">
 <details open="">
@@ -1854,7 +1855,7 @@ J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 <span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Der Lernprozess dauerte </span><span class="sc">%1.2f</span><span class="st"> Sekunden."</span> <span class="op">%</span>zeit)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Der Lernprozess dauerte 18.10 Sekunden.</code></pre>
+<pre><code>Der Lernprozess dauerte 11.14 Sekunden.</code></pre>
 </div>
 </div>
 <p>Zum Schluss wenden wir die Matrix mit den optimierten Gewichten auf die 30 Testdaten an, welche wir im Trainingsprozess noch nicht verwendet hatten, und zählen, wie viele davon durch unser Netz korrekt klassifiziert werden.</p>
@@ -1872,9 +1873,10 @@ J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 <span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">%d</span><span class="st"> von </span><span class="sc">%d</span><span class="st"> wurden korrekt klassifiziert."</span> <span class="op">%</span>(nCorrect, dataRecords))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>29 von 30 wurden korrekt klassifiziert.</code></pre>
+<pre><code>28 von 30 wurden korrekt klassifiziert.</code></pre>
 </div>
 </div>
+<p>Das vollständige Program kann <a href="FisherClassification.py">hier</a> heruntergeladen werden.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
