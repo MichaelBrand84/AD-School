@@ -31,3 +31,17 @@ print(y0)
 print(x0.grad)
 """
 
+
+"""# Beispiel 4.2
+import torch
+from torch.autograd.functional import jacobian
+
+def f(x):
+    y1 = x[0]*torch.sqrt(x[1]) + 3*x[1]
+    y2 = torch.cos(x[0]) / x[1]
+    y3 = torch.exp(x[0]**2 * x[1])
+    return torch.stack([y1, y2, y3])
+
+x0 = torch.tensor([2., 1.], requires_grad=True)
+print(jacobian(f, x0))
+"""
