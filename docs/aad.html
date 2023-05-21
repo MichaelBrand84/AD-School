@@ -112,7 +112,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./ausblick.html" rel="next">
 <link href="./HigherDimFunctions.html" rel="prev">
 <link href="./mycover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -211,6 +211,11 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aad.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ausblick.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ausblick: Moderne Bibliotheken für automatische Differentiation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -671,7 +676,7 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>-2
-((&lt;__main__.FloatAad object at 0x000001F475349DE0&gt;, -1),)</code></pre>
+((&lt;__main__.FloatAad object at 0x00000162B3333940&gt;, -1),)</code></pre>
 </div>
 </div>
 <p>Der Wert von <code>v.derivatives</code> ist ein Tupel, dessen erster Eintrag eine Referenz auf das <code>FloatAad</code>-Objekt <code>x</code> ist und der Wert des zweiten Eintrags ist <code>-1</code> weil <span class="math inline">\(\partial v / \partial x = -1\)</span> ist.</p>
@@ -853,8 +858,8 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>6
-((&lt;__main__.FloatAad object at 0x000001F475332DD0&gt;, 1),)
-((&lt;__main__.FloatAad object at 0x000001F475332CB0&gt;, 1), (&lt;__main__.FloatAad object at 0x000001F475332D40&gt;, 1))</code></pre>
+((&lt;__main__.FloatAad object at 0x00000162B3352F50&gt;, 1),)
+((&lt;__main__.FloatAad object at 0x00000162B3353F10&gt;, 1), (&lt;__main__.FloatAad object at 0x00000162B3352FB0&gt;, 1))</code></pre>
 </div>
 </div>
 <p>Wir sehen, dass der Funktionswert <span class="math inline">\(f(2,3) = 6\)</span> korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein <code>FloatAad</code>-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten <code>FloatAad</code>-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_0 = 2\)</span> und <span class="math inline">\(\partial f / \partial x_1 = -1\)</span>. Wir schreiben dafür nun eine Funktion <code>getDerivatives(y)</code>, welche aus dem <code>FloatAad</code>-Objekt <code>y</code> rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen <span class="math inline">\(x_i\)</span> führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion <code>computeDerivative</code>. Der Rückgabewert soll dann ein Dictionary sein (<code>defaultdict</code> aus dem Modul <code>collections</code>, welches zu Beginn importiert werden muss), dessen Schlüsselwerte die Variablen <code>x0, x1</code> etc. sind und die zugehörigen Werte sind die partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_i\)</span>.</p>
@@ -1319,7 +1324,7 @@ Jf =
 <span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>y = g(x) = 1.9970709230222317x + 2.7231287432323</code></pre>
+<pre><code>y = g(x) = 1.9184181719335762x + 3.4394278870812</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div id="fig-graphoflinearregression" class="quarto-figure quarto-figure-center anchored">
@@ -1593,68 +1598,67 @@ Jf =
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getValues, getGradient</span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathaad</span>
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten einlesen</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Label in 0 (Iris-setosa), bzw. 1 (Iris-versicolor), bzw. 2 (Iris-virginica) ändern</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>fString <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.data'</span>,<span class="st">'r'</span>)</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>fFloat  <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.csv'</span>,<span class="st">'w'</span>)</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fString:</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-setosa'</span>, <span class="st">'0'</span>)</span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-versicolor'</span>, <span class="st">'1'</span>)</span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-virginica'</span>, <span class="st">'2'</span>)</span>
-<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    fFloat.write(line)</span>
-<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>fString.close()</span>
-<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>fFloat.close()</span>
-<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>fFloat <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.csv'</span>,<span class="st">'r'</span>)</span>
-<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> np.loadtxt(fFloat, delimiter <span class="op">=</span> <span class="st">','</span>)</span>
-<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>fFloat.close()</span>
-<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten plotten</span></span>
-<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(<span class="dv">1</span>)</span>
-<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
-<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">0</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">1</span>], </span>
-<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">0</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">1</span>], </span>
-<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">0</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">1</span>], </span>
-<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattlaenge (cm)'</span>)</span>
-<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kelchblattbreite (cm)'</span>)</span>
-<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
-<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">2</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">3</span>], </span>
-<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">2</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">3</span>], </span>
-<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">2</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">3</span>], </span>
-<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kronblattlaenge (cm)'</span>)</span>
-<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattbreite (cm)'</span>)</span>
-<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">0</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">2</span>], </span>
-<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">0</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">2</span>], </span>
-<span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">0</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">2</span>], </span>
-<span id="cb39-55"><a href="#cb39-55" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-56"><a href="#cb39-56" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattlaenge (cm)'</span>)</span>
-<span id="cb39-57"><a href="#cb39-57" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattlaenge (cm)'</span>)</span>
-<span id="cb39-58"><a href="#cb39-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-59"><a href="#cb39-59" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
-<span id="cb39-60"><a href="#cb39-60" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">1</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">3</span>], </span>
-<span id="cb39-61"><a href="#cb39-61" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-62"><a href="#cb39-62" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">1</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">3</span>], </span>
-<span id="cb39-63"><a href="#cb39-63" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-64"><a href="#cb39-64" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">1</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">3</span>], </span>
-<span id="cb39-65"><a href="#cb39-65" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb39-66"><a href="#cb39-66" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattbreite (cm)'</span>)</span>
-<span id="cb39-67"><a href="#cb39-67" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattbreite (cm)'</span>)</span>
-<span id="cb39-68"><a href="#cb39-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-69"><a href="#cb39-69" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten einlesen und Labels ändern</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>fString <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.data'</span>,<span class="st">'r'</span>)</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>fFloat  <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.csv'</span>,<span class="st">'w'</span>)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fString:</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-setosa'</span>, <span class="st">'0'</span>)</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-versicolor'</span>, <span class="st">'1'</span>)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-virginica'</span>, <span class="st">'2'</span>)</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    fFloat.write(line)</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>fString.close()</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>fFloat.close()</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>fFloat <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.csv'</span>,<span class="st">'r'</span>)</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> np.loadtxt(fFloat, delimiter <span class="op">=</span> <span class="st">','</span>)</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>fFloat.close()</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten plotten</span></span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(<span class="dv">1</span>)</span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">0</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">1</span>], </span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">0</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">1</span>], </span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">0</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">1</span>], </span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattlaenge (cm)'</span>)</span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kelchblattbreite (cm)'</span>)</span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">2</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">3</span>], </span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">2</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">3</span>], </span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">2</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">3</span>], </span>
+<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kronblattlaenge (cm)'</span>)</span>
+<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattbreite (cm)'</span>)</span>
+<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">0</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">2</span>], </span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">0</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">2</span>], </span>
+<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">0</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">2</span>], </span>
+<span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-55"><a href="#cb39-55" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattlaenge (cm)'</span>)</span>
+<span id="cb39-56"><a href="#cb39-56" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattlaenge (cm)'</span>)</span>
+<span id="cb39-57"><a href="#cb39-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-58"><a href="#cb39-58" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb39-59"><a href="#cb39-59" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">1</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">3</span>], </span>
+<span id="cb39-60"><a href="#cb39-60" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-61"><a href="#cb39-61" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">1</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">3</span>], </span>
+<span id="cb39-62"><a href="#cb39-62" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-63"><a href="#cb39-63" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">1</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">3</span>], </span>
+<span id="cb39-64"><a href="#cb39-64" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-65"><a href="#cb39-65" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattbreite (cm)'</span>)</span>
+<span id="cb39-66"><a href="#cb39-66" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattbreite (cm)'</span>)</span>
+<span id="cb39-67"><a href="#cb39-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-68"><a href="#cb39-68" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-imageirisscatterplot" class="quarto-figure quarto-figure-center anchored">
@@ -1832,7 +1836,7 @@ J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 <span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [LossValue, LossGrad]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Man beachte, dass das Matrixprodukt in der Zeile <code>Z = XTrain @ WtempMatrix + bias</code> eigentlich <span class="math inline">\(X\cdot W^\intercal + \vec b^\intercal\)</span> ist, mit <span class="math inline">\(X\in\mathbb{R}^{120\times 4}\)</span> und <span class="math inline">\(W^\intercal \in \mathbb{R}^{4\times 3}\)</span>. Die Addition von <code>bias</code> wird wird dann auf jede Zeile <span class="math inline">\(X\cdot W^\intercal \in \mathbb{R}^{120\times 3}\)</span> angewendet.</p>
+<p>Man beachte, dass das Matrixprodukt in der Zeile <code>Z = XTrain @ WtempMatrix + bias</code> eigentlich <span class="math inline">\(X\cdot W^\intercal + \vec b^\intercal\)</span> ist, mit <span class="math inline">\(X\in\mathbb{R}^{120\times 4}\)</span> und <span class="math inline">\(W^\intercal \in \mathbb{R}^{4\times 3}\)</span>. Die Addition von <code>bias</code> wird dann auf jede Zeile <span class="math inline">\(X\cdot W^\intercal \in \mathbb{R}^{120\times 3}\)</span> angewendet.</p>
 <p>Nun verwenden wir wieder das Gradient Descent Verfahren, um ein lokales Minimum der Loss Funktion zu finden und damit die Gewichte zu optimieren. Wir initialisieren die Gewichte mit zufälligen Werten.</p>
 <div class="cell" data-execution_count="34">
 <details open="">
@@ -1855,7 +1859,7 @@ J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 <span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Der Lernprozess dauerte </span><span class="sc">%1.2f</span><span class="st"> Sekunden."</span> <span class="op">%</span>zeit)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Der Lernprozess dauerte 11.14 Sekunden.</code></pre>
+<pre><code>Der Lernprozess dauerte 12.33 Sekunden.</code></pre>
 </div>
 </div>
 <p>Zum Schluss wenden wir die Matrix mit den optimierten Gewichten auf die 30 Testdaten an, welche wir im Trainingsprozess noch nicht verwendet hatten, und zählen, wie viele davon durch unser Netz korrekt klassifiziert werden.</p>
@@ -2053,8 +2057,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ausblick.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ausblick: Moderne Bibliotheken für automatische Differentiation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

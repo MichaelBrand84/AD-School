@@ -1,0 +1,6 @@
+---
+tbl-cap-location: bottom
+---
+
+# Ausblick: Moderne Bibliotheken für automatische Differentiation {#sec-ausblick}
+
