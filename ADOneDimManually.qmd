@@ -133,6 +133,52 @@ Ein Programm, welches gemäss der Konvention in @sec-ProgFunc geschrieben ist, w
 
 :::
 
+:::{#exr-SADKostenfunktionManuell}
+
+## Kostenfunktion mit Ableitung
+<br>
+
+Leite das Programm aus @exr-OptimierungsproblemNachKonvention gemäss der Konvention ab.
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+```{python}
+#| code-fold: show
+#| eval: true
+import math
+
+def kosten(x):
+    v0dot = 1
+    v0 = x       # sX
+    v1dot = -v0dot
+    v1 = 16 - v0 # d
+    v2dot = 2*v1 * v1dot
+    v2 = v1**2 + 12**2
+    v3dot = 1/(2*math.sqrt(v2)) * v2dot
+    v3 = math.sqrt(v2) # sLand
+    v4dot = 15000 * v0dot
+    v4 = 15000 * v0 # kKueste
+    v5dot = 25000 * v3dot
+    v5 = 25000 * v3 # kLand
+    ydot = v4dot + v5dot
+    y = v4 + v5
+    return [y, ydot]
+
+x0 = 8
+[k, kdot] = kosten(x0)
+print("Kosten", k)
+print("Ableitung", kdot)
+```
+Die Ableitung ist positiv, was uns zeigt, dass die Kostenfunktion in der Nähe der Stelle $x_0=8$ wachsend ist und sich das lokale Minimum links davon befinden muss.
+
+:::
+
+In @exr-MinKosten werden wir die Position des Minimums mit Hilfe der Gradient Descent Verfahren bestimmen.
+
 :::{#exr-SADProduktregel}
 
 ## Produktregel
@@ -412,6 +458,59 @@ if __name__ == "__main__":
         ycoords = [0, math.sin(x), py]
         plt.plot(xcoords, ycoords, linewidth=1, linestyle='--')
     plt.show()
+```
+
+:::
+
+In den folgenden beiden Aufgaben wollen wir das Gradient Descent Verfahren aus @sec-gradientDescent anwenden, um eine Funktion zu minimieren. Auch hier nutzen wir aus, dass uns der Funktionsaufruf jeweils den exakten Wert der Ableitung mitliefert.
+
+:::{#exr-MinKosten}
+
+## Minimale Kosten mit Gradient Descent
+<br>
+
+Benutze das Gradient Descent Verfahren, um das Minimum der Funktion `kosten(x)` aus @exr-SADKostenfunktionManuell zu bestimmen. Starte bei `x0 = 8` und führe die Iteration so lange aus, bis sich zwei aufeinanderfolgende Werte um nicht mehr als eine bestimmte Toleranz, z.B. `tol = 1e-4`. Experimentiere mit verschiedenen Werten für $\lambda$
+
+:::
+
+:::{.callout-tip collapse="true"}
+
+## Lösung
+
+```{python}
+#| code-fold: show
+#| eval: true
+import math
+
+def kosten(x):
+    v0dot = 1
+    v0 = x       # sX
+    v1dot = -v0dot
+    v1 = 16 - v0 # d
+    v2dot = 2*v1 * v1dot
+    v2 = v1**2 + 12**2
+    v3dot = 1/(2*math.sqrt(v2)) * v2dot
+    v3 = math.sqrt(v2) # sLand
+    v4dot = 15000 * v0dot
+    v4 = 15000 * v0 # kKueste
+    v5dot = 25000 * v3dot
+    v5 = 25000 * v3 # kLand
+    ydot = v4dot + v5dot
+    y = v4 + v5
+    return [y, ydot]
+
+x0 = 8
+lam = 0.0001
+tol = 1e-4
+# 1. Schritt
+[k, kdot] = kosten(x0)
+x1 = x0 - lam * kdot
+while math.fabs(x1 - x0) > tol:
+    x0 = x1
+    [k, kdot] = kosten(x0)
+    x1 = x0 - lam * kdot
+print("Bei x =", x1, "sind die Kosten minimal.")
+print("Sie belaufen sich auf", k)
 ```
 
 :::

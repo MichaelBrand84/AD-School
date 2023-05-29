@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.3.361">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,48 +47,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -101,8 +73,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -140,10 +111,12 @@ div.csl-indent {
     "search-more-matches-text": "weitere Treffer in diesem Dokument",
     "search-clear-button-title": "Zurücksetzen",
     "search-detached-cancel-button-title": "Abbrechen",
-    "search-submit-button-title": "Abschicken"
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -152,11 +125,16 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./aad.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -164,7 +142,7 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./mycover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
@@ -172,86 +150,95 @@ div.csl-indent {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">AutoDiff</a> 
         <div class="sidebar-tools-main">
-    <a href="./AutoDiff.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+    <a href="./AutoDiff.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Suchen"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Vorwort</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vorwort</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ableitungen und ihre Anwendungen</span></a>
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ableitungen und ihre Anwendungen</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notAD.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AD ist nicht …</span></a>
+  <a href="./notAD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AD ist nicht …</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></a>
+  <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./HigherDimFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></a>
+  <a href="./HigherDimFunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./aad.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></a>
+  <a href="./aad.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ausblick.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ausblick: Moderne Bibliotheken für automatische Differentiation</span></a>
+  <a href="./ausblick.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ausblick: Moderne Bibliotheken für automatische Differentiation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Inhaltsverzeichnis</h2>
    
   <ul>
-  <li><a href="#manuelle-implementation-der-aad" id="toc-manuelle-implementation-der-aad" class="nav-link active" data-scroll-target="#manuelle-implementation-der-aad"><span class="toc-section-number">5.1</span>  Manuelle Implementation der AAD</a></li>
-  <li><a href="#implementation-der-aad-mit-operator-overloading" id="toc-implementation-der-aad-mit-operator-overloading" class="nav-link" data-scroll-target="#implementation-der-aad-mit-operator-overloading"><span class="toc-section-number">5.2</span>  Implementation der AAD mit Operator Overloading</a>
+  <li><a href="#manuelle-implementation-der-aad" id="toc-manuelle-implementation-der-aad" class="nav-link active" data-scroll-target="#manuelle-implementation-der-aad"><span class="header-section-number">5.1</span> Manuelle Implementation der AAD</a></li>
+  <li><a href="#implementation-der-aad-mit-operator-overloading" id="toc-implementation-der-aad-mit-operator-overloading" class="nav-link" data-scroll-target="#implementation-der-aad-mit-operator-overloading"><span class="header-section-number">5.2</span> Implementation der AAD mit Operator Overloading</a>
   <ul class="collapse">
-  <li><a href="#die-klasse-floataad" id="toc-die-klasse-floataad" class="nav-link" data-scroll-target="#die-klasse-floataad"><span class="toc-section-number">5.2.1</span>  Die Klasse <code>FloatAad</code></a></li>
-  <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="toc-section-number">5.2.2</span>  Vorzeichen</a></li>
-  <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="toc-section-number">5.2.3</span>  Die Operatoren <code>+</code> und <code>-</code></a></li>
-  <li><a href="#gradienten-berechnen" id="toc-gradienten-berechnen" class="nav-link" data-scroll-target="#gradienten-berechnen"><span class="toc-section-number">5.2.4</span>  Gradienten berechnen</a></li>
-  <li><a href="#die-operatoren-und" id="toc-die-operatoren-und" class="nav-link" data-scroll-target="#die-operatoren-und"><span class="toc-section-number">5.2.5</span>  Die Operatoren <code>*</code> und <code>/</code></a></li>
-  <li><a href="#der-operator" id="toc-der-operator" class="nav-link" data-scroll-target="#der-operator"><span class="toc-section-number">5.2.6</span>  Der Operator <code>**</code></a></li>
+  <li><a href="#die-klasse-floataad" id="toc-die-klasse-floataad" class="nav-link" data-scroll-target="#die-klasse-floataad"><span class="header-section-number">5.2.1</span> Die Klasse <code>FloatAad</code></a></li>
+  <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="header-section-number">5.2.2</span> Vorzeichen</a></li>
+  <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="header-section-number">5.2.3</span> Die Operatoren <code>+</code> und <code>-</code></a></li>
+  <li><a href="#gradienten-berechnen" id="toc-gradienten-berechnen" class="nav-link" data-scroll-target="#gradienten-berechnen"><span class="header-section-number">5.2.4</span> Gradienten berechnen</a></li>
+  <li><a href="#die-operatoren-und" id="toc-die-operatoren-und" class="nav-link" data-scroll-target="#die-operatoren-und"><span class="header-section-number">5.2.5</span> Die Operatoren <code>*</code> und <code>/</code></a></li>
+  <li><a href="#der-operator" id="toc-der-operator" class="nav-link" data-scroll-target="#der-operator"><span class="header-section-number">5.2.6</span> Der Operator <code>**</code></a></li>
   </ul></li>
-  <li><a href="#die-klasse-floataad-im-einsatz" id="toc-die-klasse-floataad-im-einsatz" class="nav-link" data-scroll-target="#die-klasse-floataad-im-einsatz"><span class="toc-section-number">5.3</span>  Die Klasse <code>FloatAad</code> im Einsatz</a>
+  <li><a href="#die-klasse-floataad-im-einsatz" id="toc-die-klasse-floataad-im-einsatz" class="nav-link" data-scroll-target="#die-klasse-floataad-im-einsatz"><span class="header-section-number">5.3</span> Die Klasse <code>FloatAad</code> im Einsatz</a>
   <ul class="collapse">
-  <li><a href="#gradient-descent-zum-auffinden-lokaler-minima" id="toc-gradient-descent-zum-auffinden-lokaler-minima" class="nav-link" data-scroll-target="#gradient-descent-zum-auffinden-lokaler-minima"><span class="toc-section-number">5.3.1</span>  Gradient Descent zum Auffinden lokaler Minima</a></li>
-  <li><a href="#lineare-regression" id="toc-lineare-regression" class="nav-link" data-scroll-target="#lineare-regression"><span class="toc-section-number">5.3.2</span>  Lineare Regression</a></li>
-  <li><a href="#bilder-schärfen" id="toc-bilder-schärfen" class="nav-link" data-scroll-target="#bilder-schärfen"><span class="toc-section-number">5.3.3</span>  Bilder schärfen</a></li>
+  <li><a href="#gradient-descent-zum-auffinden-lokaler-minima" id="toc-gradient-descent-zum-auffinden-lokaler-minima" class="nav-link" data-scroll-target="#gradient-descent-zum-auffinden-lokaler-minima"><span class="header-section-number">5.3.1</span> Gradient Descent zum Auffinden lokaler Minima</a></li>
+  <li><a href="#lineare-regression" id="toc-lineare-regression" class="nav-link" data-scroll-target="#lineare-regression"><span class="header-section-number">5.3.2</span> Lineare Regression</a></li>
+  <li><a href="#bilder-schärfen" id="toc-bilder-schärfen" class="nav-link" data-scroll-target="#bilder-schärfen"><span class="header-section-number">5.3.3</span> Bilder schärfen</a></li>
   </ul></li>
-  <li><a href="#sec-modulMathAad" id="toc-sec-modulMathAad" class="nav-link" data-scroll-target="#sec-modulMathAad"><span class="toc-section-number">5.4</span>  Das Modul <code>mathaad</code></a></li>
-  <li><a href="#das-modul-mathaad-im-einsatz" id="toc-das-modul-mathaad-im-einsatz" class="nav-link" data-scroll-target="#das-modul-mathaad-im-einsatz"><span class="toc-section-number">5.5</span>  Das Modul <code>mathaad</code> im Einsatz</a>
+  <li><a href="#sec-modulMathAad" id="toc-sec-modulMathAad" class="nav-link" data-scroll-target="#sec-modulMathAad"><span class="header-section-number">5.4</span> Das Modul <code>mathaad</code></a></li>
+  <li><a href="#das-modul-mathaad-im-einsatz" id="toc-das-modul-mathaad-im-einsatz" class="nav-link" data-scroll-target="#das-modul-mathaad-im-einsatz"><span class="header-section-number">5.5</span> Das Modul <code>mathaad</code> im Einsatz</a>
   <ul class="collapse">
-  <li><a href="#ein-einaches-neuronales-netz-zur-klassifikation-von-lilien" id="toc-ein-einaches-neuronales-netz-zur-klassifikation-von-lilien" class="nav-link" data-scroll-target="#ein-einaches-neuronales-netz-zur-klassifikation-von-lilien"><span class="toc-section-number">5.5.1</span>  Ein einaches neuronales Netz zur Klassifikation von Lilien</a></li>
+  <li><a href="#ein-einaches-neuronales-netz-zur-klassifikation-von-lilien" id="toc-ein-einaches-neuronales-netz-zur-klassifikation-von-lilien" class="nav-link" data-scroll-target="#ein-einaches-neuronales-netz-zur-klassifikation-von-lilien"><span class="header-section-number">5.5.1</span> Ein einaches neuronales Netz zur Klassifikation von Lilien</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -261,7 +248,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-AAD" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></span></h1>
+<h1 class="title"><span id="sec-AAD" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></span></h1>
 </div>
 
 
@@ -277,7 +264,7 @@ div.csl-indent {
 </header>
 
 <p>In <a href="HigherDimFunctions.html"><span>Kapitel&nbsp;4</span></a> haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle <span class="math inline">\(m\)</span> Ableitungen einer Funktion <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}^m\)</span> mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt jedoch <span class="math inline">\(n\)</span> Funktionsaufrufe, nämlich einen für jede partielle Ableitung <span class="math inline">\(\partial f / \partial x_i\)</span>. In diesem Kapitel wollen wir eine Methode entwickeln, die alle <span class="math inline">\(n\)</span> partiellen Ableitungen in einem Funktionsaufruf berechnet.</p>
-<div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus Kapitel <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.2</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
+<div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus Kapitel <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.3</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
 <section id="manuelle-implementation-der-aad" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="manuelle-implementation-der-aad"><span class="header-section-number">5.1</span> Manuelle Implementation der AAD</h2>
 <p>Wir erläutern die Methode zuerst an einem einfachen Beispiel, welches eine leicht abgeänderte Version des Beispiels von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> ist.</p>
@@ -311,8 +298,8 @@ y = f(x_0, x_1) = (x_0 + x_1) \cdot x_0 - x_1
 <div class="cell-output-display">
 <div id="fig-compTreeMulti" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p>
-<svg width="672" height="480" viewbox="0.00 0.00 229.21 58.20" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 229.21 58.20" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 54.2)"> <polygon fill="white" stroke="transparent" points="-4,4 -4,-54.2 225.21,-54.2 225.21,4 -4,4"></polygon> <!-- nx0 --> <g id="node1" class="node">
 <title>
 nx0
@@ -367,8 +354,8 @@ nMinus-&gt;ny
 </title>
 <path fill="none" stroke="black" d="M171.27,-8.2C180.09,-8.2 194.96,-8.2 204.42,-8.2"></path> <polygon fill="black" stroke="black" points="204.67,-9.08 207.17,-8.2 204.67,-7.33 204.67,-9.08"></polygon> </g> </g>
 </svg>
-</p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.1: Computational Graph für <code>y = (x0 + x1) * x0 - x1</code>.</figcaption><p></p>
+</div>
+<figcaption class="figure-caption">Abbildung&nbsp;5.1: Computational Graph für <code>y = (x0 + x1) * x0 - x1</code>.</figcaption>
 </figure>
 </div>
 </div>
@@ -504,8 +491,8 @@ Gradient: [7, 1]</code></pre>
 <div class="cell-output-display">
 <div id="fig-compTreeMultiReversed" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p>
-<svg width="672" height="480" viewbox="0.00 0.00 229.21 59.60" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 229.21 59.60" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 55.6)"> <polygon fill="white" stroke="transparent" points="-4,4 -4,-55.6 225.21,-55.6 225.21,4 -4,4"></polygon> <!-- nx0 --> <g id="node1" class="node">
 <title>
 nx0
@@ -560,8 +547,8 @@ nMinus-&gt;ny
 </title>
 <path fill="none" stroke="red" d="M173.93,-9.6C183.88,-9.6 198.88,-9.6 207.17,-9.6"></path> <polygon fill="red" stroke="red" points="173.77,-8.73 171.27,-9.6 173.77,-10.48 173.77,-8.73"></polygon> <text text-anchor="middle" x="187.47" y="-2.4" font-family="Cambria" font-size="8.00" fill="red">1</text> </g> </g>
 </svg>
-</p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.2: Werte der Hilfsvariablen <code>vbar</code>.</figcaption><p></p>
+</div>
+<figcaption class="figure-caption">Abbildung&nbsp;5.2: Werte der Hilfsvariablen <code>vbar</code>.</figcaption>
 </figure>
 </div>
 </div>
@@ -572,12 +559,12 @@ nMinus-&gt;ny
 <p><span class="theorem-title"><strong>Übungsaufgabe 5.1 (Eigene Beispiele finden) </strong></span><br></p>
 <p>Schreibe eine eigene Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> für <span class="math inline">\(n\in\lbrace 2, 3 \rbrace\)</span> hin und erstelle den Computational Graph und ein Programm. Leite das Programm nach der oben beschriebenen AAD Methode ab und überzeuge dich an verschiedenen Stellen davon, dass der Gradient korrekt ist.</p>
 </div>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Lösung
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -728,12 +715,12 @@ Lösung
 <p><span class="theorem-title"><strong>Übungsaufgabe 5.2 (Den Operator <code>-</code> implementieren) </strong></span><br></p>
 <p>Implementiere die Funktionen <code>__sub__</code> und <code>__rsub__</code>. Du kannst dafür die Funktionen <code>neg(a)</code> und <code>add(a,b)</code> verwenden.</p>
 </div>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Lösung
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -966,12 +953,12 @@ Lösung
 <p><span class="theorem-title"><strong>Übungsaufgabe 5.3 (Den Operator <code>/</code> implementieren) </strong></span><br></p>
 <p>Ähnlich wie in <a href="#exr-AadMinusOp">Übungsaufgabe&nbsp;<span>5.2</span></a> können wir die Division mit Hilfe der Funktion <code>mul(a,b)</code> realisieren. Schreibe dafür eine Funktion <code>inv(a)</code>, welche in <span class="math inline">\(\frac{1}{a}\)</span> als <code>FloatAad</code>-Objekt berechnet. Implementiere damit die Funktionen <code>__truediv__</code> und <code>__rtruediv__</code>.</p>
 </div>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Lösung
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1194,22 +1181,20 @@ Jf =
 <hr>
 <section id="gradient-descent-zum-auffinden-lokaler-minima" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="gradient-descent-zum-auffinden-lokaler-minima"><span class="header-section-number">5.3.1</span> Gradient Descent zum Auffinden lokaler Minima</h3>
-<p>Eine Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> kann man sich als eine i.A. gekrümmte Fläche im <span class="math inline">\(\mathbb{R}^3\)</span> vorstellen. Der Gradient <span class="math inline">\(\nabla f|_{(x_0, x_1)}\)</span> ist ein Vektor in <span class="math inline">\(\mathbb{R}^2\)</span>, der gerade in die Richtung des steilsten Anstiegs der Fläche beim Punkt <span class="math inline">\((x_0, x_1)\)</span> zeigt. Entsprechend zeigt <span class="math inline">\(-\nabla f\)</span> in die Richtung des steilsten Abstiegs, siehe <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 871. Damit lässt sich die Gradient Descent Methode zur Bestimmung eines lokalen Minimums, die wir im <a href="intro.html#sec-gradientDescent"><span>Kapitel&nbsp;1.3.2</span></a> kennen gelernt haben, auch zum Auffinden eines lokalen Minimums einer Fläche verwenden. Sie lässt sich sogar auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> anwenden, siehe <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 1324.</p>
+<p>Eine Funktion <span class="math inline">\(f : \mathbb{R}^2 \rightarrow \mathbb{R}\)</span> kann man sich als eine i.A. gekrümmte Fläche im <span class="math inline">\(\mathbb{R}^3\)</span> vorstellen. Der Gradient <span class="math inline">\(\nabla f|_{(x_0, x_1)}\)</span> ist ein Vektor in <span class="math inline">\(\mathbb{R}^2\)</span>, der gerade in die Richtung des steilsten Anstiegs der Fläche beim Punkt <span class="math inline">\((x_0, x_1)\)</span> zeigt. Entsprechend zeigt <span class="math inline">\(-\nabla f\)</span> in die Richtung des steilsten Abstiegs, siehe <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 871. Damit lässt sich die Gradient Descent Methode zur Bestimmung eines lokalen Minimums, die wir im <a href="intro.html#sec-gradientDescent"><span>Kapitel&nbsp;1.4.2</span></a> kennen gelernt haben, auch zum Auffinden eines lokalen Minimums einer Fläche verwenden. Sie lässt sich sogar auf Funktionen <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> anwenden, siehe <span class="citation" data-cites="Arens2022">Arens u.&nbsp;a. (<a href="references.html#ref-Arens2022" role="doc-biblioref">2022</a>)</span>, S. 1324.</p>
 <p>Im Fall einer 2-dimensionalen Fläche starten wir an einem Punkt <span class="math inline">\((x_{0,0}, x_{1,0})\)</span>, welchen wir durch seinen Ortsvektor <span class="math inline">\(\vec{x}_0\)</span> beschreiben. Dann berechnen wir rekursiv eine Folge von (Ortsvektoren zu) Punkten <span class="math inline">\(\vec{x}_n\)</span>, welche im Idealfall zu einem lokalen Minimum der Funktion konvergieren, gemäss der Vorschrift <span class="math display">\[
 \vec{x}_{n+1} = \vec{x}_n - \lambda\cdot(\nabla f(\vec{x}_n))^\intercal
 \]</span></p>
-<p><span class="math inline">\(\lambda\in\mathbb{R}^+\)</span> beeinflusst wie im <a href="intro.html#sec-gradientDescent"><span>Kapitel&nbsp;1.3.2</span></a> die Schrittweite. Ist <span class="math inline">\(\lambda\)</span> zu klein, dann konvergiert die Iteration nur sehr langsam, wird <span class="math inline">\(\lambda\)</span> hingegen zu gross gewählt, dann kann es passieren, dass sich die Iteration von einem lokalen Minimum wieder weg bewegt.</p>
+<p><span class="math inline">\(\lambda\in\mathbb{R}^+\)</span> beeinflusst wie im <a href="intro.html#sec-gradientDescent"><span>Kapitel&nbsp;1.4.2</span></a> die Schrittweite. Ist <span class="math inline">\(\lambda\)</span> zu klein, dann konvergiert die Iteration nur sehr langsam, wird <span class="math inline">\(\lambda\)</span> hingegen zu gross gewählt, dann kann es passieren, dass sich die Iteration von einem lokalen Minimum wieder weg bewegt.</p>
 <div id="exm-gradientDescentWithAAD" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.4 (Gradient Descent auf einer Fläche) </strong></span><br></p>
 <p>Betrachte die Funktion <span class="math inline">\(f(x_0, x_1) = x_0^4 + x_1^4 + x_0 x_1^3 - x_0^2 x_1 - x_1^2\)</span>.</p>
-<div>
 <p>Hier wird diese Funktion einmal als 2-dimensionale Fläche und einmal als mit Hilfe von Konturlinien dargestellt. Im linken Feld kann man den Startpunkt und <span class="math inline">\(\lambda\)</span> wählen und die ersten 30 Iterationen darstellen.</p>
 <div class="fig-GradientDescent2DGeoGebra">
 <iframe scrolling="no" title="Gradient descent 2d" src="https://www.geogebra.org/material/iframe/id/c2zjuxef/width/700/height/600/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="600px" style="border:0px;">
 </iframe>
 </div>
 <p>Man erkennt, dass die Funktion drei lokale Minima hat.</p>
-</div>
 <p>Nun wollen wir ein lokales Minimum mit Hilfe der Gradient Descent Methode finden. Damit wir <span class="math inline">\(\lambda \cdot (\nabla f)\)</span> als <code>lam * df</code> berechnen können, wandeln wir die Liste, die wir mit <code>getGradient</code> erhalten, in ein <code>numpy</code>-array um. Die oben beschriebene Iteration wird so lange ausgeführt, bis <span class="math inline">\(|\vec{x}_{n+1}-\vec{x}_n|\le 10^{-6}\)</span> ist.</p>
 <div class="cell" data-execution_count="21">
 <details open="">
@@ -1330,7 +1315,7 @@ Jf =
 <div id="fig-graphoflinearregression" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="aad_files/figure-html/fig-graphoflinearregression-output-2.png" width="566" height="411" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.3: Ausgleichsgerade.</figcaption><p></p>
+<figcaption class="figure-caption">Abbildung&nbsp;5.3: Ausgleichsgerade.</figcaption>
 </figure>
 </div>
 </div>
@@ -1349,7 +1334,7 @@ Jf =
 <div id="fig-originalTeddy" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Bear_original.png" class="img-fluid figure-img" data-ref-parent="fig-teddys"></p>
-<p></p><figcaption class="figure-caption">(a) Original 180 x 180</figcaption><p></p>
+<figcaption class="figure-caption">(a) Original 180 x 180</figcaption>
 </figure>
 </div>
 </div>
@@ -1357,7 +1342,7 @@ Jf =
 <div id="fig-smallTeddy" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Bear30.jpg" class="img-fluid figure-img" data-ref-parent="fig-teddys" width="180"></p>
-<p></p><figcaption class="figure-caption">(b) Testbild 30 x 30</figcaption><p></p>
+<figcaption class="figure-caption">(b) Testbild 30 x 30</figcaption>
 </figure>
 </div>
 </div>
@@ -1383,7 +1368,7 @@ Jf =
 </details>
 </div>
 <p>Um die Unschärfe einer schlecht fokussierten Linse zu simulieren, wenden wir einen <em>Gaussian Blur</em> an. Wie das genau funktioniert wird z.B. in diesem Video von Grant Sanderson von <a href="https://www.3blue1brown.com">3blue1brown</a> [Letzter Zugriff 02.04.2023] erklärt.</p>
-<div class="quarto-video ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/KuXjwB4LzSA?start=512" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/KuXjwB4LzSA?start=512" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>Die folgende Funktion wendet einen solchen Gaussian Blur auf ein Bild an. Die Vorlage des Codes stammt aus dem Forumsbeitrag <a href="https://stackoverflow.com/questions/29920114/how-to-gauss-filter-blur-a-floating-point-numpy-array">How to gauss-filter (blur) a floating point numpy array</a> von stackoverflow [Letzter Zugriff 02.04.2023] und wurde so abgeändert, dass die kernel-Grösse selber bestimmt werden kann.</p>
 <div class="cell" data-execution_count="24">
 <details open="">
@@ -1435,7 +1420,7 @@ Jf =
 <div id="fig-testbildmitblur" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="aad_files/figure-html/fig-testbildmitblur-output-1.png" width="540" height="276" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.5: Testbild und Blur.</figcaption><p></p>
+<figcaption class="figure-caption">Abbildung&nbsp;5.5: Testbild und Blur.</figcaption>
 </figure>
 </div>
 </div>
@@ -1513,7 +1498,7 @@ Jf =
 <div id="fig-imagereconstructionresult" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="aad_files/figure-html/fig-imagereconstructionresult-output-1.png" width="480" height="409" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.6: Resultat des Schärfens und Differenz zum Original</figcaption><p></p>
+<figcaption class="figure-caption">Abbildung&nbsp;5.6: Resultat des Schärfens und Differenz zum Original</figcaption>
 </figure>
 </div>
 </div>
@@ -1664,7 +1649,7 @@ Jf =
 <div id="fig-imageirisscatterplot" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="aad_files/figure-html/fig-imageirisscatterplot-output-1.png" width="589" height="433" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.7: Scatter Plots der Fisher Iris Daten</figcaption><p></p>
+<figcaption class="figure-caption">Abbildung&nbsp;5.7: Scatter Plots der Fisher Iris Daten</figcaption>
 </figure>
 </div>
 </div>
@@ -1691,8 +1676,8 @@ Jf =
 <div class="cell-output-display">
 <div id="fig-FisherNNArchitecture" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p>
-<svg width="384" height="480" viewbox="0.00 0.00 72.00 118.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<div>
+<svg width="384" height="480" viewbox="0.00 0.00 72.00 118.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 114)"> <polygon fill="white" stroke="transparent" points="-4,4 -4,-114 68,-114 68,4 -4,4"></polygon> <!-- x0 --> <g id="node1" class="node">
 <title>
 x0
@@ -1771,8 +1756,8 @@ x3–y2
 </title>
 <path fill="none" stroke="black" d="M12.43,-66.57C21.53,-57.47 42.23,-36.77 51.44,-27.56"></path> </g> </g>
 </svg>
-</p>
-<p></p><figcaption class="figure-caption">Abbildung&nbsp;5.8: Neuronales Netz für den Lilienklassifikator.</figcaption><p></p>
+</div>
+<figcaption class="figure-caption">Abbildung&nbsp;5.8: Neuronales Netz für den Lilienklassifikator.</figcaption>
 </figure>
 </div>
 </div>
@@ -1883,32 +1868,32 @@ J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 <p>Das vollständige Program kann <a href="FisherClassification.py">hier</a> heruntergeladen werden.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
-<div id="ref-Arens2022" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Arens2022" class="csl-entry" role="listitem">
 Arens, Tilo, Frank Hettlich, Christian Karpfinger, Ulrich Kockelkorn, Klaus Lichtenegger, und Hellmuth Stachel. 2022. <em>Mathematik</em>. Berlin, Heidelberg: Springer Berlin Heidelberg.
 </div>
-<div id="ref-Hromkovic2022" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Hromkovic2022" class="csl-entry" role="listitem">
 Barot, Michael, Britta Dorn, Ghislain Fourny, Jens Gallenbacher, Juraj Hromkovic, und Regula Lacher. 2022. <em><span>INFORMATIK</span>, Data Science und Sicherheit: Grundlagen der Informatik f<span>ü</span>r Schweizer Maturit<span>ä</span>tsschulen</em>. Klett.
 </div>
-<div id="ref-Baydin18" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Baydin18" class="csl-entry" role="listitem">
 Baydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, und Jeffrey Mark Siskind. 2018. <span>„Automatic Differentiation in Machine Learning: a Survey“</span>. <em>Journal of Machine Learning Research</em> 18 (153): 1–43. <a href="http://jmlr.org/papers/v18/17-468.html">http://jmlr.org/papers/v18/17-468.html</a>.
 </div>
-<div id="ref-Fisher1936" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Fisher1936" class="csl-entry" role="listitem">
 Fisher, R. A. 1936. <span>„Iris“</span>. UC Irvine Machine Learning Repository. 1936. <a href="https://archive-beta.ics.uci.edu/dataset/53/iris">https://archive-beta.ics.uci.edu/dataset/53/iris</a>.
 </div>
-<div id="ref-Frochte2021" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Frochte2021" class="csl-entry" role="listitem">
 Frochte, Jörg. 2021. <em>Maschinelles Lernen - Grundlagen und Algorithmen in Python</em>. 3. Aufl. Hanser.
 </div>
-<div id="ref-Griewank2008EDP" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Griewank2008EDP" class="csl-entry" role="listitem">
 Griewank, Andreas, und Andrea Walther. 2008. <em>Evaluating Derivatives: <span>P</span>rinciples and Techniques of Algorithmic Differentiation</em>. 2. Aufl. Other Titles in Applied Mathematics 105. Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/ot105/">http://bookstore.siam.org/ot105/</a>.
 </div>
-<div id="ref-Henrard2017ADi" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Henrard2017ADi" class="csl-entry" role="listitem">
 Henrard, Marc. 2017. <em>Algorithmic Differentiation in Finance Explained</em>. Financial Engineering Explained. Cham: Palgrave Macmillan. <a href="https://doi.org/10.1007/978-3-319-53979-9">https://doi.org/10.1007/978-3-319-53979-9</a>.
 </div>
-<div id="ref-sidsite2021" class="csl-entry" role="doc-biblioentry">
+<div id="ref-sidsite2021" class="csl-entry" role="listitem">
 Radcliffe, Sidney. 2021. <span>„Reverse-mode automatic differentiation from scratch, in Python“</span>. 22. Mai 2021. <a href="https://sidsite.com/posts/autodiff/">https://sidsite.com/posts/autodiff/</a>.
 </div>
-<div id="ref-Slater2022" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Slater2022" class="csl-entry" role="listitem">
 Slater, Max. 2022. <span>„Differentiable programming from scratch“</span>. Juli 2022. <a href="https://thenumb.at/Autodiff/">https://thenumb.at/Autodiff/</a>.
 </div>
 </div>
@@ -1944,9 +1929,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -2011,6 +2010,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
