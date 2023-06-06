@@ -281,15 +281,15 @@ Jf =
 $$
 
 Ausgewertet an der Stelle $(x_0, x_1) = (2, 1)$ ergibt dies 
-$$
-f(2,1) \approx \begin{pmatrix} 5 \\ -0.4161... \\ 54.5981... \end{pmatrix}, \qquad 
-JF \vert _{(2,1)} \approx 
+\begin{align*}
+f(2,1) &\approx \begin{pmatrix} 5 \\ -0.4161... \\ 54.5981... \end{pmatrix}, \\ 
+JF \vert _{(2,1)} &\approx 
     \begin{pmatrix}  
         1 & 4 \\
         -0.9092... & 0.4161... \\
         218.3926... & 218.3926...
     \end{pmatrix}
-$$
+\end{align*}
 
 :::
 ---

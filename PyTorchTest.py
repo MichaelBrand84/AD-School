@@ -1,13 +1,18 @@
 """# Beispiel 1.2
 import torch
 
-x = torch.tensor(2., requires_grad=True)
-y = torch.log(x**2 + 1) / torch.sqrt(x**2 + 1 + x)
+x0 = torch.tensor(2., requires_grad=True)
+y = torch.log(x0**2 + 1) / torch.sqrt(x0**2 + 1 + x0)
 
+y.backward() # Ableitungen mit AAD berechnen
+dy = x0.grad # Ableitung von dy nach dx0
+
+# Werte extrahieren
 y0 = y.item()
-y.backward()
+dy0 = dy.item()
+
 print(y0)
-print(x.grad)
+print(dy0)
 """
 
 
@@ -43,5 +48,10 @@ def f(x):
     return torch.stack([y1, y2, y3])
 
 x0 = torch.tensor([2., 1.], requires_grad=True)
-print(jacobian(f, x0))
+
+y0 = f(x0)
+j = jacobian(f, x0)
+
+print(y0)
+print(j)
 """

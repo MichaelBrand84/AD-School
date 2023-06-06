@@ -12,6 +12,7 @@
 ################################################################################
 
 import math
+import numpy as np
 
 class FloatSad:
     """Augmented Float values for Standard Algorithmic Differentiation (SAD)"""
@@ -167,4 +168,10 @@ class FloatSad:
             newDerivative = math.pow(other.value, self.value) * \
                 (self.derivative * math.log(other.value) + self.value * other.derivative / other.value)
         return FloatSad(newValue, newDerivative)
+
+float2FloatSad = np.vectorize(lambda x, v : FloatSad(x,v))
+
+getValues = np.vectorize(lambda y : y.value)
+
+getDerivatives = np.vectorize(lambda y : y.derivative)
 ```

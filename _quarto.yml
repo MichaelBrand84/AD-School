@@ -20,7 +20,7 @@ book:
   page-navigation: true
   search: true
 #  cookie-consent: express
-  downloads: [pdf]
+#  downloads: [pdf]
 #  sharing: [twitter, facebook, instagram]
   chapters:
     - index.qmd
@@ -30,6 +30,7 @@ book:
     - HigherDimFunctions.qmd
     - aad.qmd
     - ausblick.qmd
+    - reflexion.qmd
     - references.qmd
     
 

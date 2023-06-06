@@ -4,3 +4,208 @@ tbl-cap-location: bottom
 
 # Ausblick: Moderne Bibliotheken für automatische Differentiation {#sec-ausblick}
 
+Zum Schluss werfen wir einen kurzen Blick auf PyTorch, einer Open Source Machine Learning Bibliothek (@PyTorch). Diese kann von [PyTorch](https://pytorch.org/) heruntergeladen werden. Von den zahlreichen verfügbaren Modulen beschränken wir uns hier auf *Autograd*, das zur Berechnung von Ableitungen benutzt wird.
+
+Neben der Dokumentation auf [PyTorch 2.0 documentation](https://pytorch.org/docs/stable/autograd.html) gibt auch das folgende Video von [Elliot Waite](https://www.youtube.com/@elliotwaite) [letzter Aufruf 06.06.2023] eine gute Einführung in die Funktionsweise und Bedienung von Autograd.
+ {{< video https://www.youtube.com/watch?v=MswxJw-8PvE&t=1s&ab_channel=ElliotWaite >}}
+
+
+
+## Vergleich von `pytorch.autograd` mit `FloatSad` und `FloatAad`
+
+In einem ersten Beispiel berechnen wir einen mathematischen Ausdruck ohne dafür eine Funktion zu definieren. 
+
+:::{#exm-FunctionEvaluationPyTorch}
+
+Betrachten wir als erstes die Funktion von @exr-FunToGraphProg, nämlich $y = f(x) = \frac{\ln(x^2 + 1)}{\sqrt{x^2 + 1 + x}}$. Wir wollen an der Stelle $x_0 = 2$ den Funktionswert und den Wert der Ableitung berechnen und verwenden dazu einmal unsere Klassen `FloatSad` bzw. `FloatAad` und einmal `pytorch.autgrad`.
+
+{{< include _floatsadForExecution.qmd >}}
+
+::::{.panel-tabset}
+
+## `FloatSad`
+```{python}
+#| eval: true
+#| code-fold: false
+from floatsad import FloatSad
+import mathsad
+
+x0 = FloatSad(2)
+y0 = mathsad.log(x0**2 + 1) / mathsad.sqrt(x0**2 + 1 + x0)
+
+print(y0)
+```
+
+Funktionen $f:\mathbb{R} \rightarrow \mathbb{R}$ können direkt evaluiert werden.
+
+## `FloatAad`
+
+```{python}
+#| eval: true
+#| code-fold: false
+from floataad import float2FloatAad, getGradient
+import mathaad
+
+x = float2FloatAad([2])
+y = mathaad.log(x[0]**2 + 1) / mathaad.sqrt(x[0]**2 + 1 + x[0])
+
+# Werte extrahieren
+y0 = y.value
+dy = getGradient(x,y)
+
+print(y0)
+print(dy[0])
+```
+
+Die Funktion `getGradient` erwartet Listen, deshalb muss man auch für Funktionen in einer Variablen dem Konstruktor eine Liste übergeben. 
+
+## `autograd`
+
+```{python}
+#| eval: true
+#| code-fold: false
+import torch
+
+x0 = torch.tensor(2., requires_grad=True)
+y = torch.log(x0**2 + 1) / torch.sqrt(x0**2 + 1 + x0)
+
+y.backward() # Ableitungen mit AAD berechnen
+dy = x0.grad # Ableitung von dy nach dx0
+
+# Werte aus Tensor extrahieren
+y0 = y.item()
+dy0 = dy.item()
+
+print(y0)
+print(dy0)
+```
+
+Der Datentyp in `PyTorch` heisst `tensor` und entspricht in etwa unserem `FloatAad`. Beachte, dass dem Konstruktor ein `Float` übergeben werden muss, also z.B. `2.0` und nicht `2`. 
+Mit Hilfe der `tensor`-Variablen `x` und den speziell implementierten mathematischen Funktionen berechnen wir den Audruck `y`. Jede `tensor`-Variable hat unter anderem ein Attribut  `requires_grad`, welches speichert, ob die Ableitung von `y` nach dieser Variablen, also $\partial y / \partial x$ benötigt wird. Der Standardwert dafür ist `False`. 
+Bei der Berechnung von `y` wird der computational graph kreiert und mit `y.backward()` werden die Ableitungen nach der AAD-Methode berechnet. Dabei wird in jeder Variable, die zur Berechnung von `y` benötigt wird und deren Attribut `requires_grad=True` ist, der Wert der partiellen Ableitung in einem Attribut `grad` gespeichert. 
+
+::::
+
+:::
+---
+
+Im nächsten Beispiel betrachten wir die Berechnung des Gradienten einer Funktion $f : \mathbb{R}^3 \rightarrow \mathbb{R}$. Wieder vergleichen wir die Implementation in `autograd` mit unserer Klasse `FloatAad`. 
+
+:::{#exm-GradientPyTorchVsFloatAad}
+
+Wir betrachten nochmals die Funktion aus @exm-gradientsWithAAD. 
+
+::::{.panel-tabset}
+
+## `FloatAad`
+
+```{python}
+#| eval: true
+#| code-fold: false
+from floataad import float2FloatAad, getGradient
+
+def f(x):
+    v1 = x[0] * x[1]**2
+    v2 = 2**x[1] / x[2]
+    v3 = 2 / x[2]**2
+    y = v1 + v2 - v3
+    return y
+
+x0 = [3,2,-1]
+x0 = float2FloatAad(x0)
+
+y = f(x0)
+y0 = y.value
+dy = getGradient(x0, y)
+
+print(y0)
+print(dy)
+```
+
+## `autograd`
+
+```{python}
+#| eval: true
+#| code-fold: false
+import torch
+
+def f(x):
+    v1 = x[0] * x[1]**2
+    v2 = 2**x[1] / x[2]
+    v3 = 2 / x[2]**2
+    y = v1 + v2 - v3
+    return y
+
+x0 = [3., 2., -1.]
+x0 = torch.tensor(x0, requires_grad=True)
+
+y = f(x0)
+y0 = y.item() # Funktionswert aus Tensor extrahieren
+
+y.backward()  # AAD anwenden
+dy = x0.grad
+
+print(y0)
+print(dy)
+```
+
+::::
+
+:::
+---
+
+Als letztes Beispiel vergleichen wir die Berechnung der Jacobi Matrix einer Funktion $f : \mathbb{R}^2 \rightarrow \mathbb{R}^3$.
+
+:::{#exm-JacobianAutogradVsFloatSad}
+
+Betrachte die Funktion aus @exm-ExFunctionR2ToR3. Zur Berechnung der Jacobi Matrix $Jf \in \mathbb{R}^{3\times 2}$ benötigt man mit `FloatSad` zwei Funktionsaufrufe (je einen für jede Spalte) und mit `FloatAad` drei Funktionsaufrufe (je einen für jede Zeile). Wir verwenden daher `FloatSad`, beschränken uns aber auf die Berechnung der ersten Spalte von $Jf$. In `PyTorch` gibt es eine spezielle Funktion zur Berechnung der Jacobi Matrix.
+
+::::{.panel-tabset}
+
+## `FloatSad`
+```{python}
+#| eval: true
+#| code-fold: false
+from floatsad import *
+import mathsad
+
+def f(x):
+    xdot = [1, 0]
+    x = float2FloatSad(x, xdot)
+    y1 = x[0]*mathsad.sqrt(x[1]) + 3*x[1]
+    y2 = mathsad.cos(x[0]) / x[1]
+    y3 = mathsad.exp(x[0]**2 * x[1])
+    return [y1, y2, y3]    
+
+x0 = (2, 1)
+y0 = f(x0)
+print(getValues(y0))
+print(getDerivatives(y0))
+```
+
+## `autograd`
+```{python}
+#| eval: true
+#| code-fold: false
+import torch
+from torch.autograd.functional import jacobian
+
+def f(x):
+    y1 = x[0]*torch.sqrt(x[1]) + 3*x[1]
+    y2 = torch.cos(x[0]) / x[1]
+    y3 = torch.exp(x[0]**2 * x[1])
+    return torch.stack([y1, y2, y3])
+
+x0 = torch.tensor([2., 1.], requires_grad=True)
+
+y0 = f(x0)
+j = jacobian(f, x0)
+
+print(y0)
+print(j)
+```
+
+::::
+
+:::
+---
