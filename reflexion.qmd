@@ -3,3 +3,39 @@ tbl-cap-location: bottom
 ---
 
 # Reflexion {#sec-reflexion}
+
+## Reflexion zur Lerneinheit
+
+### Reflexion zu den Klassen und Beispielprogrammen
+(Klassen sind mit eigenem Verständnis gewachsen, was würde ich im Nachhinein anders implementieren (z.B. SAD analog zu AAD mit mehr Funktionen))
+(Fokus auf Verständnis, nicht auf Effizienz. Wo gibt es Verbesserungspotential)
+(Grenzen bei Komplexität, Maximale Rekursionstiefe bei AAD wird schnell erreicht, zur Verbesserung müssten NumPy Operatoren überladen werden)
+
+### Was noch fehlt
+(Ableitungen 2. und höherer Ordnung)
+
+
+
+
+## Reflexion zum Einsatz im Unterricht
+
+### Voraussetzungen für die einzelnen Kapitel
+
+### Durchführung der Lerneinheit
+(EF Sonderwoche Kapitel 1&2 an einem Tag, Fokus auf Objektorientierung, Einführung Python)
+(SF AM Durchführung in 6 Lektionen mit Fokus auf Anwendungen ohne Objektorientierung, weiterführende Kapitel machen neugierig)
+
+### Potential für den Mathematikunterricht
+(Erkennen, wie Algebraische Ausdrücke aufgebaut sind; Kettenregel und andere Ableitungsregeln; natürliche Motivation für logarithmisches Differenzieren; Echte(re) Anwendungen der Differentialrechnung)
+
+### Potential für den Informatikunterricht
+(Einführung Objektorientiertes Programmieren)
+
+
+### Verbesserungen für künftige Klassen
+
+
+
+## Was ich persönlich gelernt habe
+
+(Arbeit mit Quarto, Skript als Website, Arbeit mit GitHub)
