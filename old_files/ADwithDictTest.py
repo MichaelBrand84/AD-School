@@ -9,8 +9,8 @@
 #######################   IMPORT DEPENDENCIES   ################################
 
 import numpy as np
-from ad_dual import Dual
-from func import log_d, exp_d, sin_d, cos_d, sigmoid_d
+from old_files.ad_dual import Dual
+from old_files.func import log_d, exp_d, sin_d, cos_d, sigmoid_d
 
 ################################# EXAMPLE-1 ####################################
 

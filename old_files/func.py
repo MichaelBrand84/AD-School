@@ -9,7 +9,7 @@
 #######################   IMPORT DEPENDENCIES   ################################
 
 import numpy as np
-from ad_dual import Dual
+from old_files.ad_dual import Dual
 
 ################################################################################
 

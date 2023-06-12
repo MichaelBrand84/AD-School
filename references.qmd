@@ -1,9 +1,8 @@
-# Quellen {.unnumbered}
+# Literaturverzeichnis {.unnumbered}
 
-## Literaturverzeichnis {.unnumbered}
 
 ::: {#refs}
 :::
 
-## Abbildungsverzeichnis {.unnumbered}
+
 

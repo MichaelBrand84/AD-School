@@ -279,7 +279,7 @@ Schreibe zur mathematischen Funktion $y = f(x) = \frac{\ln(x^2 + 1)}{\sqrt{x^2 +
 ## Lösung
 
 ```{dot}
-//| label: fig-compTreeSimple
+//| label: fig-compTreeSimple2
 //| fig-cap: Computational Graph zum Ausdruck `y = ln(x^2 + 1) / sqrt(x^2 + 1 + x)`.
 digraph "" {
     rankdir=LR
