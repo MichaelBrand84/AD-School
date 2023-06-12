@@ -3,7 +3,7 @@ tbl-cap-location: bottom
 ---
 
 
-# Ableitungen und ihre Anwendungen
+# Ableitungen und ihre Anwendungen {#sec-AbleitungenUndAnwendungen}
 
 ## Ein erstes Beispiel
 
@@ -73,7 +73,7 @@ Wir möchten Ableitungen von Funktionen berechnen, die durch Programme beschrieb
 Zuerst wollen wir aber die wichtigsten Ableitungsregeln nochmal zusammenfassen.
 
 
-## Ableitungen von Funktionen
+## Ableitungen von Funktionen {#sec-AbleitungenUebersicht}
 
 Wir kennen Ableitungen von Funktionen $f: \mathbb{R}\rightarrow\mathbb{R}$ aus dem Mathematikunterricht. Sie geben uns darüber Auskunft, wie gross die Steigung der Tangente in einem bestimmten Punkt des Funktionsgraphen ist. Die Tangente stellt dabei die beste lineare Annäherung an den Funktionsgraph dar. Ableitungen beschreiben auch die lokale Änderungsrate der Funktion. Ableitungen erlauben es uns ausserdem, die Extrema und Wendepunkte einer Funktion zu bestimmen. 
 
@@ -424,7 +424,7 @@ def f(x):
 
 
 
-## Numerische Verfahren, die mit Ableitungen arbeiten
+## Numerische Verfahren, die mit Ableitungen arbeiten {#sec-NumerischeVerfahren}
 
 Es gibt zahlreiche numerische Verfahren, welche Werte von Ableitungen benötigen. Wir stellen hier exemplarisch zwei von ihnen vor: Das Newtonverfahren zur näherungsweisen Bestimmung von Nullstellen und das Gradient Descent Verfahren zur näherungsweisen Bestimmung von Minimalstellen einer Funktion. Letzteres wird uns an zahlreichen Stellen wieder begegnen.
 
@@ -600,7 +600,7 @@ Aus Symmetriegründen dürfen wir annehmen, dass der Rand des Billardtisches der
 
 :::::{.column-margin}
 
-![Billard auf einem runden Tisch](CircularBillard_sketch.png)
+![Billard auf einem runden Tisch](CircularBillard_sketch.png){#fig-BillardExplanation}
 
 :::::
 

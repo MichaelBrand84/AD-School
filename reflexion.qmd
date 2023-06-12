@@ -7,9 +7,9 @@ tbl-cap-location: bottom
 ## Reflexion zur Lerneinheit
 
 ### Reflexion zu den Klassen und Beispielprogrammen
-(Klassen sind mit eigenem Verständnis gewachsen, was würde ich im Nachhinein anders implementieren (z.B. SAD analog zu AAD mit mehr Funktionen))
-(Fokus auf Verständnis, nicht auf Effizienz. Wo gibt es Verbesserungspotential)
-(Grenzen bei Komplexität, Maximale Rekursionstiefe bei AAD wird schnell erreicht, zur Verbesserung müssten NumPy Operatoren überladen werden)
+[] (Klassen sind mit eigenem Verständnis gewachsen, was würde ich im Nachhinein anders implementieren (z.B. SAD analog zu AAD mit mehr Funktionen))
+[] (Fokus auf Verständnis, nicht auf Effizienz. Wo gibt es Verbesserungspotential)
+[] (Grenzen bei Komplexität, Maximale Rekursionstiefe bei AAD wird schnell erreicht, zur Verbesserung müssten NumPy Operatoren überladen werden)
 
 ### Was noch fehlt
 (Ableitungen 2. und höherer Ordnung)
@@ -21,15 +21,28 @@ tbl-cap-location: bottom
 
 ### Voraussetzungen für die einzelnen Kapitel
 
+Zu Beginn der Lerneinheit in @sec-AbleitungenUndAnwendungen sollten Schüler:innen die Ableitungen aller Grundfunktionen und die Ableitungsregeln kennen. Diese werden im @sec-AbleitungenUebersicht nochmals kurz zusammengefasst. Die hyperbolischen Funktionen werden der vollständigkeit halber ebenfalls erwähnt, im Rest der Arbeit werden sie aber nicht verwendet. In @sec-NumerischeVerfahren werden das Newtonverfahren und die Gradient Descent Methode kurz eingeführt, es macht aber Sinn, diese Verfahren vorher im Unterricht ausführlicher zu behandeln. Alternativ kann dieser Abschnitt auch weggelassen werden. 
+Aus dem Programmierunterricht sollte das Konzept einer Funktion mit Rückgabewert und die Verwendung von Bibliotheken bekannt sein. Im @sec-NumerischeVerfahren wird ausserdem das Modul `matplotlib` verwendet, das vorgängig installiert werden muss. Alle Programme, ausser denen, die dieses Modul verwenden, können auch in [TigerJython](https://tigerjython.ch/) ausgeführt werden.
+
+In @sec-ADisnot wird das Modul `sympy` verwendet, das vorgängig installiert werden muss. Dieser Abschnitt kann auch übersprungen werden.
+
+@sec-SADforOneDimFunctions kann mit den gleichen Voraussetzungen wie @sec-AbleitungenUndAnwendungen bearbeitet werden. Für die @exr-SADmitSchleife sollte die `for`-Schleife bekannt sein. @exr-BillardSADmanualSOlution und @exr-MinDistlSolution beziehen sich auf die entsprechenden Aufgaben im @sec-NumerischeVerfahren. 
+In @sec-SadImplementationOperatorOverloading werden Klassen und das Überladen von Operatoren verwendet, um AD zu implementieren. Wenn die Schüler:innen damit noch nicht vertraut sind, kann das Konzept auch am Beispiel der AD eingeführt werden, wobei sicherlich zusätzliche Erklärungen durch die Lehrperson nötig sein werden. In @sec-sadPowerOperator benötigt man logarithmisches Differenzieren. Die Methode wir dort im Detail vorgeführt, falls sie jedoch nicht aus dem Mathematikunterricht bekannt ist, ist es sinnvoll, einige zusätzliche Übungsaufgaben dazu bereit zu stellen.
+Die @exr-billardMathsadSolutions und @exr-minDistSolutionWithSAD beziehen sich wiederum auf die entsprechenden Aufgaben in @sec-NumerischeVerfahren.
+
+@sec-HigherDimFunctions, @sec-AAD und @sec-ausblick setzen höherdimensionale Analysis, wie sie in einer Analysis 2 Vorlesung im ersten Studienjahr eingeführt werden, voraus. Insbesondere die Begriffe des Gradienten und der Jacobi Matrix sollten bekannt sein. Es wird in den Kapiteln auf Literatur verwiesen, in denen diese Begriffe kurz erklärt werden. Nichtsdestotrotz sollten auch diese Abschnitte für interessierte und leistungsstarke Schüler:innen zugänglich sein. Sie beinhalten weniger Übungsaufgaben und sind mehr als Ausblick für Interessierte gedacht. 
+Es wird hier vom Modul `numpy` Gebrauch gemacht, das vorgängig installiert werden muss. Im @sec-ausblick vergleichen wir unsere Klassen mit `autograd`, welches in `pytorch` enthalten ist. Dieses muss ebenfalls installiert werden (@PyTorch). 
+
+
 ### Durchführung der Lerneinheit
-(EF Sonderwoche Kapitel 1&2 an einem Tag, Fokus auf Objektorientierung, Einführung Python)
-(SF AM Durchführung in 6 Lektionen mit Fokus auf Anwendungen ohne Objektorientierung, weiterführende Kapitel machen neugierig)
+[] (EF Sonderwoche Kapitel 1&2 an einem Tag, Fokus auf Objektorientierung, Einführung Python)
+[] (SF AM Durchführung in 6 Lektionen mit Fokus auf Anwendungen ohne Objektorientierung, weiterführende Kapitel machen neugierig)
 
 ### Potential für den Mathematikunterricht
-(Erkennen, wie Algebraische Ausdrücke aufgebaut sind; Kettenregel und andere Ableitungsregeln; natürliche Motivation für logarithmisches Differenzieren; Echte(re) Anwendungen der Differentialrechnung)
+[] (Erkennen, wie Algebraische Ausdrücke aufgebaut sind; Kettenregel und andere Ableitungsregeln; natürliche Motivation für logarithmisches Differenzieren; Echte(re) Anwendungen der Differentialrechnung)
 
 ### Potential für den Informatikunterricht
-(Einführung Objektorientiertes Programmieren)
+[] (Einführung Objektorientiertes Programmieren)
 
 
 ### Verbesserungen für künftige Klassen
@@ -37,5 +50,4 @@ tbl-cap-location: bottom
 
 
 ## Was ich persönlich gelernt habe
-
-(Arbeit mit Quarto, Skript als Website, Arbeit mit GitHub)
+[] (Arbeit mit Quarto, Skript als Website, Arbeit mit GitHub)

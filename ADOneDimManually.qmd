@@ -52,7 +52,7 @@ v0dot = 1
 v1dot = 2 * v0 * v0dot
 v2dot = math.cos(v1) * v1dot
 ```
-Man beachte, dass durch die Konvention, dass immer `v0 = x` gesetzt wird, auch immer `v0dot = 1` ist. Nun können wir unsere Funktion so ergänzen, dass nicht nur der Funktionswert, sondern auch die Ableitung an der Stelle $x_0$ berechnet wird:
+Man beachte, dass durch die Konvention, immer mit `v0 = x` zu beginnen  , auch immer `v0dot = 1` ist. Nun können wir unsere Funktion so ergänzen, dass nicht nur der Funktionswert, sondern auch die Ableitung an der Stelle $x_0$ berechnet wird:
 ```{python}
 #| code-fold: show
 import math
@@ -954,7 +954,7 @@ def __rtruediv__(self, other):
 
 :::
 
-### Der Operator `**`
+### Der Operator `**` {#sec-sadPowerOperator}
 
 Interessant ist nun die Implementation des Potenzoperators. Hier sind mehrere Fallunterscheidungen nötig.
 

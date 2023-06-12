@@ -149,9 +149,6 @@ div.csl-indent {
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">AutoDiff</a> 
-        <div class="sidebar-tools-main">
-    <a href="./AutoDiff.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
-</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -205,6 +202,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./reflexion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Reflexion</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -226,7 +229,7 @@ div.csl-indent {
   <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="header-section-number">3.2.2</span> Vorzeichen</a></li>
   <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="header-section-number">3.2.3</span> Die Operatoren <code>+</code> und <code>-</code></a></li>
   <li><a href="#die-operatoren-und" id="toc-die-operatoren-und" class="nav-link" data-scroll-target="#die-operatoren-und"><span class="header-section-number">3.2.4</span> Die Operatoren <code>*</code> und <code>/</code></a></li>
-  <li><a href="#der-operator" id="toc-der-operator" class="nav-link" data-scroll-target="#der-operator"><span class="header-section-number">3.2.5</span> Der Operator <code>**</code></a></li>
+  <li><a href="#sec-sadPowerOperator" id="toc-sec-sadPowerOperator" class="nav-link" data-scroll-target="#sec-sadPowerOperator"><span class="header-section-number">3.2.5</span> Der Operator <code>**</code></a></li>
   <li><a href="#vergleichsoperatoren" id="toc-vergleichsoperatoren" class="nav-link" data-scroll-target="#vergleichsoperatoren"><span class="header-section-number">3.2.6</span> Vergleichsoperatoren</a></li>
   </ul></li>
   <li><a href="#die-klasse-floatsad-im-einsatz" id="toc-die-klasse-floatsad-im-einsatz" class="nav-link" data-scroll-target="#die-klasse-floatsad-im-einsatz"><span class="header-section-number">3.3</span> Die Klasse <code>FloatSad</code> im Einsatz</a></li>
@@ -306,7 +309,7 @@ f'(x) = \frac{dv_2}{dv_1} \cdot \frac{dv_1}{dv_0} \cdot \frac{dv_0}{dx} = \cos(v
 <pre><code>v0dot = 1
 v1dot = 2 * v0 * v0dot
 v2dot = math.cos(v1) * v1dot</code></pre>
-<p>Man beachte, dass durch die Konvention, dass immer <code>v0 = x</code> gesetzt wird, auch immer <code>v0dot = 1</code> ist. Nun können wir unsere Funktion so ergänzen, dass nicht nur der Funktionswert, sondern auch die Ableitung an der Stelle <span class="math inline">\(x_0\)</span> berechnet wird:</p>
+<p>Man beachte, dass durch die Konvention, immer mit <code>v0 = x</code> zu beginnen , auch immer <code>v0dot = 1</code> ist. Nun können wir unsere Funktion so ergänzen, dass nicht nur der Funktionswert, sondern auch die Ableitung an der Stelle <span class="math inline">\(x_0\)</span> berechnet wird:</p>
 <div class="cell" data-execution_count="2">
 <details open="">
 <summary>Code</summary>
@@ -1285,8 +1288,8 @@ Lösung
 </div>
 </div>
 </section>
-<section id="der-operator" class="level3" data-number="3.2.5">
-<h3 data-number="3.2.5" class="anchored" data-anchor-id="der-operator"><span class="header-section-number">3.2.5</span> Der Operator <code>**</code></h3>
+<section id="sec-sadPowerOperator" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="sec-sadPowerOperator"><span class="header-section-number">3.2.5</span> Der Operator <code>**</code></h3>
 <p>Interessant ist nun die Implementation des Potenzoperators. Hier sind mehrere Fallunterscheidungen nötig.</p>
 <p>Betrachten wir zuerst den Fall, <code>type(other) in (float, int)</code>, d.h. wir haben einen Ausdruck der Form <code>v1 = v0 ** 3</code>. In diesem Fall wenden wir die Potenzregel zusammen mit der Kettenregel an.</p>
 <p>Im zweiten Fall haben wir einen Ausdruck wie <code>v3 = v1 ** v2</code>. Wir müssen uns also zuerst überlegen, wie wir einen Ausdruck der Form <span class="math inline">\(v_3 (x) = v_1(x) ^{v_2 (x)}\)</span> überhaupt ableiten. Offenbar muss dazu <span class="math inline">\(v_1(x) &gt; 0\)</span> gelten. Um die Ableitung zu finden wenden wir den Trick an, dass wir die Funktion zuerst logarithmieren, <span class="math display">\[

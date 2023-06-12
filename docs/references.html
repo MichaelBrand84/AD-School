@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.3.361">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>AutoDiff - References</title>
+<title>AutoDiff - Quellen</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -17,14 +17,15 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -38,8 +39,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,7 +49,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./aad.html" rel="prev">
+<link href="./reflexion.html" rel="prev">
 <link href="./mycover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -76,7 +76,8 @@ div.csl-indent {
     "search-more-matches-text": "weitere Treffer in diesem Dokument",
     "search-clear-button-title": "Zurücksetzen",
     "search-detached-cancel-button-title": "Abbrechen",
-    "search-submit-button-title": "Abschicken"
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
   }
 }</script>
 
@@ -87,11 +88,16 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">References</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">Quellen</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -99,73 +105,97 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./mycover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">AutoDiff</a> 
-        <div class="sidebar-tools-main">
-    <a href="./AutoDiff.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
-</div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Suchen"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Vorwort</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vorwort</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ableitungen und ihre Anwendungen</span></a>
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ableitungen und ihre Anwendungen</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notAD.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AD ist nicht …</span></a>
+  <a href="./notAD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AD ist nicht …</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></a>
+  <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./HigherDimFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></a>
+  <a href="./HigherDimFunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Funktionen mit mehreren In- und Outputs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./aad.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></a>
+  <a href="./aad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">References</a>
+  <a href="./ausblick.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ausblick: Moderne Bibliotheken für automatische Differentiation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reflexion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Reflexion</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Quellen</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhaltsverzeichnis</h2>
+   
+  <ul>
+  <li><a href="#literaturverzeichnis" id="toc-literaturverzeichnis" class="nav-link active" data-scroll-target="#literaturverzeichnis">Literaturverzeichnis</a></li>
+  <li><a href="#abbildungsverzeichnis" id="toc-abbildungsverzeichnis" class="nav-link" data-scroll-target="#abbildungsverzeichnis">Abbildungsverzeichnis</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">References</h1>
+<h1 class="title">Quellen</h1>
 </div>
 
 
@@ -180,60 +210,112 @@ div.csl-indent {
 
 </header>
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-Arens2022" class="csl-entry" role="doc-biblioentry">
+<section id="literaturverzeichnis" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="literaturverzeichnis">Literaturverzeichnis</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Arens2022" class="csl-entry" role="listitem">
 Arens, Tilo, Frank Hettlich, Christian Karpfinger, Ulrich Kockelkorn,
 Klaus Lichtenegger, and Hellmuth Stachel. 2022. <em>Mathematik</em>.
 Berlin, Heidelberg: Springer Berlin Heidelberg.
 </div>
-<div id="ref-Baydin18" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Hromkovic2022" class="csl-entry" role="listitem">
+Barot, Michael, Britta Dorn, Ghislain Fourny, Jens Gallenbacher, Juraj
+Hromkovic, and Regula Lacher. 2022. <em><span>INFORMATIK</span>, Data
+Science Und Sicherheit: Grundlagen Der Informatik f<span>ü</span>r
+Schweizer Maturit<span>ä</span>tsschulen</em>. Klett.
+</div>
+<div id="ref-Baydin18" class="csl-entry" role="listitem">
 Baydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul,
 and Jeffrey Mark Siskind. 2018. <span>“Automatic Differentiation in
 Machine Learning: A Survey.”</span> <em>Journal of Machine Learning
 Research</em> 18 (153): 1–43. <a href="http://jmlr.org/papers/v18/17-468.html">http://jmlr.org/papers/v18/17-468.html</a>.
 </div>
-<div id="ref-Gander1992" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Bücker_hovland_2000" class="csl-entry" role="listitem">
+Bücker, Martin, and Paul Hovland. 2000. <span>“Community Portal for
+Automatic Differentiation.”</span> November 2000. <a href="https://autodiff.org/">https://autodiff.org/</a>.
+</div>
+<div id="ref-Corliss2002ADo" class="csl-entry" role="listitem">
+Corliss, George, Christèle Faure, Andreas Griewank, Laurent Hascoët, and
+Uwe Naumann, eds. 2002. <em>Automatic Differentiation of Algorithms:
+From Simulation to Optimization</em>. Computer and Information Science.
+New York, NY: Springer. <a href="https://doi.org/10.1007/978-1-4613-0075-5">https://doi.org/10.1007/978-1-4613-0075-5</a>.
+</div>
+<div id="ref-Fisher1936" class="csl-entry" role="listitem">
+Fisher, R. A. 1936. <span>“Iris.”</span> UC Irvine Machine Learning
+Repository. 1936. <a href="https://archive-beta.ics.uci.edu/dataset/53/iris">https://archive-beta.ics.uci.edu/dataset/53/iris</a>.
+</div>
+<div id="ref-Frochte2021" class="csl-entry" role="listitem">
+Frochte, Jörg. 2021. <em>Maschinelles Lernen - Grundlagen Und
+Algorithmen in Python</em>. 3rd ed. Hanser.
+</div>
+<div id="ref-Gander1992" class="csl-entry" role="listitem">
 Gander, Walter. 1992. <em>Computermathematik</em>. Birkhäuser.
 </div>
-<div id="ref-Gander2015" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Gander2015" class="csl-entry" role="listitem">
 ———. 2015. <em>Learning <span>MATLAB</span>: A Problem Solving
 Approach</em>. 1st ed. UNITEXT. Cham, Switzerland: Springer
 International Publishing.
 </div>
-<div id="ref-Griewank2008EDP" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Griewank2008EDP" class="csl-entry" role="listitem">
 Griewank, Andreas, and Andrea Walther. 2008. <em>Evaluating Derivatives:
 <span>P</span>rinciples and Techniques of Algorithmic
 Differentiation</em>. 2. ed. Other Titles in Applied Mathematics 105.
 Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/ot105/">http://bookstore.siam.org/ot105/</a>.
 </div>
-<div id="ref-Henrard2017ADi" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Henrard2017ADi" class="csl-entry" role="listitem">
 Henrard, Marc. 2017. <em>Algorithmic Differentiation in Finance
 Explained</em>. Financial Engineering Explained. Cham: Palgrave
 Macmillan. <a href="https://doi.org/10.1007/978-3-319-53979-9">https://doi.org/10.1007/978-3-319-53979-9</a>.
 </div>
-<div id="ref-Hromkovic2021" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Hromkovic2021" class="csl-entry" role="listitem">
 Hromkovic, Juraj, Jarka Arnold, Cédric Donner, Urs Hauser, Matthias
 Hauswirth, Tobias Kohn, Dennis Komm, David Maletinsky, and Nicole Roth.
 2021. <em><span>INFORMATIK</span>, Programmieren Und Robotik: Grundlagen
 Der Informatik f<span>ü</span>r Schweizer
-Maturit<span>ä</span>tsschulen</em>.
+Maturit<span>ä</span>tsschulen</em>. Klett.
 </div>
-<div id="ref-sidsite2021" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Naumann2012TAo" class="csl-entry" role="listitem">
+Naumann, Uwe. 2012. <em>The Art of Differentiating Computer Programs:
+<span>A</span>n Introduction to Algorithmic Differentiation</em>.
+Software, Environments, and Tools 24. Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/se24">http://bookstore.siam.org/se24</a>.
+</div>
+<div id="ref-PyTorch" class="csl-entry" role="listitem">
+Paszke, Adam, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury,
+Gregory Chanan, Trevor Killeen, et al. 2019. <span>“PyTorch: An
+Imperative Style, High-Performance Deep Learning Library.”</span>
+<em>CoRR</em> abs/1912.01703. <a href="http://arxiv.org/abs/1912.01703">http://arxiv.org/abs/1912.01703</a>.
+</div>
+<div id="ref-sidsite2021" class="csl-entry" role="listitem">
 Radcliffe, Sidney. 2021. <span>“Reverse-Mode Automatic Differentiation
 from Scratch, in Python.”</span> May 22, 2021. <a href="https://sidsite.com/posts/autodiff/">https://sidsite.com/posts/autodiff/</a>.
 </div>
-<div id="ref-Slater2022" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Rall2006" class="csl-entry" role="listitem">
+Rall, Louis B. 2006. <span>“Perspectives on Automatic Differentiation:
+Past, Present, and Future?”</span> In <em>Automatic Differentiation:
+Applications, Theory, and Implementations</em>, 1–14. Lecture Notes in
+Computational Science and Engineering. Berlin, Heidelberg: Springer
+Berlin Heidelberg.
+</div>
+<div id="ref-Slater2022" class="csl-entry" role="listitem">
 Slater, Max. 2022. <span>“Differentiable Programming from
 Scratch.”</span> July 2022. <a href="https://thenumb.at/Autodiff/">https://thenumb.at/Autodiff/</a>.
 </div>
-<div id="ref-Weitz2021" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Stocker2022" class="csl-entry" role="listitem">
+Stocker, Hansjürg, Reto Weibel, Marco Schmid, Regula Sourlier-Künzle,
+and Baoswan Wong Dzung. 2022. <em>Analysis: Aufgaben</em>. hep Verlag.
+</div>
+<div id="ref-Weitz2021" class="csl-entry" role="listitem">
 Weitz, Edmund. 2021. <em>Konkrete Mathematik (Nicht Nur)
 f<span>ü</span>r Informatiker</em>. 2nd ed. Wiesbaden, Germany: Springer
 Spektrum.
 </div>
 </div>
+</section>
+<section id="abbildungsverzeichnis" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="abbildungsverzeichnis">Abbildungsverzeichnis</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -263,9 +345,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -330,6 +426,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -371,8 +553,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./aad.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adjungierte Algorithmische Differentiation</span></span>
+      <a href="./reflexion.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Reflexion</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
