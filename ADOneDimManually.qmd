@@ -712,7 +712,7 @@ def __neg__(self):
 
 Nun gehen wir daran, die Grundoperationen für `FloatSad`-Objekte zu implementieren.
 
-### Die Operatoren `+` und `-`
+### Die Operatoren `+` und `-` {#sec-implementAddSubtract}
 
 Wir möchten in unseren Programmen Anweisungen wie `v2 = v0 + v1` verwenden können. Gemäss der Summenregel können wir dazu einfach die Funktionswerte und auch die Werte der Ableitungen addieren. 
 ```{python}

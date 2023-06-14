@@ -190,7 +190,7 @@ Eine Funktion berechnet aus einem Argument `x` einen Rückgabewert `y` über ein
 
 :::{#exr-OptimierungsproblemNachKonvention}
 
-## Kostenfunktin gemäss Konvention
+## Kostenfunktion gemäss Konvention
 <br>
 
 Schreibe das Programm aus @exr-OptimierungsproblemProgrammieren gemäss der obigen Konvention um.
