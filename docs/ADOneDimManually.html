@@ -227,7 +227,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#sec-FoatSadClassDescription" id="toc-sec-FoatSadClassDescription" class="nav-link" data-scroll-target="#sec-FoatSadClassDescription"><span class="header-section-number">3.2.1</span> Die Klasse <code>FloatSad</code></a></li>
   <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="header-section-number">3.2.2</span> Vorzeichen</a></li>
-  <li><a href="#die-operatoren-und--" id="toc-die-operatoren-und--" class="nav-link" data-scroll-target="#die-operatoren-und--"><span class="header-section-number">3.2.3</span> Die Operatoren <code>+</code> und <code>-</code></a></li>
+  <li><a href="#sec-implementAddSubtract" id="toc-sec-implementAddSubtract" class="nav-link" data-scroll-target="#sec-implementAddSubtract"><span class="header-section-number">3.2.3</span> Die Operatoren <code>+</code> und <code>-</code></a></li>
   <li><a href="#die-operatoren-und" id="toc-die-operatoren-und" class="nav-link" data-scroll-target="#die-operatoren-und"><span class="header-section-number">3.2.4</span> Die Operatoren <code>*</code> und <code>/</code></a></li>
   <li><a href="#sec-sadPowerOperator" id="toc-sec-sadPowerOperator" class="nav-link" data-scroll-target="#sec-sadPowerOperator"><span class="header-section-number">3.2.5</span> Der Operator <code>**</code></a></li>
   <li><a href="#vergleichsoperatoren" id="toc-vergleichsoperatoren" class="nav-link" data-scroll-target="#vergleichsoperatoren"><span class="header-section-number">3.2.6</span> Vergleichsoperatoren</a></li>
@@ -1041,8 +1041,8 @@ Konvention
 </div>
 <p>Nun gehen wir daran, die Grundoperationen für <code>FloatSad</code>-Objekte zu implementieren.</p>
 </section>
-<section id="die-operatoren-und--" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="die-operatoren-und--"><span class="header-section-number">3.2.3</span> Die Operatoren <code>+</code> und <code>-</code></h3>
+<section id="sec-implementAddSubtract" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="sec-implementAddSubtract"><span class="header-section-number">3.2.3</span> Die Operatoren <code>+</code> und <code>-</code></h3>
 <p>Wir möchten in unseren Programmen Anweisungen wie <code>v2 = v0 + v1</code> verwenden können. Gemäss der Summenregel können wir dazu einfach die Funktionswerte und auch die Werte der Ableitungen addieren.</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, other):</span>

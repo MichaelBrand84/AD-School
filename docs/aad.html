@@ -223,7 +223,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#manuelle-implementation-der-aad" id="toc-manuelle-implementation-der-aad" class="nav-link active" data-scroll-target="#manuelle-implementation-der-aad"><span class="header-section-number">5.1</span> Manuelle Implementation der AAD</a></li>
-  <li><a href="#implementation-der-aad-mit-operator-overloading" id="toc-implementation-der-aad-mit-operator-overloading" class="nav-link" data-scroll-target="#implementation-der-aad-mit-operator-overloading"><span class="header-section-number">5.2</span> Implementation der AAD mit Operator Overloading</a>
+  <li><a href="#sec-AADmitOperatorOverloading" id="toc-sec-AADmitOperatorOverloading" class="nav-link" data-scroll-target="#sec-AADmitOperatorOverloading"><span class="header-section-number">5.2</span> Implementation der AAD mit Operator Overloading</a>
   <ul class="collapse">
   <li><a href="#die-klasse-floataad" id="toc-die-klasse-floataad" class="nav-link" data-scroll-target="#die-klasse-floataad"><span class="header-section-number">5.2.1</span> Die Klasse <code>FloatAad</code></a></li>
   <li><a href="#vorzeichen" id="toc-vorzeichen" class="nav-link" data-scroll-target="#vorzeichen"><span class="header-section-number">5.2.2</span> Vorzeichen</a></li>
@@ -236,7 +236,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#gradient-descent-zum-auffinden-lokaler-minima" id="toc-gradient-descent-zum-auffinden-lokaler-minima" class="nav-link" data-scroll-target="#gradient-descent-zum-auffinden-lokaler-minima"><span class="header-section-number">5.3.1</span> Gradient Descent zum Auffinden lokaler Minima</a></li>
   <li><a href="#lineare-regression" id="toc-lineare-regression" class="nav-link" data-scroll-target="#lineare-regression"><span class="header-section-number">5.3.2</span> Lineare Regression</a></li>
-  <li><a href="#bilder-schärfen" id="toc-bilder-schärfen" class="nav-link" data-scroll-target="#bilder-schärfen"><span class="header-section-number">5.3.3</span> Bilder schärfen</a></li>
+  <li><a href="#sec-deblurringImages" id="toc-sec-deblurringImages" class="nav-link" data-scroll-target="#sec-deblurringImages"><span class="header-section-number">5.3.3</span> Bilder schärfen</a></li>
   </ul></li>
   <li><a href="#sec-modulMathAad" id="toc-sec-modulMathAad" class="nav-link" data-scroll-target="#sec-modulMathAad"><span class="header-section-number">5.4</span> Das Modul <code>mathaad</code></a></li>
   <li><a href="#das-modul-mathaad-im-einsatz" id="toc-das-modul-mathaad-im-einsatz" class="nav-link" data-scroll-target="#das-modul-mathaad-im-einsatz"><span class="header-section-number">5.5</span> Das Modul <code>mathaad</code> im Einsatz</a>
@@ -267,7 +267,7 @@ div.csl-indent {
 </header>
 
 <p>In <a href="HigherDimFunctions.html"><span>Kapitel&nbsp;4</span></a> haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle <span class="math inline">\(m\)</span> Ableitungen einer Funktion <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}^m\)</span> mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion <span class="math inline">\(f : \mathbb{R}^n \rightarrow \mathbb{R}\)</span> benötigt jedoch <span class="math inline">\(n\)</span> Funktionsaufrufe, nämlich einen für jede partielle Ableitung <span class="math inline">\(\partial f / \partial x_i\)</span>. In diesem Kapitel wollen wir eine Methode entwickeln, die alle <span class="math inline">\(n\)</span> partiellen Ableitungen in einem Funktionsaufruf berechnet.</p>
-<div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus Kapitel <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.3</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
+<div class="page-columns page-full"><p>Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus <a href="intro.html#sec-ProgFunc"><span>Kapitel&nbsp;1.3</span></a> ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> oder Adjungierte AD (AAD) genannt.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Im Englischen spricht man von <em>reverse mode differentiation</em> weil <em>backward differentiation</em> für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.</p></li></div></div>
 <section id="manuelle-implementation-der-aad" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="manuelle-implementation-der-aad"><span class="header-section-number">5.1</span> Manuelle Implementation der AAD</h2>
 <p>Wir erläutern die Methode zuerst an einem einfachen Beispiel, welches eine leicht abgeänderte Version des Beispiels von <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> ist.</p>
@@ -394,7 +394,7 @@ nMinus-&gt;ny
     &amp;= x_0 - 1   
 \end{align*}
 \]</span></p>
-<p>Um die beiden Rechnungen zusammenzufassen, führen nun für jede Hilfsvariable <span class="math inline">\(v_i\)</span> eine neue Variable <span class="math inline">\(\bar v_i\)</span> ein, welche definiert ist als <span class="math display">\[
+<p>Um die beiden Rechnungen zusammenzufassen, führen wir nun für jede Hilfsvariable <span class="math inline">\(v_i\)</span> eine neue Variable <span class="math inline">\(\bar v_i\)</span> ein, welche definiert ist als <span class="math display">\[
 \bar v_i = \frac{\partial y}{\partial v_i}
 \]</span> Ähnlich wie die <span class="math inline">\(\dot v_i\)</span> aus der SAD speichern diese Variablen die Werte der Ableitungen. Die neue Notation soll anzeigen, dass es sich um die AAD Methode handelt. Unser Ziel ist es also, <span class="math inline">\(\bar v_0 = \partial y / \partial v_0 = \partial y / \partial x_0\)</span> und <span class="math inline">\(\bar v_1 = \partial y / \partial v_1 = \partial y / \partial x_1\)</span> zu bestimmen. Beginnen wir in der letzten Zeile des Programms, dann gilt offenbar immer <span class="math inline">\(\bar v_4 = \partial y / \partial v_4 = 1\)</span>. In der Zeile darüber können wir <span class="math inline">\(\bar v_3\)</span> und <span class="math inline">\(\bar v_1\)</span> berechnen, indem wir die Kettenregel verwenden.</p>
 <p><span class="math display">\[\begin{align*}
@@ -579,8 +579,8 @@ Lösung
 </div>
 </div>
 </section>
-<section id="implementation-der-aad-mit-operator-overloading" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="implementation-der-aad-mit-operator-overloading"><span class="header-section-number">5.2</span> Implementation der AAD mit Operator Overloading</h2>
+<section id="sec-AADmitOperatorOverloading" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-AADmitOperatorOverloading"><span class="header-section-number">5.2</span> Implementation der AAD mit Operator Overloading</h2>
 <p>Nun wollen wir ähnlich wie im <a href="ADOneDimManually.html#sec-SadImplementationOperatorOverloading"><span>Kapitel&nbsp;3.2</span></a> eine Klasse <code>FloatAad</code> entwerfen, welche die Berechnung aller Hilfsvariablen <code>vbar</code> automatisch ausführt. Wie auch zuvor hat jedes <code>FloatAad</code>-Objekt ein Attribut <code>value</code> vom Typ <code>Int</code> oder <code>Float</code>. Allerdings reicht es nicht mehr aus, ein <code>Float</code>-Attribut <code>derivative</code> zu definieren, um den Wert der Ableitung zu speichern weil auch die Struktur des Computational Graph gespeichert werden muss. Als Attribut <code>derivatives</code> wählen wir ein <code>tuple</code>, dessen erster Eintrag ein <code>FloatAad</code>-Objekt ist, nämlich die Variable, nach der die partielle Ableitung berechnet wird. Der zweite Eintrag ist der Wert dieser partiellen Ableitung. Da das erste Element des Tupels selber auch ein Attribut <code>derivatives</code> hat, entsteht so eine rekursive Darstellung des Computational Graph.</p>
 <p>Die folgende Implementation lehnt sich stark an <span class="citation" data-cites="sidsite2021">Radcliffe (<a href="references.html#ref-sidsite2021" role="doc-biblioref">2021</a>)</span> an. Die Variablennamen wurden angepasst, so dass sie konsistent mit den Bezeichnungen aus <a href="ADOneDimManually.html"><span>Kapitel&nbsp;3</span></a> sind. Ausserdem werden wir unsere Klasse noch mit einiger zusätzlicher Funktionalität ausstatten, etwa mit Typunterscheidungen, so dass wir z.B. auch wieder <code>Int</code>-Zahlen zu <code>FloatAad</code>-Objekten addieren können.</p>
 <section id="die-klasse-floataad" class="level3" data-number="5.2.1">
@@ -666,7 +666,7 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>-2
-((&lt;__main__.FloatAad object at 0x00000158AED13F70&gt;, -1),)</code></pre>
+((&lt;__main__.FloatAad object at 0x000001C2F09D8AC0&gt;, -1),)</code></pre>
 </div>
 </div>
 <p>Der Wert von <code>v.derivatives</code> ist ein Tupel, dessen erster Eintrag eine Referenz auf das <code>FloatAad</code>-Objekt <code>x</code> ist und der Wert des zweiten Eintrags ist <code>-1</code> weil <span class="math inline">\(\partial v / \partial x = -1\)</span> ist.</p>
@@ -848,8 +848,8 @@ Lösung
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>6
-((&lt;__main__.FloatAad object at 0x00000158AED17280&gt;, 1),)
-((&lt;__main__.FloatAad object at 0x00000158AED17EB0&gt;, 1), (&lt;__main__.FloatAad object at 0x00000158AED17FD0&gt;, 1))</code></pre>
+((&lt;__main__.FloatAad object at 0x000001C2F09E2CE0&gt;, 1),)
+((&lt;__main__.FloatAad object at 0x000001C2F09E3160&gt;, 1), (&lt;__main__.FloatAad object at 0x000001C2F09E3E80&gt;, 1))</code></pre>
 </div>
 </div>
 <p>Wir sehen, dass der Funktionswert <span class="math inline">\(f(2,3) = 6\)</span> korrekt ist. Als Ableitung sehen wir jedoch nur ein Tupel bestehend aus einer Referenz auf ein <code>FloatAad</code>-Objekt und einem Zwischenschritt bei der Berechnung der Ableitung. Auch die Ableitung des referenzierten <code>FloatAad</code>-Objekts enthält nur ein weiteres solches Tupel. Mit anderen Worten, wir sehen noch nirgends den Wert der partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_0 = 2\)</span> und <span class="math inline">\(\partial f / \partial x_1 = -1\)</span>. Wir schreiben dafür nun eine Funktion <code>getDerivatives(y)</code>, welche aus dem <code>FloatAad</code>-Objekt <code>y</code> rekursiv die partiellen Ableitungen berechnet. Dies geschieht nach der Regel, dass die Zwischenwerte der Ableitungen entlang eines Weges im Computational Graph multipliziert werden und Werte von verschiedenen Wegen, die zur gleichen Variablen <span class="math inline">\(x_i\)</span> führen, addiert werden. Für diese rekursive Berechnung definieren wir eine lokale Funktion <code>computeDerivative</code>. Der Rückgabewert soll dann ein Dictionary sein (<code>defaultdict</code> aus dem Modul <code>collections</code>, welches zu Beginn importiert werden muss), dessen Schlüsselwerte die Variablen <code>x0, x1</code> etc. sind und die zugehörigen Werte sind die partiellen Ableitungen <span class="math inline">\(\partial f / \partial x_i\)</span>.</p>
@@ -1235,10 +1235,7 @@ Jf =
 <span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(getValues(x1))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Lokales Minimum gefunden in der Nähe von</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
+<pre><code>Lokales Minimum gefunden in der Nähe von
 [0.40427048 0.6160611 ]</code></pre>
 </div>
 </div>
@@ -1257,64 +1254,64 @@ Jf =
 <div class="cell" data-execution_count="23">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> FloatAad, getDerivatives</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(a, b):</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># X und Y werden im global space gefunden</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X)):</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> <span class="bu">float</span>(Y[i]) <span class="op">-</span> (a <span class="op">*</span> <span class="bu">float</span>(X[i]) <span class="op">+</span> b)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sum</span> <span class="op">+=</span> d<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(<span class="bu">sum</span>)</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter zur Erzeugung der Datenpunkte</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>anz <span class="op">=</span> <span class="dv">50</span> <span class="co"># Anzahl Datenpunkte</span></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>xmin, xmax <span class="op">=</span> <span class="dv">0</span>, <span class="dv">10</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="dv">2</span>    <span class="co"># Streuung</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeugende Funktion</span></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">2</span> <span class="op">*</span> x <span class="op">+</span> <span class="dv">3</span></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten erzeugen</span></span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(xmin, xmax, anz)</span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> f(X)</span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Rauschen hinzufügen</span></span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> Y <span class="op">+</span> s <span class="op">*</span> np.random.randn(anz)</span>
-<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Descent</span></span>
-<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.0005</span></span>
-<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>a0, b0 <span class="op">=</span> FloatAad(<span class="dv">0</span>), FloatAad(<span class="dv">0</span>) <span class="co"># Startwerte</span></span>
-<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> loss(a0, b0)</span>
-<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>dPhi <span class="op">=</span> getDerivatives(Phi)</span>
-<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>a1 <span class="op">=</span> a0 <span class="op">-</span> lam <span class="op">*</span> dPhi[a0]</span>
-<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> b0 <span class="op">-</span> lam <span class="op">*</span> dPhi[b0]</span>
-<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (a1.value<span class="op">-</span>a0.value)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (b1.value<span class="op">-</span>b0.value)<span class="op">**</span><span class="dv">2</span> <span class="op">&gt;</span> <span class="fl">1e-9</span>:</span>
-<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>    a0, b0 <span class="op">=</span> a1, b1</span>
-<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>    Phi <span class="op">=</span> loss(a0, b0)</span>
-<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>    dPhi <span class="op">=</span> getDerivatives(Phi)</span>
-<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>    a1 <span class="op">=</span> a0 <span class="op">-</span> lam <span class="op">*</span> dPhi[a0]</span>
-<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> b0 <span class="op">-</span> lam <span class="op">*</span> dPhi[b0]</span>
-<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Regressionsgerade</span></span>
-<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> a1.value, b1.value</span>
-<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x : a <span class="op">*</span> x <span class="op">+</span> b)</span>
-<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"y = g(x) = "</span> <span class="op">+</span> <span class="bu">str</span>(a) <span class="op">+</span> <span class="st">"x + "</span> <span class="op">+</span> <span class="bu">str</span>(b))</span>
-<span id="cb31-51"><a href="#cb31-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-52"><a href="#cb31-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten darstellen</span></span>
-<span id="cb31-53"><a href="#cb31-53" aria-hidden="true" tabindex="-1"></a>plt.plot(X,Y, <span class="st">'b.'</span>, X, f(X), <span class="st">'r--'</span>, X, g(X), <span class="st">'g-.'</span>)</span>
-<span id="cb31-54"><a href="#cb31-54" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">"Datenpunkte"</span>, <span class="st">"Erzeugende Funktion"</span>, <span class="st">"Regressionsgerade"</span>])</span>
-<span id="cb31-55"><a href="#cb31-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> FloatAad, getDerivatives</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(a, b):</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># X und Y werden im global space gefunden</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X)):</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> <span class="bu">float</span>(Y[i]) <span class="op">-</span> (a <span class="op">*</span> <span class="bu">float</span>(X[i]) <span class="op">+</span> b)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sum</span> <span class="op">+=</span> d<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(<span class="bu">sum</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter zur Erzeugung der Datenpunkte</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>anz <span class="op">=</span> <span class="dv">50</span> <span class="co"># Anzahl Datenpunkte</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>xmin, xmax <span class="op">=</span> <span class="dv">0</span>, <span class="dv">10</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="dv">2</span>    <span class="co"># Streuung</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeugende Funktion</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">2</span> <span class="op">*</span> x <span class="op">+</span> <span class="dv">3</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten erzeugen</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(xmin, xmax, anz)</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> f(X)</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Rauschen hinzufügen</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> Y <span class="op">+</span> s <span class="op">*</span> np.random.randn(anz)</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Descent</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.0005</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>a0, b0 <span class="op">=</span> FloatAad(<span class="dv">0</span>), FloatAad(<span class="dv">0</span>) <span class="co"># Startwerte</span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> loss(a0, b0)</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>dPhi <span class="op">=</span> getDerivatives(Phi)</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>a1 <span class="op">=</span> a0 <span class="op">-</span> lam <span class="op">*</span> dPhi[a0]</span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> b0 <span class="op">-</span> lam <span class="op">*</span> dPhi[b0]</span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (a1.value<span class="op">-</span>a0.value)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (b1.value<span class="op">-</span>b0.value)<span class="op">**</span><span class="dv">2</span> <span class="op">&gt;</span> <span class="fl">1e-9</span>:</span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>    a0, b0 <span class="op">=</span> a1, b1</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>    Phi <span class="op">=</span> loss(a0, b0)</span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>    dPhi <span class="op">=</span> getDerivatives(Phi)</span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>    a1 <span class="op">=</span> a0 <span class="op">-</span> lam <span class="op">*</span> dPhi[a0]</span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> b0 <span class="op">-</span> lam <span class="op">*</span> dPhi[b0]</span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Regressionsgerade</span></span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> a1.value, b1.value</span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> np.vectorize(<span class="kw">lambda</span> x : a <span class="op">*</span> x <span class="op">+</span> b)</span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"y = g(x) = "</span> <span class="op">+</span> <span class="bu">str</span>(a) <span class="op">+</span> <span class="st">"x + "</span> <span class="op">+</span> <span class="bu">str</span>(b))</span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten darstellen</span></span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>plt.plot(X,Y, <span class="st">'b.'</span>, X, f(X), <span class="st">'r--'</span>, X, g(X), <span class="st">'g-.'</span>)</span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">"Datenpunkte"</span>, <span class="st">"Erzeugende Funktion"</span>, <span class="st">"Regressionsgerade"</span>])</span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>y = g(x) = 2.1013673582392864x + 1.8034668487689107</code></pre>
+<pre><code>y = g(x) = 1.775383106957842x + 3.7755270413304434</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div id="fig-graphoflinearregression" class="quarto-figure quarto-figure-center anchored">
@@ -1328,8 +1325,8 @@ Jf =
 </div>
 <hr>
 </section>
-<section id="bilder-schärfen" class="level3" data-number="5.3.3">
-<h3 data-number="5.3.3" class="anchored" data-anchor-id="bilder-schärfen"><span class="header-section-number">5.3.3</span> Bilder schärfen</h3>
+<section id="sec-deblurringImages" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="sec-deblurringImages"><span class="header-section-number">5.3.3</span> Bilder schärfen</h3>
 <p>Die Idee zu dieser Anwendung stammt von <span class="citation" data-cites="Slater2022">Slater (<a href="references.html#ref-Slater2022" role="doc-biblioref">2022</a>)</span>. Beim Fotografieren kann es passieren, dass die Linse der Kamera nicht richtig fokussiert ist und das Bild dadurch unscharf wirkt. Es ist jedoch möglich, ein Bild bis zu einem gewissen Grad nachträglich zu schärfen.</p>
 <p>Als Testbild verwenden wir das folgende Bild eines Teddybären, welches unter der Creative Commons 4.0 Lizenz auf <a href="https://www.pngall.com/toy-png/download/55843">https://www.pngall.com/toy-png/download/55843</a> [Letzter Zugriff 02.04.2023] zur Verfügung gestellt wird. Allerdings müssen wir die Auflösung von ursprünglich 180 x 180 Pixel auf 30 x 30 Pixel reduzieren, was mit jeder Bildbearbeitungssoftware gemacht werden kann. Der Grund dafür ist, dass die Anzahl Pixel darüber entscheidet, wie viele <code>FloatAad</code>-Objekte wir erzeugen müssen und während des Gradient Descent Verfahrens wird der Computational Graph bei vielen Variablen sehr gross, so dass beim Berechnen der Ableitungen die maximale Rekursionstiefe überschritten würde. Wir verwenden also das in rechts dargestellte Bild <code>Bear30.jpg</code>.</p>
 <div id="fig-teddys" class="quarto-layout-panel">
@@ -1359,17 +1356,17 @@ Jf =
 <div class="cell" data-execution_count="24">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.image <span class="im">import</span> imread</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>original <span class="op">=</span> imread(<span class="st">'bear30.jpg'</span>) <span class="op">/</span> <span class="dv">255</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Bild in Graustufenbild umwandeln</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span> <span class="op">*</span> (original[:,:,<span class="dv">0</span>] <span class="op">+</span> original[:,:,<span class="dv">1</span>] <span class="op">+</span> original[:,:,<span class="dv">2</span>])</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>[length, width] <span class="op">=</span> np.shape(image)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.image <span class="im">import</span> imread</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getGradient</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>original <span class="op">=</span> imread(<span class="st">'bear30.jpg'</span>) <span class="op">/</span> <span class="dv">255</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Bild in Graustufenbild umwandeln</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span> <span class="op">*</span> (original[:,:,<span class="dv">0</span>] <span class="op">+</span> original[:,:,<span class="dv">1</span>] <span class="op">+</span> original[:,:,<span class="dv">2</span>])</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>[length, width] <span class="op">=</span> np.shape(image)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Um die Unschärfe einer schlecht fokussierten Linse zu simulieren, wenden wir einen <em>Gaussian Blur</em> an. Wie das genau funktioniert wird z.B. in diesem Video von Grant Sanderson von <a href="https://www.3blue1brown.com">3blue1brown</a> [Letzter Aufruf 02.04.2023] erklärt.</p>
@@ -1378,48 +1375,48 @@ Jf =
 <div class="cell" data-execution_count="25">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> blur(a): </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># kernel erzeugen</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    kernel_size <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    k1 <span class="op">=</span> [np.array([math.comb(kernel_size, k) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(kernel_size)])]</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> np.dot(np.transpose(k1), k1)</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> kernel <span class="op">/</span> np.<span class="bu">sum</span>(kernel)</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Faltung (Convolution) ausführen</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    arraylist <span class="op">=</span> []</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(kernel_size):</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>        temparray <span class="op">=</span> np.copy(a)</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>        temparray <span class="op">=</span> np.roll(temparray, y <span class="op">-</span> <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(kernel_size):</span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>            temparray_X <span class="op">=</span> np.copy(temparray)</span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>            temparray_X <span class="op">=</span> np.roll(temparray_X, x <span class="op">-</span> <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)<span class="op">*</span>kernel[y,x]</span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>            arraylist.append(temparray_X)</span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>    arraylist <span class="op">=</span> np.array(arraylist)</span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    arraylist_sum <span class="op">=</span> np.<span class="bu">sum</span>(arraylist, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arraylist_sum</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> blur(a): </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># kernel erzeugen</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    kernel_size <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    k1 <span class="op">=</span> [np.array([math.comb(kernel_size, k) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(kernel_size)])]</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> np.dot(np.transpose(k1), k1)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> kernel <span class="op">/</span> np.<span class="bu">sum</span>(kernel)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Faltung (Convolution) ausführen</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    arraylist <span class="op">=</span> []</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(kernel_size):</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>        temparray <span class="op">=</span> np.copy(a)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>        temparray <span class="op">=</span> np.roll(temparray, y <span class="op">-</span> <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(kernel_size):</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>            temparray_X <span class="op">=</span> np.copy(temparray)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>            temparray_X <span class="op">=</span> np.roll(temparray_X, x <span class="op">-</span> <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)<span class="op">*</span>kernel[y,x]</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>            arraylist.append(temparray_X)</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>    arraylist <span class="op">=</span> np.array(arraylist)</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    arraylist_sum <span class="op">=</span> np.<span class="bu">sum</span>(arraylist, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arraylist_sum</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Nun wenden wir diesen Filter auf unser Testbild an.</p>
 <div class="cell" data-execution_count="26">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Blur erzeugen</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>blurredimage <span class="op">=</span> blur(image)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>blurrarray <span class="op">=</span> np.reshape(blurredimage, length<span class="op">*</span>width)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Original"</span>)</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>plt.imshow(image, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred"</span>)</span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>plt.imshow(blurredimage, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Blur erzeugen</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>blurredimage <span class="op">=</span> blur(image)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>blurrarray <span class="op">=</span> np.reshape(blurredimage, length<span class="op">*</span>width)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Original"</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>plt.imshow(image, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred"</span>)</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>plt.imshow(blurredimage, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-testbildmitblur" class="quarto-figure quarto-figure-center anchored">
@@ -1434,8 +1431,8 @@ Jf =
 <div class="cell" data-execution_count="27">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Startwert</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>guessimage <span class="op">=</span> np.full(shape <span class="op">=</span> [length, width], fill_value<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Startwert</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>guessimage <span class="op">=</span> np.full(shape <span class="op">=</span> [length, width], fill_value<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Diese <span class="math inline">\(30\times30=900\)</span> Pixelwerte sind nun der Input unserer Loss Funktion und werden im Laufe der Gradient Descent Iteration so verändert, dass sie diese Funktion minimieren. Diese Loss Funktion definieren wir folgendermassen: Auf das <code>guessimage</code> wird zuerst ein Gaussian Blur angewendet. Danach betrachten wir die Differenzen <code>blur(guessimage) - blurredimage</code> in jedem Pixel. Nach dem Gauss’schen Ansatz der kleinsten Fehlerquadrate definieren wir die Loss Funktion als Summe der Quadrate aller Fehler in den einzelnen Pixeln. Dahinter steckt die Idee, dass wenn die Differenzen zwischen den unscharfen Bildern <code>blur(guessimage) - blur(original)</code> klein ist, dann sollten auch die Differenzen <code>guessimage - original</code> klein sein, d.h. <code>testimage</code> sollte in etwa dem <code>original</code> entsprechen.</p>
@@ -1443,61 +1440,61 @@ Jf =
 <div class="cell" data-execution_count="28">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(x):</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Input x ist ein Bild, auf welches der Gauss Filter angewendet wird</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Danach wird das Bild als 1-dim. Array gespeichert</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    [length, width] <span class="op">=</span> np.shape(x)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    temp <span class="op">=</span> blur(x)</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    temparray <span class="op">=</span> np.reshape(temp, length <span class="op">*</span> width)</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Umwandeln in FloatAad</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    temparray <span class="op">=</span> float2FloatAad(temparray)</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="bu">sum</span>((temparray <span class="op">-</span> blurrarray) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> getGradient(temparray, y)</span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y.value, g]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(x):</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Input x ist ein Bild, auf welches der Gauss Filter angewendet wird</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Danach wird das Bild als 1-dim. Array gespeichert</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    [length, width] <span class="op">=</span> np.shape(x)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    temp <span class="op">=</span> blur(x)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    temparray <span class="op">=</span> np.reshape(temp, length <span class="op">*</span> width)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Umwandeln in FloatAad</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    temparray <span class="op">=</span> float2FloatAad(temparray)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="bu">sum</span>((temparray <span class="op">-</span> blurrarray) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> getGradient(temparray, y)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y.value, g]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Nun können wir das Gradient Descent Verfahren anwenden.</p>
 <div class="cell" data-execution_count="29">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Descent Parameter</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.01</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>[lossval, grad] <span class="op">=</span> loss(guessimage)</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> lossval <span class="op">&gt;</span> tol:</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    [lossval, grad] <span class="op">=</span> loss(guessimage) </span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> np.reshape(grad, [length, width])</span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    guessimage <span class="op">=</span> guessimage <span class="op">-</span> lam <span class="op">*</span> diff</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Guess"</span>)</span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>plt.imshow(guessimage, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
-<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred Guess"</span>)</span>
-<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>blurredguess <span class="op">=</span> blur(guessimage)</span>
-<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>plt.imshow(blurredguess, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
-<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Original - Guess"</span>)</span>
-<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>diffOrig <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (image <span class="op">-</span> guessimage <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>plt.imshow(diffOrig, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
-<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
-<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred - Blurred Guess"</span>)</span>
-<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>diffBlurred <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (blurredimage <span class="op">-</span> blurredguess <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>plt.imshow(diffBlurred, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
-<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Descent Parameter</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>[lossval, grad] <span class="op">=</span> loss(guessimage)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> lossval <span class="op">&gt;</span> tol:</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    [lossval, grad] <span class="op">=</span> loss(guessimage) </span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> np.reshape(grad, [length, width])</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    guessimage <span class="op">=</span> guessimage <span class="op">-</span> lam <span class="op">*</span> diff</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Guess"</span>)</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>plt.imshow(guessimage, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred Guess"</span>)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>blurredguess <span class="op">=</span> blur(guessimage)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>plt.imshow(blurredguess, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Original - Guess"</span>)</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>diffOrig <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (image <span class="op">-</span> guessimage <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>plt.imshow(diffOrig, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Blurred - Blurred Guess"</span>)</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>diffBlurred <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (blurredimage <span class="op">-</span> blurredguess <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>plt.imshow(diffBlurred, cmap <span class="op">=</span> <span class="st">"gray"</span>)</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-imagereconstructionresult" class="quarto-figure quarto-figure-center anchored">
@@ -1517,52 +1514,52 @@ Jf =
 <div class="cell" data-execution_count="30">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> FloatAad</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sqrt(x):</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.sqrt(x.value)</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>        (x, <span class="fl">1.</span> <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sqrt(x.value))),</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exp(x):</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.exp(x.value)</span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>        (x, newValue),</span>
-<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
-<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log(x):</span>
-<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.log(x.value)</span>
-<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>        (x, <span class="fl">1.</span> <span class="op">/</span> x.value),</span>
-<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
-<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sin(x):</span>
-<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.sin(x.value)</span>
-<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>        (x, np.cos(x.value)),</span>
-<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
-<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cos(x):</span>
-<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.cos(x.value)</span>
-<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
-<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>        (x, <span class="op">-</span>np.sin(x.value)),</span>
-<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
-<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
-<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tan(x):</span>
-<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sin(x) <span class="op">/</span> cos(x)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> FloatAad</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sqrt(x):</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.sqrt(x.value)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        (x, <span class="fl">1.</span> <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sqrt(x.value))),</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exp(x):</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.exp(x.value)</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>        (x, newValue),</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log(x):</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.log(x.value)</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>        (x, <span class="fl">1.</span> <span class="op">/</span> x.value),</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sin(x):</span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.sin(x.value)</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>        (x, np.cos(x.value)),</span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cos(x):</span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>    newValue <span class="op">=</span> np.cos(x.value)</span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>    newDerivative <span class="op">=</span> (</span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a>        (x, <span class="op">-</span>np.sin(x.value)),</span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> FloatAad(newValue, newDerivative)</span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a><span class="at">@np.vectorize</span></span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tan(x):</span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sin(x) <span class="op">/</span> cos(x)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Die Datei kann <a href="mathaad.py">hier</a> heruntergeladen werden.</p>
@@ -1581,74 +1578,74 @@ Jf =
 <div class="cell" data-execution_count="31">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> time</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getValues, getGradient</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathaad</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten einlesen und Labels ändern</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>fString <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.data'</span>,<span class="st">'r'</span>)</span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>fFloat  <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.csv'</span>,<span class="st">'w'</span>)</span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fString:</span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-setosa'</span>, <span class="st">'0'</span>)</span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-versicolor'</span>, <span class="st">'1'</span>)</span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-virginica'</span>, <span class="st">'2'</span>)</span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    fFloat.write(line)</span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>fString.close()</span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>fFloat.close()</span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>fFloat <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.csv'</span>,<span class="st">'r'</span>)</span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> np.loadtxt(fFloat, delimiter <span class="op">=</span> <span class="st">','</span>)</span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>fFloat.close()</span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten plotten</span></span>
-<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(<span class="dv">1</span>)</span>
-<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
-<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">0</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">1</span>], </span>
-<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">0</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">1</span>], </span>
-<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">0</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">1</span>], </span>
-<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattlaenge (cm)'</span>)</span>
-<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kelchblattbreite (cm)'</span>)</span>
-<span id="cb40-37"><a href="#cb40-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-38"><a href="#cb40-38" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
-<span id="cb40-39"><a href="#cb40-39" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">2</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">3</span>], </span>
-<span id="cb40-40"><a href="#cb40-40" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-41"><a href="#cb40-41" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">2</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">3</span>], </span>
-<span id="cb40-42"><a href="#cb40-42" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-43"><a href="#cb40-43" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">2</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">3</span>], </span>
-<span id="cb40-44"><a href="#cb40-44" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-45"><a href="#cb40-45" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kronblattlaenge (cm)'</span>)</span>
-<span id="cb40-46"><a href="#cb40-46" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattbreite (cm)'</span>)</span>
-<span id="cb40-47"><a href="#cb40-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-48"><a href="#cb40-48" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb40-49"><a href="#cb40-49" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">0</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">2</span>], </span>
-<span id="cb40-50"><a href="#cb40-50" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-51"><a href="#cb40-51" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">0</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">2</span>], </span>
-<span id="cb40-52"><a href="#cb40-52" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-53"><a href="#cb40-53" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">0</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">2</span>], </span>
-<span id="cb40-54"><a href="#cb40-54" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-55"><a href="#cb40-55" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattlaenge (cm)'</span>)</span>
-<span id="cb40-56"><a href="#cb40-56" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattlaenge (cm)'</span>)</span>
-<span id="cb40-57"><a href="#cb40-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-58"><a href="#cb40-58" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
-<span id="cb40-59"><a href="#cb40-59" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">1</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">3</span>], </span>
-<span id="cb40-60"><a href="#cb40-60" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-61"><a href="#cb40-61" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">1</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">3</span>], </span>
-<span id="cb40-62"><a href="#cb40-62" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-63"><a href="#cb40-63" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">1</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">3</span>], </span>
-<span id="cb40-64"><a href="#cb40-64" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-65"><a href="#cb40-65" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattbreite (cm)'</span>)</span>
-<span id="cb40-66"><a href="#cb40-66" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattbreite (cm)'</span>)</span>
-<span id="cb40-67"><a href="#cb40-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-68"><a href="#cb40-68" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> time</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> floataad <span class="im">import</span> float2FloatAad, getValues, getGradient</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mathaad</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten einlesen und Labels ändern</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>fString <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.data'</span>,<span class="st">'r'</span>)</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>fFloat  <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.csv'</span>,<span class="st">'w'</span>)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fString:</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-setosa'</span>, <span class="st">'0'</span>)</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-versicolor'</span>, <span class="st">'1'</span>)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.replace(<span class="st">'Iris-virginica'</span>, <span class="st">'2'</span>)</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    fFloat.write(line)</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>fString.close()</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>fFloat.close()</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>fFloat <span class="op">=</span> <span class="bu">open</span>(<span class="st">'iris.csv'</span>,<span class="st">'r'</span>)</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> np.loadtxt(fFloat, delimiter <span class="op">=</span> <span class="st">','</span>)</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>fFloat.close()</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten plotten</span></span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(<span class="dv">1</span>)</span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">0</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">1</span>], </span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">0</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">1</span>], </span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">0</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">1</span>], </span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattlaenge (cm)'</span>)</span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kelchblattbreite (cm)'</span>)</span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">2</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">3</span>], </span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">2</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">3</span>], </span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">2</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">3</span>], </span>
+<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kronblattlaenge (cm)'</span>)</span>
+<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattbreite (cm)'</span>)</span>
+<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">0</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">2</span>], </span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">0</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">2</span>], </span>
+<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">0</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">2</span>], </span>
+<span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-55"><a href="#cb39-55" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattlaenge (cm)'</span>)</span>
+<span id="cb39-56"><a href="#cb39-56" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattlaenge (cm)'</span>)</span>
+<span id="cb39-57"><a href="#cb39-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-58"><a href="#cb39-58" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb39-59"><a href="#cb39-59" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">1</span>], dataset[<span class="dv">0</span>:<span class="dv">50</span>,<span class="dv">3</span>], </span>
+<span id="cb39-60"><a href="#cb39-60" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'red'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-61"><a href="#cb39-61" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">1</span>], dataset[<span class="dv">50</span>:<span class="dv">100</span>,<span class="dv">3</span>], </span>
+<span id="cb39-62"><a href="#cb39-62" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'green'</span>, marker <span class="op">=</span> <span class="st">'^'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-63"><a href="#cb39-63" aria-hidden="true" tabindex="-1"></a>ax.scatter(dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">1</span>], dataset[<span class="dv">100</span>:<span class="dv">150</span>,<span class="dv">3</span>], </span>
+<span id="cb39-64"><a href="#cb39-64" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> <span class="st">'blue'</span>, marker <span class="op">=</span> <span class="st">'*'</span>, s <span class="op">=</span> <span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb39-65"><a href="#cb39-65" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Kelchblattbreite (cm)'</span>)</span>
+<span id="cb39-66"><a href="#cb39-66" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Kronblattbreite (cm)'</span>)</span>
+<span id="cb39-67"><a href="#cb39-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-68"><a href="#cb39-68" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-imageirisscatterplot" class="quarto-figure quarto-figure-center anchored">
@@ -1663,17 +1660,17 @@ Jf =
 <div class="cell" data-execution_count="32">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten in Trainings- und Testdaten aufteilen</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> dataset[:, <span class="dv">0</span>:<span class="dv">4</span>] <span class="co"># Messwerte</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> dataset[:, <span class="dv">4</span>]   <span class="co"># Label</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>allData <span class="op">=</span> np.arange(<span class="dv">0</span>, X.shape[<span class="dv">0</span>])</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>testIndices <span class="op">=</span> np.random.choice(X.shape[<span class="dv">0</span>], size <span class="op">=</span> <span class="dv">30</span>, replace <span class="op">=</span> <span class="va">False</span>)</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>trainIndices <span class="op">=</span> np.delete(allData, testIndices)</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>dataRecords <span class="op">=</span> <span class="bu">len</span>(testIndices)</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>XTrain <span class="op">=</span> X[trainIndices, :]</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>YTrain <span class="op">=</span> np.array(Y[trainIndices], dtype <span class="op">=</span> np.int32)</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>XTest <span class="op">=</span> X[testIndices, :]</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>YTest <span class="op">=</span> Y[testIndices]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten in Trainings- und Testdaten aufteilen</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> dataset[:, <span class="dv">0</span>:<span class="dv">4</span>] <span class="co"># Messwerte</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> dataset[:, <span class="dv">4</span>]   <span class="co"># Label</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>allData <span class="op">=</span> np.arange(<span class="dv">0</span>, X.shape[<span class="dv">0</span>])</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>testIndices <span class="op">=</span> np.random.choice(X.shape[<span class="dv">0</span>], size <span class="op">=</span> <span class="dv">30</span>, replace <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>trainIndices <span class="op">=</span> np.delete(allData, testIndices)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>dataRecords <span class="op">=</span> <span class="bu">len</span>(testIndices)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>XTrain <span class="op">=</span> X[trainIndices, :]</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>YTrain <span class="op">=</span> np.array(Y[trainIndices], dtype <span class="op">=</span> np.int32)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>XTest <span class="op">=</span> X[testIndices, :]</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>YTest <span class="op">=</span> Y[testIndices]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Unser Netz soll aus 4 Inputneuronen und 3 Outputneuronen bestehen. Die vier Inputs stehen für die vier Messwerte <code>X[0], ..., X[3]</code>. Wenn dort die entsprechenden Messwerte eingegeben wurden, dann werden bei den Outputneuronen <code>Y[0], ..., Y[2]</code> vier Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> generiert, welche die Wahrscheinlichkeiten darstellen, dass es sich um die entsprechende Lilienart handelt. Das Neuron mit dem grössten Wert stellt unsere Vorhersage dar. Das neuronale Netz hat also die folgende Architektur:</p>
@@ -1777,12 +1774,12 @@ z_i = \sum_{j=0}^3 w_{ij}x_j + b_i \quad\textrm{für}\quad i\in\lbrace0, 1, 2\rb
 <div class="cell" data-execution_count="33">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Softmax Funktion für Vektor z</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> softmax(z):</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> z.dtype <span class="op">==</span> <span class="st">"object"</span>:</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [mathaad.exp(x) <span class="op">/</span> <span class="bu">sum</span>(mathaad.exp(z)) <span class="cf">for</span> x <span class="kw">in</span> z]</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [np.exp(x) <span class="op">/</span> <span class="bu">sum</span>(np.exp(z)) <span class="cf">for</span> x <span class="kw">in</span> z]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Softmax Funktion für Vektor z</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> softmax(z):</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> z.dtype <span class="op">==</span> <span class="st">"object"</span>:</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [mathaad.exp(x) <span class="op">/</span> <span class="bu">sum</span>(mathaad.exp(z)) <span class="cf">for</span> x <span class="kw">in</span> z]</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [np.exp(x) <span class="op">/</span> <span class="bu">sum</span>(np.exp(z)) <span class="cf">for</span> x <span class="kw">in</span> z]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Unsere Vorhersage ist dann der Wert <span class="math display">\[
@@ -1801,29 +1798,29 @@ J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 <div class="cell" data-execution_count="34">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(Weights, bias, XTrain, YTrain):</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(YTrain) <span class="co"># Anzahl Trainingsdaten</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Gewichte als FloatAad-Matrix</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    Wtemp <span class="op">=</span> float2FloatAad(Weights)</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    WtempMatrix <span class="op">=</span> np.reshape(Wtemp, [<span class="dv">4</span>, <span class="dv">3</span>])</span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Labels als One-Hot Encoding</span></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    YOneHot <span class="op">=</span> np.zeros([N, <span class="dv">3</span>])</span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    YOneHot[<span class="bu">range</span>(N), YTrain] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> XTrain <span class="op">@</span> WtempMatrix <span class="op">+</span> bias</span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Softmax auf jede Zeile anwenden</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    Yhat <span class="op">=</span> np.apply_along_axis(softmax, <span class="dv">1</span>, Z)</span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cross Entropy</span></span>
-<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> [<span class="op">-</span> YOneHot[i] <span class="op">@</span> mathaad.log(Yhat[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N) ]</span>
-<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>    J <span class="op">=</span> <span class="bu">sum</span>(D) <span class="op">/</span> N</span>
-<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>    LossValue <span class="op">=</span> getValues(J)</span>
-<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>    LossGrad <span class="op">=</span> np.array(getGradient(Wtemp, J))</span>
-<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [LossValue, LossGrad]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(Weights, bias, XTrain, YTrain):</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(YTrain) <span class="co"># Anzahl Trainingsdaten</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Gewichte als FloatAad-Matrix</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    Wtemp <span class="op">=</span> float2FloatAad(Weights)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    WtempMatrix <span class="op">=</span> np.reshape(Wtemp, [<span class="dv">4</span>, <span class="dv">3</span>])</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Labels als One-Hot Encoding</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    YOneHot <span class="op">=</span> np.zeros([N, <span class="dv">3</span>])</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    YOneHot[<span class="bu">range</span>(N), YTrain] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> XTrain <span class="op">@</span> WtempMatrix <span class="op">+</span> bias</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Softmax auf jede Zeile anwenden</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    Yhat <span class="op">=</span> np.apply_along_axis(softmax, <span class="dv">1</span>, Z)</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cross Entropy</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> [<span class="op">-</span> YOneHot[i] <span class="op">@</span> mathaad.log(Yhat[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N) ]</span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>    J <span class="op">=</span> <span class="bu">sum</span>(D) <span class="op">/</span> N</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>    LossValue <span class="op">=</span> getValues(J)</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>    LossGrad <span class="op">=</span> np.array(getGradient(Wtemp, J))</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [LossValue, LossGrad]</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Man beachte, dass das Matrixprodukt in der Zeile <code>Z = XTrain @ WtempMatrix + bias</code> eigentlich <span class="math inline">\(X\cdot W^\intercal + \vec b^\intercal\)</span> ist, mit <span class="math inline">\(X\in\mathbb{R}^{120\times 4}\)</span> und <span class="math inline">\(W^\intercal \in \mathbb{R}^{4\times 3}\)</span>. Die Addition von <code>bias</code> wird dann auf jede Zeile <span class="math inline">\(X\cdot W^\intercal \in \mathbb{R}^{120\times 3}\)</span> angewendet.</p>
@@ -1831,43 +1828,43 @@ J(W) = \frac{1}{N}\sum_{n=0}^{N-1} D(\vec y^{(n)}, \vec{\hat y}^{(n)})
 <div class="cell" data-execution_count="35">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gewichte initialisieren</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> np.random.random(<span class="dv">4</span> <span class="op">*</span> <span class="dv">3</span>)</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.ones(<span class="dv">3</span>)  <span class="co"># bias</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit mit Gradient Descent</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.5</span> <span class="co"># Lernrate</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-2</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time()</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>[Lval, Lgrad] <span class="op">=</span> loss(W, b, XTrain, YTrain)</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> np.linalg.norm(Lgrad) <span class="op">&gt;</span> tol:</span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    W1 <span class="op">=</span> W <span class="op">-</span> lam <span class="op">*</span> Lgrad</span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    [Lval, Lgrad] <span class="op">=</span> loss(W1, b, XTrain, YTrain)</span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> W1</span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time()</span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>zeit <span class="op">=</span> end <span class="op">-</span> start</span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Der Lernprozess dauerte </span><span class="sc">%1.2f</span><span class="st"> Sekunden."</span> <span class="op">%</span>zeit)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gewichte initialisieren</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> np.random.random(<span class="dv">4</span> <span class="op">*</span> <span class="dv">3</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.ones(<span class="dv">3</span>)  <span class="co"># bias</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit mit Gradient Descent</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="fl">0.5</span> <span class="co"># Lernrate</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-2</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time()</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>[Lval, Lgrad] <span class="op">=</span> loss(W, b, XTrain, YTrain)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> np.linalg.norm(Lgrad) <span class="op">&gt;</span> tol:</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    W1 <span class="op">=</span> W <span class="op">-</span> lam <span class="op">*</span> Lgrad</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    [Lval, Lgrad] <span class="op">=</span> loss(W1, b, XTrain, YTrain)</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> W1</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time()</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>zeit <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Der Lernprozess dauerte </span><span class="sc">%1.2f</span><span class="st"> Sekunden."</span> <span class="op">%</span>zeit)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Der Lernprozess dauerte 10.91 Sekunden.</code></pre>
+<pre><code>Der Lernprozess dauerte 11.90 Sekunden.</code></pre>
 </div>
 </div>
 <p>Zum Schluss wenden wir die Matrix mit den optimierten Gewichten auf die 30 Testdaten an, welche wir im Trainingsprozess noch nicht verwendet hatten, und zählen, wie viele davon durch unser Netz korrekt klassifiziert werden.</p>
 <div class="cell" data-execution_count="36">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test des Modells</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> np.reshape(W, [<span class="dv">4</span>, <span class="dv">3</span>])</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> XTest <span class="op">@</span> W <span class="op">+</span> b</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>Yp <span class="op">=</span> Yp <span class="op">=</span> np.apply_along_axis(softmax, <span class="dv">1</span>, Z)</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.apply_along_axis(np.argmax, <span class="dv">1</span>, Yp)</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Vergleich mit Resultaten</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>nCorrect <span class="op">=</span> <span class="bu">sum</span>(Y <span class="op">==</span> YTest)</span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">%d</span><span class="st"> von </span><span class="sc">%d</span><span class="st"> wurden korrekt klassifiziert."</span> <span class="op">%</span>(nCorrect, dataRecords))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test des Modells</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> np.reshape(W, [<span class="dv">4</span>, <span class="dv">3</span>])</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> XTest <span class="op">@</span> W <span class="op">+</span> b</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>Yp <span class="op">=</span> Yp <span class="op">=</span> np.apply_along_axis(softmax, <span class="dv">1</span>, Z)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.apply_along_axis(np.argmax, <span class="dv">1</span>, Yp)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Vergleich mit Resultaten</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>nCorrect <span class="op">=</span> <span class="bu">sum</span>(Y <span class="op">==</span> YTest)</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">%d</span><span class="st"> von </span><span class="sc">%d</span><span class="st"> wurden korrekt klassifiziert."</span> <span class="op">%</span>(nCorrect, dataRecords))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>27 von 30 wurden korrekt klassifiziert.</code></pre>
+<pre><code>29 von 30 wurden korrekt klassifiziert.</code></pre>
 </div>
 </div>
 <p>Das vollständige Program kann <a href="FisherClassification.py">hier</a> heruntergeladen werden.</p>
