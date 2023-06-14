@@ -55,3 +55,22 @@ j = jacobian(f, x0)
 print(y0)
 print(j)
 """
+
+"""from floataad import float2FloatAad, getGradient
+import mathaad
+import numpy as np
+
+def f(x):
+    y1 = x[0]*mathaad.sqrt(x[1]) + 3*x[1]
+    y2 = mathaad.cos(x[0]) / x[1]
+    y3 = mathaad.exp(x[0]**2 * x[1])
+    return [y1, y2, y3]
+
+getJacobian = lambda x,y : np.array([getGradient(x, y[i]) for i in range(len(y))])
+
+x0 = [2, 1]
+x0 = float2FloatAad(x0)
+y0 = f(x0)
+jy = getJacobian(x0, y0)
+print(jy)
+"""

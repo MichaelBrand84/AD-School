@@ -7,7 +7,7 @@ tbl-cap-location: bottom
 
 In @sec-HigherDimFunctions haben wir gesehen, dass wir mit der Standard Algorithmischen Differentiation (SAD) alle $m$ Ableitungen einer Funktion $f : \mathbb{R} \rightarrow \mathbb{R}^m$ mit einem einzigen Funktionsaufruf berechnen können. Die Berechnung des Gradienten einer Funktion $f : \mathbb{R}^n \rightarrow \mathbb{R}$ benötigt jedoch $n$ Funktionsaufrufe, nämlich einen für jede partielle Ableitung $\partial f / \partial x_i$. In diesem Kapitel wollen wir eine Methode entwickeln, die alle $n$ partiellen Ableitungen in einem Funktionsaufruf berechnet. 
 
-Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus Kapitel @sec-ProgFunc ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD ^[Im Englischen spricht man von *reverse mode differentiation* weil *backward differentiation* für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.] oder Adjungierte AD (AAD) genannt. 
+Ähnlich wie die SAD beruht auch diese Methode darauf, dass wir eine komplizierte Funktion schrittweise mit Hilfe von elementaren Operationen berechnen und in jedem Schritt die Ableitungen in separaten Variablen akkumulieren. Wir führen also wieder unsere Konvention aus @sec-ProgFunc ein. Auch dieses Mal werden wir in jedem Schritt die Kettenregel verwenden. Diesmal fangen wir jedoch am Ende der Funktion an und werden uns dann rückwärts durch alle Ableitungen arbeiten. Aus diesem Grund wird das Verfahren auch Rückwärts-AD ^[Im Englischen spricht man von *reverse mode differentiation* weil *backward differentiation* für bestimmte Methoden zur Integration von Differentialgleichungen verwendet wird.] oder Adjungierte AD (AAD) genannt. 
 
 
 ## Manuelle Implementation der AAD
@@ -110,7 +110,7 @@ $$
 \end{align*}
 $$
 
-Um die beiden Rechnungen zusammenzufassen, führen nun für jede Hilfsvariable $v_i$ eine neue Variable $\bar v_i$ ein, welche definiert ist als
+Um die beiden Rechnungen zusammenzufassen, führen wir nun für jede Hilfsvariable $v_i$ eine neue Variable $\bar v_i$ ein, welche definiert ist als
 $$
 \bar v_i = \frac{\partial y}{\partial v_i}
 $$
@@ -273,7 +273,7 @@ Beispiele findet man in der Literatur, z.B. bei @sidsite2021, @Slater2022, @Bayd
 
 
 
-## Implementation der AAD mit Operator Overloading
+## Implementation der AAD mit Operator Overloading {#sec-AADmitOperatorOverloading}
 
 Nun wollen wir ähnlich wie im @sec-SadImplementationOperatorOverloading eine Klasse `FloatAad` entwerfen, welche die Berechnung aller Hilfsvariablen `vbar` automatisch ausführt. Wie auch zuvor hat jedes `FloatAad`-Objekt ein Attribut `value` vom Typ `Int` oder `Float`. Allerdings reicht es nicht mehr aus, ein `Float`-Attribut `derivative` zu definieren, um den Wert der Ableitung zu speichern weil auch die Struktur des Computational Graph gespeichert werden muss. Als Attribut `derivatives` wählen wir ein `tuple`, dessen erster Eintrag ein `FloatAad`-Objekt ist, nämlich die Variable, nach der die partielle Ableitung berechnet wird. Der zweite Eintrag ist der Wert dieser partiellen Ableitung. Da das erste Element des Tupels selber auch ein Attribut `derivatives` hat, entsteht so eine rekursive Darstellung des Computational Graph. 
 
@@ -1133,7 +1133,7 @@ plt.show()
 
 
 
-### Bilder schärfen
+### Bilder schärfen {#sec-deblurringImages}
 
 Die Idee zu dieser Anwendung stammt von @Slater2022. Beim Fotografieren kann es passieren, dass die Linse der Kamera nicht richtig fokussiert ist und das Bild dadurch unscharf wirkt. Es ist jedoch möglich, ein Bild bis zu einem gewissen Grad nachträglich zu schärfen.
 

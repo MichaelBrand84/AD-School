@@ -7,17 +7,18 @@ tbl-cap-location: bottom
 ## Reflexion zur Lerneinheit
 
 ### Reflexion zu den Klassen und Beispielprogrammen
+Die in der Lerneinheit entwickelten Klassen sind ein Produkt meines eigenen Lernprozesses. Im Nachhinein würde ich einige Funktionen anders implementieren. Die im @sec-AADmitOperatorOverloading verwendete Methode, zuerst eine Funktion für die Operation zu definieren und damit den Operator zu überladen, ist insgesamt übersichtlicher, als die direkte Methode, die in @sec-SadImplementationOperatorOverloading verwendet wurde. 
+Die grösste Herausforderung war die Klasse `FloatAad` aus Kapitel @sec-AADmitOperatorOverloading, obwohl ich hier auf die gut geschriebene Einführung von @sidsite2021 zurückgreifen konnte. Das Bedürfnis nach weiteren Funktionalitäten wie `getGradient` oder `getJacobian` ergab sich erst später in Anwendungen und mussten nachträglich ergänzt werden. Schwierigkeiten bereitete dabei oft das Zusammenspiel zwischen meiner eigenen Klasse und `numpy`, weil Funktionen wie `getDerivatives` auf das Attribut `y.derivatives` zugreifen, die ein `np.array` nicht besitzt. Hier den Überblick zu behalten war nicht immer einfach.
+
+Bei der Darstellung der Theorie und den Programmen legte ich den Fokus auf das Verständnis der Methode und nicht auf eine effiziente Implementierung. Die Auswertung der Ableitung geschieht zwar effizient, auch in der AAD Methode, allerdings werden dabei viele Hilfsvariablen angelegt. Die dafür benötigten Speicherzugriffe sind nehmen dabei mehr Zeit in Anspruch, als die eigentliche Berechnung (@Griewank2008EDP, S. 61). AD-Implementationen in modernen Programmiersprachen wie Julia versuchen, diese Probleme zu verhindern (@Baydin18, S. 22).
+
+Bei der gezeigten Implementation der AAD in @sec-AADmitOperatorOverloading stösst man schnell an Grenzen, weil durch den rekursiven Aufruf von `computeDerivatives` die maximale Rekursionstiefe überschritten wird. Dies merkt man am deutlichsten am Beispiel des Schärfens von Bildern in @sec-deblurringImages. Dort musste die Auflösung des Bildes auf 30 $\times$ 30 Pixel reduziert und die Farbinformation entfernt werden. Abhilfe könnte hier die Überladung der `numpy`-Operatoren bieten, so dass Arrays bestehend aus `FloatAad`-Objekten miteinander verknüpft werden können, ohne die einzelnen Elemente zu entpacken. 
 
 
-
-
-
-[ ] (Klassen sind mit eigenem Verständnis gewachsen, was würde ich im Nachhinein anders implementieren (z.B. SAD analog zu AAD mit mehr Funktionen))
-[ ] (Fokus auf Verständnis, nicht auf Effizienz. Wo gibt es Verbesserungspotential)
-[ ] (Grenzen bei Komplexität, Maximale Rekursionstiefe bei AAD wird schnell erreicht, zur Verbesserung müssten NumPy Operatoren überladen werden)
 
 ### Was noch fehlt
-(Ableitungen 2. und höherer Ordnung)
+Hier gäbe es noch ganz viel zu sagen. Das zeigt allein die Tatsache, dass jedes Buch der im Vorwort erwähnten Standardliteratur mehrere hundert Seiten dick ist. Eine Frage, die sich früher oder später den Schüler:innen stellen wird ist, ob man auch die zweite oder höhere Ableitungen mit AD-Methoden berechnen kann. Die kurze Antwort lautet: Ja! Wir beschränken uns an dieser Stelle aber auf ein Zitat aus @Naumann2012TAo (S. 91):
+> Forward and reverse modeAD transform implementations of multivariate vector functions into tangent-linear and adjoint code. The reapplication of the same ideas yields higher derivative code. Second- and higher-order tangent-linear code is obtained by recursive application of forward mode AD. Sequences of applications of forward and reverse mode that involve at least one application of reverse mode result in higher-order adjoint code. An exponential number of combinations can be considered, for example, fourth-order adjoint code generated in forward-over-reverse-over-forward-over-reverse mode.
 
 
 
@@ -36,7 +37,7 @@ In @sec-SadImplementationOperatorOverloading werden Klassen und das Überladen v
 Die @exr-billardMathsadSolutions und @exr-minDistSolutionWithSAD beziehen sich wiederum auf die entsprechenden Aufgaben in @sec-NumerischeVerfahren.
 
 @sec-HigherDimFunctions, @sec-AAD und @sec-ausblick setzen höherdimensionale Analysis, wie sie in einer Analysis 2 Vorlesung im ersten Studienjahr eingeführt werden, voraus. Insbesondere die Begriffe des Gradienten und der Jacobi Matrix sollten bekannt sein. Es wird in den Kapiteln auf Literatur verwiesen, in denen diese Begriffe kurz erklärt werden. Nichtsdestotrotz sollten auch diese Abschnitte für interessierte und leistungsstarke Schüler:innen zugänglich sein. Sie beinhalten weniger Übungsaufgaben und sind mehr als Ausblick für Interessierte gedacht. 
-Es wird hier vom Modul `numpy` Gebrauch gemacht, das vorgängig installiert werden muss. Im @sec-ausblick vergleichen wir unsere Klassen mit `autograd`, welches in `pytorch` enthalten ist. Dieses muss ebenfalls installiert werden (@PyTorch). 
+Es wird hier vom Modul `numpy` Gebrauch gemacht, das vorgängig installiert werden muss. Die benötigten Funktionen aus `numpy` werden ohne Kommentare verwendet. Im @sec-ausblick vergleichen wir unsere Klassen mit `autograd`, welches in `pytorch` enthalten ist. Dieses muss ebenfalls installiert werden (@PyTorch). 
 
 
 ### Durchführung der Lerneinheit
@@ -44,7 +45,7 @@ Ich habe Teile der Lerneinheit mit zwei Schulklassen durchgeführt. Die erste wa
 
 Als Einstieg und Motivation für das Thema wählte ich das Newtonverfahren. Einige der Schüler:innen besuchten das Schwerpunktfach Physik/Anwendungen der Mathematik, in dem ich das Newtonverfahren bereits eingeführt hatte. Für die anderen beschränkte ich mich auf die Herleitung der Iterationsvorschrift und die Visualisierung mit GeoGebra im @sec-NumerischeVerfahren. Dass es auch Funktionen gibt, die sich nicht so leicht als eine einzeilige kompakte Formel hinschreiben lassen, wird schön durch das Billardproblem in @exm-Billard illustriert. 
 
-Da noch nicht alle Schüler:innen mit Python programmiert hatten, folgte als nächstes eine kurze Einführung in die Syntax. Als Programmierumgebung habe ich [Codeboard.io](https://codeboard.io/) verwendet, welches im Browser verwendet werden kann und im Gegensatz zu [TigerJython](https://tigerjython.ch/de) auch `numpy` und `matplotlib` unterstützt. Bei letzterer muss allerdings die Ausgabe als Bild abgespeichert werden und dann auf der Konsole ausgedruckt werden. Das folgende einfache Beispiel verdeutlicht das Vorgehen:
+Da noch nicht alle Schüler:innen mit Python programmiert hatten, folgte als nächstes eine kurze Einführung in die Syntax. Als Programmierumgebung habe ich [Codeboard.io](https://codeboard.io/) verwendet, welches im Browser verwendet werden kann und im Gegensatz zu [TigerJython](https://tigerjython.ch/) auch `numpy` und `matplotlib` unterstützt. Bei letzterer muss allerdings die Ausgabe als Bild abgespeichert werden und dann auf der Konsole ausgedruckt werden. Das folgende einfache Beispiel verdeutlicht das Vorgehen:
 ```{python}
 #| code-fold: false
 #| eval: false
