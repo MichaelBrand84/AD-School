@@ -281,6 +281,7 @@ Jf =
 $$
 
 Ausgewertet an der Stelle $(x_0, x_1) = (2, 1)$ ergibt dies 
+$$
 \begin{align*}
 f(2,1) &\approx \begin{pmatrix} 5 \\ -0.4161... \\ 54.5981... \end{pmatrix}, \\ 
 JF \vert _{(2,1)} &\approx 
@@ -290,7 +291,7 @@ JF \vert _{(2,1)} &\approx
         218.3926... & 218.3926...
     \end{pmatrix}
 \end{align*}
-
+$$
 :::
 ---
 

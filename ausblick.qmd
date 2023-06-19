@@ -4,7 +4,7 @@ tbl-cap-location: bottom
 
 # Ausblick: Moderne Bibliotheken für automatische Differentiation {#sec-ausblick}
 
-Zum Schluss werfen wir einen kurzen Blick auf PyTorch, einer Open Source Machine Learning Bibliothek (@PyTorch). Diese kann von [PyTorch](https://pytorch.org/) heruntergeladen werden. Von den zahlreichen verfügbaren Modulen beschränken wir uns hier auf *Autograd*, das zur Berechnung von Ableitungen benutzt wird.
+Zum Schluss werfen wir einen kurzen Blick auf PyTorch, eine Open Source Machine Learning Bibliothek (@PyTorch). Diese kann von [PyTorch](https://pytorch.org/) heruntergeladen werden. Von den zahlreichen verfügbaren Modulen beschränken wir uns hier auf *Autograd*, das zur Berechnung von Ableitungen benutzt wird.
 
 Neben der Dokumentation auf [PyTorch 2.0 documentation](https://pytorch.org/docs/stable/autograd.html) gibt auch das folgende Video von [Elliot Waite](https://www.youtube.com/@elliotwaite) [letzter Aufruf 06.06.2023] eine gute Einführung in die Funktionsweise und Bedienung von Autograd.
  {{< video https://www.youtube.com/watch?v=MswxJw-8PvE&t=1s&ab_channel=ElliotWaite >}}

@@ -18,6 +18,7 @@ Bei der gezeigten Implementation der AAD in @sec-AADmitOperatorOverloading stös
 
 ### Was noch fehlt
 Hier gäbe es noch ganz viel zu sagen. Das zeigt allein die Tatsache, dass jedes Buch der im Vorwort erwähnten Standardliteratur mehrere hundert Seiten dick ist. Eine Frage, die sich früher oder später den Schüler:innen stellen wird ist, ob man auch die zweite oder höhere Ableitungen mit AD-Methoden berechnen kann. Die kurze Antwort lautet: Ja! Wir beschränken uns an dieser Stelle aber auf ein Zitat aus @Naumann2012TAo (S. 91):
+
 > Forward and reverse modeAD transform implementations of multivariate vector functions into tangent-linear and adjoint code. The reapplication of the same ideas yields higher derivative code. Second- and higher-order tangent-linear code is obtained by recursive application of forward mode AD. Sequences of applications of forward and reverse mode that involve at least one application of reverse mode result in higher-order adjoint code. An exponential number of combinations can be considered, for example, fourth-order adjoint code generated in forward-over-reverse-over-forward-over-reverse mode.
 
 
@@ -79,7 +80,8 @@ Meine Hoffnung haben sich damit weitestgehend erfüllt, dass die vorliegende Arb
 
 ### Potential für den Mathematikunterricht
 Bevor ich mit der Einführung von Differentialrechnung beginne, mache ich mit der Klasse häufig Übungen, in denen die Schüler:innen mathematische Terme möglichst präzise beschreiben sollen. Der Term $\frac{2+\sqrt x}{x^2-2^x}$ kann beispielsweise so beschrieben werden: 
-|  Der Term ist ein Quotient. Der Dividend ist eine Summe, deren erster Summand eine Konstante Zwei und deren zweiter Summand die Quadratwurzel von $x$ ist. Der Divisor ist eine Differenz. Der Minuend ist die zweite Potenz von $x$ und der Subtrahend ist die Exponentialfunktion zur Basis Zwei.
+
+> Der Term ist ein Quotient. Der Dividend ist eine Summe, deren erster Summand eine Konstante Zwei und deren zweiter Summand die Quadratwurzel von $x$ ist. Der Divisor ist eine Differenz. Der Minuend ist die zweite Potenz von $x$ und der Subtrahend ist die Exponentialfunktion zur Basis Zwei.
 
 Das Ziel dieser Übung ist nicht nur, sich die Fachbegriffe anzueignen, sondern auch, die Struktur eines mathematischen Ausdrucks zu erfassen. Das ist nicht nur für das Lösen von Gleichungen, sondern insbesondere auch für die korrekte Anwendung der Ableitungsregeln notwendig. Ich habe festgestellt, dass das regelmässige Durchführen solcher Übungen die Häufigkeit von Fehlern in Ableitungen verkleinert. Angeregt zu solchen Übungen wurde ich durch Josef Züger von der Bündner Kantonsschule. 
 
