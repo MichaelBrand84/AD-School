@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>AutoDiff - 3&nbsp; Standard Algorithmische Differentiation für eindimensionale Funktionen</title>
+<title>AutoDiff - 3&nbsp; Standard Algorithmische Differentiation für Funktionen einer Variablen</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,7 +130,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ADOneDimManually.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ADOneDimManually.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für Funktionen einer Variablen</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -179,7 +179,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für Funktionen einer Variablen</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -250,7 +250,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-SADforOneDimFunctions" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></span></h1>
+<h1 class="title"><span id="sec-SADforOneDimFunctions" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für Funktionen einer Variablen</span></span></h1>
 </div>
 
 
@@ -819,18 +819,23 @@ Lösung
 <span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Schritt</span></span>
 <span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>[k, kdot] <span class="op">=</span> kosten(x0)</span>
 <span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> kdot</span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> math.fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x1</span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    [k, kdot] <span class="op">=</span> kosten(x0)</span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> kdot</span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bei x ="</span>, x1, <span class="st">"sind die Kosten minimal."</span>)</span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sie belaufen sich auf"</span>, k)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>nSteps <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> math.fabs(x1 <span class="op">-</span> x0) <span class="op">&gt;</span> tol:</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x1</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    [k, kdot] <span class="op">=</span> kosten(x0)</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">-</span> lam <span class="op">*</span> kdot</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    nSteps <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bei x ="</span>, x1, <span class="st">"sind die Kosten minimal."</span>)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sie belaufen sich auf"</span>, k)</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Es wurden"</span>, nSteps, <span class="st">"Schritte benötigt."</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Bei x = 7.000767589818459 sind die Kosten minimal.
-Sie belaufen sich auf 480000.000393777</code></pre>
+Sie belaufen sich auf 480000.000393777
+Es wurden 63 Schritte benötigt.</code></pre>
 </div>
 </div>
+<p>Die exakte Lösung wäre bei <span class="math inline">\(x = 7\)</span> und die minimalen Kosten damit <span class="math inline">\(480000\)</span> Euro.</p>
 </div>
 </div>
 </div>
@@ -2094,7 +2099,7 @@ Lösung
 Baydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, und Jeffrey Mark Siskind. 2018. <span>„Automatic Differentiation in Machine Learning: a Survey“</span>. <em>Journal of Machine Learning Research</em> 18 (153): 1–43. <a href="http://jmlr.org/papers/v18/17-468.html">http://jmlr.org/papers/v18/17-468.html</a>.
 </div>
 <div id="ref-Gander1992" class="csl-entry" role="listitem">
-Gander, Walter. 1992. <em>Computermathematik</em>. Birkhäuser.
+Gander, Walter. 1992. <em>Computermathematik</em>. 2. Aufl. Birkhäuser.
 </div>
 <div id="ref-Griewank2008EDP" class="csl-entry" role="listitem">
 Griewank, Andreas, und Andrea Walther. 2008. <em>Evaluating Derivatives: <span>P</span>rinciples and Techniques of Algorithmic Differentiation</em>. 2. Aufl. Other Titles in Applied Mathematics 105. Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/ot105/">http://bookstore.siam.org/ot105/</a>.

@@ -73,3 +73,10 @@ format:
 #    include-in-header: 
 #      text: |
 #        \usepackage{amssymb,amsmath,amsthm, amsfonts}
+  docx:
+    lang: de
+    number-section: true
+    number-depth: 3
+    toc: true
+    toc-depth: 3
+    

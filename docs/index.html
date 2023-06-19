@@ -82,6 +82,8 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -143,7 +145,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für Funktionen einer Variablen</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -173,7 +175,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Quellen</span></a>
+ <span class="menu-text">Literaturverzeichnis</span></a>
   </div>
 </li>
     </ul>
@@ -236,19 +238,19 @@ div.csl-indent {
 <p>veröffentlicht. Der Source Code zu den Programmen und die Quarto-Dateien selbst sind ebenfalls dort zu finden. Hinweise zu Fehlern oder Feedback im Allgemeinen nehme ich gerne unter michael.brand@ems-schiers.ch entgegen</p>
 <section id="danksagung" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="danksagung">Danksagung</h2>
-<p>Mein herzlicher Dank geht an Johanni Brea von der EPFL, der mir nicht nur das Thema der algorithmischen Differentiation ans Herz gelegt hat, sondern auch die vorliegende Arbeit betreut hat. Er hat sich Zeit für alle meine Fragen und Anliegen genommen und mir wertvolle Hinweise für die Umsetzung gegeben. Walter Gander von der ETHZ danke ich ganz herzlich, dass er uns in seiner Vorlesung einige Anwendungen der algorithmischen Differentiation, wie z.B. das Billardproblem auf einem runden Tisch gezeigt hat, welches ich auch in dieser Arbeit verwenden durfte. Er hat sich auch bereit erklärt, diese Arbeit als zweiter Gutachter zusammen mit Johanni Brea zu lesen und zu bewerten.</p>
-<p>Einen ersten Entwurf der Arbeit durfte ich meinem Kollegen Mario Feuerstein von der <a href="https://ems-schiers.ch/">EMS Schiers</a> zum lesen geben, der mir wertvolle Anregungen zur Strukturierung des Skripts und zu einzelnen Beispielen gegeben hat. Das Logo ist das unserer Schule, das ich mit Zustimmung der Schulleitung verwenden durfte.</p>
+<p>Mein herzlicher Dank geht an Johanni Brea von der EPFL, der mir nicht nur das Thema der algorithmischen Differentiation ans Herz gelegt hat, sondern auch die vorliegende Arbeit betreut hat. Er hat sich Zeit für alle meine Fragen und Anliegen genommen und mir wertvolle Hinweise für die Umsetzung gegeben. Walter Gander von der ETHZ danke ich ganz herzlich, dass er uns in seiner Vorlesung einige Anwendungen der algorithmischen Differentiation, wie z.B. das Billardproblem auf einem runden Tisch gezeigt hat, welches ich auch in dieser Arbeit verwenden durfte. Er hat sich auch bereit erklärt, diese Arbeit als zweiter Gutachter zusammen mit Johanni Brea zu lesen und zu bewerten. Dabei hat er mich auf einige Ungenauigkeiten im Text hingewiesen und er hat mich auf die Dissertation von Johann Joss aufmerksam gemacht, welcher das Thema bereits 1976 für seine Doktorarbeit aufgegriffen hat.</p>
+<p>Einen ersten Entwurf der Arbeit durfte ich meinem Kollegen Mario Feuerstein von der <a href="https://ems-schiers.ch/">EMS Schiers</a> zu lesen geben, der mir wertvolle Anregungen zur Strukturierung des Skripts und zu einzelnen Beispielen gegeben hat. Das Logo ist das unserer Schule, das ich mit Zustimmung der Schulleitung verwenden durfte.</p>
 </section>
 </section>
 <section id="einleitung" class="level1 unnumbered">
 <h1 class="unnumbered">Einleitung</h1>
-<p>Das Thema dieser Arbeit ist die algorithmische Differentiation (AD). Dabei betrachten wir Programme (bzw. Funktionen innerhalb von Programmen), die numerische Werte als Input erhalten und daraus einen numerischen Output berechnen. Solche Programme können als Funktionen im Sinne der Mathematik angesehen werden mit dem Unterschied, dass der Output nicht unbedingt in Form einer einzigen Formel berechnet wird, sondern häufig sukzessive in mehreren Schritten bestimmt wird. AD ist ein Sammelbegriff für Methoden, mit denen sich von solchen Funktionen Ableitungen berechnen lassen. Diese Methoden liefern exakte Werte für die Ableitung (nicht Näherungswerte), sind effizient berechenbar und arbeiten nicht mit symbolischen Ausdrücken wie es Computer Algebra Systeme tun. Stattdessen wird der Wert der Ableitung punktweise zusammen mit dem Funktionswert berechnet.</p>
+<p>Das Thema dieser Arbeit ist die algorithmische Differentiation (AD). Dabei betrachten wir Programme (bzw. Funktionen innerhalb von Programmen), die numerische Werte als Input erhalten und daraus einen numerischen Output berechnen. Solche Programme können als Funktionen im Sinne der Mathematik angesehen werden. Im Gegensatz zur Mathematik wird der Output einer solchen Funktion oft nicht in Form einer einzigen Formel berechnet, sondern sukzessive in mehreren Schritten bestimmt. Mit den vier Grundoperationen (Addition, Subtraktion, Multiplikation und Division), entstehen stückweise rationale Funktionen, die gegebenenfalls durch Standardfunktionen (wie die Exponential- oder die trigonometrischen Funktionen) angereichert werden, welche letztendlich auch als stückweise rationale Funktionen berechnet werden. Wenn wir im Folgenden von Funktionen sprechen, dann sind immer solche stückweise rationale Funktionen gemeint. AD ist ein Sammelbegriff für Methoden, mit denen sich Ableitungen solcher Funktionen berechnen lassen. Unter den genannten Einschränkungen sind die Werte der Ableitung aber exakt (und nicht etwa Näherungswerte, die aus der Auswertung eines Differenzenquotienten mit kleinem <span class="math inline">\(h=\Delta x\)</span> entstehen). Sie sind ausserdem effizient berechenbar und arbeiten nicht mit symbolischen Ausdrücken wie es Computer Algebra Systeme tun. Stattdessen wird der Wert der Ableitung punktweise zusammen mit dem Funktionswert berechnet.</p>
 <p>Ausserhalb der relativ kleinen AD Community war AD lange unbekannt oder wurde als irrelevant abgetan. So schreibt etwa Louis Rall in <span class="citation" data-cites="Rall2006">Rall (<a href="references.html#ref-Rall2006" role="doc-biblioref">2006</a>)</span> (S. 12)</p>
 <blockquote class="blockquote">
 <p>It was discouraging throughout the 1970’s that the work done on AD by Moore, Wengert, and the then state of the art programs written by the MRC programming staff were ignored and even disparaged. Presentations at conferences were met with disinterest or disbelief. One reason advanced for this was the wide-spread conviction that if a function was represented by a formula, then a formula for its derivative was necessary before its derivative could be evaluated.</p>
 </blockquote>
 <p>In der Machine Learning (ML) Community wurde AD (mehrere Male) wiederentdeckt und ist dort als backpropagation bekannt und weit verbreitet (<span class="citation" data-cites="Baydin18">Baydin u.&nbsp;a. (<a href="references.html#ref-Baydin18" role="doc-biblioref">2018</a>)</span>, S. 14). Mittlerweile findet die Technik aber auch Anwendung in der Finanzmathematik (<span class="citation" data-cites="Henrard2017ADi">Henrard (<a href="references.html#ref-Henrard2017ADi" role="doc-biblioref">2017</a>)</span>), der Physik, Chemie, Medizin oder Biologie. Die Website <a href="https://autodiff.org/?module=Applications">www.autodiff.org</a> listet Artikel zum Thema sortiert nach Fachgebiet auf (<span class="citation" data-cites="Bücker_hovland_2000">Bücker und Hovland (<a href="references.html#ref-Bücker_hovland_2000" role="doc-biblioref">2000</a>)</span>).</p>
-<p>Einer der ersten Autoren, die das Thema AD für den gymnasialen Mathematik- bzw. Informatikunterricht aufbereitet hat, ist <span class="citation" data-cites="Gander1992">Gander (<a href="references.html#ref-Gander1992" role="doc-biblioref">1992</a>)</span> (S. 245ff). Es war auch das erste veröffentliche Buch, welches mit LaTex geschrieben wurde. Leider ist es meines Wissens bislang auch das einzige Buch auf der Sekundarstufe II, welches eine Einführung für Schüler:innen in dieses Thema gibt. Natürlich gibt es die einschlägige Fachliteratur wie <span class="citation" data-cites="Corliss2002ADo">Corliss u.&nbsp;a. (<a href="references.html#ref-Corliss2002ADo" role="doc-biblioref">2002</a>)</span>, <span class="citation" data-cites="Griewank2008EDP">Griewank und Walther (<a href="references.html#ref-Griewank2008EDP" role="doc-biblioref">2008</a>)</span> und <span class="citation" data-cites="Naumann2012TAo">Naumann (<a href="references.html#ref-Naumann2012TAo" role="doc-biblioref">2012</a>)</span>, welche sich an Fachleute oder Studenten richtet, die über die entsprechenden Kenntnisse in Mathematik und im Programmieren verfügen. Diese sind aber für den gymnasialen Unterricht schlecht geeignet. Über AD im Unterricht schreibt Louis Rall im oben zitierten Buch (S. 12)</p>
+<p>In der Schweiz hat sich als erster Johann Joss in seiner Dissertation <span class="citation" data-cites="Joss1976-fp">Joss (<a href="references.html#ref-Joss1976-fp" role="doc-biblioref">1976</a>)</span> mit dem Thema AD beschäftigt und einen ALGOL Compiler konstruiert, der automatisch differenzieren konnte. Die Arbeit kann auf <a href="https://www.research-collection.ethz.ch/handle/20.500.11850/134597">https://www.research-collection.ethz.ch/handle/20.500.11850/134597</a> heruntergeladen werden. Einer der ersten Autoren, die das Thema AD für den gymnasialen Mathematik- bzw. Informatikunterricht aufbereitet hat, ist Walter Gander in <span class="citation" data-cites="Gander1985-uv">Gander (<a href="references.html#ref-Gander1985-uv" role="doc-biblioref">1985</a>)</span> (S. 245ff). Die zweite Auflage <span class="citation" data-cites="Gander1992">Gander (<a href="references.html#ref-Gander1992" role="doc-biblioref">1992</a>)</span> kann auf <a href="https://abz.inf.ethz.ch/lehrmittel/">https://abz.inf.ethz.ch/lehrmittel/</a> heruntergeladen werden. Es war auch das erste Buch überhaupt, welches mit LaTex geschrieben wurde. Die interessante Entstehungsgeschichte kann in <span class="citation" data-cites="gander2010">Gander (<a href="references.html#ref-gander2010" role="doc-biblioref">2010</a>)</span> nachgelesen werden. Leider ist es meines Wissens bislang auch das einzige Buch auf der Sekundarstufe II, welches eine Einführung für Schüler:innen in dieses Thema gibt. Natürlich gibt es die einschlägige Fachliteratur wie <span class="citation" data-cites="Corliss2002ADo">Corliss u.&nbsp;a. (<a href="references.html#ref-Corliss2002ADo" role="doc-biblioref">2002</a>)</span>, <span class="citation" data-cites="Griewank2008EDP">Griewank und Walther (<a href="references.html#ref-Griewank2008EDP" role="doc-biblioref">2008</a>)</span> und <span class="citation" data-cites="Naumann2012TAo">Naumann (<a href="references.html#ref-Naumann2012TAo" role="doc-biblioref">2012</a>)</span>, welche sich an Fachleute oder Studenten richtet, die über die entsprechenden Kenntnisse in Mathematik und im Programmieren verfügen. Diese sind aber für den gymnasialen Unterricht schlecht geeignet. Über AD im Unterricht schreibt Louis Rall im oben zitierten Buch (S. 12)</p>
 <blockquote class="blockquote">
 <p>It is easy to prepare a teaching “module” for AD on an elementary level. The problem is to have it adopted as part of an increasingly crowded curriculum in beginning calculus. This means that teachers and writers of textbooks on calculus have to first grasp the idea and then realize it is significant. Thus, practitioners of AD will have to reach out to educators in a meaningful way. Otherwise, there will continue to be a refractory “formulas only” community in the computational sciences who could well benefit from AD.</p>
 </blockquote>
@@ -265,14 +267,23 @@ Bücker, Martin, und Paul Hovland. 2000. <span>„Community Portal for Automatic
 <div id="ref-Corliss2002ADo" class="csl-entry" role="listitem">
 Corliss, George, Christèle Faure, Andreas Griewank, Laurent Hascoët, und Uwe Naumann, Hrsg. 2002. <em>Automatic Differentiation of Algorithms: From Simulation to Optimization</em>. Computer and Information Science. New York, NY: Springer. <a href="https://doi.org/10.1007/978-1-4613-0075-5">https://doi.org/10.1007/978-1-4613-0075-5</a>.
 </div>
+<div id="ref-Gander1985-uv" class="csl-entry" role="listitem">
+Gander, Walter. 1985. <em>Computermathematik</em>. 1. Aufl. Programm Praxis. Basel, Switzerland: Birkhäuser Verlag AG.
+</div>
 <div id="ref-Gander1992" class="csl-entry" role="listitem">
-Gander, Walter. 1992. <em>Computermathematik</em>. Birkhäuser.
+———. 1992. <em>Computermathematik</em>. 2. Aufl. Birkhäuser.
+</div>
+<div id="ref-gander2010" class="csl-entry" role="listitem">
+———. 2010. <span>„Writing the first Latex-Book“</span>.
 </div>
 <div id="ref-Griewank2008EDP" class="csl-entry" role="listitem">
 Griewank, Andreas, und Andrea Walther. 2008. <em>Evaluating Derivatives: <span>P</span>rinciples and Techniques of Algorithmic Differentiation</em>. 2. Aufl. Other Titles in Applied Mathematics 105. Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/ot105/">http://bookstore.siam.org/ot105/</a>.
 </div>
 <div id="ref-Henrard2017ADi" class="csl-entry" role="listitem">
 Henrard, Marc. 2017. <em>Algorithmic Differentiation in Finance Explained</em>. Financial Engineering Explained. Cham: Palgrave Macmillan. <a href="https://doi.org/10.1007/978-3-319-53979-9">https://doi.org/10.1007/978-3-319-53979-9</a>.
+</div>
+<div id="ref-Joss1976-fp" class="csl-entry" role="listitem">
+Joss, Johann. 1976. <span>„Algorithmisches Differenzieren“</span>. Phdthesis, ETH Zurich. <a href="https://www.research-collection.ethz.ch/handle/20.500.11850/134597">https://www.research-collection.ethz.ch/handle/20.500.11850/134597</a>.
 </div>
 <div id="ref-Naumann2012TAo" class="csl-entry" role="listitem">
 Naumann, Uwe. 2012. <em>The Art of Differentiating Computer Programs: <span>A</span>n Introduction to Algorithmic Differentiation</em>. Software, Environments, and Tools 24. Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/se24">http://bookstore.siam.org/se24</a>.

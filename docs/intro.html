@@ -179,7 +179,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ADOneDimManually.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für eindimensionale Funktionen</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Standard Algorithmische Differentiation für Funktionen einer Variablen</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -319,7 +319,7 @@ Lösung
 <p>Die Python Funktion <code>kosten(x)</code> liefert die gleichen Werte, wie die Funktion <span class="math inline">\(k(x)\)</span>, die wir oben hergeleitet haben, aber sie ist leichter zu verstehen, da wir eine Schritt für Schritt Anleitung haben, wie die Kosten berechnet werden, wohingegen in der mathematischen Funktionsgleichung alle diese Schritte zu einer Zeile zusammengefasst wurden. Trotzdem haben wir nicht viel gewonnen, wenn wir nicht die Ableitung der Funktion berechnen können. Und genau darum soll es in dieser Lerneinheit gehen.</p>
 <section id="unser-ziel-programme-ableiten" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="unser-ziel-programme-ableiten"><span class="header-section-number">1.1.1</span> Unser Ziel: Programme ableiten</h3>
-<p>Wir möchten Ableitungen von Funktionen berechnen, die durch Programme beschrieben werden, die wie oben einen numerischen Parameter <code>x</code> als Input erhalten und einen numerischen Wert <code>y</code> zurückliefern. Unser Ziel wird es sein, die Programme so zu modifizieren, dass der Funktionsaufruf <code>f(x0)</code> nicht nur den Funktionswert <span class="math inline">\(f(x_0)\)</span> zurückgibt, sondern auch den Wert der Ableitung <span class="math inline">\(f'(x_0)\)</span>. Wir sind dabei nicht an einer symbolischen Ableitung interessiert, wie das z.B. GeoGebra oder Mathematica machen (s. <a href="notAD.html#sec-ADnotSymbDiff"><span>Kapitel&nbsp;2.2</span></a>), sondern nur an einer punktweisen Auswertung. Natürlich wollen wir die Ableitungsfunktion auch nicht von Hand bestimmen. Wir wollen uns aber auch nicht bloss mit einer Annhäerung des Wertes der Ableitung zufrieden geben (s. <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a>), sondern den Wert von <span class="math inline">\(f'(x_0)\)</span> bis auf Maschinengenauigkeit exakt berechnen. In <a href="ADOneDimManually.html"><span>Kapitel&nbsp;3</span></a> werden wir eine Methode kennen lernen, die all dies leistet und dabei die Laufzeit eines Programms nicht wesentlich erhöht. Der Name dieser Methode: Algorithmische Differentiation (AD), obwohl die Namensgebung hier nicht eindeutig ist:</p>
+<p>Wir möchten Ableitungen von Funktionen berechnen, die durch Programme beschrieben werden, die wie oben einen numerischen Parameter <code>x</code> als Input erhalten und einen numerischen Wert <code>y</code> zurückliefern. Unser Ziel wird es sein, die Programme so zu modifizieren, dass der Funktionsaufruf <code>f(x0)</code> nicht nur den Funktionswert <span class="math inline">\(f(x_0)\)</span> zurückgibt, sondern auch den Wert der Ableitung <span class="math inline">\(f'(x_0)\)</span>. Wir sind dabei nicht an einer symbolischen Ableitung interessiert, wie das z.B. GeoGebra oder Mathematica machen (s. <a href="notAD.html#sec-ADnotSymbDiff"><span>Kapitel&nbsp;2.2</span></a>), sondern nur an einer punktweisen Auswertung. Natürlich wollen wir die Ableitungsfunktion auch nicht von Hand bestimmen. Wir wollen uns aber auch nicht bloss mit einer Annhäerung des Wertes der Ableitung zufrieden geben (s. <a href="notAD.html#sec-ADnotNumDiff"><span>Kapitel&nbsp;2.1</span></a>), sondern den Wert von <span class="math inline">\(f'(x_0)\)</span> bis auf Maschinengenauigkeit (und unter der in der Einleitung erwähnten Einschränkung an die Funktion) exakt berechnen. In <a href="ADOneDimManually.html"><span>Kapitel&nbsp;3</span></a> werden wir eine Methode kennen lernen, die all dies leistet und dabei die Laufzeit eines Programms nicht wesentlich erhöht. Der Name dieser Methode: Algorithmische Differentiation (AD), obwohl die Namensgebung hier nicht eindeutig ist:</p>
 <blockquote class="blockquote">
 <p>One of the obstacles in this area [of computing derivatives], which involves “symbolic” and “numerical” methods, has been a confusion in terminology […]. There is not even general agreement on the best name for the field, which is frequently referred to as <em>automatic</em> or <em>computational differentiation</em> in the literature. For this book the adjective <em>algorithmic</em> seemed preferable, because much of the material emphasizes algorithmic structure, sometimes glossing over the details and pitfalls of actual implementations. (Aus dem Vorwort zu <span class="citation" data-cites="Griewank2008EDP">Griewank und Walther (<a href="references.html#ref-Griewank2008EDP" role="doc-biblioref">2008</a>)</span>)</p>
 </blockquote>
@@ -610,7 +610,7 @@ Lösung
 </div>
 <div id="exr-ProgToFun" class="theorem exercise">
 <p><span class="theorem-title"><strong>Übungsaufgabe 1.3 (Programm in Funktion übersetzen) </strong></span><br></p>
-<p>Schreibe die mathematische Funktion auf, die durch das folgende Programm berechnet wird.</p>
+<p>Schreibe die explizite Formel der Funktion auf, die durch das folgende Programm berechnet wird.</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1006,7 +1006,7 @@ Lösung
 <pre><code>5.90861986545027</code></pre>
 </div>
 </div>
-<p>Hier wird das Newtonverfahren in einer Funktion implementiert. Die Ableitung wird nicht mehr von Hand berechnet, sondern innerhalb der Funktion mit <span class="math inline">\(f'(x_0)\approx \frac{f(x_0 + h) - f(x_0)}{h}\)</span> angenähert. Dabei wird einfach <code>h = 1e-6</code> gesetzt und gehofft, dass der entstehende Rundungsfehler klein genug ist. Beachte aber, dass sich der berechnete Wert von der Ausgabe in den anderen Versionen leicht unterscheidet.</p>
+<p>Hier wird das Verfahren in einer Funktion implementiert. Die Ableitung wird nicht mehr von Hand berechnet, sondern innerhalb der Funktion mit <span class="math inline">\(f'(x_0)\approx \frac{f(x_0 + h) - f(x_0)}{h}\)</span> angenähert. Dabei wird einfach <code>h = 1e-6</code> gesetzt und gehofft, dass der entstehende Rundungsfehler klein genug ist. Dass diese Annahme nicht gerechtfertigt ist, sieht man daran, dass sich der berechnete Wert von dem der anderen Versionen unterscheidet. Gravierender ist jedoch die Tatsache, dass es sich hierbei nun nicht mehr um das Newtonverfahren, sondern um ein Regula Falsi Verfahren handelt (eine Variante des Sekantenverfahrens), welches nur noch lineare Konvergenz aufweist und nicht mehr quadratische wie das Newtonverfahren (<span class="citation" data-cites="Gander1992">Gander (<a href="references.html#ref-Gander1992" role="doc-biblioref">1992</a>)</span>, S, 77).</p>
 </div>
 </div>
 </div>
@@ -1087,7 +1087,7 @@ Lösung
 </div>
 <hr>
 </section>
-<section id="sec-gradientDescent" class="level3" data-number="1.4.2">
+<section id="sec-gradientDescent" class="level3 page-columns page-full" data-number="1.4.2">
 <h3 data-number="1.4.2" class="anchored" data-anchor-id="sec-gradientDescent"><span class="header-section-number">1.4.2</span> Gradient Descent zum Auffinden lokaler Minima</h3>
 <p>Eine weitere wichtige Aufgabe besteht darin, ein Minimum einer Funktion zu finden. Auch hier wollen wir mit Hilfe der Ableitung eine Folge von Näherungswerten <span class="math inline">\(x_0, x_1, x_2, \ldots\)</span> finden, deren Grenzwert die <span class="math inline">\(x\)</span>-Koordinate eines (lokalen) Minimums von <span class="math inline">\(f\)</span> ist.</p>
 <p>Wenn <span class="math inline">\(f'(x_n)&gt;0\)</span> ist, dann wissen wir, dass die Funktion <span class="math inline">\(f\)</span> an der Stelle <span class="math inline">\(x_0\)</span> streng monoton wachsend ist. D.h., dass die Funktionswerte links von <span class="math inline">\(x_n\)</span> kleiner sind, als an der Stelle <span class="math inline">\(x_n\)</span>. Analog gilt, dass wenn <span class="math inline">\(f'(x_n)&lt;0\)</span> ist, die Funktion monoton fallend ist und wir uns nach rechts bewegen sollten, um ein Minimum zu finden. In der Nähe eines Minimums ist ausserdem <span class="math inline">\(|f'(x)|\)</span> sehr klein und wir können entsprechend kleinere Schritte machen, um uns diesem anzunähern. Um also von <span class="math inline">\(x_n\)</span> zu <span class="math inline">\(x_{n+1}\)</span> zu kommen, machen wir einen Schritt, der proportional zu <span class="math inline">\(-f'(x_n)\)</span> ist. Mit dem Proporionalitätsfaktor <span class="math inline">\(\lambda\in\mathbb{R}\)</span> und einem geeignet gewählten Startwert <span class="math inline">\(x_0\)</span> erhalten wir die Iterationsvorschrift <span id="eq-gradientDescent"><span class="math display">\[
@@ -1244,9 +1244,9 @@ Lösung
 </div>
 <p>Die <a href="#exr-GradientDescentFirstTry">Übungsaufgabe&nbsp;<span>1.8</span></a> verdeutlicht nochmals das Problem, welches wir bereits in <a href="#exr-NewtonFirstTry">Übungsaufgabe&nbsp;<span>1.6</span></a> gesehen haben. Wir müssen für den Algorithmus die Ableitung <span class="math inline">\(f'\)</span> an mehreren Stellen auswerten. Wir möchten aber die Ableitung einerseits nicht von Hand berechnen und andererseits können wir uns auch nicht mit einer Approximation zufrieden geben.</p>
 <p>Wir beschliessen dieses Kapitel mit einer praktischen Anwendung der Gradient Descent Methode.</p>
-<div id="exm-GDApplication" class="theorem example">
+<div id="exm-GDApplication" class="theorem example page-columns page-full">
 <p><span class="theorem-title"><strong>Beispiel 1.3 (Minimaler Abstand) </strong></span><br></p>
-<p>Die Punkte <span class="math inline">\(P\)</span> und <span class="math inline">\(Q\)</span> bewegen sich auf Ellipsen im Raum. Die Position des Punktes <span class="math inline">\(P\)</span> zur Zeit <span class="math inline">\(t\)</span> ist gegeben durch</p>
+<p>Die Punkte <span class="math inline">\(P\)</span> und <span class="math inline">\(Q\)</span> bewegen sich auf geschlossenen Kurven im Raum. Die Position des Punktes <span class="math inline">\(P\)</span> zur Zeit <span class="math inline">\(t\)</span> ist gegeben durch</p>
 <p><span class="math display">\[\begin{align*}
     x_P(t) &amp;= 2 \cos(t) - 1 \\
     y_P(t) &amp;= 1.5 \sin(t)   \\
@@ -1302,7 +1302,7 @@ Lösung
 </div>
 </div>
 </div>
-<p>Wir möchten das Minimum der Funktion <span class="math inline">\(d(t)\)</span> mit Hilfe der Gradient Descent Methode finden. Dazu müssen wir aber <span class="math inline">\(d\)</span> ableiten können.</p>
+<div class="page-columns page-full"><p>Wir möchten das Minimum der Funktion <span class="math inline">\(d(t)\)</span>, das heisst, den minimalen Abstand zwischen den sich bewegenden Punkten (nicht den Abstand zwischen den Kurven), mit Hilfe der Gradient Descent Methode<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> finden. Dazu müssen wir aber <span class="math inline">\(d\)</span> ableiten können.</p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;Effizienter wäre es, das Newtonverfahren auf die erste Ableitung anzuwenden, es geht hier aber vor allem darum, die Anwendung von Ableitungen an einem weiteren numerischen Verfahren zu demonstrieren.</p></li></div></div>
 </div>
 <hr>
 
@@ -1311,8 +1311,11 @@ Lösung
 <div id="ref-Arens2022" class="csl-entry" role="listitem">
 Arens, Tilo, Frank Hettlich, Christian Karpfinger, Ulrich Kockelkorn, Klaus Lichtenegger, und Hellmuth Stachel. 2022. <em>Mathematik</em>. Berlin, Heidelberg: Springer Berlin Heidelberg.
 </div>
+<div id="ref-Gander1992" class="csl-entry" role="listitem">
+Gander, Walter. 1992. <em>Computermathematik</em>. 2. Aufl. Birkhäuser.
+</div>
 <div id="ref-Gander2015" class="csl-entry" role="listitem">
-Gander, Walter. 2015. <em>Learning <span>MATLAB</span>: A Problem Solving Approach</em>. 1. Aufl. UNITEXT. Cham, Switzerland: Springer International Publishing.
+———. 2015. <em>Learning <span>MATLAB</span>: A Problem Solving Approach</em>. 1. Aufl. UNITEXT. Cham, Switzerland: Springer International Publishing.
 </div>
 <div id="ref-Griewank2008EDP" class="csl-entry" role="listitem">
 Griewank, Andreas, und Andrea Walther. 2008. <em>Evaluating Derivatives: <span>P</span>rinciples and Techniques of Algorithmic Differentiation</em>. 2. Aufl. Other Titles in Applied Mathematics 105. Philadelphia, PA: SIAM. <a href="http://bookstore.siam.org/ot105/">http://bookstore.siam.org/ot105/</a>.

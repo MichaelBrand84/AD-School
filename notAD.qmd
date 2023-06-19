@@ -143,4 +143,4 @@ print("f'(" + str(x0) + ") =", df.evalf(subs={x:x0}))
 :::
 ---
 
-Damit erhält man die (bis auf Maschinengenauigkeit) exakten Werte der Ableitungen. Der Grund, warum wir nicht auf symbolische Ausdrücke für Ableitungen zurückgreifen wollen, liegt darin, dass diese Methode bei komplizierten Funktionsausdrücken sehr ineffizient ist, insbesondere dann, wenn wir auch Ableitungen von Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ berechnen wollen.
+Damit erhält man die (bis auf Maschinengenauigkeit) exakten Werte der Ableitungen. Der Grund, warum wir nicht auf symbolische Ausdrücke für Ableitungen zurückgreifen wollen, liegt darin, dass diese Ausdrücke sehr kompliziert werden können und die Methode dadurch ineffizient ist, insbesondere dann, wenn wir auch Ableitungen von Funktionen $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ berechnen wollen.

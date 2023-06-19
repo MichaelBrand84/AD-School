@@ -2,7 +2,7 @@
 tbl-cap-location: bottom
 ---
 
-# Standard Algorithmische Differentiation für eindimensionale Funktionen {#sec-SADforOneDimFunctions}
+# Standard Algorithmische Differentiation für Funktionen einer Variablen {#sec-SADforOneDimFunctions}
 
 In @sec-ADisnot haben wir zwei Methoden für die Berechnung von Ableitungen kennen gelernt, die beide ihre Schwächen  haben. Während die numerische Ableitung mit geringem Aufwand berechnet werden kann, sind ihre Näherungswerte für viele Anwendungen zu ungenau. Symbolische Ableitungen andererseits liefern zwar exakte Werte von Ableitungen, sind aber mit grossem Rechenaufwand verbunden. Die hier vorgestellte Algorithmische Differentiation (AD) vereinigt die Vorteile der beiden Methoden. Sie liefert uns (bis auf Maschinengenauigkeit) exakte Werte von Ableitungen mit nur einem geringen zusätzlichen Rechenaufwand:
 
@@ -505,13 +505,18 @@ tol = 1e-4
 # 1. Schritt
 [k, kdot] = kosten(x0)
 x1 = x0 - lam * kdot
+nSteps = 1
 while math.fabs(x1 - x0) > tol:
     x0 = x1
     [k, kdot] = kosten(x0)
     x1 = x0 - lam * kdot
+    nSteps += 1
 print("Bei x =", x1, "sind die Kosten minimal.")
 print("Sie belaufen sich auf", k)
+print("Es wurden", nSteps, "Schritte benötigt.")
 ```
+
+Die exakte Lösung wäre bei $x = 7$ und die minimalen Kosten damit $480000$ Euro.
 
 :::
 
