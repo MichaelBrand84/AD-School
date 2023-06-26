@@ -81,7 +81,7 @@ Meine Hoffnung haben sich damit weitestgehend erfüllt, dass die vorliegende Arb
 ### Potential für den Mathematikunterricht
 Bevor ich mit der Einführung von Differentialrechnung beginne, mache ich mit der Klasse häufig Übungen, in denen die Schüler:innen mathematische Terme möglichst präzise beschreiben sollen. Der Term $\frac{2+\sqrt x}{x^2-2^x}$ kann beispielsweise so beschrieben werden: 
 
-> Der Term ist ein Quotient. Der Dividend ist eine Summe, deren erster Summand eine Konstante Zwei und deren zweiter Summand die Quadratwurzel von $x$ ist. Der Divisor ist eine Differenz. Der Minuend ist die zweite Potenz von $x$ und der Subtrahend ist die Exponentialfunktion zur Basis Zwei.
+> Der Term ist ein Quotient. Der Dividend ist eine Summe, deren erster Summand die Konstante Zwei und deren zweiter Summand die Quadratwurzel von $x$ ist. Der Divisor ist eine Differenz. Der Minuend ist die zweite Potenz von $x$ und der Subtrahend ist die Exponentialfunktion zur Basis Zwei.
 
 Das Ziel dieser Übung ist nicht nur, sich die Fachbegriffe anzueignen, sondern auch, die Struktur eines mathematischen Ausdrucks zu erfassen. Das ist nicht nur für das Lösen von Gleichungen, sondern insbesondere auch für die korrekte Anwendung der Ableitungsregeln notwendig. Ich habe festgestellt, dass das regelmässige Durchführen solcher Übungen die Häufigkeit von Fehlern in Ableitungen verkleinert. Angeregt zu solchen Übungen wurde ich durch Josef Züger von der Bündner Kantonsschule. 
 

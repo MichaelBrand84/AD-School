@@ -130,7 +130,7 @@ x0 = 2
 print( f(x0) )
 ```
 
-Diese Python-Funktion entspricht der Funktion $f:\mathbb{R}\rightarrow\mathbb{R} , x \mapsto y=(2+x)(x-3)$ im Sinne der Mathematik. Natürlich kann der Funktionskörper viel komplizierter aufgebaut sein und z.B. Schleifen und Bedingungen enthalten. 
+Diese Python-Funktion entspricht der Funktion $f:\mathbb{R}\rightarrow\mathbb{R}, x \mapsto y=(2+x)(x-3)$ im Sinne der Mathematik. Natürlich kann der Funktionskörper viel komplizierter aufgebaut sein und z.B. Schleifen und Bedingungen enthalten. 
 
 Um zu verstehen, wie der Computer einen Ausdruck wie `y = (2 + x) * (x - 3)` auswertet, ist es hilfreich, ihn als Baum (im Sinne der Graphentheorie) darzustellen. Ausdrucksbäume sind ein Spezialfall von so genannten *computational graphs* und werden z.B. in @Hromkovic2021 erklärt.
 
